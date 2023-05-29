@@ -43,7 +43,7 @@ public class Book {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinTable(name = "tblPeriodArticle",
+    @JoinTable(name = "tblPeriodBook",
             joinColumns = @JoinColumn(name = "BookID"),
             inverseJoinColumns = @JoinColumn(name = "PeriodID")
     )

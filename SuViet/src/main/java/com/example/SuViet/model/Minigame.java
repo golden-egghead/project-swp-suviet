@@ -34,7 +34,7 @@ public class Minigame {
     @OneToMany(mappedBy = "minigame", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<User> users;
+    private Collection<UserMiniGame> userMiniGames;
 
     @OneToMany(mappedBy = "minigame", cascade = CascadeType.ALL)
     @ToString.Exclude

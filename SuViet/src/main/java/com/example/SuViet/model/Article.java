@@ -40,20 +40,25 @@ public class Article {
     @ToString.Exclude
     private Collection<Comment> comments;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "UserID")
     @ToString.Exclude
-    @JoinTable(name = "tblVotes",
-            joinColumns = @JoinColumn(name = "UserID"),
-            inverseJoinColumns = @JoinColumn(name = "ArticleID")
-    )
-    private Collection<User> users;
+    @EqualsAndHashCode.Exclude
+    private User user;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Collection<Vote> votes;
 
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JoinTable(name = "tblPeriodArticle",
+                joinColumns = @JoinColumn(name = "ArticleID"),
+                inverseJoinColumns = @JoinColumn(name = "PeriodID")
+    )
+    private Collection<Period> periods;
 
 }

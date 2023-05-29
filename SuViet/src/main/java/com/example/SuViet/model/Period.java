@@ -24,7 +24,7 @@ public class Period {
         this.status = status;
     }
 
-    @ManyToMany(mappedBy = "period")
+    @ManyToMany(mappedBy = "periods")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Collection<Article> articles;
@@ -44,12 +44,12 @@ public class Period {
     @EqualsAndHashCode.Exclude
     private Collection<HistoricalItem> historicalItems;
 
-    @ManyToMany(mappedBy = "period")
+    @ManyToMany(mappedBy = "periods")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Collection<Video> videos;
 
-    @ManyToMany(mappedBy = "period")
+    @ManyToMany(mappedBy = "periods")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Collection<Book> books;

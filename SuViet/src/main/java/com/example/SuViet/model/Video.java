@@ -36,7 +36,7 @@ public class Video {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinTable(name = "tblPeriodArticle",
+    @JoinTable(name = "tblPeriodVideo",
             joinColumns = @JoinColumn(name = "VideoID"),
             inverseJoinColumns = @JoinColumn(name = "PeriodID")
     )
