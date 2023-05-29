@@ -28,7 +28,7 @@ public class Video {
     @Column(columnDefinition = "text", nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "date")
     private Date createdDate;
     private boolean enabled;
 
