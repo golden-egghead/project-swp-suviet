@@ -17,17 +17,13 @@ import java.util.Collection;
 public class Minigame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int MiniGameID;
-    private String photo;
-    private String content;
-    private int gamePoint;
+    private int minigameID;
+    private String minigameName;
     private boolean enabled;
 
-    public Minigame(int miniGameID, String photo, String content, int gamePoint, boolean enabled) {
-        MiniGameID = miniGameID;
-        this.photo = photo;
-        this.content = content;
-        this.gamePoint = gamePoint;
+    public Minigame(int minigameID, String minigameName, boolean enabled) {
+        this.minigameID = minigameID;
+        this.minigameName = minigameName;
         this.enabled = enabled;
     }
 

@@ -18,13 +18,13 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notificationID;
     private String message;
-    private String time;
+    private String createdDate;
     private boolean enabled;
 
-    public Notification(int notificationID, String message, String time, boolean enabled) {
+    public Notification(int notificationID, String message, String createdDate, boolean enabled) {
         this.notificationID = notificationID;
         this.message = message;
-        this.time = time;
+        this.createdDate = createdDate;
         this.enabled = enabled;
     }
 

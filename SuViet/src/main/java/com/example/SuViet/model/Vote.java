@@ -30,4 +30,8 @@ public class Vote {
     private Article article;
 
     private int voteLevel;
+
+    public Vote(int voteLevel) {
+        this.voteLevel = voteLevel;
+    }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/videos")
+@RequestMapping(path = "/api/videos")
 public class VideoController {
     private final VideoService videoService;
 
@@ -20,7 +20,7 @@ public class VideoController {
         this.videoService = videoService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ResponseObject> getAllVideos() {
         List<Video> videoList = videoService.getAllVideos();
         return ResponseEntity.status(HttpStatus.OK).body(

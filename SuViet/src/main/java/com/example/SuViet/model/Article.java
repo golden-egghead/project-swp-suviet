@@ -21,16 +21,18 @@ public class Article {
     private String title;
     private String context;
     private String photo;
-    private int rate;
+    private boolean status;
+    private int articleView;
     private String createDate;
     private boolean enabled;
 
-    public Article(int articleID, String title, String context, String photo, int rate, String createDate, boolean enabled) {
+    public Article(int articleID, String title, String context, String photo, boolean status, int articleView, String createDate, boolean enabled) {
         this.articleID = articleID;
         this.title = title;
         this.context = context;
         this.photo = photo;
-        this.rate = rate;
+        this.status = status;
+        this.articleView = articleView;
         this.createDate = createDate;
         this.enabled = enabled;
     }

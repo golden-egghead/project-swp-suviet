@@ -16,12 +16,12 @@ public class Period {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int periodID;
     private String periodName;
-    private boolean status;
+    private boolean enabled;
 
-    public Period(int periodID, String periodName, boolean status) {
+    public Period(int periodID, String periodName, boolean enabled) {
         this.periodID = periodID;
         this.periodName = periodName;
-        this.status = status;
+        this.enabled = enabled;
     }
 
     @ManyToMany(mappedBy = "periods")

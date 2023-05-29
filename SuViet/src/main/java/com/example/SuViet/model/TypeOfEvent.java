@@ -17,6 +17,7 @@ public class TypeOfEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int typeOfEventID;
+    private String typeOfEvent;
 
     @OneToOne
     @JoinColumn(name = "ArticleID")

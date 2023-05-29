@@ -21,18 +21,22 @@ public class Book {
     private String category;
     private String description;
     private int pageNumber;
+    private String yearOfPublication;
+    public String createdDate;
     private String publisher;
     private double price;
     private String cover;
     private boolean enabled;
 
-    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String publisher, double price, String cover, boolean enabled) {
+    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, String createdDate, String publisher, double price, String cover, boolean enabled) {
         this.bookID = bookID;
         this.title = title;
         this.author = author;
         this.category = category;
         this.description = description;
         this.pageNumber = pageNumber;
+        this.yearOfPublication = yearOfPublication;
+        this.createdDate = createdDate;
         this.publisher = publisher;
         this.price = price;
         this.cover = cover;

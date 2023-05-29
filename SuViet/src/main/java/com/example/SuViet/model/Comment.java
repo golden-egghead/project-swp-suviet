@@ -14,20 +14,17 @@ import jakarta.persistence.*;
 @Data
 @Table(name = "tblComments")
 public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int commentID;
     private String comment;
     private String createdDate;
     private boolean enabled;
 
-    public Comment(int commentID, String comment, String createdDate, boolean enabled) {
-        this.commentID = commentID;
+    public Comment(String comment, String createdDate, boolean enabled) {
         this.comment = comment;
         this.createdDate = createdDate;
         this.enabled = enabled;
     }
 
+    @Id
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "UserID")
@@ -35,6 +32,7 @@ public class Comment {
     @EqualsAndHashCode.Exclude
     private User user;
 
+    @Id
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ArticleID")

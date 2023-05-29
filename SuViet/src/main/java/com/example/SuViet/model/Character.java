@@ -15,16 +15,16 @@ public class Character {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int characterID;
-    private String name;
-    private String description;
-    private String title;
+    private String characterName;
+    private String story;
+    private String estate;
     private boolean enabled;
 
-    public Character(int characterID, String name, String description, String title, boolean enabled) {
+    public Character(int characterID, String characterName, String story, String estate, boolean enabled) {
         this.characterID = characterID;
-        this.name = name;
-        this.description = description;
-        this.title = title;
+        this.characterName = characterName;
+        this.story = story;
+        this.estate = estate;
         this.enabled = enabled;
     }
 

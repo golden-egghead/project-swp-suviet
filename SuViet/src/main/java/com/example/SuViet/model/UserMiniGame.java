@@ -29,4 +29,8 @@ public class UserMiniGame {
     private Minigame minigame;
 
     private int UserGamePoint;
+
+    public UserMiniGame(int userGamePoint) {
+        UserGamePoint = userGamePoint;
+    }
 }
