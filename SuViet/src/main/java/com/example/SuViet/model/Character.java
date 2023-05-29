@@ -15,9 +15,17 @@ public class Character {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int characterID;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String characterName;
+
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String story;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String estate;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     public Character(int characterID, String characterName, String story, String estate, boolean enabled) {

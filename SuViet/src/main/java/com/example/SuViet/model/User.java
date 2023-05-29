@@ -3,7 +3,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
+
 import java.util.Collection;
+import java.util.Date;
 
 @NoArgsConstructor
 @Getter
@@ -16,16 +19,32 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int UserID;
+
+    @Column(length = 50, nullable = false)
     private String mail;
+
+    @Column(length = 50, nullable = false)
     private String password;
+
+    @Column(columnDefinition = "nvarchar", length = 100)
     private String achievement;
+
+    @Column(nullable = false)
     private int point;
+
+    @Column(length = 50, nullable = false)
     private String fullname;
-    private String createdDate;
+
+    @Column(nullable = false)
+    private Date createdDate;
+
+    @Column(nullable = false)
     private int reported;
+
+    @Column(nullable = false)
     private boolean enabled;
 
-    public User(int userID, String mail, String password, String achievement, int point, String fullname, String createdDate, int reported, boolean enabled) {
+    public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled) {
         UserID = userID;
         this.mail = mail;
         this.password = password;

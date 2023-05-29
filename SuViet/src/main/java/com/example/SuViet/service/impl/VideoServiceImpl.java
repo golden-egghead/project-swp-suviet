@@ -6,6 +6,7 @@ import com.example.SuViet.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -20,5 +21,12 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public List<Video> getAllVideos() {
         return videoRepository.findAll();
+    }
+
+    @Override
+    public List<Video> getAllSortedCreatedTimeVideos() {
+        List<Video> videos = videoRepository.findAll();
+        videos.sort(Comparator.comparing(Video::getCreatedDate));
+        return videos;
     }
 }

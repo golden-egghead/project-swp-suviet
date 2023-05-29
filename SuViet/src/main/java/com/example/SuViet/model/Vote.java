@@ -29,6 +29,7 @@ public class Vote {
     @EqualsAndHashCode.Exclude
     private Article article;
 
+    @Column(nullable = false)
     private int voteLevel;
 
     public Vote(int voteLevel) {

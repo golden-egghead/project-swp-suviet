@@ -28,6 +28,7 @@ public class UserMiniGame {
     @EqualsAndHashCode.Exclude
     private Minigame minigame;
 
+    @Column(nullable = false)
     private int UserGamePoint;
 
     public UserMiniGame(int userGamePoint) {

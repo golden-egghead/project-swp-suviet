@@ -5,6 +5,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @NoArgsConstructor
 @Getter
@@ -18,22 +19,36 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int articleID;
+
+    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String title;
+
+    @Column(columnDefinition = "nvarchar", length = 10000, nullable = false)
     private String context;
+
+    @Column(length = 200, nullable = false)
     private String photo;
+
+    @Column(nullable = false)
+    private Date createdDate;
+
+    @Column(nullable = false)
     private boolean status;
+
+    @Column(nullable = false)
     private int articleView;
-    private String createDate;
+
+    @Column(nullable = false)
     private boolean enabled;
 
-    public Article(int articleID, String title, String context, String photo, boolean status, int articleView, String createDate, boolean enabled) {
+    public Article(int articleID, String title, String context, String photo, Date createdDate, boolean status, int articleView, boolean enabled) {
         this.articleID = articleID;
         this.title = title;
         this.context = context;
         this.photo = photo;
+        this.createdDate = createdDate;
         this.status = status;
         this.articleView = articleView;
-        this.createDate = createDate;
         this.enabled = enabled;
     }
 

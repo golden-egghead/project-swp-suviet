@@ -15,7 +15,11 @@ public class Period {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int periodID;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String periodName;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     public Period(int periodID, String periodName, boolean enabled) {

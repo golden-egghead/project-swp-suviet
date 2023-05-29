@@ -15,11 +15,23 @@ public class HistoricalItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int historicalItemID;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String type;
+
+    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String name;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String nation;
+
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String description;
+
+    @Column(length = 200, nullable = false)
     private String photo;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     public HistoricalItem(int historicalItemID, String type, String name, String nation, String description, String photo, boolean enabled) {

@@ -18,7 +18,11 @@ public class Minigame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int minigameID;
+
+    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String minigameName;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     public Minigame(int minigameID, String minigameName, boolean enabled) {

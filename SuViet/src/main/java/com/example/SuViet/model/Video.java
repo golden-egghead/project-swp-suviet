@@ -5,6 +5,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,13 +18,21 @@ public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int videoID;
+
+    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String title;
+
+    @Column(length = 2000, nullable = false)
     private String video;
+
+    @Column(columnDefinition = "nvarchar", length = 5000, nullable = false)
     private String description;
-    private String createdDate;
+
+    @Column(nullable = false)
+    private Date createdDate;
     private boolean enabled;
 
-    public Video(int videoID, String title, String video, String description, String createdDate, boolean enabled) {
+    public Video(int videoID, String title, String video, String description, Date createdDate, boolean enabled) {
         this.videoID = videoID;
         this.title = title;
         this.video = video;

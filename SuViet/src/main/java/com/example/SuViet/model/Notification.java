@@ -5,6 +5,8 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,11 +19,17 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notificationID;
+
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String message;
-    private String createdDate;
+
+    @Column(nullable = false)
+    private Date createdDate;
+
+    @Column(nullable = false)
     private boolean enabled;
 
-    public Notification(int notificationID, String message, String createdDate, boolean enabled) {
+    public Notification(int notificationID, String message, Date createdDate, boolean enabled) {
         this.notificationID = notificationID;
         this.message = message;
         this.createdDate = createdDate;

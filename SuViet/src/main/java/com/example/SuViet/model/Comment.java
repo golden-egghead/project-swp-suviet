@@ -5,6 +5,8 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,11 +16,16 @@ import jakarta.persistence.*;
 @Data
 @Table(name = "tblComments")
 public class Comment {
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String comment;
-    private String createdDate;
+
+    @Column(nullable = false)
+    private Date createdDate;
+
+    @Column(nullable = false)
     private boolean enabled;
 
-    public Comment(String comment, String createdDate, boolean enabled) {
+    public Comment(String comment, Date createdDate, boolean enabled) {
         this.comment = comment;
         this.createdDate = createdDate;
         this.enabled = enabled;

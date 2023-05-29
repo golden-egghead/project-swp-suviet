@@ -5,6 +5,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @NoArgsConstructor
 @Getter
@@ -16,19 +17,41 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookID;
+
+    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String title;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String author;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String category;
+
+    @Column(columnDefinition = "nvarchar", length = 5000, nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private int pageNumber;
+
+    @Column(length = 5, nullable = false)
     private String yearOfPublication;
-    public String createdDate;
+
+    @Column(nullable = false)
+    public Date createdDate;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String publisher;
+
+    @Column(nullable = false)
     private double price;
+
+    @Column(length = 200, nullable = false)
     private String cover;
+
+    @Column(nullable = false)
     private boolean enabled;
 
-    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, String createdDate, String publisher, double price, String cover, boolean enabled) {
+    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, Date createdDate, String publisher, double price, String cover, boolean enabled) {
         this.bookID = bookID;
         this.title = title;
         this.author = author;

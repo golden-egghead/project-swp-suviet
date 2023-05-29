@@ -16,9 +16,17 @@ public class PairOfQuizz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pairOfQuizzID;
+
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String question;
+
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String answer;
+
+    @Column(nullable = false)
     private int gameSlicePoint;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     public PairOfQuizz(int pairOfQuizzID, String question, String answer, int gameSlicePoint, boolean enabled) {

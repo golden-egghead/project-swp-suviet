@@ -15,9 +15,17 @@ public class HistoricalSite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int historicalSiteID;
+
+    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String location;
+
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String description;
+
+    @Column(length = 200, nullable = false)
     private String photo;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     public HistoricalSite(int historicalSiteID, String location, String description, String photo, boolean enabled) {

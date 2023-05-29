@@ -17,6 +17,8 @@ public class TypeOfEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int typeOfEventID;
+
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String typeOfEvent;
 
     @OneToOne
