@@ -27,7 +27,7 @@ public class Book {
     @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
     private String category;
 
-    @Column(columnDefinition = "nvarchar", length = 5000, nullable = false)
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String description;
 
     @Column(nullable = false)

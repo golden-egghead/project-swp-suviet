@@ -23,7 +23,7 @@ public class Article {
     @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "nvarchar", length = 10000, nullable = false)
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String context;
 
     @Column(length = 200, nullable = false)
