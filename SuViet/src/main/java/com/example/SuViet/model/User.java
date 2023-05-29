@@ -42,15 +42,10 @@ public class User {
     @ToString.Exclude
     private Collection<Notification> notifications;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @JoinTable(name = "tblUserMiniGame",
-            joinColumns = @JoinColumn(name = "UserID"),
-    inverseJoinColumns = @JoinColumn(name = "MiniGameID")
-    )
-    private Collection<Minigame> minigames;
+    private Collection<UserMiniGame> userMiniGames;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
@@ -62,8 +57,8 @@ public class User {
     @EqualsAndHashCode.Exclude
     private Collection<Article> articles;
 
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Collection<Article> articleVotes;
+    private Collection<Vote> votes;
 }

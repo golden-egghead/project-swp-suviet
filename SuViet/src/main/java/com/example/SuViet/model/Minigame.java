@@ -31,10 +31,9 @@ public class Minigame {
         this.enabled = enabled;
     }
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "minigames")
-    @ToString.Exclude
+    @OneToMany(mappedBy = "minigame", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Collection<User> users;
 
     @OneToMany(mappedBy = "minigame", cascade = CascadeType.ALL)

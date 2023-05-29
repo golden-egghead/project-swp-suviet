@@ -50,15 +50,10 @@ public class Article {
     )
     private Collection<User> users;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinTable(name = "tblPeriodArticle",
-                joinColumns = @JoinColumn(name = "ArticleID"),
-                inverseJoinColumns = @JoinColumn(name = "PeriodID")
-    )
-    private Collection<Period> periods;
+    private Collection<Vote> votes;
 
 
 }
