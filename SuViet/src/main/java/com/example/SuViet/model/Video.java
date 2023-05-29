@@ -25,7 +25,7 @@ public class Video {
     @Column(length = 2000, nullable = false)
     private String video;
 
-    @Column(columnDefinition = "nvarchar", length = 5000, nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String description;
 
     @Column(nullable = false)
