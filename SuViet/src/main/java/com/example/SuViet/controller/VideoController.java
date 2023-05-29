@@ -29,10 +29,11 @@ public class VideoController {
         );
     }
 
-//    @GetMapping("/sortByCreatedTime")
-//    public ResponseEntity<ResponseObject> getAllSortedCreatedTimeVideos() {
-//        List<Video> videos = videoService.getAllVideos();
-
-
-//    }
+    @GetMapping("/sortByCreatedTime")
+    public ResponseEntity<ResponseObject> getAllSortedCreatedTimeVideos() {
+        List<Video> videos = videoService.getAllSortedCreatedTimeVideos();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Query successfully", videos)
+        );
+    }
 }
