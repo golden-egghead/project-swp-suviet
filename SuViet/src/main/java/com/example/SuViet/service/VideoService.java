@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface VideoService {
     public List<Video> getAllVideos();
-    public List<Video> getAllSortedCreatedTimeVideos();
 }
