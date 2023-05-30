@@ -24,9 +24,10 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<Video> getAllSortedCreatedTimeVideos() {
-        List<Video> videos = videoRepository.findAll();
+    public List<Video> sortVideosByCreatedTime() {
+        List<Video> videos = getAllVideos();
         videos.sort(Comparator.comparing(Video::getCreatedDate));
         return videos;
     }
+
 }
