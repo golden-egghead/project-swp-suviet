@@ -22,4 +22,14 @@ public class CharacterServiceImpl implements CharacterService {
     public List<Character> getAllCharacters() {
         return characterRepository.findAll();
     }
+
+    @Override
+    public List<Character> findCharactersByName(String search) {
+        return characterRepository.search(search);
+    }
+
+    public List<Character> getAllByEnabled(boolean check){
+        return characterRepository.findAllByEnabled(check);
+    }
+
 }
