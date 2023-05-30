@@ -20,5 +20,12 @@ public class VideoController {
         this.videoService = videoService;
     }
 
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> getAllVideos() {
+        List<Video> videoList = videoService.getAllVideos();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Query successfully", videoList)
+        );
+    }
 
 }

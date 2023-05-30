@@ -18,6 +18,10 @@ public class VideoServiceImpl implements VideoService {
     }
 
 
+    @Override
+    public List<Video> getAllVideos() {
+        return videoRepository.findAllByEnabled(true);
+    }
 
 
 }
