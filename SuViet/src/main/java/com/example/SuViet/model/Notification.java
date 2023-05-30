@@ -23,7 +23,7 @@ public class Notification {
     @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String message;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "date", nullable = false)
     private Date createdDate;
 
     @Column(nullable = false)

@@ -36,7 +36,7 @@ public class Book {
     @Column(length = 5, nullable = false)
     private String yearOfPublication;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "date", nullable = false)
     public Date createdDate;
 
     @Column(columnDefinition = "nvarchar", length = 50, nullable = false)

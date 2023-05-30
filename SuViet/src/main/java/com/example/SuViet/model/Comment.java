@@ -19,7 +19,7 @@ public class Comment {
     @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String comment;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "date", nullable = false)
     private Date createdDate;
 
     @Column(nullable = false)

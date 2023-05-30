@@ -35,7 +35,7 @@ public class User {
     @Column(length = 50, nullable = false)
     private String fullname;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "date", nullable = false)
     private Date createdDate;
 
     @Column(nullable = false)
