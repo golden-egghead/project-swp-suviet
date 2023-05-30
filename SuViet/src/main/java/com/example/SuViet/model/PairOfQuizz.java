@@ -17,10 +17,10 @@ public class PairOfQuizz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pairOfQuizzID;
 
-    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String question;
 
-    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String answer;
 
     @Column(nullable = false)

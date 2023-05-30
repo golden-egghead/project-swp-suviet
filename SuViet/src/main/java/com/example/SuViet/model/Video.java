@@ -19,13 +19,13 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int videoID;
 
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String title;
 
     @Column(length = 2000, nullable = false)
     private String video;
 
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String description;
 
     @Column(nullable = false, columnDefinition = "date")

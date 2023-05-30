@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @Table(name = "tblComments")
 public class Comment {
-    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String comment;
 
     @Column(columnDefinition = "date", nullable = false)

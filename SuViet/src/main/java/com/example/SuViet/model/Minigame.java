@@ -19,7 +19,7 @@ public class Minigame {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int minigameID;
 
-    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String minigameName;
 
     @Column(nullable = false)

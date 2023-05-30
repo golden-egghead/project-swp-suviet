@@ -16,10 +16,10 @@ public class HistoricalSite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int historicalSiteID;
 
-    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String location;
 
-    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String description;
 
     @Column(length = 200, nullable = false)

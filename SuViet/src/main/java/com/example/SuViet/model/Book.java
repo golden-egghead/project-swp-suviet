@@ -39,7 +39,7 @@ public class Book {
     @Column(columnDefinition = "date", nullable = false)
     public Date createdDate;
 
-    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String publisher;
 
     @Column(nullable = false)

@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 @Data
 @Table(name = "tblRoles")
 public class Role {
-    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String roleName;
 
     public Role(String roleName) {

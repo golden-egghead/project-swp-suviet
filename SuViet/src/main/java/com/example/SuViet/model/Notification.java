@@ -20,7 +20,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notificationID;
 
-    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String message;
 
     @Column(columnDefinition = "date", nullable = false)

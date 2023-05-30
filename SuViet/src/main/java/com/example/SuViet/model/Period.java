@@ -16,7 +16,7 @@ public class Period {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int periodID;
 
-    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String periodName;
 
     @Column(nullable = false)

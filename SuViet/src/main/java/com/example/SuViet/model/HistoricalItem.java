@@ -16,16 +16,16 @@ public class HistoricalItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int historicalItemID;
 
-    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String type;
 
-    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String name;
 
-    @Column(columnDefinition = "nvarchar", length = 50, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String nation;
 
-    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String description;
 
     @Column(length = 200, nullable = false)

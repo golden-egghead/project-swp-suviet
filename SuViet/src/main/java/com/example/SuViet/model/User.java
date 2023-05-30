@@ -26,7 +26,7 @@ public class User {
     @Column(length = 50, nullable = false)
     private String password;
 
-    @Column(columnDefinition = "nvarchar", length = 100)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String achievement;
 
     @Column(nullable = false)

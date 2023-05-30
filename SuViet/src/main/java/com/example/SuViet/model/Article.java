@@ -20,10 +20,10 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int articleID;
 
-    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String title;
 
-    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
+    @Column(columnDefinition = "ntext", nullable = false)
     private String context;
 
     @Column(length = 200, nullable = false)
