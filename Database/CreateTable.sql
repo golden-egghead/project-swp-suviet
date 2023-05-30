@@ -1,6 +1,7 @@
-drop database testDB
-create database testDB
-use testDB
+drop database SuVietDB
+create database SuVietDB
+use SuVietDB
+
 create table tblUsers
 (
 	UserID int identity(1, 1) PRIMARY KEY,
@@ -81,7 +82,8 @@ create table tblCharacters
 
 create table tblHistoricalSites
 (
-	PeriodID int PRIMARY KEY,
+	HistoricalSiteID int Identity(1, 1) PRIMARY KEY
+	PeriodID int,
 	Location nvarchar(50) not null,
 	Description nvarchar(MAX) not null,
 	Photo varchar(200) not null,
@@ -90,7 +92,8 @@ create table tblHistoricalSites
 
 create table tblHistoricalItems
 (
-	PeriodID int PRIMARY KEY,
+	HistoricalItemID int Identity(1, 1) PRIMARY KEY,
+	PeriodID int,
 	Type nvarchar(50) not null,
 	Name nvarchar(100) not null,
 	Nation nvarchar(50) not null,
@@ -187,49 +190,49 @@ Create table tblRoles
 )
 
 ALTER TABLE tblRoles
-ADD CONSTRAINT FK_tblUserstblRoles
+ADD CONSTRAINT FK_tblUsers_tblRoles
 FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
 
 ALTER TABLE tblVotes
-ADD CONSTRAINT FK_tblUserstblVotes
+ADD CONSTRAINT FK_tblUsers_tblVotes
 FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
 
 ALTER TABLE tblVotes
-ADD CONSTRAINT FK_tblArticlestblVotes
+ADD CONSTRAINT FK_tblArticles_tblVotes
 FOREIGN KEY (ArticleID) REFERENCES tblArticles(ArticleID)
 
 ALTER TABLE tblUserMiniGame
-ADD CONSTRAINT FK_tblMiniGamestblUserGame
+ADD CONSTRAINT FK_tblMiniGames_tblUserGame
 FOREIGN KEY (MiniGameID) REFERENCES tblMiniGames(MiniGameID);
 
 ALTER TABLE tblUserMiniGame
-ADD CONSTRAINT FK_tblUserstblUserGame
+ADD CONSTRAINT FK_tblUsers_tblUserGame
 FOREIGN KEY (UserID) REFERENCES tblUsers(UserID);
 
 ALTER TABLE tblComments
-ADD CONSTRAINT FK_tblUserstblComments
+ADD CONSTRAINT FK_tblUsers_tblComments
 FOREIGN KEY (UserID) REFERENCES tblUsers(UserID);
 
 ALTER TABLE tblArticles
-ADD CONSTRAINT FK_tblUserstblArticles
+ADD CONSTRAINT FK_tblUsers_tblArticles
 FOREIGN KEY (UserID) REFERENCES tblUsers(UserID);
 
 ALTER TABLE tblComments
-ADD CONSTRAINT FK_tblArticlestblComments
+ADD CONSTRAINT FK_tblArticles_tblComments
 FOREIGN KEY (ArticleID) REFERENCES tblArticles(ArticleID);
 
 ALTER TABLE tblHistoricalSites
-ADD CONSTRAINT FK_tblPeriodstblHistoricalSites
+ADD CONSTRAINT FK_tblPeriods_tblHistoricalSites
 FOREIGN KEY (PeriodID) REFERENCES tblPeriods(PeriodID);
 
 ALTER TABLE tblHistoricalItems
-ADD CONSTRAINT FK_tblPeriodstblHistoricalItems
+ADD CONSTRAINT FK_tblPeriods_tblHistoricalItems
 FOREIGN KEY (PeriodID) REFERENCES tblPeriods(PeriodID);
 
 ALTER TABLE tblCharacters
-ADD CONSTRAINT FK_tblPeriodstblCharacters
+ADD CONSTRAINT FK_tblPeriods_tblCharacters
 FOREIGN KEY (PeriodID) REFERENCES tblPeriods(PeriodID);
 
 ALTER TABLE tblNotifications
-ADD CONSTRAINT FK_tblUserstblNotifications
+ADD CONSTRAINT FK_tblUsers_tblNotifications
 FOREIGN KEY (UserID) REFERENCES tblUsers(UserID);
