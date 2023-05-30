@@ -28,4 +28,12 @@ public class VideoController {
         );
     }
 
+
+    @GetMapping("/sort")
+    public ResponseEntity<ResponseObject> getAllSortedVideos() {
+        List<Video> videoList = videoService.sortVideosByCreatedTime();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Query successfully", videoList)
+        );
+    }
 }
