@@ -23,5 +23,10 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findAllByEnabled(true);
     }
 
+    @Override
+    public List<Video> searchVideosByTitle(String title) {
+        return videoRepository.searchVideoByTitle(title);
+    }
+
 
 }

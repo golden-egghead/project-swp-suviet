@@ -6,6 +6,7 @@ import com.example.SuViet.service.VideoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,14 @@ public class VideoController {
     @GetMapping("")
     public ResponseEntity<ResponseObject> getAllVideos() {
         List<Video> videoList = videoService.getAllVideos();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Query successfully", videoList)
+        );
+    }
+
+    @GetMapping("/search/{title}")
+    public ResponseEntity<ResponseObject> searchVideosById(@PathVariable String title) {
+        List<Video> videoList = videoService.searchVideosByTitle(title);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "Query successfully", videoList)
         );
