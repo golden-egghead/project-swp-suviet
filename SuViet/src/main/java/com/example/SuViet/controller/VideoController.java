@@ -28,5 +28,16 @@ public class VideoController {
         );
     }
 
+<<<<<<< HEAD
+=======
+    @GetMapping("/sortByCreatedTime")
+    public ResponseEntity<ResponseObject> getSortedVideosByCreatedTime() {
+        List<Video> videoList = videoService.sortVideosByCreatedTime();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Query successfully", videoList)
+        );
+    }
+
+>>>>>>> sort-videos-by-created-time
 
 }
