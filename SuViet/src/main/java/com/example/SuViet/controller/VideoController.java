@@ -28,11 +28,4 @@ public class VideoController {
                 new ResponseObject("OK", "Query successfully", videoList)
         );
     }
-
-//    @GetMapping("/sortByCreatedTime")
-//    public ResponseEntity<ResponseObject> getAllSortedCreatedTimeVideos() {
-//        List<Video> videos = videoService.getAllVideos();
-
-
-//    }
 }
