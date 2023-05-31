@@ -29,7 +29,7 @@ public class Article {
     @Column(length = 200, nullable = false)
     private String photo;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "date", nullable = false)
     private Date createdDate;
 
     @Column(nullable = false)
