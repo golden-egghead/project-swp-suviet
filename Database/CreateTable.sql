@@ -75,6 +75,7 @@ create table tblCharacters
 	PeriodID int,
 	CharacterID int Identity(1, 1) PRIMARY KEY,
 	CharacterName nvarchar(50) not null,
+	Photo varchar(200),
 	Story nvarchar(MAX) not null,
 	Estate nvarchar(50) not null,
 	Enabled bit not null
