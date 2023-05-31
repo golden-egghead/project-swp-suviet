@@ -4,6 +4,8 @@ import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.VideoRepository;
 import com.example.SuViet.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -23,10 +25,20 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findAllByEnabled(true);
     }
 
+
     @Override
-    public List<Video> searchVideosByTitle(String title) {
-        return videoRepository.searchVideoByTitle(title);
+    public Page<Video> getVideosWithPagination(int offset, int pagesize) {
+        return videoRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pagesize));
     }
 
+    @Override
+    public List<Video> searchVideosByTitle(String title) {
+        return videoRepository.findAllByTitleContainingAndEnabled(title, true);
+    }
+
+    @Override
+    public Page<Video> searchVideosByTitleWithPagination(String title, int offset, int pagesize) {
+        return videoRepository.findAllByTitleContainingAndEnabled(title, true, PageRequest.of(offset - 1, pagesize));
+    }
 
 }
