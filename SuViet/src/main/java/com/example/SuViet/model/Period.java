@@ -22,10 +22,14 @@ public class Period {
     @Column(nullable = false)
     private boolean enabled;
 
-    public Period(int periodID, String periodName, boolean enabled) {
+    @Column(name = "Image", columnDefinition = "ntext")
+    private String image;
+
+    public Period(int periodID, String periodName, boolean enabled, String image) {
         this.periodID = periodID;
         this.periodName = periodName;
         this.enabled = enabled;
+        this.image = image;
     }
 
     @ManyToMany(mappedBy = "periods")
