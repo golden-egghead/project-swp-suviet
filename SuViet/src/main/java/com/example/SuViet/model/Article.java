@@ -57,6 +57,7 @@ public class Article {
     @ToString.Exclude
     private Collection<Comment> comments;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "UserID")
     @ToString.Exclude
