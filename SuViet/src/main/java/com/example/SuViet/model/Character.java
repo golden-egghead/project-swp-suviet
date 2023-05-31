@@ -6,6 +6,7 @@ import lombok.*;
 import jakarta.persistence.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -22,19 +23,16 @@ public class Character {
     @Column(columnDefinition = "ntext", nullable = false)
     private String story;
 
+    
     @Column(columnDefinition = "ntext", nullable = false)
     private String estate;
 
     @Column(nullable = false)
     private boolean enabled;
-
-    public Character(int characterID, String characterName, String story, String estate, boolean enabled) {
-        this.characterID = characterID;
-        this.characterName = characterName;
-        this.story = story;
-        this.estate = estate;
-        this.enabled = enabled;
-    }
+    @Column(columnDefinition = "ntext")
+    private String image;
+    @Column(columnDefinition = "ntext")
+    private String description;
 
     @JsonIgnore
     @ManyToOne
@@ -42,4 +40,5 @@ public class Character {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Period period;
+
 }

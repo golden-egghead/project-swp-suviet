@@ -1,14 +1,16 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.model.Character;
-import com.example.SuViet.model.Video;
+import com.example.SuViet.model.ICharacter;
 import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.service.CharacterService;
-import com.example.SuViet.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
@@ -24,12 +26,23 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<Character> findCharactersByName(String search) {
-        return characterRepository.search(search);
+    public List<Character> findCharactersByName(String searchValue) {
+        return characterRepository.findAllByCharacterNameContainingAndEnabled(searchValue,true );
     }
 
-    public List<Character> getAllByEnabled(boolean check){
-        return characterRepository.findAllByEnabled(check);
+    @Override
+    public Page<Character> searchCharactersByNameWithPagination(String title, int offset, int pageSize) {
+        return characterRepository.findAllByCharacterNameContainingAndEnabled(title, true, PageRequest.of(offset - 1, pageSize));
+    }
+
+    @Override
+    public Page<Character> getCharactersWithPagination(int offset, int pageSize) {
+        return characterRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
+    }
+
+    @Override
+    public List<ICharacter> filterByPeriod(String keyword) {
+        return characterRepository.filterByPeriod(keyword);
     }
 
 }
