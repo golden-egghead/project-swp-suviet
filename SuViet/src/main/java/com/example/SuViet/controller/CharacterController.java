@@ -62,7 +62,7 @@ public class CharacterController {
     public  ResponseEntity<ResponseObject> filterCharactersByPeriod(@PathVariable("keyword") String keyword){
            List<ICharacter> list = service.filterByPeriod(keyword);
            return ResponseEntity.status(HttpStatus.OK).body(
-                   new ResponseObject("OK", "Query Successfully", service.filterByPeriod(keyword))
+                   new ResponseObject("OK", "Query Successfully", list)
            );
     }
 }
