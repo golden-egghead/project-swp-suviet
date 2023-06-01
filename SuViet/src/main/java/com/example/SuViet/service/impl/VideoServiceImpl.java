@@ -41,4 +41,9 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findAllByTitleContainingAndEnabled(title, true, PageRequest.of(offset - 1, pagesize));
     }
 
+//    @Override
+//    public List<Video> filterVideosByPeriodName(String periodName) {
+//        return videoRepository.findAllByPeriodName(periodName, true);
+//    }
+
 }

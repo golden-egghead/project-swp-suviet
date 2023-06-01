@@ -22,4 +22,11 @@ public interface VideoRepository extends JpaRepository<Video, Integer> {
     public List<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled);
 
     public Page<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled, PageRequest pageRequest);
+
+//    @Query(value = "select v.videoID, v.title, v.description, v.video, v.createdDate, v.enabled " +
+//            "from Period p " +
+//            "inner join tblPeriodVideo pv on p.periodID = pv.PeriodID " +
+//            "inner join Video v on pv.videoID = v.videoID " +
+//            "where cast(p.periodName as nvarchar(max)) like :periodName", nativeQuery = true)
+//    public List<Video> findAllByPeriodName(@Param("periodName") String periodName, boolean enabled);
 }

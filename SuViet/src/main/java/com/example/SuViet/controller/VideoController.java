@@ -32,15 +32,18 @@ public class VideoController {
         );
     }
 
-    @GetMapping("/search/{title}/{offset}")
-    public ResponseEntity<ResponsePaginationObject> searchVideosById(@PathVariable String title, @PathVariable int offset) {
+    @GetMapping("/search/{offset}")
+    public ResponseEntity<ResponsePaginationObject> searchVideosById(@RequestParam(value = "title") String title, @PathVariable int offset) {
         int count = 0;
         int countAll = 0;
         List<Video> videoList = videoService.searchVideosByTitle(title);
         List<Video> allVideoList = videoService.getAllVideos();
         for (int i = 0; i < videoList.size(); i++) {
-            countAll++;
             count++;
+        }
+
+        for (int i = 0; i < allVideoList.size(); i++) {
+            countAll++;
         }
         if (title.trim().isEmpty() || title.trim() == "") {
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -54,5 +57,12 @@ public class VideoController {
         );
 
     }
+
+//    @GetMapping("/filter")
+//    public ResponseEntity<ResponseObject> filterByPeriodName(@RequestParam(value = "periodName") String periodName) {
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject("OK", "Query successfully!", videoService.filterVideosByPeriodName(periodName))
+//        );
+//    }
 
 }
