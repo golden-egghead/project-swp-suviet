@@ -18,7 +18,7 @@ public class PeriodController {
     @GetMapping("")
     public ResponseEntity<ResponseObject> getAllPeriods() {
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "OK", periodRepository.findAll())
+                new ResponseObject("OK", "OK", periodRepository.findAllByEnabled(true))
         );
     }
 }
