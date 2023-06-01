@@ -31,7 +31,7 @@ public class Character {
     private boolean enabled;
     @Column(columnDefinition = "ntext")
     private String image;
-    @Column(columnDefinition = "ntext")
+    @Column(name = "Description", columnDefinition = "ntext")
     private String description;
 
     @JsonIgnore
