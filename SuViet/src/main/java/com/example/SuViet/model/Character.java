@@ -29,8 +29,9 @@ public class Character {
 
     @Column(nullable = false)
     private boolean enabled;
-    @Column(columnDefinition = "ntext")
+    @Column(name = "Image", columnDefinition = "ntext")
     private String image;
+
     @Column(name = "Description", columnDefinition = "ntext")
     private String description;
 

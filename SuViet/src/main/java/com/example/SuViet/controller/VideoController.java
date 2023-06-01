@@ -35,13 +35,17 @@ public class VideoController {
     @GetMapping("/search/{title}/{offset}")
     public ResponseEntity<ResponsePaginationObject> searchVideosById(@PathVariable String title, @PathVariable int offset) {
         int count = 0;
+        int countAll = 0;
         List<Video> videoList = videoService.searchVideosByTitle(title);
+        List<Video> allVideoList = videoService.getAllVideos();
         for (int i = 0; i < videoList.size(); i++) {
+            countAll++;
             count++;
         }
         if (title.trim().isEmpty() || title.trim() == "") {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponsePaginationObject()
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponsePaginationObject("OK", "Query successfully", offset, 6, countAll,
+                            Math.ceil(countAll / 6.0), videoService.getVideosWithPagination(offset, 6))
             );
         }
         return ResponseEntity.status(HttpStatus.OK).body(
