@@ -2,6 +2,7 @@ package com.example.SuViet.controller;
 
 import com.example.SuViet.model.*;
 import com.example.SuViet.model.Character;
+import com.example.SuViet.service.CharacterService;
 import com.example.SuViet.service.impl.CharacterServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api")
 public class CharacterController {
-    private final CharacterServiceImpl service;
+    private final CharacterService service;
 
     public CharacterController(CharacterServiceImpl service) {
         this.service = service;
     }
-    @GetMapping("/characters")
-    public ResponseEntity<ResponseObject> getAllCharacters(){
-        List<Character> characterList = service.getAllCharacters();
-        return ResponseEntity.status(HttpStatus.OK).body(
-            new ResponseObject("OK", "Query successfully!!", characterList)
-        );
-    }
 
-    @GetMapping("/characters/{offset}")
-    public ResponseEntity<ResponsePaginationObject> getAllVideos(@PathVariable int offset) {
+    @GetMapping("/characters/{offset}/")
+    public ResponseEntity<ResponsePaginationObject> getAllCharacters(@PathVariable int offset) {
         int count = 0;
         List<Character> characterList = service.getAllCharacters();
         for (int i = 0; i < characterList.size(); i++) {
@@ -38,17 +32,25 @@ public class CharacterController {
         );
     }
 
-    @GetMapping("/characters/search/{keyword}/{offset}")
+    @GetMapping("/characters/search/{offset}")
     @ResponseBody
     public ResponseEntity<ResponsePaginationObject> searchCharacterByName(@RequestParam String keyword, @PathVariable int offset){
-        List<Character> characterList = service.findCharactersByName(keyword);
+        List<Character> characterList = service.searchCharactersByName(keyword);
+        List<Character> listAllCharacter = service.getAllCharacters();
         int count = 0;
+        int countAll = 0;
+
+        for(int i = 0; i < listAllCharacter.size(); i++){
+            countAll++;
+        }
         for(int i = 0; i < characterList.size(); i++){
             count++;
         }
-        if(keyword.trim().isEmpty()){
+
+        if(keyword.trim().isEmpty() || keyword.trim() ==""){
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponsePaginationObject()
+                    new ResponsePaginationObject("OK", "Query successfully", offset, 6, countAll,
+                            Math.ceil(countAll / 6.0), service.getCharactersWithPagination(offset, 6))
             );
         }
         return ResponseEntity.status(HttpStatus.OK).body(

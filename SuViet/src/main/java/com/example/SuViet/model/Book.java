@@ -51,7 +51,7 @@ public class Book {
     @Column(nullable = false)
     private boolean enabled;
 
-    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, Date createdDate, String publisher, double price, String cover, boolean enabled) {
+    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, Date createdDate, String publisher, double price, String cover, boolean enabled, Collection<Period> periods) {
         this.bookID = bookID;
         this.title = title;
         this.author = author;
@@ -66,6 +66,7 @@ public class Book {
         this.enabled = enabled;
     }
 
+
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -75,4 +76,6 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "PeriodID")
     )
     private Collection<Period> periods;
+
+
 }

@@ -2,6 +2,7 @@ package com.example.SuViet.service.impl;
 
 import com.example.SuViet.model.Character;
 import com.example.SuViet.model.ICharacter;
+import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ public class CharacterServiceImpl implements CharacterService {
     }
     @Override
     public List<Character> getAllCharacters() {
-        return characterRepository.findAll();
+        return characterRepository.findAllByEnabled(true);
     }
 
     @Override
-    public List<Character> findCharactersByName(String searchValue) {
+    public List<Character> searchCharactersByName(String searchValue) {
         return characterRepository.findAllByCharacterNameContainingAndEnabled(searchValue,true );
     }
 
