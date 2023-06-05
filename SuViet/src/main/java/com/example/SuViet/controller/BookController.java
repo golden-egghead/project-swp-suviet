@@ -1,8 +1,10 @@
 package com.example.SuViet.controller;
 
 import com.example.SuViet.model.Book;
+import com.example.SuViet.model.Character;
 import com.example.SuViet.model.ResponsePaginationObject;
 import com.example.SuViet.service.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,5 +61,33 @@ private final BookService bookService;
                             Math.ceil(count / 6.0), bookService.findBookByNameWithPaging(keyword, offset, 6))
             );
         }
+    }
+
+    @GetMapping("/booksSortByTitle/{offset}")
+    public ResponseEntity<ResponsePaginationObject> getCharactersWithPaginationAndSort(@PathVariable int offset) {
+        Page<Book> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, "title");
+        int listSize = booksWithPagination.getSize();
+        int count = 0;
+        for (int i = 0; i < listSize; i++) {
+            count++;
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
+                        Math.ceil(count / 6.0), booksWithPagination)
+        );
+    }
+
+    @GetMapping("/booksSortBy/{field}/{offset}")
+    public ResponseEntity<ResponsePaginationObject> getCharactersWithPaginationAndSortField(@PathVariable int offset, @PathVariable String field) {
+        Page<Book> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, field);
+        int listSize = booksWithPagination.getSize();
+        int count = 0;
+        for (int i = 0; i < listSize; i++) {
+            count++;
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
+                        Math.ceil(count / 6.0), booksWithPagination)
+        );
     }
 }

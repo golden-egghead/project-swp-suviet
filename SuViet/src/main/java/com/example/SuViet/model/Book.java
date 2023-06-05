@@ -33,19 +33,19 @@ public class Book {
     @Column(nullable = false)
     private int pageNumber;
 
-    @Column(length = 5, nullable = false)
+    @Column(columnDefinition = "nvarchar", length = 5, nullable = false)
     private String yearOfPublication;
 
     @Column(columnDefinition = "date", nullable = false)
     public Date createdDate;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String publisher;
 
     @Column(nullable = false)
     private double price;
 
-    @Column(length = 200, nullable = false)
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String cover;
 
     @Column(nullable = false)

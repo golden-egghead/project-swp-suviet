@@ -1,6 +1,7 @@
 package com.example.SuViet.repository;
 
 import com.example.SuViet.model.Book;
+import com.example.SuViet.model.Character;
 import com.example.SuViet.model.Video;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

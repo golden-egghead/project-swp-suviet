@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Nationalized;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,22 +18,22 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int characterID;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String characterName;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String story;
 
     
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String estate;
 
     @Column(nullable = false)
     private boolean enabled;
-    @Column(name = "Image", columnDefinition = "ntext")
+    @Column(name = "Image", columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String image;
 
-    @Column(name = "Description", columnDefinition = "ntext")
+    @Column(name = "Description", columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String description;
 
     @JsonIgnore

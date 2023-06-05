@@ -15,4 +15,6 @@ public interface CharacterService {
 
      List<ICharacter> filterByPeriod(String search);
 
+     List<Character> findCharactersWithSorting(String field);
+     Page<Character> getCharacterWithSortAndPaging(int offset, int pageSize, String field);
 }

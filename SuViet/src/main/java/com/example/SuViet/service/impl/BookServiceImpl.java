@@ -1,11 +1,13 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.model.Book;
+import com.example.SuViet.model.Character;
 import com.example.SuViet.repository.BookRepository;
 import com.example.SuViet.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
@@ -39,4 +41,11 @@ public class BookServiceImpl implements BookService {
     public Page<Book> findBookByNameWithPaging(String title, int offset, int pageSize) {
         return bookRepository.findAllByTitleContainingAndEnabled( title,true, PageRequest.of(offset - 1, pageSize));
     }
+
+    @Override
+    public Page<Book> getBooksWithSortAndPaging(int offset, int pageSize, String field) {
+        Page<Book> characters = bookRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
+        return characters;
+    }
+
 }

@@ -8,6 +8,7 @@ import com.example.SuViet.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +45,17 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public List<ICharacter> filterByPeriod(String keyword) {
         return characterRepository.filterByPeriod(keyword);
+    }
+
+    @Override
+    public List<Character> findCharactersWithSorting(String field) {
+        return characterRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+    }
+
+    @Override
+    public Page<Character> getCharacterWithSortAndPaging(int offset, int pageSize, String field) {
+        Page<Character> characters = characterRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
+       return characters;
     }
 
 }
