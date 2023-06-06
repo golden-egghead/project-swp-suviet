@@ -26,8 +26,8 @@ public class PeriodServiceImpl implements PeriodService {
         return periodRepository.findByPeriodName(periodName).getVideos();
     }
 
-//    @Override
-//    public List<Period> getAllByPeriodName(String periodName) {
-//        return periodRepository.findAllByPeriodNameContaining(periodName);
-//    }
+    @Override
+    public List<Period> getAllByPeriodName(String periodName) {
+        return periodRepository.findAllByPeriodNameContaining(periodName);
+    }
 }

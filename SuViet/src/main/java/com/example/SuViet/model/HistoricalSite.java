@@ -28,12 +28,16 @@ public class HistoricalSite {
     @Column(nullable = false)
     private boolean enabled;
 
-    public HistoricalSite(int historicalSiteID, String location, String description, String photo, boolean enabled) {
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
+    private String historicalSiteName;
+
+    public HistoricalSite(int historicalSiteID, String location, String description, String photo, boolean enabled, String historicalSiteName) {
         this.historicalSiteID = historicalSiteID;
         this.location = location;
         this.description = description;
         this.photo = photo;
         this.enabled = enabled;
+        this.historicalSiteName = historicalSiteName;
     }
 
     @JsonIgnore

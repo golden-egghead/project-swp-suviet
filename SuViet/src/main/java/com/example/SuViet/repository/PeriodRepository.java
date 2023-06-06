@@ -14,5 +14,5 @@ public interface PeriodRepository extends JpaRepository<Period, Integer> {
 
     Period findByPeriodName(@Param("periodName") String periodName);
 
-//    List<Period> findAllByPeriodNameContaining(@Param("periodName") String periodName);
+    List<Period> findAllByPeriodNameContaining(@Param("periodName") String periodName);
 }

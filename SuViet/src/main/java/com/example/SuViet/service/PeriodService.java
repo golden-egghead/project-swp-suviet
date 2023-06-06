@@ -11,5 +11,5 @@ public interface PeriodService {
     public List<Period> getAllVideos();
     public Collection<Video> getVideosByPeriodName(String periodName);
 
-//    public List<Period> getAllByPeriodName(String periodName);
+    public List<Period> getAllByPeriodName(String periodName);
 }

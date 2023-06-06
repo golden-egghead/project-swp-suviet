@@ -33,7 +33,7 @@ public class PeriodController {
     @GetMapping("/videos")
     public ResponseEntity<ResponseObject> getVideosByPeriodName(@RequestParam("periodName") String periodName) {
         Collection<Video> allVideoList = periodService.getVideosByPeriodName(periodName);
-        if (allVideoList.size() > 0) {
+        if (allVideoList.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "There is not video with " + periodName + " period!", null)
             );
