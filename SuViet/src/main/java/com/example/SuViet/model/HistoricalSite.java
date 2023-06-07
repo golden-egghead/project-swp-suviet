@@ -5,6 +5,8 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -46,4 +48,10 @@ public class HistoricalSite {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Period period;
+
+
+    @OneToMany(mappedBy = "historicalSite")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Collection<Image> images;
 }
