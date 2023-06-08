@@ -5,6 +5,8 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,15 +16,19 @@ import jakarta.persistence.*;
 @Data
 @Table(name = "tblRoles")
 public class Role {
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Id
+    @Column(name = "RoleID", nullable = false)
+    private int roleID;
+    @Column(columnDefinition = "varchar",length = 10, nullable = false)
     private String roleName;
 
-    public Role(String roleName) {
+    public Role(int roleID, String roleName) {
+        this.roleID = roleID;
         this.roleName = roleName;
     }
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "UserID")
-    private User user;
+    @ManyToMany(mappedBy = "roles")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    Collection<User> users;
 }

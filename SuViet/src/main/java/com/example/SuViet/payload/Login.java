@@ -1,2 +1,9 @@
-package com.example.SuViet.payload;public class Login {
+package com.example.SuViet.payload;
+
+import lombok.Data;
+
+@Data
+public class Login {
+    private String mail;
+    private String password;
 }

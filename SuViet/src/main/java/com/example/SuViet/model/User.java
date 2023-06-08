@@ -23,10 +23,10 @@ public class User {
     @Column(length = 50, nullable = false)
     private String mail;
 
-    @Column(length = 50, nullable = false)
+    @Column(columnDefinition = "varchar", length = Integer.MAX_VALUE, nullable = false)
     private String password;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "ntext", nullable = true)
     private String achievement;
 
     @Column(nullable = false)
@@ -35,7 +35,7 @@ public class User {
     @Column(length = 50, nullable = false)
     private String fullname;
 
-    @Column(columnDefinition = "date", nullable = false)
+    @Column(columnDefinition = "date", nullable = true)
     private Date createdDate;
 
     @Column(nullable = false)
@@ -44,7 +44,10 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
-    public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled) {
+    @Column(name = "VerificationCode", length = 64)
+    private String verificationCode;
+
+    public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled, String verificationCode) {
         UserID = userID;
         this.mail = mail;
         this.password = password;
@@ -54,6 +57,7 @@ public class User {
         this.createdDate = createdDate;
         this.reported = reported;
         this.enabled = enabled;
+        this.verificationCode = verificationCode;
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -80,4 +84,12 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Collection<Vote> votes;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JoinTable(name = "tblUsersRoles",
+            joinColumns = @JoinColumn(name = "UserID"),
+            inverseJoinColumns = @JoinColumn(name = "RoleID"))
+    private Collection<Role> roles;
 }
