@@ -6,11 +6,15 @@ import com.example.SuViet.payload.SignUp;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.service.UserService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Random;
 
@@ -49,15 +53,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendVerificationMail(SignUp signUp, String siteURL) {
+    public void sendVerificationMail(User user, SignUp signUp, String siteURL)
+            throws MessagingException, UnsupportedEncodingException {
         String subject = "Please verify your registration";
         String senderName = "Su Viet Team";
         String mailContent = "<p>Dear " + signUp.getFullname() + ", </p>";
         mailContent += "<p>Please click link below to verify your registration";
-
+        String verifyURL = siteURL + "/veriry?code=" + user.getVerificationCode();
+        mailContent += "<h3><a href=\"" + verifyURL + "\">VERIFY</a></h3>";
         mailContent += "<p>Thank you </br> Su Viet Team";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("boiboii162122@gmail.com", senderName);
+        helper.setTo(signUp.getMail());
+        helper.setSubject(subject);
+
+        helper.setText(mailContent, true);
     }
 
+    @Override
+    public boolean verify(String verificationCode) {
+        User user = userRepository.findByVerificationCode(verificationCode);
+        if (user == null || user.isEnabled()) {
+            return false;
+        } else {
+            userRepository.enable(user.getUserID());
+            return true;
+        }
+    }
 
 
     public String generateString()
@@ -103,4 +128,6 @@ public class UserServiceImpl implements UserService {
             return true;
         }
     }
+
+
 }

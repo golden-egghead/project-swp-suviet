@@ -9,8 +9,10 @@ import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 
 @RestController
@@ -43,24 +46,32 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseObject> login(@RequestBody Login login) {
+    public ResponseEntity<String> login(@RequestBody Login login) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 login.getMail(), login.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
+        if (!isEnabled) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new String("Please verify your email!!!")
+            );
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "Login successfully!!!", null)
+                new String("Login successfully!")
         );
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignUp signUp, HttpServletRequest request) {
+    public ResponseEntity<?> signup(@RequestBody SignUp signUp, HttpServletRequest request)
+            throws MessagingException, UnsupportedEncodingException {
         if (userRepository.existsByMail(signUp.getMail())) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("User has already exist!!!");
         }
 
         userService.registerANewMember(signUp);
+        User user = userRepository.findByMail(signUp.getMail());
         String siteURL = Utility.getSiteUrl(request);
-        userService.sendVerificationMail(signUp, siteURL);
+        userService.sendVerificationMail(user, signUp, siteURL);
         return ResponseEntity.status(HttpStatus.OK).body(
                 "Sign up succcessfully!!!" +
                         "Please check your email to verify your account.");
@@ -77,5 +88,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "Delete Successfully", null)
         );
+    }
+
+    @GetMapping("/verify")
+    public String verifyAccount(@Param("code") String code) {
+        boolean verified = userService.verify(code);
+        if (verified) {
+            return "Verify successfully";
+        } else {
+            return "Verify failed";
+        }
     }
 }
