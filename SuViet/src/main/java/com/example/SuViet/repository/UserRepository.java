@@ -11,10 +11,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByMail(String email);
     boolean existsByMail(String mail);
 
-    @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
+    @Query("SELECT u FROM User u WHERE u.verificationCode like ?1")
     User findByVerificationCode(String code);
 
-    @Query("update User u SET u.enabled = true where u.UserID = ?1")
-    @Modifying
-    void enable(int id);
 }
