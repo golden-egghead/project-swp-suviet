@@ -33,15 +33,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByMail(email);
-        Collection<GrantedAuthority> authorities = user.getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
-        if (user != null) {
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User does not exist!");
+        } else {
+            Set<GrantedAuthority> authorities = user.getRoles()
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toSet());
             return new org.springframework.security.core.userdetails.User(user.getMail(),
                     user.getPassword(),
                     authorities);
-        } else {
-            throw new UsernameNotFoundException("Invalid username or password.");
         }
     }
 }

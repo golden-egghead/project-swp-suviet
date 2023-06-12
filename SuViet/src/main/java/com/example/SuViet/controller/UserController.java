@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -47,13 +48,22 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Login login) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                login.getMail(), login.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    login.getMail(), login.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (AuthenticationException e) {
+            throw new AuthenticationException("Authentication failed: " + e.getMessage()) {};
+        }
         boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
         if (!isEnabled) {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new String("Please verify your email!!!")
+            );
+        }
+        if (userRepository.findByMail(login.getMail()).getPassword().equals(login.getPassword())) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new String("Invalid password!")
             );
         }
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -71,7 +81,7 @@ public class UserController {
         userService.registerANewMember(signUp);
         User user = userRepository.findByMail(signUp.getMail());
         String siteURL = Utility.getSiteUrl(request);
-        userService.sendVerificationMail(user, signUp, siteURL);
+        userService.sendVerificationMailToRegistration(user, siteURL);
         return ResponseEntity.status(HttpStatus.OK).body(
                 "Sign up succcessfully!!!" +
                         "Please check your email to verify your account.");
@@ -97,6 +107,21 @@ public class UserController {
             return "Verify successfully";
         } else {
             return "Verify failed";
+        }
+    }
+
+    @PostMapping("/forgot")
+    public String forgotPassword(@RequestParam(value = "mail") String mail, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
+        return userService.checkMailStatus(mail, request);
+    }
+
+    @PostMapping("/reset-password/{code}")
+    public String resetPassword(@RequestParam("password") String password, @PathVariable String code) {
+        boolean resetPassword = userService.resetPassword(password, code);
+        if (!resetPassword) {
+            return "User does not exist!";
+        } else {
+            return "Reset password successfully";
         }
     }
 }
