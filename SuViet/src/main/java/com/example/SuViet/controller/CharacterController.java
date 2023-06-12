@@ -34,6 +34,7 @@ public class CharacterController {
     }
 
     @GetMapping("/characters/search/{offset}")
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
     public ResponseEntity<ResponsePaginationObject> searchCharacterByName(@RequestParam String keyword, @PathVariable int offset) {
         List<Character> characterList = service.searchCharactersByName(keyword);

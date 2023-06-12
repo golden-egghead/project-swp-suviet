@@ -41,6 +41,7 @@ public class VideoController {
     }
 
     @GetMapping("/search/{offset}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponsePaginationObject> searchVideosById(@RequestParam(value = "title") String title, @PathVariable int offset) {
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
