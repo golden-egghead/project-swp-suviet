@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/videos")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class VideoController {
     private final VideoService videoService;
 
