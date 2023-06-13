@@ -36,17 +36,27 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf().disable()
-                .authorizeHttpRequests((authorize) ->
-                        //authorize.anyRequest().authenticated()
-                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                .requestMatchers("/api/auth/**").permitAll()
-//                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/home", "/login", "/api/**")
+                .permitAll()
+                .requestMatchers("/api/admin/**")
+                .hasRole("ADMIN")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/home")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
 
-                )
 
-        ;
 
         return http.build();
     }
