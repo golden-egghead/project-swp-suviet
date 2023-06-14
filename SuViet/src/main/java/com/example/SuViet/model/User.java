@@ -47,6 +47,8 @@ public class User {
     @Column(name = "VerificationCode", length = 64)
     private String verificationCode;
 
+    @Column(length = 200)
+    private String avatar;
     public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled, String verificationCode) {
         UserID = userID;
         this.mail = mail;

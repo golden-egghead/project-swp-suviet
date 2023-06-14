@@ -187,4 +187,20 @@ public class UserServiceImpl implements UserService {
         mailSender.send(message);
     }
 
+    @Override
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean oldPasswordIsValid(User user, String oldPassword) {
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
 }
