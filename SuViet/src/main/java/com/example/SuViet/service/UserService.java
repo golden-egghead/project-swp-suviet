@@ -16,4 +16,5 @@ public interface UserService {
     public boolean verify(String verificationCode);
     public String checkMailStatus(String mail, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
     public boolean resetPassword(String password, String code);
+    public List<User> getAllUser();
 }

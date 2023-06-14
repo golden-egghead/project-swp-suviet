@@ -40,24 +40,13 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/home", "/login", "/api/**")
-                .permitAll()
-                .requestMatchers("/api/admin/**")
-                .hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2Login()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/home")
+                .requestMatchers("/**")
                 .permitAll()
                 .and()
+//                .oauth2Login()
+//                .and()
                 .logout()
                 .permitAll();
-
-
-
         return http.build();
     }
 }

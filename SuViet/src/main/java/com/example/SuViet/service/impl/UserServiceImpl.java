@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 
@@ -96,6 +97,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
         return true;
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
     }
 
 

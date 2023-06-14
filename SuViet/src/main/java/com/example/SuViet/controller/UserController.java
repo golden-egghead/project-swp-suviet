@@ -5,6 +5,7 @@ import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
 import com.example.SuViet.payload.Login;
 import com.example.SuViet.payload.SignUp;
+import com.example.SuViet.payload.UserDTO;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.service.UserService;
@@ -45,9 +46,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
+    @GetMapping("/get")
+    public ResponseEntity<ResponseObject> getAllUser() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "OK", userService.getAllUser())
+        );
+    }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Login login) {
+    public ResponseEntity<ResponseObject> login(@RequestBody Login login) {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     login.getMail(), login.getPassword()));
@@ -57,17 +63,20 @@ public class UserController {
         }
         boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
         if (!isEnabled) {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new String("Please verify your email!!!")
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "Please verify your email!!!", null)
             );
         }
-        if (userRepository.findByMail(login.getMail()).getPassword().equals(login.getPassword())) {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new String("Invalid password!")
-            );
-        }
+//        if (userRepository.findByMail(login.getMail()).getPassword().equals(login.getPassword())) {
+//            return ResponseEntity.status(HttpStatus.OK).body(
+//                    new String("Invalid password!")
+//            );
+//        }
+        String fullName = userRepository.findByMail(login.getMail()).getFullname();
+        String role = userRepository.findByMail(login.getMail()).getRoles().toString();
+        UserDTO userDTO = new UserDTO(login.getMail(), fullName, role);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new String("Login successfully!")
+                new ResponseObject("OK", "Login successfully", userDTO)
         );
     }
 
