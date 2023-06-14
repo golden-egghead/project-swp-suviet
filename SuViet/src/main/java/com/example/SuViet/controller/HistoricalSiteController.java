@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/historicalSites")
+@CrossOrigin(origins = "http://localhost:3000")
 public class HistoricalSiteController {
 
     private final HistoricalSiteService historicalSiteService;

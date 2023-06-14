@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookController {
 private final BookService bookService;
 
@@ -41,7 +42,8 @@ private final BookService bookService;
     }
 
     @GetMapping("/Books/search/{offset}")
-    public ResponseEntity<ResponsePaginationObject> searchBookByName(@PathVariable int offset, @RequestParam("keyword") String keyword ){
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<ResponsePaginationObject> searchBookByName(@PathVariable int offset, @RequestParam("title") String keyword ){
         List<Book> bookList = bookService.findBookByName(keyword);
         List<Book> allBookList = bookService.getAllBooks();
         int count = 0, countAll = 0;
