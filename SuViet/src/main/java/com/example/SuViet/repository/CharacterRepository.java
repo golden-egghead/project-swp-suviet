@@ -25,5 +25,4 @@ public interface CharacterRepository extends JpaRepository<Character, Integer> {
      List<Character> findAllByCharacterNameContainingAndEnabled(@Param("title") String title, boolean enabled);
      Page<Character> findAllByCharacterNameContainingAndEnabled(@Param("title") String title, boolean enabled, PageRequest pageRequest);
 
-     List<Character> findByCharacterNameContaining(@Param("keyword") String keyword, Sort sort, boolean enabled, PageRequest pageRequest);
 }

@@ -49,7 +49,8 @@ public class User {
 
     @Column(length = 200)
     private String avatar;
-    public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled, String verificationCode) {
+
+    public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled, String verificationCode, String avatar) {
         UserID = userID;
         this.mail = mail;
         this.password = password;
@@ -60,6 +61,7 @@ public class User {
         this.reported = reported;
         this.enabled = enabled;
         this.verificationCode = verificationCode;
+        this.avatar = avatar;
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

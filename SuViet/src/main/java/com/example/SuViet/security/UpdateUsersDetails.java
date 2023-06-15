@@ -13,12 +13,11 @@ import java.util.List;
 import java.util.Set;
 @Service
 public class UpdateUsersDetails implements UserDetails {
-    @Autowired
+
     private User user;
 
-    public UpdateUsersDetails(User user){
-        this.user = user;
-    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<Role> roles = user.getRoles();
