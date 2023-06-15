@@ -64,9 +64,31 @@ private final BookService bookService;
             );
         }
     }
+    @GetMapping("/Books/searchAuthor/{offset}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<ResponsePaginationObject> searchBookByAuthor(@PathVariable int offset, @RequestParam("author") String author ){
+        List<Book> bookList = bookService.findBookByAuthor(author);
+        List<Book> allBookList = bookService.getAllBooks();
+        int count = 0, countAll = 0;
 
+        for(int i = 0; i < bookList.size(); i++){
+            count++;
+            countAll++;
+        }
+        if(author.trim().isEmpty() || author.trim() == ""){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, countAll,
+                            Math.ceil(countAll / 6.0), bookService.getBookWithPaging(offset, 6))
+            );
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, count,
+                            Math.ceil(count / 6.0), bookService.findBookByAuthorWithPaging(author, offset, 6))
+            );
+        }
+    }
     @GetMapping("/booksSortByTitle/{offset}")
-    public ResponseEntity<ResponsePaginationObject> getCharactersWithPaginationAndSort(@PathVariable int offset) {
+    public ResponseEntity<ResponsePaginationObject> getBooksWithPaginationAndSort(@PathVariable int offset) {
         Page<Book> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, "title");
         int listSize = booksWithPagination.getSize();
         int count = 0;
@@ -79,17 +101,4 @@ private final BookService bookService;
         );
     }
 
-    @GetMapping("/booksSortBy/{field}/{offset}")
-    public ResponseEntity<ResponsePaginationObject> getCharactersWithPaginationAndSortField(@PathVariable int offset, @PathVariable String field) {
-        Page<Book> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, field);
-        int listSize = booksWithPagination.getSize();
-        int count = 0;
-        for (int i = 0; i < listSize; i++) {
-            count++;
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
-                        Math.ceil(count / 6.0), booksWithPagination)
-        );
-    }
 }

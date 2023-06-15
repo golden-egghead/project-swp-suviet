@@ -13,4 +13,6 @@ public interface HistoricalItemRepository extends JpaRepository<HistoricalItem, 
     public Page<HistoricalItem> findAllByEnabled(boolean enabled, PageRequest pageRequest);
     public List<HistoricalItem> findAllByEnabledAndNameContaining(boolean enabled, @Param("historicalItemName") String historicalItemName);
     public Page<HistoricalItem> findAllByEnabledAndNameContaining(boolean enabled, @Param("historicalItemName") String historicalItemName, PageRequest pageRequest);
+
+
 }

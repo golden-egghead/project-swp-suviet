@@ -44,8 +44,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<Book> getBooksWithSortAndPaging(int offset, int pageSize, String field) {
-        Page<Book> characters = bookRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
-        return characters;
+        Page<Book> books = bookRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
+        return books;
+    }
+
+    @Override
+    public List<Book> findBookByAuthor(String author) {
+        return bookRepository.findAllByAuthorContainingAndEnabled(author, true);
+    }
+
+    @Override
+    public Page<Book> findBookByAuthorWithPaging(String author, int offset, int pageSize) {
+        return bookRepository.findAllByAuthorContainingAndEnabled(author, true, PageRequest.of(offset -1, pageSize));
     }
 
 }

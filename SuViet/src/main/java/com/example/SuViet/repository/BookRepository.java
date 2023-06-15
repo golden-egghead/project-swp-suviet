@@ -18,4 +18,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findAllByTitleContainingAndEnabled(@Param("title") String bookName,boolean enabled, PageRequest pageRequest);
 
     List<Book> findAllByTitleContainingAndEnabled(@Param("title") String bookName, boolean enabled);
+
+    Page<Book> findAllByAuthorContainingAndEnabled(@Param("title") String author,boolean enabled, PageRequest pageRequest);
+
+    List<Book> findAllByAuthorContainingAndEnabled(@Param("title") String author, boolean enabled);
 }

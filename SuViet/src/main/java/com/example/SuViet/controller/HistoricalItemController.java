@@ -1,5 +1,6 @@
 package com.example.SuViet.controller;
 
+import com.example.SuViet.model.Book;
 import com.example.SuViet.model.HistoricalItem;
 import com.example.SuViet.model.ResponsePaginationObject;
 import com.example.SuViet.service.HistoricalItemService;
@@ -65,4 +66,19 @@ public class HistoricalItemController {
             );
         }
     }
+    @GetMapping("/historicalItemsSortByTitle/{offset}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<ResponsePaginationObject> getHistoricalItemsWithPaginationAndSort(@PathVariable int offset) {
+        Page<HistoricalItem> historicalItemPage = historicalItemService.getHistoricalItemWithSortAndPaging(offset, 6, "name");
+        int listSize = historicalItemPage.getSize();
+        int count = 0;
+        for (int i = 0; i < listSize; i++) {
+            count++;
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
+                        Math.ceil(count / 6.0), historicalItemPage)
+        );
+    }
+
 }

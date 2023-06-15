@@ -14,4 +14,7 @@ public interface BookService {
     Page<Book> getBookWithPaging(int offset, int pageSize);
     Page<Book> findBookByNameWithPaging(String nameBook,int offset, int pageSize);
     Page<Book> getBooksWithSortAndPaging(int offset, int pageSize, String field);
+
+    List<Book> findBookByAuthor(String author);
+    Page<Book> findBookByAuthorWithPaging(String author,int offset, int pageSize);
 }

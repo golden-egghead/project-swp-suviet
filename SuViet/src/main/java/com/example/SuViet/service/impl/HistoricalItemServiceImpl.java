@@ -6,6 +6,7 @@ import com.example.SuViet.service.HistoricalItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,4 +34,11 @@ public class HistoricalItemServiceImpl implements HistoricalItemService {
     public Page<HistoricalItem> getAllHistoricalItemsByName(String historicalItemsName, int offset, int pageSize) {
         return repo.findAllByEnabledAndNameContaining(true, historicalItemsName, PageRequest.of(offset-1, pageSize));
     }
+
+    @Override
+    public Page<HistoricalItem> getHistoricalItemWithSortAndPaging(int offset, int pageSize, String field) {
+        Page<HistoricalItem> historicalItemPage = repo.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
+        return historicalItemPage;
+    }
+
 }
