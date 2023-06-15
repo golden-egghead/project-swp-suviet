@@ -2,6 +2,7 @@ package com.example.SuViet.controller;
 
 import com.example.SuViet.model.HistoricalSite;
 import com.example.SuViet.model.ResponsePaginationObject;
+import com.example.SuViet.model.Video;
 import com.example.SuViet.service.HistoricalSiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,8 @@ public class HistoricalSiteController {
     }
 
     @GetMapping("/search/{offset}")
-    public ResponseEntity<ResponsePaginationObject> searchHistoricalSiteByName(@RequestParam("historicalSiteName") String historicalName, @PathVariable int offset) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<ResponsePaginationObject> searchVideosById(@RequestParam(value = "title") String title, @PathVariable int offset) {
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 6,
@@ -50,21 +52,24 @@ public class HistoricalSiteController {
         }
         int count = 0;
         int countAll = 0;
-        for (int i = 0; i < historicalSiteService.getAllHistoricalSitesByName(historicalName).size(); i++) {
+        List<HistoricalSite> historicalSiteList = historicalSiteService.getAllHistoricalSitesByName(title);
+        List<HistoricalSite> allHistoricalSiteList = historicalSiteService.getAllHistoricalSites();
+        for (int i = 0; i < historicalSiteList.size(); i++) {
             count++;
         }
-        for (int i = 0; i < historicalSiteService.getAllHistoricalSites().size(); i++) {
+
+        for (int i = 0; i < allHistoricalSiteList.size(); i++) {
             countAll++;
         }
-        if (historicalName.trim().isEmpty() || historicalName.trim() == "") {
+        if (title.trim().isEmpty() || title.trim() == "") {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponsePaginationObject("OK", "Query successfully", offset, 6, countAll,
-                            Math.ceil(countAll / 6.0), historicalSiteService.getAllHistoricalSites())
+                            Math.ceil(countAll / 6.0), historicalSiteService.getHistoricalSitesWithPagination(offset, 6))
             );
         }
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
-                        Math.ceil(count / 6.0), historicalSiteService.getAllHistoricalSitesByName(historicalName, offset, 6))
+                        Math.ceil(count / 6.0), historicalSiteService.getAllHistoricalSitesByName(title, offset, 6))
         );
 
     }
