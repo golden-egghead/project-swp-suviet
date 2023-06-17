@@ -7,8 +7,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByMail(String email);
+    Optional<User> findByMailAndEnabled(String email, boolean isEnabled);
+    Optional<User> findByMailAndPassword(String mail, String password);
     boolean existsByMail(String mail);
 
     @Query("SELECT u FROM User u WHERE u.verificationCode like ?1")

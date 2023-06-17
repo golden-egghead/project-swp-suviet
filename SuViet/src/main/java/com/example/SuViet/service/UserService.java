@@ -1,7 +1,9 @@
 package com.example.SuViet.service;
 
 import com.example.SuViet.model.User;
+import com.example.SuViet.payload.LoginDTO;
 import com.example.SuViet.payload.SignUp;
+import com.example.SuViet.response.LoginResponse;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -17,7 +19,7 @@ public interface UserService {
     public String checkMailStatus(String mail, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
     public boolean resetPassword(String password, String code);
     public List<User> getAllUser();
-
+    LoginResponse loginUser(LoginDTO loginDTO);
     void changePassword(User user, String newPassword);
     boolean oldPasswordIsValid(User user ,String oldPassword);
     User updateUser(User user);

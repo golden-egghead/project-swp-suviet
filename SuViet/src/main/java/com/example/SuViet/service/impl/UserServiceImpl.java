@@ -2,9 +2,12 @@ package com.example.SuViet.service.impl;
 
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
+import com.example.SuViet.payload.LoginDTO;
 import com.example.SuViet.payload.SignUp;
+import com.example.SuViet.payload.UserDTO;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
+import com.example.SuViet.response.LoginResponse;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
 import jakarta.mail.MessagingException;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -104,6 +108,35 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public LoginResponse loginUser(LoginDTO loginDTO) {
+        User user = userRepository.findByMail(loginDTO.getMail());
+        if (user != null) {
+            if (!user.isEnabled()) {
+                return new LoginResponse(false, "Please verify email to log in!", null);
+            }
+            String password = loginDTO.getPassword();
+            String encodedPassword = user.getPassword();
+            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            String fullName = userRepository.findByMail(loginDTO.getMail()).getFullname();
+            String role = userRepository.findByMail(loginDTO.getMail()).getRoles().toString();
+            UserDTO userDTO = new UserDTO(loginDTO.getMail(), fullName, role);
+            if (isPwdRight) {
+                Optional<User> userCheck = userRepository.findByMailAndPassword(loginDTO.getMail(), encodedPassword);
+                if (userCheck.isPresent()) {
+                    return new LoginResponse(true, "Login successfully!", userDTO);
+                } else {
+                    return new LoginResponse(false, "Login Failed!", null);
+                }
+            } else {
+
+                return new LoginResponse(false, "Invalid password!", null);
+            }
+        }else {
+            return new LoginResponse(false, "Email not exits!", null);
+        }
+    }
+
 
     public String generateString()
     {
@@ -156,7 +189,7 @@ public class UserServiceImpl implements UserService {
         mailContent += "<p>Please click link below to verify your registration";
         String verifyURL = siteURL + "/api/auth/verify?code=" + user.getVerificationCode();
         mailContent += "<h3><a href=\"" + verifyURL + "\">VERIFY</a></h3>";
-        mailContent += "<p>Thank you</br>, Nhân Nguyễn";
+        mailContent += "<p>Thank you</br>, Sử Việt";
         sendVerificationMail(user, mailContent, subject);
     }
 
@@ -167,13 +200,13 @@ public class UserServiceImpl implements UserService {
         mailContent += "<p>Please click link below to reset password";
         String verifyURL = siteURL + "/api/auth/reset-password/" + user.getVerificationCode();
         mailContent += "<h3><a href=\"" + verifyURL + "\">RESET PASSWORD</a></h3>";
-        mailContent += "<p>Thank you</br>, Nhân Nguyễn";
+        mailContent += "<p>Thank you</br>, Sử Việt";
         sendVerificationMail(user, mailContent, subject);
     }
 
     public void sendVerificationMail(User user, String mailContent, String subject)
             throws MessagingException, UnsupportedEncodingException {
-        String senderName = "Nhân Nguyễn";
+        String senderName = "Sử Việt";
 
 
         MimeMessage message = mailSender.createMimeMessage();
@@ -202,5 +235,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
         return userRepository.save(user);
     }
+
+
 
 }
