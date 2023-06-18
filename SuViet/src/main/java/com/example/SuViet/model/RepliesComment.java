@@ -5,7 +5,6 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -15,11 +14,11 @@ import java.util.Date;
 @EqualsAndHashCode
 @Entity
 @Data
-@Table(name = "tblComments")
-public class Comment {
+@Table(name = "tblRepliesComment")
+public class RepliesComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int commentID;
+    private int ReplyID;
 
     @Column(columnDefinition = "ntext", nullable = false)
     private String commentText;
@@ -30,29 +29,16 @@ public class Comment {
     @Column(nullable = false)
     private boolean enabled;
 
-    public Comment(String commentText, Date createdDate, boolean enabled) {
+    public RepliesComment(String commentText, Date createdDate, boolean enabled) {
         this.commentText = commentText;
         this.createdDate = createdDate;
         this.enabled = enabled;
     }
-
+    
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "UserID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CommentID")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private User user;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "ArticleID")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Article article;
-
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Collection<RepliesComment> repliesComments;
-
+    private Comment comment;
 }

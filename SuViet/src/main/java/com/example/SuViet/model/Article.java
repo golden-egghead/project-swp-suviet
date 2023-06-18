@@ -20,10 +20,10 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int articleID;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar", length = 100, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar(max)", length = 10000, nullable = false)
     private String context;
 
     @Column(length = 200, nullable = false)
@@ -41,7 +41,9 @@ public class Article {
     @Column(nullable = false)
     private boolean enabled;
 
-    public Article(int articleID, String title, String context, String photo, Date createdDate, boolean status, int articleView, boolean enabled) {
+    public Article(int articleID, String title, String context, String photo, Date createdDate, boolean status,
+            int articleView, boolean enabled, Collection<Comment> comments, User user, Collection<Vote> votes,
+            Collection<Period> periods) {
         this.articleID = articleID;
         this.title = title;
         this.context = context;
@@ -50,6 +52,10 @@ public class Article {
         this.status = status;
         this.articleView = articleView;
         this.enabled = enabled;
+        this.comments = comments;
+        this.user = user;
+        this.votes = votes;
+        this.periods = periods;
     }
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
@@ -58,7 +64,7 @@ public class Article {
     private Collection<Comment> comments;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UserID")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -69,13 +75,19 @@ public class Article {
     @EqualsAndHashCode.Exclude
     private Collection<Vote> votes;
 
-    @JsonIgnore
+    // @JsonIgnore
+    // @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // @ToString.Exclude
+    // @EqualsAndHashCode.Exclude
+    // @JoinTable(name = "tblPeriodArticle", joinColumns = @JoinColumn(name = "ArticleID"), inverseJoinColumns = @JoinColumn(name = "PeriodID"))
+    // private Collection<Period> periods;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinTable(name = "tblPeriodArticle",
-                joinColumns = @JoinColumn(name = "ArticleID"),
-                inverseJoinColumns = @JoinColumn(name = "PeriodID")
+    @JoinTable(
+        name = "tblPeriodArticle",
+        joinColumns = @JoinColumn(name = "ArticleID"),
+        inverseJoinColumns = @JoinColumn(name = "PeriodID")
     )
     private Collection<Period> periods;
 

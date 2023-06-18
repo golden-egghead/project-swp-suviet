@@ -23,7 +23,7 @@ public class User {
     @Column(length = 50, nullable = false)
     private String mail;
 
-    @Column(columnDefinition = "varchar", length = Integer.MAX_VALUE, nullable = false)
+    @Column(columnDefinition = "varchar", length = 50, nullable = false)
     private String password;
 
     @Column(columnDefinition = "ntext", nullable = true)
