@@ -4,10 +4,12 @@ import com.example.SuViet.model.ResponseObject;
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
 import com.example.SuViet.payload.Login;
+import com.example.SuViet.payload.LoginDTO;
 import com.example.SuViet.payload.SignUp;
 import com.example.SuViet.payload.UserDTO;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
+import com.example.SuViet.response.LoginResponse;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
 import jakarta.mail.MessagingException;
@@ -53,32 +55,36 @@ public class UserController {
         );
     }
     @PostMapping("/login")
-    public ResponseEntity<ResponseObject> login(@RequestBody Login login) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    login.getMail(), login.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (AuthenticationException e) {
-            throw new AuthenticationException("Authentication failed: " + e.getMessage()) {};
-        }
-        boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
-        if (!isEnabled) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponseObject("FAILED", "Please verify your email!!!", null)
-            );
-        }
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                    login.getMail(), login.getPassword()));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//        } catch (AuthenticationException e) {
+//            throw new AuthenticationException("Authentication failed: " + e.getMessage()) {};
+//        }
+//        boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
+//        if (!isEnabled) {
+//            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+//                    new ResponseObject("FAILED", "Please to verify your email", null)
+//            );
+//        }
 //        if (userRepository.findByMail(login.getMail()).getPassword().equals(login.getPassword())) {
 //            return ResponseEntity.status(HttpStatus.OK).body(
 //                    new String("Invalid password!")
 //            );
 //        }
-        String fullName = userRepository.findByMail(login.getMail()).getFullname();
-        String role = userRepository.findByMail(login.getMail()).getRoles().toString();
-        UserDTO userDTO = new UserDTO(login.getMail(), fullName, role);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "Login successfully", userDTO)
-        );
+//        String fullName = userRepository.findByMail(login.getMail()).getFullname();
+//        String role = userRepository.findByMail(login.getMail()).getRoles().toString();
+//        UserDTO userDTO = new UserDTO(login.getMail(), fullName, role);
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject("OK", "Login successfully", userDTO)
+//        );
+
+        LoginResponse loginResponse= userService.loginUser(loginDTO);
+        return ResponseEntity.ok(loginResponse);
     }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignUp signUp, HttpServletRequest request)

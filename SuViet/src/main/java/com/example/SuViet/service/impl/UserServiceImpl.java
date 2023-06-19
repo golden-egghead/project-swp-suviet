@@ -2,9 +2,12 @@ package com.example.SuViet.service.impl;
 
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
+import com.example.SuViet.payload.LoginDTO;
 import com.example.SuViet.payload.SignUp;
+import com.example.SuViet.payload.UserDTO;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
+import com.example.SuViet.response.LoginResponse;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
 import jakarta.mail.MessagingException;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -104,6 +108,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public LoginResponse loginUser(LoginDTO loginDTO) {
+        User user = userRepository.findByMail(loginDTO.getMail());
+        if (user != null) {
+            if (!user.isEnabled()) {
+                return new LoginResponse(false, "Please verify email to log in!", null);
+            }
+            String password = loginDTO.getPassword();
+            String encodedPassword = user.getPassword();
+            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            String fullName = userRepository.findByMail(loginDTO.getMail()).getFullname();
+            String role = userRepository.findByMail(loginDTO.getMail()).getRoles().toString();
+            UserDTO userDTO = new UserDTO(loginDTO.getMail(), fullName, role);
+            if (isPwdRight) {
+                Optional<User> userCheck = userRepository.findByMailAndPassword(loginDTO.getMail(), encodedPassword);
+                if (userCheck.isPresent()) {
+                    return new LoginResponse(true, "Login successfully!", userDTO);
+                } else {
+                    return new LoginResponse(false, "Login Failed!", null);
+                }
+            } else {
+
+                return new LoginResponse(false, "Invalid password!", null);
+            }
+        }else {
+            return new LoginResponse(false, "Email not exits!", null);
+        }
     }
 
 
@@ -205,9 +238,10 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
         return userRepository.save(user);
     }
-    @Override;
+    @Override
     public User getUserByMail( String mail) {
         return userRepository.findByMail(mail);
     }
+
 
 }
