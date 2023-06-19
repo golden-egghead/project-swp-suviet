@@ -2,7 +2,7 @@ package com.example.SuViet.model;
 
 import java.util.List;
 
-import com.example.SuViet.dto.ArticleListDTO;
+import com.example.SuViet.dto.ArticleDTO;
 
 public class ResponseArticleObject {
     private String status;
@@ -11,10 +11,10 @@ public class ResponseArticleObject {
     private int pageSize;
     private long totalArticles;
     private double totalPage;
-    private List<ArticleListDTO> articles;
+    private List<ArticleDTO> articles;
 
     public ResponseArticleObject(String status, String message, int page, int pageSize,
-            long totalArticles, double totalPage, List<ArticleListDTO> articles) {
+            long totalArticles, double totalPage, List<ArticleDTO> articles) {
         this.status = status;
         this.message = message;
         this.page = page;
@@ -40,11 +40,11 @@ public class ResponseArticleObject {
         this.message = message;
     }
 
-    public List<ArticleListDTO> getArticles() {
+    public List<ArticleDTO> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<ArticleListDTO> articles) {
+    public void setArticles(List<ArticleDTO> articles) {
         this.articles = articles;
     }
 

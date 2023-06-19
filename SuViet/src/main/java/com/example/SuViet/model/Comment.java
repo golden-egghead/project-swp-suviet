@@ -44,11 +44,12 @@ public class Comment {
     private User user;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ArticleID")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Article article;
+    
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     @ToString.Exclude
