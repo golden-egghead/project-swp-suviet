@@ -29,16 +29,30 @@ public class RepliesComment {
     @Column(nullable = false)
     private boolean enabled;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JoinColumn(name = "CommentID")
+    private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "UserID")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private User user;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ArticleID")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Article article;
+    
+
     public RepliesComment(String commentText, Date createdDate, boolean enabled) {
         this.commentText = commentText;
         this.createdDate = createdDate;
         this.enabled = enabled;
     }
-    
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CommentID")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Comment comment;
 }

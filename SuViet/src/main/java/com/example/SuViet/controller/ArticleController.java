@@ -1,6 +1,6 @@
 package com.example.SuViet.controller;
 
-import com.example.SuViet.dto.ArticleListDTO;
+import com.example.SuViet.dto.ArticleDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.ResponseObject;
 import com.example.SuViet.model.ResponsePaginationObject;
@@ -48,7 +48,7 @@ public class ArticleController {
             Sort.Direction direction = Sort.Direction.fromString(sortOrder);
             Sort sort = Sort.by(direction, sortBy);
             PageRequest pageRequest = PageRequest.of(offset - 1, PAGE_SIZE, sort);
-            Page<ArticleListDTO> articlePage;
+            Page<ArticleDTO> articlePage;
 
             if (title.isEmpty()) {
                 articlePage = articleService.getAllEnabledArticles(pageRequest);
@@ -56,7 +56,7 @@ public class ArticleController {
                 articlePage = articleService.searchArticlesByTitle(title, pageRequest);
             }
 
-            List<ArticleListDTO> articleList = articlePage.getContent();
+            List<ArticleDTO> articleList = articlePage.getContent();
             int count = articleList.size();
             int totalPages = articlePage.getTotalPages();
 
