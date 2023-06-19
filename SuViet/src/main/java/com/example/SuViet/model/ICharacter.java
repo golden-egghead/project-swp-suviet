@@ -2,20 +2,20 @@ package com.example.SuViet.model;
 
 public interface ICharacter {
 
-    public int getCharacterID();
+    int getCharacterID();
 
-    public String getCharacterName();
+    String getCharacterName();
 
 
-    public String getStory() ;
+    String getStory() ;
 
-    public String getEstate();
+    String getEstate();
 
-    public boolean isEnabled();
+    boolean isEnabled();
 
-    public int getPeriod() ;
+    int getPeriod() ;
 
-    public String getImage();
+    String getImage();
 
-    public String getDescription();
+    String getDescription();
 }

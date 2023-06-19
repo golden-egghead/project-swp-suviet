@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface CharacterRepository extends JpaRepository<Character, Integer> {
 
-   public Page<Character> findAllByEnabled(boolean enabled, PageRequest pageRequest);
+   Page<Character> findAllByEnabled(boolean enabled, PageRequest pageRequest);
    List<Character> findAllByEnabled(boolean enabled);
     @Query(value = "select u.CharacterID, u.CharacterName, u.Story, u.Estate, u.Enabled, u.PeriodID from tblCharacters u inner join tblPeriods v\n" +
             "on u.PeriodID = v.PeriodID \n" +

@@ -18,7 +18,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserID;
+    private Integer UserID;
 
     @Column(length = 50, nullable = false)
     private String mail;
@@ -39,7 +39,7 @@ public class User {
     private Date createdDate;
 
     @Column(nullable = false)
-    private int reported;
+    private Integer reported;
 
     @Column(nullable = false)
     private boolean enabled;

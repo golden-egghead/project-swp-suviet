@@ -11,17 +11,17 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface VideoRepository extends JpaRepository<Video, Integer> {
-    public List<Video> findAllByEnabled(boolean enabled);
+    List<Video> findAllByEnabled(boolean enabled);
 
 
-    public Page<Video> findAllByEnabled(boolean enabled, PageRequest pageRequest);
+    Page<Video> findAllByEnabled(boolean enabled, PageRequest pageRequest);
 
 //    @Query("SELECT v FROM Video v WHERE v.title LIKE %:title%")
 //    public List<Video> searchVideoByTitle(@Param("title") String title);
 
-    public List<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled);
+    List<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled);
 
-    public Page<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled, PageRequest pageRequest);
+    Page<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled, PageRequest pageRequest);
 
 //    @Query(value = "select v.videoID, v.title, v.description, v.video, v.createdDate, v.enabled " +
 //            "from Period p " +

@@ -6,13 +6,13 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface VideoService {
-    public List<Video> getAllVideos();
+    List<Video> getAllVideos();
 
-    public Page<Video> getVideosWithPagination(int offset, int pagesize);
+    Page<Video> getVideosWithPagination(int offset, int pagesize);
 
-    public List<Video> searchVideosByTitle(String title);
+    List<Video> searchVideosByTitle(String title);
 
-    public Page<Video> searchVideosByTitleWithPagination(String title, int offset, int pagesize);
+    Page<Video> searchVideosByTitleWithPagination(String title, int offset, int pagesize);
 
 //    public List<Video> filterVideosByPeriodName(String periodName);
 }

@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface HistoricalSiteRepository extends JpaRepository<HistoricalSite, Integer> {
-    public List<HistoricalSite> findAllByEnabled(boolean enabled);
-    public Page<HistoricalSite> findAllByEnabled(boolean enabled, PageRequest pageRequest);
-    public List<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, @Param("historicalSiteName") String historicalSiteName);
-    public Page<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, @Param("historicalSiteName") String historicalSiteName, PageRequest pageRequest);
+    List<HistoricalSite> findAllByEnabled(boolean enabled);
+    Page<HistoricalSite> findAllByEnabled(boolean enabled, PageRequest pageRequest);
+    List<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, @Param("historicalSiteName") String historicalSiteName);
+    Page<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, @Param("historicalSiteName") String historicalSiteName, PageRequest pageRequest);
 }

@@ -99,7 +99,7 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseObject> deleteMember(@PathVariable int id) {
         boolean checkDelete = userService.deleteAMember(id);
-        if (checkDelete == false) {
+        if (!checkDelete) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "User does not exist", null)
             );
