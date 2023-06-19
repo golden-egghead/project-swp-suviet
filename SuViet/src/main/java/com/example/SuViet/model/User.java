@@ -18,12 +18,12 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer UserID;
+    private int UserID;
 
     @Column(length = 50, nullable = false)
     private String mail;
 
-    @Column(columnDefinition = "varchar", length = Integer.MAX_VALUE, nullable = false)
+    @Column(columnDefinition = "varchar", length = 50, nullable = false)
     private String password;
 
     @Column(columnDefinition = "ntext", nullable = true)
@@ -39,7 +39,7 @@ public class User {
     private Date createdDate;
 
     @Column(nullable = false)
-    private Integer reported;
+    private int reported;
 
     @Column(nullable = false)
     private boolean enabled;
@@ -78,6 +78,9 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<RepliesComment> repliesComments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
