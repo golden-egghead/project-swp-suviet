@@ -67,36 +67,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-//                    login.getMail(), login.getPassword()));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        } catch (AuthenticationException e) {
-//            throw new AuthenticationException("Authentication failed: " + e.getMessage()) {};
-//        }
-//        boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
-//        if (!isEnabled) {
-//            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-//                    new ResponseObject("FAILED", "Please to verify your email", null)
-//            );
-//        }
-//        if (userRepository.findByMail(login.getMail()).getPassword().equals(login.getPassword())) {
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new String("Invalid password!")
-//            );
-//        }
-//        String fullName = userRepository.findByMail(login.getMail()).getFullname();
-//        String role = userRepository.findByMail(login.getMail()).getRoles().toString();
-//        UserDTO userDTO = new UserDTO(login.getMail(), fullName, role);
-//        return ResponseEntity.status(HttpStatus.OK).body(
-//                new ResponseObject("OK", "Login successfully", userDTO)
-//        );
-
-        LoginResponse loginResponse= userService.loginUser(loginDTO);
-        return ResponseEntity.ok(loginResponse);
-    }
 
 //    @GetMapping("/error")
 //    public ResponseEntity<String> invalidUserOrPassword() {
