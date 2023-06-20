@@ -30,7 +30,6 @@ public class Period {
         this.enabled = enabled;
     }
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "periods")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
