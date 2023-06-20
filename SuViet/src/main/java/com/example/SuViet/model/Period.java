@@ -5,6 +5,8 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -28,6 +30,7 @@ public class Period {
         this.enabled = enabled;
     }
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "periods")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
