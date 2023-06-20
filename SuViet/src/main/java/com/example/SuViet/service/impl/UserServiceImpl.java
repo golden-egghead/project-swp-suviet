@@ -243,5 +243,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByMail(mail);
     }
 
+    @Override
+    public User getUserById(int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.orElse(null);
+    }
+
 
 }

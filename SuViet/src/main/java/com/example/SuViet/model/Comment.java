@@ -5,8 +5,8 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 @NoArgsConstructor
 @Getter
@@ -25,12 +25,12 @@ public class Comment {
     private String commentText;
 
     @Column(columnDefinition = "date", nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private boolean enabled;
 
-    public Comment(String commentText, Date createdDate, boolean enabled) {
+    public Comment(String commentText, LocalDateTime createdDate, boolean enabled) {
         this.commentText = commentText;
         this.createdDate = createdDate;
         this.enabled = enabled;
@@ -44,7 +44,7 @@ public class Comment {
     private User user;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ArticleID")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

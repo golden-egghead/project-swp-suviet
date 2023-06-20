@@ -9,10 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +28,7 @@ public class ArticleDTO {
     private boolean status;
     private int articleView;
     private UserDTO user;
+    private int userID;
     private int voteLevel;
     private String periodName;
     private List<CommentDTO> comments;
@@ -40,8 +41,8 @@ public class ArticleDTO {
         dto.setContext(article.getContext());
         dto.setPhoto(article.getPhoto());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dto.setCreatedDate(dateFormat.format(article.getCreatedDate()));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        dto.setCreatedDate(article.getCreatedDate().format(dateFormatter));
 
         dto.setStatus(article.isStatus());
         dto.setArticleView(article.getArticleView());
@@ -60,10 +61,11 @@ public class ArticleDTO {
         article.setContext(this.context);
         article.setPhoto(this.photo);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date formattedDate = dateFormat.parse(this.createdDate);
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime formattedDate = LocalDateTime.parse(this.createdDate, dateFormatter);
             article.setCreatedDate(formattedDate);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,17 +101,19 @@ public class ArticleDTO {
                 .collect(Collectors.joining(", "));
     }
 
-    // private static List<CommentDTO> getCommentDTOList(Collection<Comment> comments) {
-    //     return comments.stream()
-    //             .map(CommentDTO::convertToDTO)
-    //             .collect(Collectors.toList());
+    // private static List<CommentDTO> getCommentDTOList(Collection<Comment>
+    // comments) {
+    // return comments.stream()
+    // .map(CommentDTO::convertToDTO)
+    // .collect(Collectors.toList());
     // }
 
-    // private static List<RepliesCommentDTO> getRepliesCommentDTOList(Collection<Comment> comments) {
-    //     return comments.stream()
-    //             .flatMap(comment -> comment.getRepliesComments().stream())
-    //             .map(RepliesCommentDTO::convertToDTO)
-    //             .collect(Collectors.toList());
+    // private static List<RepliesCommentDTO>
+    // getRepliesCommentDTOList(Collection<Comment> comments) {
+    // return comments.stream()
+    // .flatMap(comment -> comment.getRepliesComments().stream())
+    // .map(RepliesCommentDTO::convertToDTO)
+    // .collect(Collectors.toList());
     // }
 
     private static List<CommentDTO> getCommentDTOList(Collection<Comment> comments) {
@@ -123,7 +127,7 @@ public class ArticleDTO {
 
         comments.forEach(comment -> {
             comment.getRepliesComments()
-                .forEach(repliesComment -> repliesCommentDTOs.add(RepliesCommentDTO.convertToDTO(repliesComment)));
+                    .forEach(repliesComment -> repliesCommentDTOs.add(RepliesCommentDTO.convertToDTO(repliesComment)));
         });
 
         return repliesCommentDTOs;

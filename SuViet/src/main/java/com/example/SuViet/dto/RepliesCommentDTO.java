@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -13,9 +13,12 @@ import java.util.Date;
 public class RepliesCommentDTO {
     private int replyID;
     private String commentText;
-    private Date createdDate;
+    private LocalDateTime createdDate;
     private boolean enabled;
     private UserDTO user;
+    private int userID;
+    private int articleID;
+    private int commentID;
 
     public static RepliesCommentDTO convertToDTO(RepliesComment repliesComment) {
         RepliesCommentDTO dto = new RepliesCommentDTO();
@@ -24,6 +27,7 @@ public class RepliesCommentDTO {
         dto.setCreatedDate(repliesComment.getCreatedDate());
         dto.setEnabled(repliesComment.isEnabled());
         dto.setUser(UserDTO.convertToDTO(repliesComment.getUser()));
+        dto.setCommentID(repliesComment.getComment().getCommentID());
 
         return dto;
     }

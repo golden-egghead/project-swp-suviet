@@ -25,4 +25,6 @@ public interface UserService {
     boolean oldPasswordIsValid(User user ,String oldPassword);
     User updateUser(User user);
     User getUserByMail( String mail);
+    
+    User getUserById(int userId);
 }

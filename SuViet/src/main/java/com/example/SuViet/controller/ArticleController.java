@@ -1,10 +1,21 @@
 package com.example.SuViet.controller;
 
 import com.example.SuViet.dto.ArticleDTO;
+import com.example.SuViet.dto.CommentDTO;
+import com.example.SuViet.dto.RepliesCommentDTO;
 import com.example.SuViet.model.Article;
+import com.example.SuViet.model.Comment;
+import com.example.SuViet.model.RepliesComment;
 import com.example.SuViet.model.ResponseObject;
 import com.example.SuViet.model.ResponsePaginationObject;
+import com.example.SuViet.model.User;
 import com.example.SuViet.service.ArticleService;
+import com.example.SuViet.service.CommentService;
+import com.example.SuViet.service.RepliesCommentService;
+import com.example.SuViet.service.UserService;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +30,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/articles")
 public class ArticleController {
     private final ArticleService articleService;
+    private final UserService userService;
+    private final CommentService commentService;
+    private final RepliesCommentService repliesCommentService;
     private static final int PAGE_SIZE = 6;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, UserService userService, CommentService commentService,
+            RepliesCommentService repliesCommentService) {
         this.articleService = articleService;
+        this.userService = userService;
+        this.commentService = commentService;
+        this.repliesCommentService = repliesCommentService;
     }
 
     @GetMapping("/{offset}")
@@ -38,10 +57,9 @@ public class ArticleController {
             @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
 
         if (offset <= 0) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, PAGE_SIZE,
-                            0, 0, null)
-            );
+                            0, 0, null));
         }
 
         try {
@@ -62,8 +80,7 @@ public class ArticleController {
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponsePaginationObject("OK", "Query successfully", offset, PAGE_SIZE, count,
-                            totalPages, articleList)
-            );
+                            totalPages, articleList));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     new ResponsePaginationObject("ERROR", "An error occurred", 0, 0, 0, 0, null));
@@ -71,14 +88,81 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ResponseObject> postAnArticle(@RequestBody Article article) {
+    public ResponseEntity<ResponseObject> postAnArticle(@RequestBody ArticleDTO articleDTO) {
         try {
+            User user = userService.getUserById(articleDTO.getUserID());
+
+            Article article = new Article();
+            article.setTitle(articleDTO.getTitle());
+            article.setContext(articleDTO.getContext());
+            article.setPhoto(articleDTO.getPhoto());
+            article.setCreatedDate(LocalDateTime.now());
+            article.setStatus(false);
+            article.setEnabled(true);
+            article.setUser(user);
+
             Article savedArticle = articleService.savedArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new ResponseObject("OK", "Article created successfully", savedArticle));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "An error occurred", null));
+                    new ResponseObject("ERROR", "Failed to save article", null));
+        }
+    }
+
+    @PostMapping("/{articleId}/comments")
+    public ResponseEntity<ResponseObject> postComment(@PathVariable("articleId") int articleId,
+            @RequestBody CommentDTO commentDTO) {
+        try {
+            User user = userService.getUserById(commentDTO.getUserID());
+            Article article = articleService.getArticleById(articleId);
+
+            Comment comment = new Comment();
+            comment.setCommentText(commentDTO.getCommentText());
+            comment.setEnabled(true);
+            comment.setCreatedDate(LocalDateTime.now());
+            comment.setUser(user);
+            comment.setArticle(article);
+
+            Comment savedComment = commentService.savedArticleComment(comment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    new ResponseObject("Ok", "Comment created successfully", savedComment));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to save comment", null));
+        }
+    }
+
+    @PostMapping("/{articleId}/comments/{commentId}/reply")
+    public ResponseEntity<ResponseObject> postAReplyComment(
+            @PathVariable("articleId") int articleId,
+            @PathVariable("commentId") int commentId,
+            @RequestBody RepliesCommentDTO repliesCommentDTO) {
+        try {
+            User user = userService.getUserById(repliesCommentDTO.getUserID());
+            Article article = articleService.getArticleById(articleId);
+            Comment comment = commentService.getCommentById(commentId);
+
+            RepliesComment replyComment = new RepliesComment();
+            replyComment.setCommentText(repliesCommentDTO.getCommentText());
+            replyComment.setEnabled(true);
+            replyComment.setCreatedDate(LocalDateTime.now());
+            replyComment.setUser(user);
+            replyComment.setArticle(article);
+            replyComment.setComment(comment);
+
+            RepliesComment savedReplyComment = repliesCommentService.savedReplyComment(replyComment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    new ResponseObject("OK", "Reply comment created successfully", savedReplyComment));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to save reply comment", null));
         }
     }
 

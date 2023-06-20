@@ -35,4 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
     public Article savedArticle(Article article) {
         return articleRepository.save(article);
     }
+
+    @Override
+    public Article getArticleById(int articleId) {
+        return articleRepository.findById(articleId).orElse(null);
+    }
 }

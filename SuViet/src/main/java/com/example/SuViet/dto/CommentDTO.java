@@ -1,21 +1,26 @@
 package com.example.SuViet.dto;
 
 import com.example.SuViet.model.Comment;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class CommentDTO {
     private int commentID;
     private String commentText;
-    private Date createdDate;
+    private LocalDateTime createdDate;
     private boolean enabled;
     private UserDTO user;
+    private int userID;
+    private int articleID;
 
     public static CommentDTO convertToDTO(Comment comment) {
         CommentDTO dto = new CommentDTO();
@@ -24,7 +29,6 @@ public class CommentDTO {
         dto.setCreatedDate(comment.getCreatedDate());
         dto.setEnabled(comment.isEnabled());
         dto.setUser(UserDTO.convertToDTO(comment.getUser()));
-        // Set other fields as needed
 
         return dto;
     }

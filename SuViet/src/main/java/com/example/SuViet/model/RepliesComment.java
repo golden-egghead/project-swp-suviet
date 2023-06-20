@@ -5,7 +5,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -24,7 +24,7 @@ public class RepliesComment {
     private String commentText;
 
     @Column(columnDefinition = "date", nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private boolean enabled;
@@ -36,6 +36,7 @@ public class RepliesComment {
     @JoinColumn(name = "CommentID")
     private Comment comment;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "UserID")
     @ToString.Exclude
@@ -50,7 +51,7 @@ public class RepliesComment {
     private Article article;
     
 
-    public RepliesComment(String commentText, Date createdDate, boolean enabled) {
+    public RepliesComment(String commentText, LocalDateTime createdDate, boolean enabled) {
         this.commentText = commentText;
         this.createdDate = createdDate;
         this.enabled = enabled;

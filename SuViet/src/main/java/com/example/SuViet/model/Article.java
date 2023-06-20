@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 @NoArgsConstructor
 @Getter
@@ -29,7 +30,7 @@ public class Article {
     private String photo;
 
     @Column(columnDefinition = "date", nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private boolean status;
@@ -40,7 +41,7 @@ public class Article {
     @Column(nullable = false)
     private boolean enabled;
 
-    public Article(int articleID, String title, String context, String photo, Date createdDate, boolean status,
+    public Article(int articleID, String title, String context, String photo, LocalDateTime createdDate, boolean status,
             int articleView, boolean enabled) {
         this.articleID = articleID;
         this.title = title;
