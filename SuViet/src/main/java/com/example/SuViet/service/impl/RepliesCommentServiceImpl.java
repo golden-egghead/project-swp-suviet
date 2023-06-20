@@ -19,4 +19,10 @@ public class RepliesCommentServiceImpl implements RepliesCommentService {
     public RepliesComment savedReplyComment(RepliesComment repliesComment) {
         return repliesCommentRepository.save(repliesComment);
     }
+
+
+    @Override
+    public RepliesComment getReplyCommentById(int replyId) {
+        return repliesCommentRepository.findById(replyId).orElse(null);
+    }
 }
