@@ -188,9 +188,15 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return false;
         } else {
-            user.setEnabled(false);
-            userRepository.save(user);
-            return true;
+            if (user.isEnabled()) {
+                user.setEnabled(false);
+                userRepository.save(user);
+                return true;
+            } else {
+                user.setEnabled(true);
+                userRepository.save(user);
+                return true;
+            }
         }
     }
 
@@ -260,6 +266,26 @@ public class UserServiceImpl implements UserService {
     public User getUserById(int userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         return optionalUser.orElse(null);
+    }
+
+    @Override
+    public boolean updateRole(int id) {
+        User user = userRepository.findById(id).get();
+        Collection<Role> memberRoles = roleRepository.findAllByRoleName("MEMBER");
+        Collection<Role> modRoles = roleRepository.findAllByRoleName("MODERATOR");
+        try {
+            if (user.getRoles().containsAll(memberRoles)) {
+                user.setRoles(modRoles);
+                userRepository.save(user);
+                return true;
+            } else {
+                user.setRoles(memberRoles);
+                userRepository.save(user);
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 

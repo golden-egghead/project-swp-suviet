@@ -27,4 +27,5 @@ public interface UserService {
     User getUserByMail( String mail);
     
     User getUserById(int userId);
+    boolean updateRole(int id);
 }
