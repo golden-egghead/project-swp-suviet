@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface UserService {
     User registerANewMember(SignUp signUp);
-    boolean deleteAMember(int userID);
+    boolean banAMember(int userID);
     void sendVerificationMailToRegistration(User user, String siteURL) throws MessagingException, UnsupportedEncodingException;
     void sendVerificationMailToResetPassword(User user, String siteURL) throws MessagingException, UnsupportedEncodingException;
     boolean verify(String verificationCode);

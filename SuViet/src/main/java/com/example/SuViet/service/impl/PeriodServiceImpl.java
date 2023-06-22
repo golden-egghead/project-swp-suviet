@@ -17,7 +17,7 @@ public class PeriodServiceImpl implements PeriodService {
     PeriodRepository periodRepository;
 
     @Override
-    public List<Period> getAllVideos() {
+    public List<Period> getAllPeriods() {
         return periodRepository.findAllByEnabled(true);
     }
 

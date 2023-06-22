@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface PeriodService {
-    List<Period> getAllVideos();
+    List<Period> getAllPeriods();
     Collection<Video> getVideosByPeriodName(String periodName);
 
     List<Period> getAllByPeriodName(String periodName);

@@ -92,6 +92,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     private Collection<Vote> votes;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

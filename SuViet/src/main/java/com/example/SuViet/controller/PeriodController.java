@@ -24,7 +24,7 @@ public class PeriodController {
     @GetMapping("")
     public ResponseEntity<ResponseObject> getAllPeriods() {
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "OK", periodService.getAllVideos())
+                new ResponseObject("OK", "OK", periodService.getAllPeriods())
         );
     }
 

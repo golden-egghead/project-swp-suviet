@@ -102,18 +102,7 @@ public class UserController {
                         "Please check your email to verify your account.");
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseObject> deleteMember(@PathVariable int id) {
-        boolean checkDelete = userService.deleteAMember(id);
-        if (!checkDelete) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponseObject("FAILED", "User does not exist", null)
-            );
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "Delete Successfully", null)
-        );
-    }
+
 
     @GetMapping("/verify")
     public String verifyAccount(@Param("code") String code) {

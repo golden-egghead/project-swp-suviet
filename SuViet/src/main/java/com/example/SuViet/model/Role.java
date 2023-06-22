@@ -1,6 +1,7 @@
 package com.example.SuViet.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class Role {
         this.roleName = roleName;
     }
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

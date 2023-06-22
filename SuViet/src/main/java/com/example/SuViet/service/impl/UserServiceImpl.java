@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
             return false;
         } else {
             user.setEnabled(true);
+            user.setVerificationCode(null);
             userRepository.save(user);
             return true;
         }
@@ -100,7 +101,12 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return false;
         }
-        user.setPassword(passwordEncoder.encode(password));
+        try {
+            user.setPassword(passwordEncoder.encode(password));
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        user.setVerificationCode(null);
         userRepository.save(user);
         return true;
     }
@@ -114,8 +120,11 @@ public class UserServiceImpl implements UserService {
     public LoginResponse loginUser(LoginDTO loginDTO) {
         User user = userRepository.findByMail(loginDTO.getMail());
         if (user != null) {
-            if (!user.isEnabled()) {
+            if (!user.isEnabled() && user.getVerificationCode() != null) {
                 return new LoginResponse(false, "Please verify email to log in!", null);
+            }
+            else if (!user.isEnabled() && user.getVerificationCode() == null) {
+                return new LoginResponse(false, "Account was banned", null);
             }
             String password = loginDTO.getPassword();
             String encodedPassword = user.getPassword();
@@ -174,12 +183,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean deleteAMember(int userID) {
+    public boolean banAMember(int userID) {
         User user = userRepository.findById(userID).get();
         if (user == null) {
             return false;
         } else {
             user.setEnabled(false);
+            userRepository.save(user);
             return true;
         }
     }
@@ -200,6 +210,9 @@ public class UserServiceImpl implements UserService {
         String subject = "Reset password";
         String mailContent = "<p>Dear " + user.getFullname() + ", </p>";
         mailContent += "<p>Please click link below to reset password";
+        String randomCode = generateString();
+        user.setVerificationCode(randomCode);
+        userRepository.save(user);
         String verifyURL = siteURL + "/api/auth/reset-password/" + user.getVerificationCode();
         mailContent += "<h3><a href=\"" + verifyURL + "\">RESET PASSWORD</a></h3>";
         mailContent += "<p>Thank you</br>, Nhân Nguyễn";

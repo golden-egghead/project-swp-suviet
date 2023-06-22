@@ -75,6 +75,7 @@ public class Article {
     @EqualsAndHashCode.Exclude
     private Collection<Vote> votes;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
