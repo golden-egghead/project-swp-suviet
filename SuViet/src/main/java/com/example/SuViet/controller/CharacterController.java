@@ -64,14 +64,6 @@ public class CharacterController {
         }
     }
 
-    @GetMapping("/thoi_ky/{keyword}")
-    public ResponseEntity<ResponseObject> filterCharactersByPeriod(@PathVariable("keyword") String keyword) {
-        List<ICharacter> list = service.filterByPeriod(keyword);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "Query Successfully", list)
-        );
-    }
-
     @GetMapping("/charactersSort/{offset}")
     public ResponseEntity<ResponsePaginationObject> getCharactersWithPaginationAndSort(@PathVariable int offset) {
         Page<Character> charactersWithPagination = service.getCharacterWithSortAndPaging(offset, 6, "characterName");

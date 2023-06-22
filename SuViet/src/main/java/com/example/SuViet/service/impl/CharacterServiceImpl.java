@@ -1,8 +1,6 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.model.Character;
-import com.example.SuViet.model.ICharacter;
-import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +38,6 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public Page<Character> getCharactersWithPagination(int offset, int pageSize) {
         return characterRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
-    }
-
-    @Override
-    public List<ICharacter> filterByPeriod(String keyword) {
-        return characterRepository.filterByPeriod(keyword);
     }
 
     @Override
