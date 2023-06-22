@@ -43,8 +43,10 @@ public class SecurityConfig {
                 .requestMatchers("/**")
                 .permitAll()
                 .and()
-//                .oauth2Login()
-//                .and()
+                .formLogin()
+                .and()
+                .oauth2Login()
+                .and()
                 .logout()
                 .permitAll();
         return http.build();
