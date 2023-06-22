@@ -19,23 +19,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("")
 public class UpdateController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
@@ -47,31 +44,29 @@ public class UpdateController {
         return new ResponseObject("OK", "Query successfully", user);
     }
 
-    @PutMapping("/profile")
-    public ResponseObject updateProfile(User user,
-                                   @RequestParam("image") MultipartFile file,
-                                    @RequestParam("fullName") String fullName) throws IOException {
-//        User loggedUser = userService.getUserByMail(
-//                SecurityContextHolder.getContext().getAuthentication().getName());
-        System.out.println("FullName: " + fullName);
-        User loggedUser = userService.getUserByMail("nguyentuanvu113@gmail.com");
-        if(file != null && !file.isEmpty()){
-            loggedUser.setFullname(fullName);
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            user.setAvatar(fileName);
-            User savedUser = userService.updateUser(user);
+    @PostMapping("/profile")
+    public ResponseObject updateProfile(@RequestParam("image") MultipartFile image,
+                                        @RequestParam("fullName") String fullName) throws IOException {
+        User user = userService.getUserByMail(
+                SecurityContextHolder.getContext().getAuthentication().getName());
 
-            //Save photo to user-photo direct
-            String uploadDir = "user-photos/" + savedUser.getUserID();
-            FileUploadUtil.saveFile(uploadDir, fileName, file);
-        }else{
-            loggedUser.setFullname(fullName);
-            // Xóa ảnh đại diện nếu không có tệp tin mới được tải lên
-            if (user.getAvatar().isEmpty()) {
-                user.setAvatar(null);
-            }
-            userService.updateUser(user);
+//        User user = userService.getUserByMail("nguyentuanvu113@gmail.com");
+        Path staticPath = Paths.get("static");
+        Path imagePath = Paths.get("images");
+
+        if(!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
+            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
         }
+        Path file = CURRENT_FOLDER.resolve(staticPath)
+                .resolve(imagePath).resolve(image.getOriginalFilename());
+        try (OutputStream os = Files.newOutputStream(file)) {
+            os.write(image.getBytes());
+        }
+        user.setFullname(fullName);
+        user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
+        userRepository.save(user);
         return new ResponseObject("OK", "Password changed successfully", null);
+
     }
-}
+
+    }
