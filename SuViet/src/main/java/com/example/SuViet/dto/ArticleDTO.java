@@ -3,6 +3,7 @@ package com.example.SuViet.dto;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.model.Period;
+import com.example.SuViet.model.Tag;
 import com.example.SuViet.model.Vote;
 
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class ArticleDTO {
     private int userID;
     private int voteLevel;
     private String periodName;
+    private String tagName;
     private List<CommentDTO> comments;
     private List<RepliesCommentDTO> repliesComments;
 
@@ -43,12 +45,12 @@ public class ArticleDTO {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dto.setCreatedDate(article.getCreatedDate().format(dateFormatter));
-
         dto.setStatus(article.isStatus());
         dto.setArticleView(article.getArticleView());
         dto.setUser(UserDTO.convertToDTO(article.getUser()));
         dto.setVoteLevel(getAverageVoteLevel(article.getVotes()));
         dto.setPeriodName(getPeriodNames(article.getPeriods()));
+        dto.setTagName(getTagNames(article.getTags()));
         dto.setComments(getCommentDTOList(article.getComments()));
         dto.setRepliesComments(getRepliesCommentDTOList(article.getComments()));
         return dto;
@@ -73,7 +75,6 @@ public class ArticleDTO {
         article.setStatus(this.status);
         article.setArticleView(this.articleView);
         article.setUser(this.user.convertToEntity());
-        // Set other fields as needed
 
         return article;
     }
@@ -91,6 +92,14 @@ public class ArticleDTO {
         return totalVoteLevel / totalVotes;
     }
 
+    private static String getTagNames(Collection<Tag> tags) {
+        if (tags.isEmpty()) {
+            return null;
+        }
+
+        return tags.stream().map(Tag::getTagName).collect(Collectors.joining(", "));
+    }
+
     private static String getPeriodNames(Collection<Period> periods) {
         if (periods.isEmpty()) {
             return "";
@@ -100,21 +109,6 @@ public class ArticleDTO {
                 .map(Period::getPeriodName)
                 .collect(Collectors.joining(", "));
     }
-
-    // private static List<CommentDTO> getCommentDTOList(Collection<Comment>
-    // comments) {
-    // return comments.stream()
-    // .map(CommentDTO::convertToDTO)
-    // .collect(Collectors.toList());
-    // }
-
-    // private static List<RepliesCommentDTO>
-    // getRepliesCommentDTOList(Collection<Comment> comments) {
-    // return comments.stream()
-    // .flatMap(comment -> comment.getRepliesComments().stream())
-    // .map(RepliesCommentDTO::convertToDTO)
-    // .collect(Collectors.toList());
-    // }
 
     private static List<CommentDTO> getCommentDTOList(Collection<Comment> comments) {
         return comments.stream()

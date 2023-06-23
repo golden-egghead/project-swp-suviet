@@ -3,16 +3,20 @@ package com.example.SuViet.controller;
 import com.example.SuViet.dto.ArticleDTO;
 import com.example.SuViet.dto.CommentDTO;
 import com.example.SuViet.dto.RepliesCommentDTO;
+import com.example.SuViet.dto.VoteDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.model.RepliesComment;
 import com.example.SuViet.model.ResponseObject;
 import com.example.SuViet.model.ResponsePaginationObject;
 import com.example.SuViet.model.User;
+import com.example.SuViet.model.Vote;
 import com.example.SuViet.service.ArticleService;
 import com.example.SuViet.service.CommentService;
 import com.example.SuViet.service.RepliesCommentService;
 import com.example.SuViet.service.UserService;
+import com.example.SuViet.service.VoteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -27,13 +31,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.context.SecurityContextHolder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/articles")
@@ -42,14 +52,17 @@ public class ArticleController {
     private final UserService userService;
     private final CommentService commentService;
     private final RepliesCommentService repliesCommentService;
+    private final VoteService voteService;
     private static final int PAGE_SIZE = 6;
+    public static final List<String> toxicWords = Arrays.asList("khung", "dien", "vl", "khùng", "điên");
 
     public ArticleController(ArticleService articleService, UserService userService, CommentService commentService,
-            RepliesCommentService repliesCommentService) {
+            RepliesCommentService repliesCommentService, VoteService voteService) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentService = commentService;
         this.repliesCommentService = repliesCommentService;
+        this.voteService = voteService;
     }
 
     @GetMapping("/{offset}")
@@ -90,14 +103,23 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ResponseObject> postAnArticle(@RequestBody ArticleDTO articleDTO) {
+    public ResponseEntity<ResponseObject> postAnArticle(@RequestParam String data,
+            @RequestParam("file") MultipartFile file) {
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
+
+            String fileName = UUID.randomUUID().toString();
+
+            Path filePath = Path.of("src/main/resources/Image/" + fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
             User user = userService.getUserById(articleDTO.getUserID());
 
             Article article = new Article();
             article.setTitle(articleDTO.getTitle());
             article.setContext(articleDTO.getContext());
-            article.setPhoto(articleDTO.getPhoto());
+            article.setPhoto(filePath.toString());
             article.setCreatedDate(LocalDateTime.now());
             article.setStatus(false);
             article.setEnabled(true);
@@ -120,7 +142,7 @@ public class ArticleController {
             Article article = articleService.getArticleById(articleId);
 
             Comment comment = new Comment();
-            comment.setCommentText(commentDTO.getCommentText());
+            comment.setCommentText(filterToxic(commentDTO.getCommentText()));
             comment.setEnabled(true);
             comment.setCreatedDate(LocalDateTime.now());
             comment.setUser(user);
@@ -149,7 +171,7 @@ public class ArticleController {
             Comment comment = commentService.getCommentById(commentId);
 
             RepliesComment replyComment = new RepliesComment();
-            replyComment.setCommentText(repliesCommentDTO.getCommentText());
+            replyComment.setCommentText(filterToxic(repliesCommentDTO.getCommentText()));
             replyComment.setEnabled(true);
             replyComment.setCreatedDate(LocalDateTime.now());
             replyComment.setUser(user);
@@ -168,17 +190,41 @@ public class ArticleController {
         }
     }
 
+    @PostMapping("/{articleId}/votes")
+    public ResponseEntity<ResponseObject> voteArticle(
+            @PathVariable("articleId") int articleID,
+            @RequestBody VoteDTO voteDTO) {
+        try {
+            User user = userService.getUserById(voteDTO.getUserID());
+            Article article = articleService.getArticleById(articleID);
+
+            Vote vote = new Vote();
+            vote.setArticle(article);
+            vote.setUser(user);
+            vote.setVoteLevel(voteDTO.getVoteLevel());
+
+            Vote savedVote = voteService.savedVote(vote);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    new ResponseObject("Ok", "Voted", savedVote));
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to vote", null));
+        }
+    }
+
     @PutMapping("/{articleId}")
     public ResponseEntity<ResponseObject> editArticle(@PathVariable("articleId") int articleId,
             @RequestBody ArticleDTO articleDTO) {
         try {
+            // User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
             Article existingArticle = articleService.getArticleById(articleId);
 
-            // Check if the article belongs to the authenticated user
-
-            // Validate ownership
-
-            // Update the existing article with the new data
             existingArticle.setTitle(articleDTO.getTitle());
             existingArticle.setContext(articleDTO.getContext());
             existingArticle.setPhoto(articleDTO.getPhoto());
@@ -195,16 +241,76 @@ public class ArticleController {
         }
     }
 
+    @PutMapping("/{articleId}/comments/{commentId}")
+    public ResponseEntity<ResponseObject> editComment(@PathVariable("articleId") int articleId,
+            @PathVariable("commentId") int commentId,
+            @RequestBody CommentDTO commentDTO) {
+        try {
+            Comment existingComment = commentService.getCommentById(commentId);
+
+            existingComment.setCommentText(filterToxic(commentDTO.getCommentText()));
+
+            Comment updatedComment = commentService.savedArticleComment(existingComment);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Comment updated successfully", updatedComment));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to update comment", null));
+        }
+    }
+
+    @PutMapping("/{articleId}/comments/{commentId}/replies/{replyId}")
+    public ResponseEntity<ResponseObject> editReplyComment(@PathVariable("articleId") int articleId,
+            @PathVariable("commentId") int commentId,
+            @PathVariable("replyId") int replyId,
+            @RequestBody RepliesCommentDTO repliesCommentDTO) {
+        try {
+            RepliesComment existingReplyComment = repliesCommentService.getReplyCommentById(replyId);
+
+            existingReplyComment.setCommentText(filterToxic(repliesCommentDTO.getCommentText()));
+
+            RepliesComment updatedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Reply comment updated successfully", updatedReplyComment));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to update reply comment", null));
+        }
+    }
+
+    @PutMapping("/{articleId}/vote/{voteId}")
+    public ResponseEntity<ResponseObject> changeVote(@PathVariable("articleId") int articleId,
+            @PathVariable("voteId") int voteId,
+            @RequestBody VoteDTO voteDTO) {
+        try {
+            Vote existingVote = voteService.getVoteById(voteId);
+
+            existingVote.setVoteLevel(voteDTO.getVoteLevel());
+
+            Vote updatedVote = voteService.savedVote(existingVote);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Vote Changed", updatedVote));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to change vote", null));
+        }
+
+    }
+
     @DeleteMapping("/{articleId}")
     public ResponseEntity<ResponseObject> deleteArticle(@PathVariable("articleId") int articleId) {
         try {
             Article existingArticle = articleService.getArticleById(articleId);
 
-            // Check if the article belongs to the authenticated user
-
-            // Validate ownership
-
-            // Soft delete the article by setting enabled to false
             existingArticle.setEnabled(false);
 
             Article deletedArticle = articleService.savedArticle(existingArticle);
@@ -219,43 +325,12 @@ public class ArticleController {
         }
     }
 
-    @PutMapping("/{articleId}/comments/{commentId}")
-    public ResponseEntity<ResponseObject> editComment(@PathVariable("articleId") int articleId,
-            @PathVariable("commentId") int commentId,
-            @RequestBody CommentDTO commentDTO) {
-        try {
-            Comment existingComment = commentService.getCommentById(commentId);
-
-            // Check if the comment belongs to the authenticated user
-
-            // Validate ownership
-
-            // Update the existing comment with the new data
-            existingComment.setCommentText(commentDTO.getCommentText());
-
-            Comment updatedComment = commentService.savedArticleComment(existingComment);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Comment updated successfully", updatedComment));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject("ERROR", e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "Failed to update comment", null));
-        }
-    }
-
     @DeleteMapping("/{articleId}/comments/{commentId}")
     public ResponseEntity<ResponseObject> deleteComment(@PathVariable("articleId") int articleId,
             @PathVariable("commentId") int commentId) {
         try {
             Comment existingComment = commentService.getCommentById(commentId);
 
-            // Check if the comment belongs to the authenticated user
-
-            // Validate ownership
-
-            // Soft delete the comment by setting enabled to false
             existingComment.setEnabled(false);
 
             Comment deletedComment = commentService.savedArticleComment(existingComment);
@@ -270,33 +345,6 @@ public class ArticleController {
         }
     }
 
-    @PutMapping("/{articleId}/comments/{commentId}/replies/{replyId}")
-    public ResponseEntity<ResponseObject> editReplyComment(@PathVariable("articleId") int articleId,
-            @PathVariable("commentId") int commentId,
-            @PathVariable("replyId") int replyId,
-            @RequestBody RepliesCommentDTO repliesCommentDTO) {
-        try {
-            RepliesComment existingReplyComment = repliesCommentService.getReplyCommentById(replyId);
-
-            // Check if the reply comment belongs to the authenticated user
-
-            // Validate ownership
-
-            // Update the existing reply comment with the new data
-            existingReplyComment.setCommentText(repliesCommentDTO.getCommentText());
-
-            RepliesComment updatedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Reply comment updated successfully", updatedReplyComment));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponseObject("ERROR", e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "Failed to update reply comment", null));
-        }
-    }
-
     @DeleteMapping("/{articleId}/comments/{commentId}/replies/{replyId}")
     public ResponseEntity<ResponseObject> deleteReplyComment(@PathVariable("articleId") int articleId,
             @PathVariable("commentId") int commentId,
@@ -304,11 +352,6 @@ public class ArticleController {
         try {
             RepliesComment existingReplyComment = repliesCommentService.getReplyCommentById(replyId);
 
-            // Check if the reply comment belongs to the authenticated user
-
-            // Validate ownership
-
-            // Soft delete the reply comment by setting enabled to false
             existingReplyComment.setEnabled(false);
 
             RepliesComment deletedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
@@ -321,6 +364,17 @@ public class ArticleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     new ResponseObject("ERROR", "Failed to delete reply comment", null));
         }
+    }
+
+    public static String filterToxic(String originalString) {
+
+        for (String word : toxicWords) {
+            String pattern = "(?i)\\b" + word + "\\b";
+            String replacement = "*".repeat(word.length());
+            originalString = originalString.replaceAll(pattern, replacement);
+        }
+
+        return originalString;
     }
 
     @ExceptionHandler(Exception.class)
