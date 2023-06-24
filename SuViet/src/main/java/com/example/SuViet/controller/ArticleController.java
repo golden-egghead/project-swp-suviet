@@ -7,6 +7,7 @@ import com.example.SuViet.dto.VoteDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.model.RepliesComment;
+import com.example.SuViet.model.Tag;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.model.User;
@@ -14,6 +15,7 @@ import com.example.SuViet.model.Vote;
 import com.example.SuViet.service.ArticleService;
 import com.example.SuViet.service.CommentService;
 import com.example.SuViet.service.RepliesCommentService;
+import com.example.SuViet.service.TagService;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.service.VoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,16 +55,18 @@ public class ArticleController {
     private final CommentService commentService;
     private final RepliesCommentService repliesCommentService;
     private final VoteService voteService;
+    private final TagService tagService;
     private static final int PAGE_SIZE = 6;
     public static final List<String> toxicWords = Arrays.asList("khung", "dien", "vl", "khùng", "điên");
 
     public ArticleController(ArticleService articleService, UserService userService, CommentService commentService,
-            RepliesCommentService repliesCommentService, VoteService voteService) {
+            RepliesCommentService repliesCommentService, VoteService voteService, TagService tagService) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentService = commentService;
         this.repliesCommentService = repliesCommentService;
         this.voteService = voteService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/{offset}")
@@ -109,9 +113,10 @@ public class ArticleController {
             ObjectMapper objectMapper = new ObjectMapper();
             ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
 
-            String fileName = UUID.randomUUID().toString();
+            String fileExtension = getFileExtension(file.getOriginalFilename());
+            String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            Path filePath = Path.of("src/main/resources/static/ArticlePhoto" + fileName);
+            Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             User user = userService.getUserById(articleDTO.getUserID());
@@ -121,13 +126,22 @@ public class ArticleController {
             article.setTitle(filerArticleTitle(articleDTO.getTitle()));
             // article.setContext(articleDTO.getContext());
             article.setContext(filterArticeContent(articleDTO.getContext()));
-            article.setPhoto(filePath.toString());
+            article.setPhoto(fileName.toString());
             article.setCreatedDate(LocalDateTime.now());
-            article.setStatus(false);
+            article.setStatus(true);
             article.setEnabled(true);
             article.setUser(user);
 
             Article savedArticle = articleService.savedArticle(article);
+
+            List<String> tagNames = articleDTO.getTagNames();
+
+            List<Tag> tags = tagService.findByTagNames(tagNames);
+
+            savedArticle.setTags(tags);
+
+            savedArticle = articleService.savedArticle(savedArticle);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new ResponseObject("OK", "Article created successfully", savedArticle));
         } catch (Exception e) {
@@ -222,27 +236,52 @@ public class ArticleController {
 
     @PutMapping("/{articleId}")
     public ResponseEntity<ResponseObject> editArticle(@PathVariable("articleId") int articleId,
-            @RequestBody ArticleDTO articleDTO) {
+            @RequestParam String data,
+            @RequestParam("file") MultipartFile file) {
         try {
-            // User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+            // User currentUser =
+            // userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
+
+            String fileExtension = getFileExtension(file.getOriginalFilename());
+            String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+
             Article existingArticle = articleService.getArticleById(articleId);
 
+            Path oldFilePath = Path.of("src/main/resources/static/article-photo/" + existingArticle.getPhoto());
+            
+            Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            
             // article.setTitle(articleDTO.getTitle());
             existingArticle.setTitle(filerArticleTitle(articleDTO.getTitle()));
             // article.setContext(articleDTO.getContext());
             existingArticle.setContext(filterArticeContent(articleDTO.getContext()));
-            existingArticle.setPhoto(articleDTO.getPhoto());
+            existingArticle.setPhoto(fileName.toString());
 
             Article updatedArticle = articleService.savedArticle(existingArticle);
+            
+            List<String> tagNames = articleDTO.getTagNames();
+            
+            List<Tag> tags = tagService.findByTagNames(tagNames);
+            
+            updatedArticle.setTags(tags);
+            
+            updatedArticle = articleService.savedArticle(updatedArticle);
+            
+            Files.deleteIfExists(oldFilePath);
+            
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Article updated successfully", updatedArticle));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject("ERROR", e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "Failed to update article", null));
-        }
+                } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                        new ResponseObject("ERROR", "Failed to update article", null));
+                    }
     }
 
     @PutMapping("/{articleId}/comments/{commentId}")
@@ -376,7 +415,7 @@ public class ArticleController {
         for (String string : splitString) {
             resultString += "<p>" + string + "</p>";
         }
-        
+
         return resultString;
     }
 
@@ -393,6 +432,14 @@ public class ArticleController {
         }
 
         return originalString;
+    }
+
+    private String getFileExtension(String filename) {
+        int dotIndex = filename.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < filename.length() - 1) {
+            return filename.substring(dotIndex + 1);
+        }
+        return "";
     }
 
     @ExceptionHandler(Exception.class)

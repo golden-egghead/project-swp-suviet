@@ -32,7 +32,7 @@ public class ArticleDTO {
     private int userID;
     private int voteLevel;
     private String periodName;
-    private String tagName;
+    private List<String> tagNames;
     private List<CommentDTO> comments;
     private List<RepliesCommentDTO> repliesComments;
 
@@ -50,7 +50,7 @@ public class ArticleDTO {
         dto.setUser(UserDTO.convertToDTO(article.getUser()));
         dto.setVoteLevel(getAverageVoteLevel(article.getVotes()));
         dto.setPeriodName(getPeriodNames(article.getPeriods()));
-        dto.setTagName(getTagNames(article.getTags()));
+        dto.setTagNames(getTagNames(article.getTags()));
         dto.setComments(getCommentDTOList(article.getComments()));
         dto.setRepliesComments(getRepliesCommentDTOList(article.getComments()));
         return dto;
@@ -92,12 +92,12 @@ public class ArticleDTO {
         return totalVoteLevel / totalVotes;
     }
 
-    private static String getTagNames(Collection<Tag> tags) {
+    private static List<String> getTagNames(Collection<Tag> tags) {
         if (tags.isEmpty()) {
             return null;
         }
 
-        return tags.stream().map(Tag::getTagName).collect(Collectors.joining(", "));
+        return tags.stream().map(Tag::getTagName).collect(Collectors.toList());
     }
 
     private static String getPeriodNames(Collection<Period> periods) {
