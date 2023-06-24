@@ -1,6 +1,6 @@
 package com.example.SuViet.controller;
 
-import com.example.SuViet.model.ResponseObject;
+import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.model.User;
 import com.example.SuViet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,17 @@ public class AdminController {
             );
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "Delete Successfully", null)
+                new ResponseObject("OK", "Ban/unban Successfully", null)
         );
+    }
+
+    @GetMapping("/update-role/{id}")
+    public ResponseEntity<String> updateRole(@PathVariable int id) {
+        boolean isUpdateSuccessfully = userService.updateRole(id);
+        if (isUpdateSuccessfully) {
+            return ResponseEntity.ok("Update role successfully");
+        } else {
+            return ResponseEntity.ok("Update role fail");
+        }
     }
 }

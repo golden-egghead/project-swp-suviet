@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .formLogin()
                 .and()
                 .oauth2Login()
+                .defaultSuccessUrl("/api/auth/checkEmail")
                 .and()
                 .logout()
                 .permitAll();

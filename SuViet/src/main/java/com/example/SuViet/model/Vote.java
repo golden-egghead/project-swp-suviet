@@ -14,6 +14,9 @@ import jakarta.persistence.*;
 public class Vote {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int VoteID;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "UserID")
@@ -21,7 +24,6 @@ public class Vote {
     @EqualsAndHashCode.Exclude
     private User user;
 
-    @Id
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ArticleID")

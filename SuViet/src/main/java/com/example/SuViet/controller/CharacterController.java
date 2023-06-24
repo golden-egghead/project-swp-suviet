@@ -1,7 +1,7 @@
 package com.example.SuViet.controller;
 
-import com.example.SuViet.model.*;
 import com.example.SuViet.model.Character;
+import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.service.CharacterService;
 import com.example.SuViet.service.impl.CharacterServiceImpl;
 import org.springframework.data.domain.Page;

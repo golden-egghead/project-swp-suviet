@@ -6,8 +6,6 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.util.Collection;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @NoArgsConstructor
 @Getter
 @Setter

@@ -11,8 +11,6 @@ import java.util.Collection;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
 @Entity
 @Table(name = "tblArticles")
 public class Article {
@@ -76,6 +74,16 @@ public class Article {
     private Collection<Vote> votes;
 
     @JsonIgnore
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JoinTable(
+        name = "tblTagArticle",
+        joinColumns = @JoinColumn(name = "ArticleID"),
+        inverseJoinColumns = @JoinColumn(name = "TagID")
+    )
+    private Collection<Tag> tags;
+
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

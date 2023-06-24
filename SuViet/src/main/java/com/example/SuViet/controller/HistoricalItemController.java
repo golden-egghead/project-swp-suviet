@@ -1,8 +1,7 @@
 package com.example.SuViet.controller;
 
-import com.example.SuViet.model.Book;
 import com.example.SuViet.model.HistoricalItem;
-import com.example.SuViet.model.ResponsePaginationObject;
+import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.service.HistoricalItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

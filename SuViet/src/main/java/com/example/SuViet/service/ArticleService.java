@@ -5,9 +5,7 @@ import com.example.SuViet.model.Article;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface ArticleService {
 
     Page<ArticleDTO> getAllEnabledArticles(Pageable pageable);

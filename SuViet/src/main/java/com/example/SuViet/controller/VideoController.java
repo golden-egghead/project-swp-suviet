@@ -1,7 +1,6 @@
 package com.example.SuViet.controller;
 
-import com.example.SuViet.model.ResponseObject;
-import com.example.SuViet.model.ResponsePaginationObject;
+import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.model.Video;
 import com.example.SuViet.service.VideoService;
 import org.springframework.http.HttpStatus;
