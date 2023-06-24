@@ -5,7 +5,6 @@ import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.security.UpdateUsersDetails;
 import com.example.SuViet.service.UserService;
-import com.example.SuViet.utils.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
