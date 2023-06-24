@@ -111,14 +111,16 @@ public class ArticleController {
 
             String fileName = UUID.randomUUID().toString();
 
-            Path filePath = Path.of("src/main/resources/Image/" + fileName);
+            Path filePath = Path.of("src/main/resources/static/ArticlePhoto" + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             User user = userService.getUserById(articleDTO.getUserID());
 
             Article article = new Article();
-            article.setTitle(articleDTO.getTitle());
-            article.setContext(articleDTO.getContext());
+            // article.setTitle(articleDTO.getTitle());
+            article.setTitle(filerArticleTitle(articleDTO.getTitle()));
+            // article.setContext(articleDTO.getContext());
+            article.setContext(filterArticeContent(articleDTO.getContext()));
             article.setPhoto(filePath.toString());
             article.setCreatedDate(LocalDateTime.now());
             article.setStatus(false);
@@ -225,8 +227,10 @@ public class ArticleController {
             // User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
             Article existingArticle = articleService.getArticleById(articleId);
 
-            existingArticle.setTitle(articleDTO.getTitle());
-            existingArticle.setContext(articleDTO.getContext());
+            // article.setTitle(articleDTO.getTitle());
+            existingArticle.setTitle(filerArticleTitle(articleDTO.getTitle()));
+            // article.setContext(articleDTO.getContext());
+            existingArticle.setContext(filterArticeContent(articleDTO.getContext()));
             existingArticle.setPhoto(articleDTO.getPhoto());
 
             Article updatedArticle = articleService.savedArticle(existingArticle);
@@ -364,6 +368,20 @@ public class ArticleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     new ResponseObject("ERROR", "Failed to delete reply comment", null));
         }
+    }
+
+    public static String filterArticeContent(String originalString) {
+        String[] splitString = originalString.split(System.lineSeparator());
+        String resultString = "";
+        for (String string : splitString) {
+            resultString += "<p>" + string + "</p>";
+        }
+        
+        return resultString;
+    }
+
+    public static String filerArticleTitle(String originalString) {
+        return "<h1>" + originalString + "<h1>";
     }
 
     public static String filterToxic(String originalString) {
