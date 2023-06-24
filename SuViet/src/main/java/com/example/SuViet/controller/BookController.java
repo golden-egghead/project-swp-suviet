@@ -1,8 +1,7 @@
 package com.example.SuViet.controller;
 
 import com.example.SuViet.model.Book;
-import com.example.SuViet.model.Character;
-import com.example.SuViet.model.ResponsePaginationObject;
+import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.example.SuViet.model;
+package com.example.SuViet.response;
 
 public class ResponsePaginationObject {
     private String status;

@@ -1,10 +1,8 @@
 package com.example.SuViet.controller;
 
-import com.example.SuViet.model.ResponseObject;
+import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.model.Video;
-import com.example.SuViet.repository.PeriodRepository;
 import com.example.SuViet.service.PeriodService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

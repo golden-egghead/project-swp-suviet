@@ -8,8 +8,8 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "tblImages")
-public class Image {
+@Table(name = "tblHistoricalSiteImages")
+public class HistoricalSiteImage {
     @Id
     @Column(name = "ImageID", nullable = false)
     private int imageID;
@@ -20,7 +20,7 @@ public class Image {
     @Column(name = "Description", columnDefinition = "nvarchar", length = Integer.MAX_VALUE)
     private String description;
 
-    public Image(int imageID, String link, String description) {
+    public HistoricalSiteImage(int imageID, String link, String description) {
         this.imageID = imageID;
         this.link = link;
         this.description = description;
@@ -28,7 +28,7 @@ public class Image {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "historicalSiteID")
+    @JoinColumn(name = "HistoricalSiteID")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private HistoricalSite historicalSite;

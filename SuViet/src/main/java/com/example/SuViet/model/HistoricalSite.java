@@ -53,5 +53,5 @@ public class HistoricalSite {
     @OneToMany(mappedBy = "historicalSite")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Collection<Image> images;
+    private Collection<HistoricalSiteImage> images;
 }

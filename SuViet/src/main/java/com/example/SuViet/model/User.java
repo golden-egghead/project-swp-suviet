@@ -72,11 +72,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<UserMiniGame> userMiniGames;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private Collection<Comment> comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
