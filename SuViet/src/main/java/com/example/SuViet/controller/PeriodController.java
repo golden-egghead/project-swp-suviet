@@ -27,6 +27,7 @@ public class PeriodController {
     }
 
     @GetMapping("/videos")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> getVideosByPeriodName(@RequestParam("periodName") String periodName) {
         Collection<Video> allVideoList = periodService.getVideosByPeriodName(periodName);
         if (allVideoList.size() == 0) {
