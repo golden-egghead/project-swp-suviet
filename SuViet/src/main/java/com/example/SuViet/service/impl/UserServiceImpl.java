@@ -23,10 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.IntStream;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 
 @Service
@@ -56,6 +58,7 @@ public class UserServiceImpl implements UserService {
         Collection<Role> roles = roleRepository.findAllByRoleName("MEMBER");
         user.setRoles(roles);
         user.setEnabled(false);
+        user.setCreatedDate(LocalDateTime.now());
         String randomCode = generateString();
         user.setVerificationCode(randomCode);
         return userRepository.save(user);
@@ -129,9 +132,10 @@ public class UserServiceImpl implements UserService {
             String password = loginDTO.getPassword();
             String encodedPassword = user.getPassword();
             Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            User u = userRepository.findByMail(loginDTO.getMail());
             String fullName = userRepository.findByMail(loginDTO.getMail()).getFullname();
-            String role = userRepository.findByMail(loginDTO.getMail()).getRoles().toString();
-            UserDTO userDTO = new UserDTO(loginDTO.getMail(), fullName, role);
+            int role = userRepository.findByMail(loginDTO.getMail()).getRoles().stream().mapToInt(value -> value.getRoleID()).findFirst().getAsInt();
+            UserDTO userDTO = new UserDTO(u.getUserID(), role);
             if (isPwdRight) {
                 Optional<User> userCheck = userRepository.findByMailAndPassword(loginDTO.getMail(), encodedPassword);
                 if (userCheck.isPresent()) {
@@ -207,7 +211,7 @@ public class UserServiceImpl implements UserService {
         mailContent += "<p>Please click link below to verify your registration";
         String verifyURL = siteURL + "/api/auth/verify?code=" + user.getVerificationCode();
         mailContent += "<h3><a href=\"" + verifyURL + "\">VERIFY</a></h3>";
-        mailContent += "<p>Thank you</br>, Nhân Nguyễn";
+        mailContent += "<p>Thank you</br>, Sử Việt";
         sendVerificationMail(user, mailContent, subject);
     }
 
@@ -221,13 +225,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         String verifyURL = siteURL + "/api/auth/reset-password/" + user.getVerificationCode();
         mailContent += "<h3><a href=\"" + verifyURL + "\">RESET PASSWORD</a></h3>";
-        mailContent += "<p>Thank you</br>, Nhân Nguyễn";
+        mailContent += "<p>Thank you</br>, Sử Việt";
         sendVerificationMail(user, mailContent, subject);
     }
 
     public void sendVerificationMail(User user, String mailContent, String subject)
             throws MessagingException, UnsupportedEncodingException {
-        String senderName = "Nhân Nguyễn";
+        String senderName = "Sử Việt";
 
 
         MimeMessage message = mailSender.createMimeMessage();

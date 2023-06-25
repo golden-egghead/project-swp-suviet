@@ -1,21 +1,18 @@
 package com.example.SuViet.payload;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.stream.IntStream;
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UserDTO {
-    private String mail;
-    private String fullName;
-    private String role;
+    private int userID;
+    private int roleID;
 
-    public UserDTO() {
-    }
-
-    public UserDTO(String mail, String fullName, String role) {
-        this.mail = mail;
-        this.fullName = fullName;
-        this.role = role;
-    }
 }

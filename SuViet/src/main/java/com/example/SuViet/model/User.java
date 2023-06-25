@@ -5,6 +5,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -36,7 +37,7 @@ public class User {
     private String fullname;
 
     @Column(columnDefinition = "date", nullable = true)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private int reported;
@@ -50,7 +51,7 @@ public class User {
     @Column(length = 200)
     private String avatar;
 
-    public User(int userID, String mail, String password, String achievement, int point, String fullname, Date createdDate, int reported, boolean enabled, String verificationCode, String avatar) {
+    public User(int userID, String mail, String password, String achievement, int point, String fullname, LocalDateTime createdDate, int reported, boolean enabled, String verificationCode, String avatar) {
         UserID = userID;
         this.mail = mail;
         this.password = password;
