@@ -21,7 +21,7 @@ public class Article {
     @Column(columnDefinition = "nvarchar(100)", nullable = false)
     private String title;
 
-    @Column(columnDefinition = "nvarchar(max)", nullable = false)
+    @Column(columnDefinition = "nvarchar(MAX)", nullable = false)
     private String context;
 
     @Column(length = 200, nullable = false)

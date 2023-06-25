@@ -2,17 +2,19 @@ package com.example.SuViet.repository;
 
 import com.example.SuViet.model.Article;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
-    Page<Article> findByEnabledTrue(Pageable pageable);
+    Page<Article> findByEnabledIsTrue(Pageable pageable);
 
-    // @Query("SELECT a FROM Article a WHERE a.enabled = true AND lower(a.title)
-    // LIKE lower(concat('%', ?1, '%'))")
-    Page<Article> searchArticlesByTitleContaining(String title, PageRequest pageRequest);
-    
-    Article save(Article article);
+    @Query(value = "SELECT * FROM tblArticles WHERE title COLLATE Latin1_General_CI_AI LIKE %:title%", nativeQuery = true)
+    Page<Article> findByTitleIgnoreCaseContaining(String title, Pageable pageable);
+
+    Page<Article> findByEnabledIsTrueAndTagsTagNameIn(Collection<String> tagNames, Pageable pageable);
+
 }

@@ -32,6 +32,7 @@ public class ArticleDTO {
     private int userID;
     private int voteLevel;
     private String periodName;
+    private Collection<Tag> tags;
     private List<String> tagNames;
     private List<CommentDTO> comments;
     private List<RepliesCommentDTO> repliesComments;

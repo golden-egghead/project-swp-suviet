@@ -1,7 +1,8 @@
 package com.example.SuViet.service.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,20 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleDTO> getAllEnabledArticles(Pageable pageable) {
-        Page<Article> articlesPage = articleRepository.findByEnabledTrue(pageable);
+        Page<Article> articlesPage = articleRepository.findByEnabledIsTrue(pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 
     @Override
-    public Page<ArticleDTO> searchArticlesByTitle(String title, PageRequest pageRequest) {
-        Page<Article> articlesPage = articleRepository.searchArticlesByTitleContaining(title, pageRequest);
+    public Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable) {
+        Page<Article> articlesPage = articleRepository.findByTitleIgnoreCaseContaining(title, pageable);
+        return articlesPage.map(ArticleDTO::convertToDTO);
+    }
+
+    @Override
+    public Page<ArticleDTO> filterArticlesByTagNames(List<String> tagNames,
+            Pageable pageable) {
+        Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndTagsTagNameIn(tagNames, pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 

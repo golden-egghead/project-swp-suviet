@@ -64,8 +64,9 @@ public class ArticleController {
     @GetMapping("/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllEnabledArticles(@PathVariable int offset,
             @RequestParam(value = "title", defaultValue = "") String title,
+            @RequestParam(value = "tagNames", defaultValue = "") List<String> tagNames,
             @RequestParam(value = "sortBy", defaultValue = "ArticleView") String sortBy,
-            @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
+            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
 
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
@@ -79,10 +80,21 @@ public class ArticleController {
             PageRequest pageRequest = PageRequest.of(offset - 1, PAGE_SIZE, sort);
             Page<ArticleDTO> articlePage;
 
-            if (title.isEmpty()) {
-                articlePage = articleService.getAllEnabledArticles(pageRequest);
-            } else {
+            if (!title.isEmpty() && !tagNames.isEmpty()) {
                 articlePage = articleService.searchArticlesByTitle(title, pageRequest);
+                for (ArticleDTO article : articlePage.getContent()) {
+                    if (article.getTagNames().containsAll(tagNames)) {
+
+                    } else {
+                        articlePage.getContent().remove(article);
+                    }
+                }
+            } else if (!title.isEmpty()) {
+                articlePage = articleService.searchArticlesByTitle(title, pageRequest);
+            } else if (!tagNames.isEmpty()) {
+                articlePage = articleService.filterArticlesByTagNames(tagNames, pageRequest);
+            } else {
+                articlePage = articleService.getAllEnabledArticles(pageRequest);
             }
 
             List<ArticleDTO> articleList = articlePage.getContent();
@@ -243,10 +255,10 @@ public class ArticleController {
             Article existingArticle = articleService.getArticleById(articleId);
 
             Path oldFilePath = Path.of("src/main/resources/static/article-photo/" + existingArticle.getPhoto());
-            
+
             Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            
+
             // article.setTitle(articleDTO.getTitle());
             existingArticle.setTitle(filerArticleTitle(articleDTO.getTitle()));
             // article.setContext(articleDTO.getContext());
@@ -254,26 +266,26 @@ public class ArticleController {
             existingArticle.setPhoto(fileName.toString());
 
             Article updatedArticle = articleService.savedArticle(existingArticle);
-            
+
             List<String> tagNames = articleDTO.getTagNames();
-            
+
             List<Tag> tags = tagService.findByTagNames(tagNames);
-            
+
             updatedArticle.setTags(tags);
-            
+
             updatedArticle = articleService.savedArticle(updatedArticle);
-            
+
             Files.deleteIfExists(oldFilePath);
-            
+
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Article updated successfully", updatedArticle));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject("ERROR", e.getMessage(), null));
-                } catch (Exception e) {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                        new ResponseObject("ERROR", "Failed to update article", null));
-                    }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to update article", null));
+        }
     }
 
     @PutMapping("/{articleId}/comments/{commentId}")
