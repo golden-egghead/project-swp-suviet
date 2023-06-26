@@ -4,6 +4,7 @@ import com.example.SuViet.filter.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,11 +28,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     @Autowired
     private JwtAuthFilter authFilter;
+
+    @Primary
     @Bean
 //authentication
-public UserDetailsService userDetailsService() {
-    return new CustomUserDetailService();
-}
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailService();
+    }
 
     @Bean
     public static PasswordEncoder passwordEncoder(){

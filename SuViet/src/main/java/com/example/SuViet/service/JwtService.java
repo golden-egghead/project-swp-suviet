@@ -1,30 +1,27 @@
 package com.example.SuViet.service;
 
 import io.jsonwebtoken.Claims;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 public interface JwtService {
-    String extractUsername(String token);
+    String generateToken(UserDetails userDetails);
 
-    Date extractExpiration(String token);
+    String doGenerateToken(Map<String, Object> claims, String subject);
 
-    <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
+    String doGenerateRefreshToken(Map<String, Object> claims, String subject);
 
-    Claims extractAllClaims(String token);
+    boolean validateToken(String authToken);
 
-    Boolean isTokenExpired(String token);
+    String getUsernameFromToken(String token);
 
-    Boolean validateToken(String token, UserDetails userDetails);
+    List<SimpleGrantedAuthority> getRolesFromToken(String token);
 
 
-    String generateToken(String userName);
-
-    String createToken(Map<String, Object> claims, String userName);
-
-    Key getSignKey();
 }

@@ -1,82 +1,115 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.service.JwtService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+    private String secret;
+    private int jwtExpirationInMs;
+    private int refreshExpirationDateInMs;
 
-    @Override
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    @Value("${jwt.secret}")
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    @Value("${jwt.expirationDateInMs}")
+    public void setJwtExpirationInMs(int jwtExpirationInMs) {
+        this.jwtExpirationInMs = jwtExpirationInMs;
+    }
+
+    @Value("${jwt.refreshExpirationDateInMs}")
+    public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
+        this.refreshExpirationDateInMs = refreshExpirationDateInMs;
     }
 
     @Override
-    public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+
+        Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+
+        if (roles.contains(new SimpleGrantedAuthority("ADMIN"))) {
+            claims.put("isAdmin", true);
+        }
+        if (roles.contains(new SimpleGrantedAuthority("MEMBER"))) {
+            claims.put("isMember", true);
+        }
+        if (roles.contains(new SimpleGrantedAuthority("MODERATOR"))) {
+            claims.put("isModerator", true);
+        }
+
+        return doGenerateToken(claims, userDetails.getUsername());
+    }
+    @Override
+    public String doGenerateToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
+                .signWith(SignatureAlgorithm.HS256, secret).compact();
+
+    }
+    @Override
+    public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
+
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationDateInMs))
+                .signWith(SignatureAlgorithm.HS256, secret).compact();
+
+    }
+    @Override
+    public boolean validateToken(String authToken) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
+            return true;
+        } catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
+            throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
+        } catch (ExpiredJwtException ex) {
+            throw ex;
+        }
+    }
+    @Override
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return claims.getSubject();
+
     }
 
     @Override
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
+    public List<SimpleGrantedAuthority> getRolesFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 
-    @Override
-    public Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+        List<SimpleGrantedAuthority> roles = null;
 
-    @Override
-    public Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
+        Boolean isAdmin = claims.get("isAdmin", Boolean.class);
+        Boolean isMember = claims.get("isMember", Boolean.class);
+        Boolean isModerator = claims.get("isModerator", Boolean.class);
 
-    @Override
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
+        if (isAdmin != null && isAdmin) {
+            roles = Arrays.asList(new SimpleGrantedAuthority("ADMIN"));
+        }
 
+        if (isMember != null ) {
+            roles = Arrays.asList(new SimpleGrantedAuthority("MEMBER"));
+        }
 
-    @Override
-    public String generateToken(String userName){
-        Map<String,Object> claims=new HashMap<>();
-        return createToken(claims,userName);
-    }
+        if (isModerator != null) {
+            roles = Arrays.asList(new SimpleGrantedAuthority("MODERATOR"));
+        }
+        return roles;
 
-    @Override
-    public String createToken(Map<String, Object> claims, String userName) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userName)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
-    }
-
-    @Override
-    public Key getSignKey() {
-        byte[] keyBytes= Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

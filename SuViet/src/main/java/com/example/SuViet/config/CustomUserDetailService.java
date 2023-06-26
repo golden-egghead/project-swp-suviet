@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.swing.text.html.Option;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,18 +25,13 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByMail(username);
-
-       if (user.get() == null) {
-           new UsernameNotFoundException("user not found " + username);
-       }
-
-        Set<GrantedAuthority> authorities = user.get()
-                .getRoles()
-                .stream()
-                .map((role) -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toSet());
-
-        return new org.springframework.security.core.userdetails.User(user.get().getMail(),
-                user.get().getPassword(),
-                authorities);
-    }
+        List<SimpleGrantedAuthority> roles = null;
+        if (user != null) {
+            roles = user.get()
+                    .getRoles()
+                    .stream()
+                    .map((role) -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+            return new org.springframework.security.core.userdetails.User(user.get().getMail(), user.get().getPassword(), roles);
+        }
+        throw new UsernameNotFoundException("User not found with the name " + username);	}
 }

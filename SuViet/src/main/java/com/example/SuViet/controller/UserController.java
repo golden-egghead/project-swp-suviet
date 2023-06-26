@@ -1,5 +1,8 @@
 package com.example.SuViet.controller;
 
+import com.example.SuViet.config.CustomUserDetailService;
+import com.example.SuViet.model.Role;
+import com.example.SuViet.response.ResponseJwt;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.model.User;
 
@@ -11,9 +14,12 @@ import com.example.SuViet.response.LoginResponse;
 import com.example.SuViet.service.JwtService;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
+import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
+import io.jsonwebtoken.impl.DefaultClaims;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +27,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -49,14 +59,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CustomUserDetailService userDetailService;
+
     @GetMapping("/get")
     public ResponseEntity<ResponseObject> getAllUser() {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "OK", userService.getAllUser())
         );
     }
+
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<ResponseJwt> login(@RequestBody LoginDTO loginDTO) {
 //        try {
 //            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 //                    login.getMail(), login.getPassword()));
@@ -85,9 +99,21 @@ public class UserController {
         if (authentication.isAuthenticated()) {
             boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
             if (!isEnabled) {
-                return "Please to verify your email";
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                        new ResponseJwt("FAILED", "FAILED", "", "", "", "")
+                );
             }
-            return jwtService.generateToken(loginDTO.getMail());
+            String roleName = "";
+            List<Role> roles = (List<Role>) userRepository.findByMail(loginDTO.getMail()).get().getRoles();
+            for (Role role : roles) {
+                roleName = role.getRoleName();
+            }
+
+            UserDetails userdetails = userDetailService.loadUserByUsername(loginDTO.getMail());
+            String token = jwtService.generateToken(userdetails);
+            return ResponseEntity.ok(
+                    new ResponseJwt("OK", "Login successfully", loginDTO.getMail(), loginDTO.getPassword(), roleName,
+                            token));
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
@@ -99,15 +125,14 @@ public class UserController {
         if (oauth2User == null) {
             return ResponseEntity.ok(new String("Please login!"));
         }
-            String email = oauth2User.getAttribute("email");
-            User user = userRepository.findByMailAndEnabled(email, true).get();
-            if (user != null) {
-                return ResponseEntity.ok(new String("Email has been used to sign up!"));
-            }
-            else {
-                return ResponseEntity.ok(new String("Login successfully!"));
-            }
+        String email = oauth2User.getAttribute("email");
+        User user = userRepository.findByMailAndEnabled(email, true).get();
+        if (user != null) {
+            return ResponseEntity.ok(new String("Email has been used to sign up!"));
+        } else {
+            return ResponseEntity.ok(new String("Login successfully!"));
         }
+    }
 
 
     @PostMapping("/signup")
@@ -125,7 +150,6 @@ public class UserController {
                 "Sign up succcessfully!!!" +
                         "Please check your email to verify your account.");
     }
-
 
 
     @GetMapping("/verify")
@@ -151,5 +175,22 @@ public class UserController {
         } else {
             return "Reset password successfully";
         }
+    }
+
+    @GetMapping("/refresh-token")
+    public String refresnToken(HttpServletRequest request) throws Exception {
+        DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
+
+        Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
+        String token = jwtService.doGenerateRefreshToken(expectedMap, expectedMap.get("sub").toString());
+        return token;
+    }
+
+    public Map<String, Object> getMapFromIoJsonwebtokenClaims(DefaultClaims claims) {
+        Map<String, Object> expectedMap = new HashMap<String, Object>();
+        for (Map.Entry<String, Object> entry : claims.entrySet()) {
+            expectedMap.put(entry.getKey(), entry.getValue());
+        }
+        return expectedMap;
     }
 }
