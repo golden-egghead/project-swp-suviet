@@ -29,6 +29,11 @@ public class PeriodController {
     @GetMapping("/videos")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> getVideosByPeriodName(@RequestParam("periodName") String periodName) {
+        if (periodName.isEmpty() == true && periodName.trim() == ""){
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "OK", periodService.getAllPeriods())
+            );
+        }
         Collection<Video> allVideoList = periodService.getVideosByPeriodName(periodName);
         if (allVideoList.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(

@@ -42,8 +42,7 @@ public class ArticleDTO {
         dto.setArticleID(article.getArticleID());
         dto.setTitle(article.getTitle());
         dto.setContext(article.getContext());
-        dto.setPhoto(article.getPhoto());
-
+        dto.setPhoto("http://localhost:8080/article-photo/" + article.getPhoto());
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dto.setCreatedDate(article.getCreatedDate().format(dateFormatter));
         dto.setStatus(article.isStatus());
