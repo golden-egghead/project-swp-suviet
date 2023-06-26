@@ -8,6 +8,7 @@ import com.example.SuViet.payload.SignUp;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.response.LoginResponse;
+import com.example.SuViet.service.JwtService;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
 import jakarta.mail.MessagingException;
@@ -17,7 +18,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +31,8 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -50,7 +56,7 @@ public class UserController {
         );
     }
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO) {
+    public String login(@RequestBody LoginDTO loginDTO) {
 //        try {
 //            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 //                    login.getMail(), login.getPassword()));
@@ -75,9 +81,17 @@ public class UserController {
 //        return ResponseEntity.status(HttpStatus.OK).body(
 //                new ResponseObject("OK", "Login successfully", userDTO)
 //        );
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getMail(), loginDTO.getPassword()));
+        if (authentication.isAuthenticated()) {
+            boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
+            if (!isEnabled) {
+                return "Please to verify your email";
+            }
+            return jwtService.generateToken(loginDTO.getMail());
+        } else {
+            throw new UsernameNotFoundException("invalid user request !");
+        }
 
-        LoginResponse loginResponse= userService.loginUser(loginDTO);
-        return ResponseEntity.ok(loginResponse);
     }
 
     @GetMapping("/checkEmail")
@@ -104,7 +118,7 @@ public class UserController {
         }
 
         userService.registerANewMember(signUp);
-        User user = userRepository.findByMail(signUp.getMail());
+        User user = userRepository.findByMail(signUp.getMail()).get();
         String siteURL = Utility.getSiteUrl(request);
         userService.sendVerificationMailToRegistration(user, siteURL);
         return ResponseEntity.status(HttpStatus.OK).body(

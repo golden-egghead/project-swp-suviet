@@ -5,6 +5,7 @@ import com.example.SuViet.model.Video;
 import com.example.SuViet.service.VideoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class VideoController {
     }
 
     @GetMapping("/{offset}")
+    @PreAuthorize("hasAuthority('MEMBER')")
     public ResponseEntity<ResponsePaginationObject> getAllVideos(@PathVariable int offset) {
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(

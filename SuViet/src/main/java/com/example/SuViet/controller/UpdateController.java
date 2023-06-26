@@ -34,7 +34,7 @@ public class UpdateController {
     @GetMapping("/detail")
     public ResponseObject viewDetail(@AuthenticationPrincipal UpdateUsersDetails loggedUser){
         String email = loggedUser.getUsername();
-        User user = userRepository.findByMail(email);
+        User user = userRepository.findByMail(email).get();
 
         return new ResponseObject("OK", "Query successfully", user);
     }

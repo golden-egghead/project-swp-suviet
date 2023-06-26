@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String checkMailStatus(String mail, HttpServletRequest request)
             throws MessagingException, UnsupportedEncodingException {
-        User user = userRepository.findByMail(mail);
+        User user = userRepository.findByMail(mail).get();
         String siteURL = Utility.getSiteUrl(request);
         if (!user.isEnabled()) {
             sendVerificationMailToRegistration(user, siteURL);
@@ -121,35 +121,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse loginUser(LoginDTO loginDTO) {
-        User user = userRepository.findByMail(loginDTO.getMail());
-        if (user != null) {
-            if (!user.isEnabled() && user.getVerificationCode() != null) {
-                return new LoginResponse(false, "Please verify email to log in!", null);
-            }
-            else if (!user.isEnabled() && user.getVerificationCode() == null) {
-                return new LoginResponse(false, "Account was banned", null);
-            }
-            String password = loginDTO.getPassword();
-            String encodedPassword = user.getPassword();
-            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-            User u = userRepository.findByMail(loginDTO.getMail());
-            String fullName = userRepository.findByMail(loginDTO.getMail()).getFullname();
-            int role = userRepository.findByMail(loginDTO.getMail()).getRoles().stream().mapToInt(value -> value.getRoleID()).findFirst().getAsInt();
-            UserDTO userDTO = new UserDTO(u.getUserID(), role);
-            if (isPwdRight) {
-                Optional<User> userCheck = userRepository.findByMailAndPassword(loginDTO.getMail(), encodedPassword);
-                if (userCheck.isPresent()) {
-                    return new LoginResponse(true, "Login successfully!", userDTO);
-                } else {
-                    return new LoginResponse(false, "Login Failed!", null);
-                }
-            } else {
-
-                return new LoginResponse(false, "Invalid password!", null);
-            }
-        }else {
-            return new LoginResponse(false, "Email not exits!", null);
-        }
+        return null;
     }
 
 
@@ -263,7 +235,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User getUserByMail( String mail) {
-        return userRepository.findByMail(mail);
+        return userRepository.findByMail(mail).get();
     }
 
     @Override
