@@ -16,6 +16,7 @@ public class UserInfo {
     private String fullname;
     private int point;
     private LocalDateTime createdDate;
+    private boolean enabled;
     private int reported;
     private int roleID;
 }

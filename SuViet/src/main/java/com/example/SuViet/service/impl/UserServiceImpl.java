@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
         for (User user : users) {
             int roleID = user.getRoles().stream().mapToInt(value -> value.getRoleID()).findAny().getAsInt();
             UserInfo userInfo = new UserInfo(user.getUserID(), user.getMail(), user.getFullname(), user.getPoint(), user.getCreatedDate(),
-                                             user.getReported(), roleID);
+                    user.isEnabled() ,user.getReported(), roleID);
             userInfoList.add(userInfo);
         }
         return userInfoList;
