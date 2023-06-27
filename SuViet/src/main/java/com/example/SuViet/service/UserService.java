@@ -1,5 +1,6 @@
 package com.example.SuViet.service;
 
+import com.example.SuViet.dto.UserInfo;
 import com.example.SuViet.model.User;
 import com.example.SuViet.payload.LoginDTO;
 import com.example.SuViet.payload.SignUp;
@@ -19,7 +20,7 @@ public interface UserService {
     boolean verify(String verificationCode);
     String checkMailStatus(String mail, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
     boolean resetPassword(String password, String code);
-    List<User> getAllUser();
+    List<UserInfo> getAllUser();
     LoginResponse loginUser(LoginDTO loginDTO);
     void changePassword(User user, String newPassword);
     boolean oldPasswordIsValid(User user ,String oldPassword);

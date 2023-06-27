@@ -1,5 +1,6 @@
 package com.example.SuViet.service.impl;
 
+import com.example.SuViet.dto.UserInfo;
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
 import com.example.SuViet.payload.LoginDTO;
@@ -115,8 +116,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public List<UserInfo> getAllUser() {
+        List<UserInfo> userInfoList = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            int roleID = user.getRoles().stream().mapToInt(value -> value.getRoleID()).findAny().getAsInt();
+            UserInfo userInfo = new UserInfo(user.getUserID(), user.getMail(), user.getFullname(), user.getPoint(), user.getCreatedDate(),
+                                             user.getReported(), roleID);
+            userInfoList.add(userInfo);
+        }
+        return userInfoList;
     }
 
     @Override
