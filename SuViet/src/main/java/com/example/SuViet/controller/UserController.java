@@ -178,7 +178,7 @@ public class UserController {
     }
 
     @GetMapping("/refresh-token")
-    public String refresnToken(HttpServletRequest request) throws Exception {
+    public String refreshToken(HttpServletRequest request) throws Exception {
         DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
 
         Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);

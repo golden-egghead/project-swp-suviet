@@ -22,7 +22,6 @@ public class VideoController {
     }
 
     @GetMapping("/{offset}")
-    @PreAuthorize("hasAuthority('MEMBER')")
     public ResponseEntity<ResponsePaginationObject> getAllVideos(@PathVariable int offset) {
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(

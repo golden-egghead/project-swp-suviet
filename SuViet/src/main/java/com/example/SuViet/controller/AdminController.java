@@ -43,7 +43,7 @@ public class AdminController {
         );
     }
 
-    @GetMapping("/update-role/{id}")
+    @PutMapping("/update-role/{id}")
     public ResponseEntity<String> updateRole(@PathVariable int id) {
         boolean isUpdateSuccessfully = userService.updateRole(id);
         if (isUpdateSuccessfully) {
