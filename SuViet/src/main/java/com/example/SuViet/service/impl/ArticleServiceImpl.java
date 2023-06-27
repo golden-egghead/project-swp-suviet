@@ -22,13 +22,19 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleDTO> getAllEnabledArticles(Pageable pageable) {
-        Page<Article> articlesPage = articleRepository.findByEnabledIsTrue(pageable);
+        Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndStatusIsTrue(pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 
     @Override
+    public Page<ArticleDTO> getAllUnBrowserArtices(Pageable pageable) {
+        Page<Article> articlPage = articleRepository.findByEnabledIsFalseAndStatusIsFalse(pageable);
+        return articlPage.map(ArticleDTO::convertToDTO);
+    }
+
+    @Override
     public Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable) {
-        Page<Article> articlesPage = articleRepository.findByTitleIgnoreCaseContaining(title, pageable);
+        Page<Article> articlesPage = articleRepository.findByTitleIgnoreCaseContainingAndEnabledIsTrue(title, pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 

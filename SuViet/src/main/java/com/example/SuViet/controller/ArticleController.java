@@ -7,6 +7,7 @@ import com.example.SuViet.dto.VoteDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.model.RepliesComment;
+import com.example.SuViet.model.Role;
 import com.example.SuViet.model.Tag;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.response.ResponsePaginationObject;
@@ -35,8 +36,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/articles")
@@ -110,6 +113,38 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("/unbrowse/{offset}")
+    public ResponseEntity<ResponsePaginationObject> getAllUnbrowsedArticles(@PathVariable int offset,
+            @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
+            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
+
+        if (offset <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, PAGE_SIZE,
+                            0, 0, null));
+        }
+
+        try {
+            Sort.Direction direction = Sort.Direction.fromString(sortOrder);
+            Sort sort = Sort.by(direction, sortBy);
+            PageRequest pageRequest = PageRequest.of(offset - 1, PAGE_SIZE, sort);
+            Page<ArticleDTO> articlePage;
+
+            articlePage = articleService.getAllUnBrowserArtices(pageRequest);
+
+            List<ArticleDTO> articleList = articlePage.getContent();
+            int count = articleList.size();
+            int totalPages = articlePage.getTotalPages();
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponsePaginationObject("OK", "Query successfully", offset, PAGE_SIZE, count,
+                            totalPages, articleList));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponsePaginationObject("ERROR", "An error occurred", 0, 0, 0, 0, null));
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<ResponseObject> postAnArticle(@RequestParam String data,
             @RequestParam("file") MultipartFile file) {
@@ -126,14 +161,21 @@ public class ArticleController {
             User user = userService.getUserById(articleDTO.getUserID());
 
             Article article = new Article();
-            // article.setTitle(articleDTO.getTitle());
             article.setTitle(filerArticleTitle(articleDTO.getTitle()));
-            // article.setContext(articleDTO.getContext());
             article.setContext(filterArticeContent(articleDTO.getContext()));
             article.setPhoto(fileName.toString());
             article.setCreatedDate(LocalDateTime.now());
-            article.setStatus(true);
-            article.setEnabled(true);
+
+            List<String> roles = getRoleName(user.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                article.setStatus(true);
+                article.setEnabled(true);
+            } else {
+                article.setStatus(false);
+                article.setEnabled(false);
+            }
+
             article.setUser(user);
 
             Article savedArticle = articleService.savedArticle(article);
@@ -158,6 +200,9 @@ public class ArticleController {
     public ResponseEntity<ResponseObject> postComment(@PathVariable("articleId") int articleId,
             @RequestBody CommentDTO commentDTO) {
         try {
+            // int userID;
+
+            // User user = userService.getUserById(userID);
             User user = userService.getUserById(commentDTO.getUserID());
             Article article = articleService.getArticleById(articleId);
 
@@ -186,6 +231,9 @@ public class ArticleController {
             @PathVariable("commentId") int commentId,
             @RequestBody RepliesCommentDTO repliesCommentDTO) {
         try {
+            // int userID;
+
+            // User user = userService.getUserById(userID);
             User user = userService.getUserById(repliesCommentDTO.getUserID());
             Article article = articleService.getArticleById(articleId);
             Comment comment = commentService.getCommentById(commentId);
@@ -238,6 +286,38 @@ public class ArticleController {
         }
     }
 
+    @PutMapping("/browse/{articleId}") 
+    public ResponseEntity<ResponseObject> browseArticle(
+        @PathVariable("articleId") int articleId,
+        @RequestParam boolean browsed
+        ) {
+        try {
+            Article article = articleService.getArticleById(articleId);
+            
+            if(browsed) {
+                article.setEnabled(true);
+                article.setStatus(true);
+            } else {
+                article.setStatus(true);
+                article.setEnabled(false);
+            }
+
+            Article savedArticle = articleService.savedArticle(article);
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("Ok", "Browsed", savedArticle));
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to browse", null));
+        }
+
+    }
+
     @PutMapping("/{articleId}")
     public ResponseEntity<ResponseObject> editArticle(@PathVariable("articleId") int articleId,
             @RequestParam String data,
@@ -246,24 +326,45 @@ public class ArticleController {
             // User currentUser =
             // userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
+            // int curentUserID;
+
+            // User currentUser = userService.getUserById(curentUserID);
+            // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+            // new ResponseObject("ERROR", "User is not authorized to update the article",
+            // null));
             ObjectMapper objectMapper = new ObjectMapper();
             ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
 
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
+            User currentUser = userService.getUserById(articleDTO.getUserID());
+
             Article existingArticle = articleService.getArticleById(articleId);
+
+            if (!existingArticle.getUser().equals(currentUser)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                        new ResponseObject("ERROR", "User is not authorized to update the article", null));
+            }
 
             Path oldFilePath = Path.of("src/main/resources/static/article-photo/" + existingArticle.getPhoto());
 
             Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // article.setTitle(articleDTO.getTitle());
             existingArticle.setTitle(filerArticleTitle(articleDTO.getTitle()));
-            // article.setContext(articleDTO.getContext());
             existingArticle.setContext(filterArticeContent(articleDTO.getContext()));
             existingArticle.setPhoto(fileName.toString());
+
+            List<String> roles = getRoleName(currentUser.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                existingArticle.setStatus(true);
+                existingArticle.setEnabled(true);
+            } else {
+                existingArticle.setStatus(false);
+                existingArticle.setEnabled(false);
+            }
 
             Article updatedArticle = articleService.savedArticle(existingArticle);
 
@@ -295,6 +396,13 @@ public class ArticleController {
         try {
             Comment existingComment = commentService.getCommentById(commentId);
 
+            User currentUser = userService.getUserById(commentDTO.getUserID());
+
+            if (!existingComment.getUser().equals(currentUser)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                        new ResponseObject("ERROR", "User is not authorized to update the comment", null));
+            }
+
             existingComment.setCommentText(filterToxic(commentDTO.getCommentText()));
 
             Comment updatedComment = commentService.savedArticleComment(existingComment);
@@ -316,6 +424,13 @@ public class ArticleController {
             @RequestBody RepliesCommentDTO repliesCommentDTO) {
         try {
             RepliesComment existingReplyComment = repliesCommentService.getReplyCommentById(replyId);
+
+            User currentUser = userService.getUserById(repliesCommentDTO.getUserID());
+
+            if (!existingReplyComment.getUser().equals(currentUser)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                        new ResponseObject("ERROR", "User is not authorized to update the comment", null));
+            }
 
             existingReplyComment.setCommentText(filterToxic(repliesCommentDTO.getCommentText()));
 
@@ -391,7 +506,6 @@ public class ArticleController {
                     new ResponseObject("ERROR", "Failed to delete comment", null));
         }
     }
-
     @DeleteMapping("/{articleId}/comments/{commentId}/replies/{replyId}")
     public ResponseEntity<ResponseObject> deleteReplyComment(@PathVariable("articleId") int articleId,
             @PathVariable("commentId") int commentId,
@@ -444,6 +558,14 @@ public class ArticleController {
             return filename.substring(dotIndex + 1);
         }
         return "";
+    }
+
+    private static List<String> getRoleName(Collection<Role> roles) {
+        if (roles.isEmpty()) {
+            return null;
+        }
+
+        return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
     }
 
     @ExceptionHandler(Exception.class)
