@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
@@ -57,23 +58,27 @@ public class JwtServiceImpl implements JwtService {
     }
     @Override
     public String doGenerateToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder().setClaims(claims).setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 
     }
     @Override
     public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder().setClaims(claims).setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationDateInMs))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 
     }
     @Override
     public boolean validateToken(String authToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(getSignInKey())
+                    .parseClaimsJws(authToken);
             return true;
         } catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
@@ -83,14 +88,14 @@ public class JwtServiceImpl implements JwtService {
     }
     @Override
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
         return claims.getSubject();
 
     }
 
     @Override
     public List<SimpleGrantedAuthority> getRolesFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
 
         List<SimpleGrantedAuthority> roles = null;
 
@@ -110,6 +115,9 @@ public class JwtServiceImpl implements JwtService {
             roles = Arrays.asList(new SimpleGrantedAuthority("MODERATOR"));
         }
         return roles;
-
+    }
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
