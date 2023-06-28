@@ -105,8 +105,8 @@ public class UserController {
             UserDetails userdetails = userDetailService.loadUserByUsername(loginDTO.getMail());
             String token = jwtService.generateToken(userdetails);
             return ResponseEntity.ok(
-                    new ResponseJwt("OK", "Login successfully", loginDTO.getMail(), loginDTO.getPassword(), roleName,
-                            token));
+                    new ResponseJwt("OK", "Login successfully", loginDTO.getMail(), loginDTO.getPassword(),
+                            userRepository.findByMail(loginDTO.getMail()).get().getFullname(), roleName, token));
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
