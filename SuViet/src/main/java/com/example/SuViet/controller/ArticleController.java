@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import java.nio.file.Files;
@@ -113,8 +114,23 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("/unbrowse/{offset}")
-    public ResponseEntity<ResponsePaginationObject> getAllUnbrowsedArticles(@PathVariable int offset,
+    @GetMapping("/{articleId}")
+    public ResponseEntity<ResponseObject> getArticleDetails(
+            @PathVariable int articleId) {
+        try {
+
+            Article article = articleService.getArticleById(articleId);
+            articleService.savedArticle(article);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Success", article));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "An error occur", null));
+        }
+    }
+
+    @GetMapping("/pending/{offset}")
+    public ResponseEntity<ResponsePaginationObject> getAllPendingArticles(@PathVariable int offset,
             @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
             @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
 
@@ -130,7 +146,7 @@ public class ArticleController {
             PageRequest pageRequest = PageRequest.of(offset - 1, PAGE_SIZE, sort);
             Page<ArticleDTO> articlePage;
 
-            articlePage = articleService.getAllUnBrowserArtices(pageRequest);
+            articlePage = articleService.getAllPendingArticles(pageRequest);
 
             List<ArticleDTO> articleList = articlePage.getContent();
             int count = articleList.size();
@@ -286,15 +302,14 @@ public class ArticleController {
         }
     }
 
-    @PutMapping("/browse/{articleId}") 
+    @PutMapping("/browse/{articleId}")
     public ResponseEntity<ResponseObject> browseArticle(
-        @PathVariable("articleId") int articleId,
-        @RequestParam boolean browsed
-        ) {
+            @PathVariable("articleId") int articleId,
+            @RequestParam boolean browsed) {
         try {
             Article article = articleService.getArticleById(articleId);
-            
-            if(browsed) {
+
+            if (browsed) {
                 article.setEnabled(true);
                 article.setStatus(true);
             } else {
@@ -506,6 +521,7 @@ public class ArticleController {
                     new ResponseObject("ERROR", "Failed to delete comment", null));
         }
     }
+
     @DeleteMapping("/{articleId}/comments/{commentId}/replies/{replyId}")
     public ResponseEntity<ResponseObject> deleteReplyComment(@PathVariable("articleId") int articleId,
             @PathVariable("commentId") int commentId,

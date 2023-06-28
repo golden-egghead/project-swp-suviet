@@ -27,7 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<ArticleDTO> getAllUnBrowserArtices(Pageable pageable) {
+    public Page<ArticleDTO> getAllPendingArticles(Pageable pageable) {
         Page<Article> articlPage = articleRepository.findByEnabledIsFalseAndStatusIsFalse(pageable);
         return articlPage.map(ArticleDTO::convertToDTO);
     }
