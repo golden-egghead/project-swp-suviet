@@ -1,5 +1,6 @@
 package com.example.SuViet.controller;
 
+import com.example.SuViet.dto.UserInfo;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.model.User;
 import com.example.SuViet.service.UserService;
@@ -24,7 +25,7 @@ public class AdminController {
 
     @GetMapping("")
     public ResponseEntity<ResponseObject> getAllUserList() {
-        List<User> users = userService.getAllUser();
+        List<UserInfo> users = userService.getAllUser();
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "Query successfully", users)
         );
@@ -43,7 +44,7 @@ public class AdminController {
         );
     }
 
-    @GetMapping("/update-role/{id}")
+    @PutMapping("/update-role/{id}")
     public ResponseEntity<String> updateRole(@PathVariable int id) {
         boolean isUpdateSuccessfully = userService.updateRole(id);
         if (isUpdateSuccessfully) {

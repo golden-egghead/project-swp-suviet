@@ -62,13 +62,6 @@ public class UserController {
     @Autowired
     private CustomUserDetailService userDetailService;
 
-    @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllUser() {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "OK", userService.getAllUser())
-        );
-    }
-
     @PostMapping("/login")
     public ResponseEntity<ResponseJwt> login(@RequestBody LoginDTO loginDTO) {
 //        try {
@@ -178,7 +171,7 @@ public class UserController {
     }
 
     @GetMapping("/refresh-token")
-    public String refresnToken(HttpServletRequest request) throws Exception {
+    public String refreshToken(HttpServletRequest request) throws Exception {
         DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
 
         Map<String, Object> expectedMap = getMapFromIoJsonwebtokenClaims(claims);
