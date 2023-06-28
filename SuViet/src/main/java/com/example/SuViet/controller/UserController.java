@@ -40,6 +40,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private JwtService jwtService;
@@ -93,7 +94,7 @@ public class UserController {
             boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
             if (!isEnabled) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseJwt("FAILED", "FAILED", "", "", "", "")
+                        new ResponseJwt("FAILED", "FAILED", "", "", "", "","")
                 );
             }
             String roleName = "";
