@@ -1,9 +1,11 @@
 package com.example.SuViet.repository;
 
 import com.example.SuViet.model.Character;
+import com.example.SuViet.model.Period;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -15,5 +17,9 @@ public interface CharacterRepository extends JpaRepository<Character, Integer> {
 
    List<Character> findAllByCharacterNameContainingAndEnabled(@Param("title") String title, boolean enabled);
    Page<Character> findAllByCharacterNameContainingAndEnabled(@Param("title") String title, boolean enabled, PageRequest pageRequest);
+
+   @Query("From Character where period.periodName = :periodName")
+   List<Character> getByPeriodName(String periodName);
+
 
 }
