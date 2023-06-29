@@ -40,6 +40,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private JwtService jwtService;
@@ -93,7 +94,7 @@ public class UserController {
             boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
             if (!isEnabled) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseJwt("FAILED", "FAILED", "", "", "", "")
+                        new ResponseJwt("FAILED", "FAILED", "", "", "", "","")
                 );
             }
             String roleName = "";
@@ -105,8 +106,8 @@ public class UserController {
             UserDetails userdetails = userDetailService.loadUserByUsername(loginDTO.getMail());
             String token = jwtService.generateToken(userdetails);
             return ResponseEntity.ok(
-                    new ResponseJwt("OK", "Login successfully", loginDTO.getMail(), loginDTO.getPassword(), roleName,
-                            token));
+                    new ResponseJwt("OK", "Login successfully", loginDTO.getMail(), loginDTO.getPassword(),
+                            userRepository.findByMail(loginDTO.getMail()).get().getFullname(), roleName, token));
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }

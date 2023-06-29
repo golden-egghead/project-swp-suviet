@@ -12,6 +12,8 @@ public interface ArticleService {
 
     Page<ArticleDTO> getAllEnabledArticles(Pageable pageable);
 
+    Page<ArticleDTO> getAllPendingArticles(Pageable pageable);
+
     Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable);
 
     public Page<ArticleDTO> filterArticlesByTagNames(List<String> tagNames, Pageable pageable);

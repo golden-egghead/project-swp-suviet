@@ -9,12 +9,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ResponseJwt {
+public class UpdateResponse {
     private String status;
     private String message;
     private String email;
-    private String password;
-    private String fullname;
+    private String fullName;
     private String roleName;
-    private String accessToken;
 }

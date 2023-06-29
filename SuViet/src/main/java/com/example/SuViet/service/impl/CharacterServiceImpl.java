@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -49,6 +50,11 @@ public class CharacterServiceImpl implements CharacterService {
     public Page<Character> getCharacterWithSortAndPaging(int offset, int pageSize, String field) {
         Page<Character> characters = characterRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
        return characters;
+    }
+
+    @Override
+    public List<Character> getCharacterByPeriod(String periodName) {
+        return characterRepository.getByPeriodName(periodName);
     }
 
 }
