@@ -35,6 +35,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -172,7 +173,8 @@ public class ArticleController {
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
+            String path = "src/main/resources/static/article-photo/" + fileName;
+            Path filePath = Paths.get(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()); 
