@@ -31,6 +31,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -174,7 +175,7 @@ public class ArticleController {
             Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            User user = userService.getUserById(articleDTO.getUserID());
+            User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()); 
 
             Article article = new Article();
             article.setTitle(filerArticleTitle(articleDTO.getTitle()));
