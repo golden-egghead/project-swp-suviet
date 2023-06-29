@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ResponseJwt {
     private String status;
     private String message;
+    private int userID;
     private String email;
     private String password;
     private String fullname;
