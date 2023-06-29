@@ -94,7 +94,7 @@ public class UserController {
             boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
             if (!isEnabled) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseJwt("FAILED", "FAILED", -1, "", "", "","", "");
+                        new ResponseJwt("FAILED", "FAILED", -1, "", "", "","", "")
                 );
             }
             String roleName = "";
