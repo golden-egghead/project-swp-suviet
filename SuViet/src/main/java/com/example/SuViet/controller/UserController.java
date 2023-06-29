@@ -94,7 +94,7 @@ public class UserController {
             boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
             if (!isEnabled) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseJwt("FAILED", "FAILED", "", "", "", "","")
+                        new ResponseJwt("FAILED", "FAILED", -1, "", "", "","", "")
                 );
             }
             String roleName = "";
@@ -105,8 +105,9 @@ public class UserController {
 
             UserDetails userdetails = userDetailService.loadUserByUsername(loginDTO.getMail());
             String token = jwtService.generateToken(userdetails);
+            int userID = userRepository.findByMail(loginDTO.getMail()).get().getUserID();
             return ResponseEntity.ok(
-                    new ResponseJwt("OK", "Login successfully", loginDTO.getMail(), loginDTO.getPassword(),
+                    new ResponseJwt("OK", "Login successfully", userID, loginDTO.getMail(), loginDTO.getPassword(),
                             userRepository.findByMail(loginDTO.getMail()).get().getFullname(), roleName, token));
         } else {
             throw new UsernameNotFoundException("invalid user request !");
