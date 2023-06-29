@@ -114,20 +114,20 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("/{articleId}")
-    public ResponseEntity<ResponseObject> getArticleDetails(
-            @PathVariable int articleId) {
-        try {
+    // @GetMapping("/{articleId}")
+    // public ResponseEntity<ResponseObject> getArticleDetails(
+    //         @PathVariable int articleId) {
+    //     try {
 
-            Article article = articleService.getArticleById(articleId);
-            articleService.savedArticle(article);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Success", article));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "An error occur", null));
-        }
-    }
+    //         Article article = articleService.getArticleById(articleId);
+    //         articleService.savedArticle(article);
+    //         return ResponseEntity.status(HttpStatus.OK).body(
+    //                 new ResponseObject("OK", "Success", article));
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+    //                 new ResponseObject("ERROR", "An error occur", null));
+    //     }
+    // }
 
     @GetMapping("/pending/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllPendingArticles(@PathVariable int offset,
