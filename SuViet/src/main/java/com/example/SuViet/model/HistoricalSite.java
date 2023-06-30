@@ -54,4 +54,11 @@ public class HistoricalSite {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Collection<HistoricalSiteImage> images;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserID")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private User user;
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -29,10 +31,10 @@ public class Video {
     private String description;
 
     @Column(nullable = false, columnDefinition = "date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
     private boolean enabled;
 
-    public Video(int videoID, String title, String video, String description, Date createdDate, boolean enabled) {
+    public Video(int videoID, String title, String video, String description, LocalDateTime createdDate, boolean enabled) {
         this.videoID = videoID;
         this.title = title;
         this.video = video;
@@ -50,4 +52,11 @@ public class Video {
             inverseJoinColumns = @JoinColumn(name = "PeriodID")
     )
     private Collection<Period> periods;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserID")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private User user;
 }
