@@ -1,5 +1,6 @@
 package com.example.SuViet.service.impl;
 
+import com.example.SuViet.model.Character;
 import com.example.SuViet.model.Period;
 import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.PeriodRepository;
@@ -26,6 +27,10 @@ public class PeriodServiceImpl implements PeriodService {
         return periodRepository.findByPeriodName(periodName).getVideos();
     }
 
+    @Override
+    public Period getPeriodByPeriodName(String periodName) {
+        return periodRepository.findByPeriodName(periodName);
+    }
     @Override
     public List<Period> getAllByPeriodName(String periodName) {
         return periodRepository.findAllByPeriodNameContaining(periodName);
