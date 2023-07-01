@@ -3,9 +3,8 @@ package com.example.SuViet.service.impl;
 import com.example.SuViet.dto.UserInfo;
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
-import com.example.SuViet.payload.LoginDTO;
-import com.example.SuViet.payload.SignUp;
-import com.example.SuViet.payload.UserDTO;
+import com.example.SuViet.dto.LoginDTO;
+import com.example.SuViet.dto.SignUp;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.response.LoginResponse;
@@ -18,18 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.IntStream;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 
 @Service

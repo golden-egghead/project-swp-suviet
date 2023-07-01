@@ -1,18 +1,17 @@
-package com.example.SuViet.payload;
+package com.example.SuViet.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.stream.IntStream;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
-    private int userID;
-    private int roleID;
+public class ProfileDTO {
+    MultipartFile image;
+    String fullName;
 
 }

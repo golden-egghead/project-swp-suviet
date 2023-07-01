@@ -39,7 +39,7 @@ public class PeriodController {
             );
         }
         Collection<Video> allVideoList = periodService.getVideosByPeriodName(periodName);
-        if (allVideoList.size() == 0) {
+        if (allVideoList == null) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "There is not video with " + periodName + " period!", null)
             );
