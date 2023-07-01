@@ -2,7 +2,7 @@ package com.example.SuViet.controller;
 
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.model.User;
-import com.example.SuViet.payload.PasswordRequestDTO;
+import com.example.SuViet.dto.PasswordRequestDTO;
 import com.example.SuViet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

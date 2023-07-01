@@ -21,7 +21,7 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int videoID;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String title;
 
     @Column(length = 2000, nullable = false)
@@ -32,22 +32,15 @@ public class Video {
 
     @Column(nullable = false, columnDefinition = "date")
     private LocalDateTime createdDate;
-    private boolean enabled;
 
-    public Video(int videoID, String title, String video, String description, LocalDateTime createdDate, boolean enabled) {
-        this.videoID = videoID;
-        this.title = title;
-        this.video = video;
-        this.description = description;
-        this.createdDate = createdDate;
-        this.enabled = enabled;
-    }
+    private boolean enabled;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinTable(name = "tblPeriodVideo",
+    @JoinTable(
+            name = "tblPeriodVideo",
             joinColumns = @JoinColumn(name = "VideoID"),
             inverseJoinColumns = @JoinColumn(name = "PeriodID")
     )

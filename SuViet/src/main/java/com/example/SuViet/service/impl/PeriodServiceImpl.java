@@ -7,6 +7,7 @@ import com.example.SuViet.service.PeriodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,7 +24,13 @@ public class PeriodServiceImpl implements PeriodService {
 
     @Override
     public Collection<Video> getVideosByPeriodName(String periodName) {
-        return periodRepository.findByPeriodName(periodName).getVideos();
+        if (periodRepository.findByPeriodName(periodName) == null) {
+            return null;
+        } else {
+            Period period = periodRepository.findByPeriodName(periodName);
+            Collection<Video> videos = period.getVideos();
+            return videos;
+        }
     }
 
     @Override

@@ -13,11 +13,9 @@ import java.util.List;
 public interface VideoRepository extends JpaRepository<Video, Integer> {
     List<Video> findAllByEnabled(boolean enabled);
 
+    List<Video> findAllByTitleAndEnabled(String title, boolean enabled);
 
     Page<Video> findAllByEnabled(boolean enabled, PageRequest pageRequest);
-
-//    @Query("SELECT v FROM Video v WHERE v.title LIKE %:title%")
-//    public List<Video> searchVideoByTitle(@Param("title") String title);
 
     List<Video> findAllByTitleContainingAndEnabled(@Param("title") String title, boolean enabled);
 

@@ -2,12 +2,11 @@ package com.example.SuViet.service;
 
 import com.example.SuViet.dto.UserInfo;
 import com.example.SuViet.model.User;
-import com.example.SuViet.payload.LoginDTO;
-import com.example.SuViet.payload.SignUp;
+import com.example.SuViet.dto.LoginDTO;
+import com.example.SuViet.dto.SignUp;
 import com.example.SuViet.response.LoginResponse;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.Authentication;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

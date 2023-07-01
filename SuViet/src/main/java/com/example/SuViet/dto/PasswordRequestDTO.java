@@ -1,4 +1,4 @@
-package com.example.SuViet.payload;
+package com.example.SuViet.dto;
 
 import lombok.Data;
 
