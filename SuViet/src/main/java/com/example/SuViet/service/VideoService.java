@@ -1,6 +1,7 @@
 package com.example.SuViet.service;
 
 import com.example.SuViet.dto.VideoDTO;
+import com.example.SuViet.model.User;
 import com.example.SuViet.model.Video;
 import org.springframework.data.domain.Page;
 
@@ -22,4 +23,8 @@ public interface VideoService {
     List<Video> findAllByTitleAndEnabled(String title, boolean enabled);
 
     Video saveVideo(Video video);
+
+    List<VideoDTO> getAllOwnVideos(User user);
+
+    boolean deleteAVideo(int videoID);
 }
