@@ -173,8 +173,8 @@ public class ArticleController {
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            String path = "src/main/resources/static/article-photo/" + fileName;
-            Path filePath = Paths.get(fileName);
+            String filePathString = "src/main/resources/static/article-photo/" + fileName;
+            Path filePath = Paths.get(filePathString);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()); 
