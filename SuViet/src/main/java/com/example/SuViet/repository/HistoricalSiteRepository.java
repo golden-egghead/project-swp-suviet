@@ -11,6 +11,7 @@ import java.util.List;
 public interface HistoricalSiteRepository extends JpaRepository<HistoricalSite, Integer> {
     List<HistoricalSite> findAllByEnabled(boolean enabled);
     Page<HistoricalSite> findAllByEnabled(boolean enabled, PageRequest pageRequest);
-    List<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, @Param("historicalSiteName") String historicalSiteName);
-    Page<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, @Param("historicalSiteName") String historicalSiteName, PageRequest pageRequest);
+    List<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, String historicalSiteName);
+    Page<HistoricalSite> findAllByEnabledAndHistoricalSiteNameContaining(boolean enabled, String historicalSiteName, PageRequest pageRequest);
+    List<HistoricalSite> findAllByHistoricalSiteNameAndEnabled(String name, boolean enabled);
 }

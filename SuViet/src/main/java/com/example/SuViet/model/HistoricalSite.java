@@ -5,6 +5,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @NoArgsConstructor
@@ -33,14 +34,11 @@ public class HistoricalSite {
     @Column(columnDefinition = "nvarchar", length = 200, nullable = false)
     private String historicalSiteName;
 
-    public HistoricalSite(int historicalSiteID, String location, String description, String photo, boolean enabled, String historicalSiteName) {
-        this.historicalSiteID = historicalSiteID;
-        this.location = location;
-        this.description = description;
-        this.photo = photo;
-        this.enabled = enabled;
-        this.historicalSiteName = historicalSiteName;
-    }
+    @Column(nullable = true)
+    private LocalDateTime createdDate;
+
+    @Column(nullable = true, columnDefinition = "nvarchar", length = Integer.MAX_VALUE, name = "Detail")
+    private String detail;
 
     @JsonIgnore
     @ManyToOne
