@@ -187,6 +187,8 @@ public class CharacterController {
                         new ResponseObject("FAILED", "The name is invalid!", null)
                 );
             }
+            Period period = periodService.getPeriodByPeriodName(dto.getPeriodName());
+            toUpdate.setPeriod(period);
             toUpdate.setStory(dto.getStory());
             toUpdate.setEstate(dto.getEstate());
             toUpdate.setDescription(dto.getDescription());

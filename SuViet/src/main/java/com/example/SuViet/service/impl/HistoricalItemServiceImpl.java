@@ -10,10 +10,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class HistoricalItemServiceImpl implements HistoricalItemService {
     @Autowired
     private HistoricalItemRepository repo;
+
+    @Override
+    public HistoricalItem saveHistoricalItem(HistoricalItem historicalItem) {
+        return repo.save(historicalItem);
+    }
+
+    @Override
+    public Optional<HistoricalItem> findById(int id) {
+        return repo.findById(id);
+    }
 
     @Override
     public List<HistoricalItem> getAllHistoricalItems() {
