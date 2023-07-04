@@ -87,6 +87,7 @@ public class UpdateController {
         );
 
     }
+
     public static boolean hasSpecialCharacters(String inputString) {
         String specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 

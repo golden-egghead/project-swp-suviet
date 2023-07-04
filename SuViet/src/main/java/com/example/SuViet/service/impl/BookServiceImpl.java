@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -20,6 +21,16 @@ public class BookServiceImpl implements BookService {
     @Autowired
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    @Override
+    public Optional<Book> findBookById(int id) {
+        return bookRepository.findById(id);
+    }
+
+    @Override
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
     }
 
     @Override

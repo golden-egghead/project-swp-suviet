@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface CharacterService {
      List<Character> getAllCharacters();
@@ -12,7 +13,8 @@ public interface CharacterService {
      Page<Character> getCharactersWithPagination(int offset, int pageSize);
      Page<Character> searchCharactersByNameWithPagination(String title,int offset, int pageSize);
 
-     List<Character> findCharactersWithSorting(String field);
+     Optional<Character> getCharacterById(int id);
+     Character saveCharacter(Character character);
      Page<Character> getCharacterWithSortAndPaging(int offset, int pageSize, String field);
-    List<Character> getCharacterByPeriod(String periodName);
+     List<Character> getCharacterByPeriod(String periodName);
 }

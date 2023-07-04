@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -37,13 +38,19 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Page<Character> getCharactersWithPagination(int offset, int pageSize) {
-        return characterRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
+    public Optional<Character> getCharacterById(int id) {
+        return characterRepository.findById(id);
     }
 
     @Override
-    public List<Character> findCharactersWithSorting(String field) {
-        return characterRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+    public Character saveCharacter(Character character) {
+        return characterRepository.save(character);
+    }
+
+
+    @Override
+    public Page<Character> getCharactersWithPagination(int offset, int pageSize) {
+        return characterRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
     }
 
     @Override

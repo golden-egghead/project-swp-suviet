@@ -77,5 +77,10 @@ public class Book {
     )
     private Collection<Period> periods;
 
-
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserID")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private User user;
 }
