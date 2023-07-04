@@ -1,6 +1,7 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.dto.VideoDTO;
+import com.example.SuViet.model.User;
 import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.VideoRepository;
 import com.example.SuViet.service.VideoService;
@@ -9,8 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -63,6 +66,34 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public Video saveVideo(Video video) {
         return videoRepository.save(video);
+    }
+
+    @Override
+    public List<VideoDTO> getAllOwnVideos(User user) {
+        List<Video> videos = videoRepository.findAllByEnabled(true);
+        List<VideoDTO> videoDTOS = videos.stream().map(video -> VideoDTO.convertToDTO(video)).collect(Collectors.toList());
+        List<VideoDTO> filteredVideos = new ArrayList<>();
+        for (VideoDTO vid : videoDTOS) {
+            if (vid.getUser() == null || vid.getUser() == user) {
+                filteredVideos.add(vid);
+            }
+        }
+        return filteredVideos;
+    }
+
+    @Override
+    public boolean deleteAVideo(int videoID) {
+        Video videoDelete = videoRepository.findById(videoID).get();
+        try {
+            if (videoDelete.isEnabled()) {
+                videoDelete.setEnabled(false);
+            } else  {
+                videoDelete.setEnabled(true);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 

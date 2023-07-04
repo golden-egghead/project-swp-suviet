@@ -2,6 +2,7 @@ package com.example.SuViet.controller;
 
 import com.example.SuViet.dto.VideoDTO;
 import com.example.SuViet.model.Period;
+import com.example.SuViet.model.Role;
 import com.example.SuViet.model.User;
 import com.example.SuViet.repository.PeriodRepository;
 import com.example.SuViet.repository.VideoRepository;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/videos")
-    @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 
 public class VideoController {
 
@@ -55,7 +56,7 @@ public class VideoController {
             count++;
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponsePaginationObject("OK", "Query successfully",  offset, 6, count,
+                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
                         Math.ceil(count / 6.0), videoService.getVideosWithPagination(offset, 6))
         );
     }
@@ -93,10 +94,26 @@ public class VideoController {
 
     }
 
+    @GetMapping("/moderator-video")
+    public ResponseEntity<ResponseObject> getAllOwnVideos() {
+        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Query successfully", videoService.getAllOwnVideos(user))
+        );
+    }
+
     @PostMapping("/upload-video")
     public ResponseEntity<ResponseObject> uploadAVideo(@RequestBody VideoDTO newVideo) {
         List<Video> videos = videoService.findAllByTitleAndEnabled(newVideo.getTitle(), true);
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
+                );
+            }
+        }
         if (videos.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "Video has already exist!", null)
@@ -108,7 +125,6 @@ public class VideoController {
             video.setUser(user);
             List<String> periodNames = newVideo.getPeriodName();
             List<Period> periods = new ArrayList<>();
-//            String periodName = newVideo.getPeriodName().get(0);
             for (int i = 0; i < periodNames.size(); i++) {
                 Period period = periodRepository.findByPeriodName(periodNames.get(0));
                 periods.add(period);
@@ -121,7 +137,6 @@ public class VideoController {
             }
             video.setPeriods(periods);
             video.setEnabled(true);
-            System.out.println(video);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Saved...", videoService.saveVideo(video))
             );
@@ -134,26 +149,58 @@ public class VideoController {
                                                        @RequestBody Video newVideo) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         Video video = videoService.getVideoById(videoID).get();
-        if (user != video.getUser()) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponseObject("FAILED", "You cannot update this video!", videoService.saveVideo(newVideo))
-            );
-        } else {
-            if (video != null) {
-                video.setTitle(newVideo.getTitle());
-                video.setVideo(newVideo.getVideo());
-                video.setDescription(newVideo.getDescription());
-                return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject("OK", "Updated...", videoService.saveVideo(newVideo))
-                );
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseObject("FAILED", "There is no video with id: " + videoID, videoService.saveVideo(newVideo))
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
                 );
             }
         }
-
+        if (video == null) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "There is no video with id " + videoID, null)
+            );
+        }
+        if (video.getUser() == null) {
+            video.setUser(user);
+        } else {
+            if (user != video.getUser()) {
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                        new ResponseObject("FAILED", "You cannot update this video!", null)
+                );
+            }
+        }
+        video.setEnabled(true);
+        video.setCreatedDate(LocalDateTime.now());
+        video.setTitle(newVideo.getTitle());
+        video.setVideo(newVideo.getVideo());
+        video.setDescription(newVideo.getDescription());
+        video.setPeriods(newVideo.getPeriods());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Updated successfully", videoService.saveVideo(video))
+        );
     }
 
-
+    @DeleteMapping("/delete-video/{videoID}")
+    public ResponseEntity<ResponseObject> deleteAVideo(@PathVariable int videoID) {
+        boolean checkDelete = videoService.deleteAVideo(videoID);
+        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
+                );
+            }
+        }
+        if (checkDelete) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Deleted successfully!", videoService.saveVideo(videoService.getVideoById(videoID).get()))
+            );
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                new ResponseObject("FAILED", "Deleted fail!", null)
+        );
+    }
 }
