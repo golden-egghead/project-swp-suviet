@@ -12,7 +12,7 @@ export default function TimeLine() {
   useEffect(() => {
     const fetchData = async (page) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/periods`);
+        const response = await axios.get(`http://localhost:8080/api/period`);
         setListPeriods(response.data.data)
       } catch (error) {
         console.error('Error fetching data:', error);
