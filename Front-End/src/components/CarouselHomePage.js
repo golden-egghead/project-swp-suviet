@@ -50,12 +50,14 @@ export default function CarouselHomePage() {
                 padding: "0 20px",
                 display: 'flex',
                 justifyContent: 'center',
+                width: '100%',
+                height: '100vh'
             }}>
                 <Carousel
                     data={data}
                     time={1500}
-                    width="800px"
-                    height="500px"
+                    width="100%"
+        height="100%"
                     captionStyle={captionStyle}
                     radius="10px"
                     slideNumber={true}

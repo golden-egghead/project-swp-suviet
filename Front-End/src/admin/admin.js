@@ -163,7 +163,7 @@ export default function AdminPage() {
 						{layout === 'vr' && <Configurator />}
 						<Routes>
 							{getRoutes(routes)}
-							<Route path="" element={<Navigate to="admin/dashboard" />} />
+							<Route path="" element={<Navigate to="admin/user" />} />
 						</Routes>
 					</ThemeProvider>
 				</CacheProvider>

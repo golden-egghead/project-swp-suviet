@@ -7,7 +7,6 @@ import PostPage from './components/PostPage';
 import HistoricalFigurePage from './components/HistoricalFigurePage';
 import HistoricalFigureDetails from './components/HistoricalFigureDetails';
 import VinhDanh from './components/VinhDanh';
-import Game from './components/Game';
 import BookPage from './components/BookPage';
 import BookDetail from './components/BookDetail';
 import HistoricalSite from './components/HistoricalSite';
@@ -32,6 +31,7 @@ import ProtectedRouteWrapper from './components/protectRoute/ProtectedRouteWrapp
 import ProtectedRoute from './components/protectRoute/ProtectedRoute';
 import Footer from './components/Footer';
 import AdminPage from './admin/admin';
+import Moderator from './moderator/moderator';
 
 
 function App() {
@@ -74,6 +74,8 @@ function App() {
           
           
           <Route path="/admin/*" element={<ProtectedRouteWrapper><AdminPage /></ProtectedRouteWrapper>} />
+          
+          <Route path="/moderator/*" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
           <Route path="/postarticle" element={<ProtectedRoute><PostArticle /></ProtectedRoute>} />
           <Route path="/checkrole" element={<CheckRole />} />
           <Route path="/upPro" element={<UpdateProfile />} />

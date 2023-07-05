@@ -14,7 +14,7 @@ const routes = [
 		name: 'Người Dùng',
 		key: 'user',
 		icon: <ManageAccountsIcon fontSize="small" />,
-		route: 'admin/user',
+		route: 'user',
 		component: <Users />
 	},
 	{
@@ -22,7 +22,7 @@ const routes = [
 		name: 'Thoát Đăng Nhập',
 		key: 'logout',
 		icon: <LogoutIcon fontSize="small" />,
-		route: 'admin/logout',
+		route: 'logout',
 		component: <Logout />
 	}
 ];
