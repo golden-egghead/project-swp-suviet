@@ -13,7 +13,7 @@ export default function FilterVideoPage({setSelectedPeriod}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/periods/videos?periodName`);
+        const response = await axios.get(`http://localhost:8080/api/period/videos?periodName`);
         setListPeriods(response.data.data)
       } catch (error) {
         console.error('Error fetching data:', error);
