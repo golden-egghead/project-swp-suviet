@@ -38,6 +38,9 @@ const LoginT = ({ setIsAuthenticated }) => {
             if (roleName === 'ADMIN') {
                 navigate("/admin");
             }
+            else if (roleName === "MODERATOR"){
+                navigate("/moderator");
+              }
 
             const { accessToken } = response.data;
             localStorage.setItem('accessToken', accessToken);

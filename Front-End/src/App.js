@@ -51,10 +51,11 @@ function App() {
   const userRole = localStorage.getItem('role');
   const location = useLocation();
 	const isAdmin = location.pathname.startsWith('/admin');
+  const isModerator = location.pathname.startsWith('/moderator')
   return (
     <div className="App">
       <AuthProvider>
-      {!isAdmin &&  <Header/>}
+      {!isAdmin && !isModerator && <Header/>}
         <Routes history={history}>
           <Route exact path="/" element={<HomePage />} />
           <Route path="/video-details" element={<VideoDetails />} />
@@ -75,7 +76,7 @@ function App() {
           
           <Route path="/admin/*" element={<ProtectedRouteWrapper><AdminPage /></ProtectedRouteWrapper>} />
           
-          <Route path="/moderator/*" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
+          <Route path="/moderator" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
           <Route path="/postarticle" element={<ProtectedRoute><PostArticle /></ProtectedRoute>} />
           <Route path="/checkrole" element={<CheckRole />} />
           <Route path="/upPro" element={<UpdateProfile />} />
@@ -91,7 +92,7 @@ function App() {
           {/* <Route path="/admin/*" element={<Admin/>}></Route> */}
         
         </Routes>
-        {!isAdmin && <Footer/>}
+        {!isAdmin && !isModerator && <Footer/>}
       </AuthProvider>
       <ToastContainer />
     </div>
