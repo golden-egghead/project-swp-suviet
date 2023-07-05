@@ -9,6 +9,7 @@ import HistoricalFigureDetails from './components/HistoricalFigureDetails';
 import VinhDanh from './components/VinhDanh';
 import Game from './components/Game';
 import BookPage from './components/BookPage';
+import BookDetail from './components/BookDetail';
 import HistoricalSite from './components/HistoricalSite';
 import HistoricalItems from './components/HistoricalItems';
 import HomePage from './components/HomePage';
@@ -65,6 +66,7 @@ function App() {
           <Route path="/historicalfigure-details/:characterID" element={<HistoricalFigureDetails />} />
           <Route path="/vinhdanh" element={<VinhDanh />} />
           <Route path="/book" element={<BookPage />} />
+          <Route path="/book-details/:bookID" element={<BookDetail />} />
           <Route path="/historicalsite" element={<HistoricalSite />} />
           <Route path="/historicalitem" element={<HistoricalItems />} />
           {/* <Route path="/postarticle" element={<PostArticle />} /> */}
