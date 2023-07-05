@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("gis")
+@RequestMapping("/period")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PeriodController {
     private final PeriodService periodService;
