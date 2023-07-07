@@ -16,6 +16,7 @@ public class ResponseJwt {
     private String email;
     private String password;
     private String fullname;
+    private String avatar;
     private String roleName;
     private String accessToken;
 }
