@@ -1,5 +1,42 @@
 package com.example.SuViet.controller;
 
+//
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+//
 import com.example.SuViet.dto.ArticleDTO;
 import com.example.SuViet.dto.CommentDTO;
 import com.example.SuViet.dto.RepliesCommentDTO;
@@ -167,27 +204,91 @@ public class ArticleController {
         }
     }
 
+    // @PostMapping("")
+    // public ResponseEntity<ResponseObject> postAnArticle(@RequestParam String
+    // data,
+    // @RequestParam("file") MultipartFile file) {
+    // try {
+    // ObjectMapper objectMapper = new ObjectMapper();
+    // ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
+
+    // String fileExtension = getFileExtension(file.getOriginalFilename());
+    // String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+
+    // String filePathString = "src/main/resources/static/article-photo/" +
+    // fileName;
+    // Path filePath = Paths.get(filePathString);
+
+    // User user =
+    // userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+    // Article article = new Article();
+    // // article.setTitle(filterArticleTitle(articleDTO.getTitle()));
+    // // article.setContext(filterArticeContent(articleDTO.getContext()));
+    // article.setTitle(articleDTO.getTitle());
+    // article.setContext(articleDTO.getContext());
+    // article.setPhoto(fileName.toString());
+    // article.setCreatedDate(LocalDateTime.now());
+
+    // List<String> roles = getRoleName(user.getRoles());
+
+    // if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+    // article.setStatus(true);
+    // article.setEnabled(true);
+    // } else {
+    // article.setStatus(false);
+    // article.setEnabled(false);
+    // }
+
+    // article.setUser(user);
+
+    // List<String> tagNames = articleDTO.getTagNames();
+
+    // List<Tag> tags = tagService.findByTagNames(tagNames);
+
+    // article.setTags(tags);
+
+    // Article savedArticle = articleService.savedArticle(article);
+
+    // Files.copy(file.getInputStream(), filePath,
+    // StandardCopyOption.REPLACE_EXISTING);
+    // return ResponseEntity.status(HttpStatus.CREATED).body(
+    // new ResponseObject("OK", "Article created successfully", savedArticle));
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+    // new ResponseObject("ERROR", "Failed to save article", null));
+    // }
+    // }
+
     @PostMapping("")
     public ResponseEntity<ResponseObject> postAnArticle(@RequestParam String data,
             @RequestParam("file") MultipartFile file) {
         try {
+            if (data == null || data.isEmpty() || file == null || file.isEmpty()) {
+                return ResponseEntity.badRequest().body(
+                        new ResponseObject("ERROR", "Invalid input data", null));
+            }
+
             ObjectMapper objectMapper = new ObjectMapper();
             ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
+
+            // Validate articleDTO and its fields
 
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            String filePathString = "src/main/resources/static/article-photo/" + fileName;
+            String destinationDir = "src" + File.separator + "main" + File.separator + "resources" +
+                    File.separator + "static" + File.separator + "article-photo" + File.separator;
+
+            String filePathString = destinationDir + fileName;
             Path filePath = Paths.get(filePathString);
 
             User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
             Article article = new Article();
-            // article.setTitle(filterArticleTitle(articleDTO.getTitle()));
-            // article.setContext(filterArticeContent(articleDTO.getContext()));
             article.setTitle(articleDTO.getTitle());
             article.setContext(articleDTO.getContext());
-            article.setPhoto(fileName.toString());
+            article.setPhoto(fileName);
             article.setCreatedDate(LocalDateTime.now());
 
             List<String> roles = getRoleName(user.getRoles());
@@ -210,12 +311,20 @@ public class ArticleController {
 
             Article savedArticle = articleService.savedArticle(article);
 
+            Files.createDirectories(filePath.getParent());
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new ResponseObject("OK", "Article created successfully", savedArticle));
-        } catch (Exception e) {
+        } catch (JsonParseException | JsonMappingException e) {
+            return ResponseEntity.badRequest().body(
+                    new ResponseObject("ERROR", "Invalid JSON data", null));
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     new ResponseObject("ERROR", "Failed to save article", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Internal server error", null));
         }
     }
 
