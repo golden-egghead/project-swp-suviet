@@ -31,6 +31,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UpdateController {
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
@@ -47,16 +48,11 @@ public class UpdateController {
         return new ResponseObject("OK", "Query successfully", profileDTO.convertToDTO(user));
     }
 
-    @PostMapping("/profile/update")
+    @PutMapping("/profile/update")
     public ResponseEntity<UpdateResponse> updateProfile(@RequestParam("image") MultipartFile image,
                                                         @RequestParam("fullName") String fullName) throws IOException {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
-//        String roleName = "";
-//        List<Role> roles = (List<Role>) userRepository.findByMail(user.getMail()).get().getRoles();
-//        for (Role role : roles) {
-//            roleName = role.getRoleName();
-//        }
 
         Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
         Path imagePath = Paths.get("avatars");
@@ -65,10 +61,6 @@ public class UpdateController {
             if(!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
                 Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
             }
-            System.out.println("IMAGE: " + user.getAvatar());
-            System.out.println("Original: " + image.getOriginalFilename());
-            System.out.println("Get Input Stream:" + image.getInputStream().toString());
-
             if(user.getAvatar() != null){
                 Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(user.getAvatar());
                 Path updateFile = CURRENT_FOLDER.resolve(staticPath)
