@@ -5,7 +5,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -24,12 +24,12 @@ public class Notification {
     private String message;
 
     @Column(columnDefinition = "date", nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private boolean enabled;
 
-    public Notification(int notificationID, String message, Date createdDate, boolean enabled) {
+    public Notification(int notificationID, String message, LocalDateTime createdDate, boolean enabled) {
         this.notificationID = notificationID;
         this.message = message;
         this.createdDate = createdDate;

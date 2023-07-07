@@ -268,5 +268,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User getUserByRoleName(String roleName) {
+        return userRepository.findByRoles_RoleName(roleName);
+    }
 
 }

@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByMailAndPassword(String mail, String encodedPassword);
     Optional<User> findByMailAndEnabled(String email, boolean isEnabled);
+
+    User findByRoles_RoleName(String roleName);
 }

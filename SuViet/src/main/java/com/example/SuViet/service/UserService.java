@@ -28,4 +28,6 @@ public interface UserService {
     
     User getUserById(int userId);
     boolean updateRole(int id);
+    User getUserByRoleName(String roleName);
+    
 }

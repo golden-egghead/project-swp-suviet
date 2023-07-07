@@ -6,6 +6,7 @@ import com.example.SuViet.dto.RepliesCommentDTO;
 import com.example.SuViet.dto.VoteDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
+import com.example.SuViet.model.Notification;
 import com.example.SuViet.model.RepliesComment;
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.Tag;
@@ -15,6 +16,7 @@ import com.example.SuViet.model.User;
 import com.example.SuViet.model.Vote;
 import com.example.SuViet.service.ArticleService;
 import com.example.SuViet.service.CommentService;
+import com.example.SuViet.service.NotificationServices;
 import com.example.SuViet.service.RepliesCommentService;
 import com.example.SuViet.service.TagService;
 import com.example.SuViet.service.UserService;
@@ -29,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -53,18 +54,21 @@ public class ArticleController {
     private final CommentService commentService;
     private final RepliesCommentService repliesCommentService;
     private final VoteService voteService;
+    private final NotificationServices notificationServices;
     private final TagService tagService;
     private static final int PAGE_SIZE = 6;
     public static final List<String> toxicWords = Arrays.asList("khung", "dien", "vl", "khùng", "điên");
 
     public ArticleController(ArticleService articleService, UserService userService, CommentService commentService,
-            RepliesCommentService repliesCommentService, VoteService voteService, TagService tagService) {
+            RepliesCommentService repliesCommentService, VoteService voteService, TagService tagService,
+            NotificationServices notificationServices) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentService = commentService;
         this.repliesCommentService = repliesCommentService;
         this.voteService = voteService;
         this.tagService = tagService;
+        this.notificationServices = notificationServices;
     }
 
     @GetMapping("/{offset}")
@@ -175,13 +179,14 @@ public class ArticleController {
 
             String filePathString = "src/main/resources/static/article-photo/" + fileName;
             Path filePath = Paths.get(filePathString);
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()); 
+            User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
             Article article = new Article();
-            article.setTitle(filerArticleTitle(articleDTO.getTitle()));
-            article.setContext(filterArticeContent(articleDTO.getContext()));
+            // article.setTitle(filterArticleTitle(articleDTO.getTitle()));
+            // article.setContext(filterArticeContent(articleDTO.getContext()));
+            article.setTitle(articleDTO.getTitle());
+            article.setContext(articleDTO.getContext());
             article.setPhoto(fileName.toString());
             article.setCreatedDate(LocalDateTime.now());
 
@@ -197,16 +202,15 @@ public class ArticleController {
 
             article.setUser(user);
 
-            Article savedArticle = articleService.savedArticle(article);
-
             List<String> tagNames = articleDTO.getTagNames();
 
             List<Tag> tags = tagService.findByTagNames(tagNames);
 
-            savedArticle.setTags(tags);
+            article.setTags(tags);
 
-            savedArticle = articleService.savedArticle(savedArticle);
+            Article savedArticle = articleService.savedArticle(article);
 
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new ResponseObject("OK", "Article created successfully", savedArticle));
         } catch (Exception e) {
@@ -222,7 +226,8 @@ public class ArticleController {
             // int userID;
 
             // User user = userService.getUserById(userID);
-            User user = userService.getUserById(commentDTO.getUserID());
+            // User user = userService.getUserById(commentDTO.getUserID());
+            User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
             Article article = articleService.getArticleById(articleId);
 
             Comment comment = new Comment();
@@ -253,7 +258,8 @@ public class ArticleController {
             // int userID;
 
             // User user = userService.getUserById(userID);
-            User user = userService.getUserById(repliesCommentDTO.getUserID());
+            // User user = userService.getUserById(repliesCommentDTO.getUserID());
+            User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
             Article article = articleService.getArticleById(articleId);
             Comment comment = commentService.getCommentById(commentId);
 
@@ -282,7 +288,8 @@ public class ArticleController {
             @PathVariable("articleId") int articleID,
             @RequestBody VoteDTO voteDTO) {
         try {
-            User user = userService.getUserById(voteDTO.getUserID());
+            // User user = userService.getUserById(voteDTO.getUserID());
+            User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
             Article article = articleService.getArticleById(articleID);
 
             Vote vote = new Vote();
@@ -311,13 +318,27 @@ public class ArticleController {
             @RequestParam boolean browsed) {
         try {
             Article article = articleService.getArticleById(articleId);
+            User postUser = article.getUser();
 
             if (browsed) {
                 article.setEnabled(true);
                 article.setStatus(true);
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("Your article has been approved");
+                notification.setUser(postUser);
+                notificationServices.createNotification(notification);
             } else {
                 article.setStatus(true);
                 article.setEnabled(false);
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("Your article has been disapproved");
+                notification.setUser(postUser);
+                notificationServices.createNotification(notification);
+
             }
 
             Article savedArticle = articleService.savedArticle(article);
@@ -334,6 +355,39 @@ public class ArticleController {
                     new ResponseObject("ERROR", "Failed to browse", null));
         }
 
+    }
+
+    @PutMapping("/report/{userId}")
+    public void reportCounter(
+            @PathVariable("userId") int userId) {
+        try {
+            User reportedUser = userService.getUserById(userId);
+            reportedUser.setReported(reportedUser.getReported() + 1);
+            userService.updateUser(reportedUser);
+            if (reportedUser.getReported() >= 5) {
+                User admin = userService.getUserByRoleName("ADMIN");
+                Notification notification = new Notification();
+                notification.setMessage("The user " + reportedUser.getFullname() + " is reported too many time");
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setUser(admin);
+                notificationServices.createNotification(notification);
+            }
+        } catch (Exception e) {
+            return;
+        }
+    }
+
+    @PutMapping("/view/{articleId}")
+    public void viewCounter(
+            @PathVariable("articleId") int articleId) {
+        try {
+            Article article = articleService.getArticleById(articleId);
+            article.setArticleView(article.getArticleView() + 1);
+            articleService.savedArticle(article);
+        } catch (Exception e) {
+            return;
+        }
     }
 
     @PutMapping("/{articleId}")
@@ -356,7 +410,10 @@ public class ArticleController {
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            User currentUser = userService.getUserById(articleDTO.getUserID());
+            // User currentUser = userService.getUserById(articleDTO.getUserID());
+
+            User currentUser = userService
+                    .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
             Article existingArticle = articleService.getArticleById(articleId);
 
@@ -370,8 +427,8 @@ public class ArticleController {
             Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            existingArticle.setTitle(filerArticleTitle(articleDTO.getTitle()));
-            existingArticle.setContext(filterArticeContent(articleDTO.getContext()));
+            existingArticle.setTitle(articleDTO.getTitle());
+            existingArticle.setContext(articleDTO.getContext());
             existingArticle.setPhoto(fileName.toString());
 
             List<String> roles = getRoleName(currentUser.getRoles());
@@ -414,7 +471,9 @@ public class ArticleController {
         try {
             Comment existingComment = commentService.getCommentById(commentId);
 
-            User currentUser = userService.getUserById(commentDTO.getUserID());
+            // User currentUser = userService.getUserById(commentDTO.getUserID());
+            User currentUser = userService
+                    .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
             if (!existingComment.getUser().equals(currentUser)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
@@ -443,7 +502,9 @@ public class ArticleController {
         try {
             RepliesComment existingReplyComment = repliesCommentService.getReplyCommentById(replyId);
 
-            User currentUser = userService.getUserById(repliesCommentDTO.getUserID());
+            // User currentUser = userService.getUserById(repliesCommentDTO.getUserID());
+            User currentUser = userService
+                    .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
             if (!existingReplyComment.getUser().equals(currentUser)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
@@ -490,12 +551,31 @@ public class ArticleController {
     public ResponseEntity<ResponseObject> deleteArticle(@PathVariable("articleId") int articleId) {
         try {
             Article existingArticle = articleService.getArticleById(articleId);
+            User ownerUser = existingArticle.getUser();
+            User currentUser = userService
+                    .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-            existingArticle.setEnabled(false);
+            List<String> roles = getRoleName(currentUser.getRoles());
 
-            Article deletedArticle = articleService.savedArticle(existingArticle);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Article deleted successfully", deletedArticle));
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                existingArticle.setEnabled(false);
+
+                Article deletedArticle = articleService.savedArticle(existingArticle);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("OK", "Article deleted successfully", deletedArticle));
+            } else {
+                if (!ownerUser.equals(currentUser)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                            new ResponseObject("ERROR", "User is not authorized to update the article", null));
+                } else {
+                    existingArticle.setEnabled(false);
+
+                    Article deletedArticle = articleService.savedArticle(existingArticle);
+                    return ResponseEntity.status(HttpStatus.OK).body(
+                            new ResponseObject("OK", "Article deleted successfully", deletedArticle));
+                }
+            }
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject("ERROR", e.getMessage(), null));
@@ -556,8 +636,8 @@ public class ArticleController {
         return resultString;
     }
 
-    public static String filerArticleTitle(String originalString) {
-        return "<h1>" + originalString + "<h1>";
+    public static String filterArticleTitle(String originalString) {
+        return "<h1>" + originalString + "</h1>";
     }
 
     public static String filterToxic(String originalString) {
