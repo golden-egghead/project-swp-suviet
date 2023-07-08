@@ -12,12 +12,17 @@ import DashboardNavbar from '../../examples/Navbars/DashboardNavbar';
 import DataTable from '../../examples/Tables/DataTable';
 // Data
 import videoData from './data/videoData';
+import Button from '@mui/material/Button'
+import { Link } from 'react-router-dom';
 
 function Videos() {
 	const { columns, rows } = videoData();
 	return (
 		<DashboardLayout>
 			<DashboardNavbar />
+			<Link to='/moderator/add'><Button style={{color: 'white'}} variant="contained" >
+				Create
+			</Button></Link>
 			<MDBox pt={6} pb={3}>
 				<Grid container spacing={6}>
 					<Grid item xs={12}>

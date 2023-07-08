@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
 import ModalCase from './showPopup';
-
+import { toast } from 'react-toastify';
 
 const Id = ({ id }) => (
 	<MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -111,24 +111,30 @@ export default function Data() {
 	// 	setData(updatedData);
 	// };
 
-	const RemoveFunction = (id) => {
+	const RemoveVideo = async (videoID) => {
 		if (window.confirm('Do you want to remove?')) {
-			const baseUrl = `https://64994ec179fbe9bcf83ef4f0.mockapi.io/APIPE/`;
-			fetch(baseUrl + id, {
-				method: 'DELETE',
-				headers: {
-					'content-type': 'application/json'
-				}
-			})
-				.then((res) => res.json())
-				.then((data) => {
-					alert('Remove successfully!');
-				})
-				.catch((err) => {
-					console.log(err.message);
-				});
+		  try {
+			const baseUrl = `http://localhost:8080/api/videos/delete-video/`;
+			const response = await fetch(baseUrl + videoID, {
+			  method: 'DELETE',
+			  headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+			  }
+			});
+	
+			if (response.ok) {
+			  setData((prevData) => prevData.filter((item) => item.videoID !== videoID));
+			  toast.success('Xóa Thành Công!');
+			} else {
+			  throw new Error('Xóa Thất Bại');
+			}
+		  } catch (err) {
+			console.log(err.message);
+		  }
 		}
-	};
+	  };
+	  
 
 	const rows = accountData.map((item) => ({
 		ID: <Id id={item.videoID} />,
@@ -142,7 +148,7 @@ export default function Data() {
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { RemoveFunction(item.videoID) }}>
+				onClick={() => { RemoveVideo(item.videoID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),

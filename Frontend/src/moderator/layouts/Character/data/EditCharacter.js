@@ -3,26 +3,26 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function EditVideo({ data }) {
-	const videoID = useParams();
-	const pr = videoID.videoID;
-	const baseUrl = `http://localhost:8080/api/videos/update-video/`;
+function EditVideo({ data, page }) {
+	const characterID = useParams();
+	const pr = characterID.characterID;
+	const baseUrl = `http://localhost:8080/api/character/edit/`;
 
 	const location = useLocation();
 	const props = location.state;
 	const [ID, setID] = useState('');
-	const [video, setVideo] = useState('');
-	const [title, setTitle] = useState('');
+    const [image, setImage] = useState('');
+	const [characterName, setCharacterName] = useState('');
 	const [description, setDescription] = useState('');
-	const [periodName, setPeriodName] = useState([]);
+    const [periodName, setPeriodName] = useState('');
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		setID(props.videoID);
-		setVideo(props.video);
-		setTitle(props.title);
+		setID(props.characterID);
+        setImage(props.image);
+		setCharacterName(props.characterName);
 		setDescription(props.description);
-		setPeriodName(props.periodName)
+        setPeriodName(props.periodName)
 	},[]
 	)
 
@@ -33,19 +33,19 @@ function EditVideo({ data }) {
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const videos = { ID, video, title, description, periodName};
+		const characters = { ID, image, characterName, description, periodName };
 		fetch(baseUrl + pr, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
-			body: JSON.stringify(videos)
+			body: JSON.stringify(characters)
 		})
 			.then((res) => {
 				// alert('Update successfully!');
 				toast.success('Cập nhật thành công!');
-				navigate('/moderator/video');
+				navigate('/moderator/character');
 			})
 			.catch((err) => {
 				console.log(err.message);
@@ -56,7 +56,7 @@ function EditVideo({ data }) {
 		<form className="edit-container" onSubmit={handleSubmit}>
 			<div className="edit-form">
 				<div className="form-title">
-					<h2>Edit Video</h2>
+					<h2>Edit Character</h2>
 				</div>
 				<div className="form-body">
 					<div className="form-group">
@@ -71,20 +71,20 @@ function EditVideo({ data }) {
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Video"
+							label="Image"
 							variant="filled"
-							value={video}
-							onChange={(e) => setVideo(e.target.value)}
+							value={image}
+							onChange={(e) => setImage(e.target.value)}
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Title"
+							label="CharacterName"
 							variant="filled"
-							value={title}
-							onChange={(e) => setTitle(e.target.value)}
+							value={characterName}
+							onChange={(e) => setCharacterName(e.target.value)}
 							required
 						/>
 					</div>
@@ -99,14 +99,14 @@ function EditVideo({ data }) {
 							required
 						/>
 					</div>
-					<div className="form-group">
+                    <div className="form-group">
 						<TextField
 						fullWidth
 							id="filled-basic"
 							label="PeriodName"
 							variant="filled"
 							value={periodName}
-							onChange={(e) => setPeriodName(e.target.value.split(','))}
+							onChange={(e) => setPeriodName(e.target.value)}
 							required
 						/>
 					</div>

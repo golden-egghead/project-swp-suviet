@@ -69,8 +69,8 @@ export default function Data() {
 	//Edit
 	const navigate = useNavigate();
 
-	const EditFunction = (videoID) => {
-		navigate("/moderator/video/edit/" + videoID);
+	const EditFunction = (item) => {
+		navigate("/moderator/character/edit/" + + item.characterID, { state: item });
 	  }
 
 	// const handleEditVideo = async (item) => {
@@ -106,7 +106,7 @@ export default function Data() {
 		Action: (<>
 			<Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor: 'green' }}
 				className='edit-btn'
-				onClick={() => { EditFunction(item.videoID) }}>
+				onClick={() => { EditFunction(item) }}>
 				<EditIcon />
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
