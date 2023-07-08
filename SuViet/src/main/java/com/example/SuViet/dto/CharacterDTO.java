@@ -1,6 +1,7 @@
 package com.example.SuViet.dto;
 
 import com.example.SuViet.model.Character;
+import com.example.SuViet.model.Period;
 import com.example.SuViet.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,21 +10,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CharacterDTO {
-    private String periodName;
-    private int id;
+
+    private int characterID;
     private String characterName;
     private String story;
     private String estate;
     private boolean enabled;
-    private String description;
     private String image;
+    private String description;
     private User user;
-
-
+    private String periodName;
 
     public CharacterDTO convertToDTO(Character character){
         CharacterDTO characterDTO = new CharacterDTO();
-        characterDTO.setId(character.getCharacterID());
+        characterDTO.setCharacterID(character.getCharacterID());
         characterDTO.setCharacterName(character.getCharacterName());
         characterDTO.setStory(character.getStory());
         characterDTO.setEstate(character.getEstate());

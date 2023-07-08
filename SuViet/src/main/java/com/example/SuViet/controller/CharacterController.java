@@ -116,92 +116,73 @@ public class CharacterController {
 
     @PostMapping(value = "/character/upload")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestParam String data,
-                                                              @RequestParam("image") MultipartFile image) throws IOException {
-        //File ảnh
-        Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
-        Path imagePath = Paths.get("characters");
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
-            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
-        }
-        Path file = CURRENT_FOLDER.resolve(staticPath)
-                .resolve(imagePath).resolve(image.getOriginalFilename());
-        try (OutputStream os = Files.newOutputStream(file)) {
-            os.write(image.getBytes());
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        CharacterDTO dto = objectMapper.readValue(data, CharacterDTO.class);
+    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestBody CharacterDTO dto) throws IOException {
         User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<String> roles = getRoleName(currentUser.getRoles());
-        if (roles.contains("MODERATOR")) {
-            List<Character> list = characterService.searchCharactersByName(dto.getCharacterName());
-            if (list.size() == 0) {
-                Character newCharacter = new Character();
-                BeanUtils.copyProperties(dto, newCharacter);
-                newCharacter.setImage(imagePath.resolve(image.getOriginalFilename()).toString());
-                Period period = periodService.getPeriodByPeriodName(dto.getPeriodName());
-                newCharacter.setPeriod(period);
-                newCharacter.setUser(currentUser);
-                repository.save(newCharacter);
-                return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject("OK", "Uploaded Successfully!", newCharacter)
-                );
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseObject("FAILED", "Character has already exist!", null)
-                );
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ResponseObject("FAILED", "Your role can be accessible this feature!", null)
+        if(roles.contains("MEMBER") || roles.contains("ADMIN")){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                    new ResponseObject("FAILED", "Unforbidden", null)
             );
         }
-
+        List<Character> characters = characterService.searchCharactersByName(dto.getCharacterName());
+        if(characters.size() > 0){
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "Character has already exist!", null)
+            );
+        }else{
+            Character newCharacter = new Character();
+            BeanUtils.copyProperties(dto, newCharacter);
+            newCharacter.setUser(currentUser);
+            Period period = periodService.getPeriodByPeriodName(dto.getPeriodName());
+            if(period == null){
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                        new ResponseObject("FAILED", "Cannot find out period", null)
+                );
+            }
+            newCharacter.setPeriod(period);
+            newCharacter.setEnabled(true);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Uploaded Successfully!", characterService.saveCharacter(newCharacter))
+            );
+        }
     }
 
     @PutMapping(value = "/character/edit/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> editACharacter(@PathVariable("id") int id,
-                                                         @RequestParam String data,
-                                                         @RequestParam("image") MultipartFile image) throws IOException {
+                                                         @RequestBody Character info) throws IOException {
         User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Character character = characterService.getCharacterById(id).get();
         List<String> roles = getRoleName(currentUser.getRoles());
-        if (roles.contains("MODERATOR")) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            CharacterDTO dto = objectMapper.readValue(data, CharacterDTO.class);
-            Character toUpdate = characterService.getCharacterById(id).get();
-            //xử lí ảnh
-            Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
-            Path imagePath = Paths.get("characters");
-            Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(toUpdate.getImage());
-            Path updateFile = CURRENT_FOLDER.resolve(staticPath)
-                    .resolve(imagePath).resolve(image.getOriginalFilename());
-            Files.copy(image.getInputStream(), updateFile, StandardCopyOption.REPLACE_EXISTING);
-            Files.deleteIfExists(oldFile);
-            //nếu file ảnh trống, thì giữ lại cái cũ
-            //tên ko có ký tự đặt biệt, ko được null
-            if (dto.hasSpecialCharacters(dto.getCharacterName()) != true) {
-                toUpdate.setCharacterName(dto.getCharacterName());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseObject("FAILED", "The name is invalid!", null)
-                );
-            }
-            Period period = periodService.getPeriodByPeriodName(dto.getPeriodName());
-            toUpdate.setPeriod(period);
-            toUpdate.setStory(dto.getStory());
-            toUpdate.setEstate(dto.getEstate());
-            toUpdate.setDescription(dto.getDescription());
-            toUpdate.setImage(imagePath.resolve(image.getOriginalFilename()).toString());
-            characterService.saveCharacter(toUpdate);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "The Character updated successfully", toUpdate));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ResponseObject("FAILED", "Your role can be accessible this feature!", null)
+        if(roles.contains("MEMBER") || roles.contains("ADMIN")){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                    new ResponseObject("FAILED", "Unforbidden", null)
             );
         }
+        if (character == null) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "There is no character with id " + id, null)
+            );
+        }
+        if (character.getUser() == null) {
+            character.setUser(currentUser);
+        } else {
+            if (currentUser != character.getUser()) {
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                        new ResponseObject("FAILED", "You cannot update this video!", null)
+                );
+            }
+        }
+        character.setCharacterName(info.getCharacterName());
+        character.setEnabled(true);
+        character.setImage(info.getImage());
+        character.setDescription(info.getDescription());
+        character.setPeriod(info.getPeriod());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "The Character updated successfully", characterService.saveCharacter(character))
+        );
     }
+
 
     @DeleteMapping(value = "/character/delete/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
