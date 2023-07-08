@@ -150,7 +150,7 @@ public class CharacterController {
     @PutMapping(value = "/character/edit/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> editACharacter(@PathVariable("id") int id,
-                                                         @RequestBody Character info) throws IOException {
+                                                         @RequestBody CharacterDTO info) throws IOException {
         User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         Character character = characterService.getCharacterById(id).get();
         List<String> roles = getRoleName(currentUser.getRoles());
@@ -173,11 +173,20 @@ public class CharacterController {
                 );
             }
         }
+
         character.setCharacterName(info.getCharacterName());
         character.setEnabled(true);
         character.setImage(info.getImage());
         character.setDescription(info.getDescription());
-        character.setPeriod(info.getPeriod());
+
+        Period period = periodService.getPeriodByPeriodName(info.getPeriodName());
+        if(period == null){
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "Cannot find out period", null)
+            );
+        }
+        character.setPeriod(period);
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "The Character updated successfully", characterService.saveCharacter(character))
         );

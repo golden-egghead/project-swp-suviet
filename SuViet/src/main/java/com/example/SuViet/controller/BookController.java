@@ -164,7 +164,7 @@ public class BookController {
     }
     @PostMapping(value = "/book/upload")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestParam String data,
+    public ResponseEntity<ResponseObject> uploadANewBook(@RequestParam String data,
                                                               @RequestParam("image") MultipartFile cover) throws IOException, ParseException {
         Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
         Path imagePath = Paths.get("books");
