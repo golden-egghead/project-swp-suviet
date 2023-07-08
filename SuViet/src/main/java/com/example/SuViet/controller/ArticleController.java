@@ -18,7 +18,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;import com.fasterxml.jackson.core.JsonParseException;
+import java.util.UUID;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -499,31 +500,94 @@ public class ArticleController {
         }
     }
 
+    // @PutMapping("/{articleId}")
+    // public ResponseEntity<ResponseObject> editArticle(@PathVariable("articleId")
+    // int articleId,
+    // @RequestParam String data,
+    // @RequestParam("file") MultipartFile file) {
+    // try {
+    // // User currentUser =
+    // //
+    // userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+    // // int curentUserID;
+
+    // // User currentUser = userService.getUserById(curentUserID);
+    // // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+    // // new ResponseObject("ERROR", "User is not authorized to update the
+    // article",
+    // // null));
+    // ObjectMapper objectMapper = new ObjectMapper();
+    // ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
+
+    // String fileExtension = getFileExtension(file.getOriginalFilename());
+    // String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+
+    // // User currentUser = userService.getUserById(articleDTO.getUserID());
+
+    // User currentUser = userService
+    // .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+    // Article existingArticle = articleService.getArticleById(articleId);
+
+    // if (!existingArticle.getUser().equals(currentUser)) {
+    // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+    // new ResponseObject("ERROR", "User is not authorized to update the article",
+    // null));
+    // }
+
+    // Path oldFilePath = Path.of("src/main/resources/static/article-photo/" +
+    // existingArticle.getPhoto());
+
+    // Path filePath = Path.of("src/main/resources/static/article-photo/" +
+    // fileName);
+    // Files.copy(file.getInputStream(), filePath,
+    // StandardCopyOption.REPLACE_EXISTING);
+
+    // existingArticle.setTitle(articleDTO.getTitle());
+    // existingArticle.setContext(articleDTO.getContext());
+    // existingArticle.setPhoto(fileName.toString());
+
+    // List<String> roles = getRoleName(currentUser.getRoles());
+
+    // if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+    // existingArticle.setStatus(true);
+    // existingArticle.setEnabled(true);
+    // } else {
+    // existingArticle.setStatus(false);
+    // existingArticle.setEnabled(false);
+    // }
+
+    // Article updatedArticle = articleService.savedArticle(existingArticle);
+
+    // List<String> tagNames = articleDTO.getTagNames();
+
+    // List<Tag> tags = tagService.findByTagNames(tagNames);
+
+    // updatedArticle.setTags(tags);
+
+    // updatedArticle = articleService.savedArticle(updatedArticle);
+
+    // Files.deleteIfExists(oldFilePath);
+
+    // return ResponseEntity.status(HttpStatus.OK).body(
+    // new ResponseObject("OK", "Article updated successfully", updatedArticle));
+    // } catch (EntityNotFoundException e) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+    // new ResponseObject("ERROR", e.getMessage(), null));
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+    // new ResponseObject("ERROR", "Failed to update article", null));
+    // }
+    // }
+
     @PutMapping("/{articleId}")
     public ResponseEntity<ResponseObject> editArticle(@PathVariable("articleId") int articleId,
-            @RequestParam String data,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam(required = false) String data,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
         try {
-            // User currentUser =
-            // userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-
-            // int curentUserID;
-
-            // User currentUser = userService.getUserById(curentUserID);
-            // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-            // new ResponseObject("ERROR", "User is not authorized to update the article",
-            // null));
-            ObjectMapper objectMapper = new ObjectMapper();
-            ArticleDTO articleDTO = objectMapper.readValue(data, ArticleDTO.class);
-
-            String fileExtension = getFileExtension(file.getOriginalFilename());
-            String fileName = UUID.randomUUID().toString() + "." + fileExtension;
-
-            // User currentUser = userService.getUserById(articleDTO.getUserID());
-
             User currentUser = userService
                     .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-
             Article existingArticle = articleService.getArticleById(articleId);
 
             if (!existingArticle.getUser().equals(currentUser)) {
@@ -531,14 +595,28 @@ public class ArticleController {
                         new ResponseObject("ERROR", "User is not authorized to update the article", null));
             }
 
-            Path oldFilePath = Path.of("src/main/resources/static/article-photo/" + existingArticle.getPhoto());
+            ArticleDTO articleDTO = null;
 
-            Path filePath = Path.of("src/main/resources/static/article-photo/" + fileName);
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            if (data != null) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                articleDTO = objectMapper.readValue(data, ArticleDTO.class);
+                existingArticle.setTitle(articleDTO.getTitle());
+                existingArticle.setContext(articleDTO.getContext());
+            }
 
-            existingArticle.setTitle(articleDTO.getTitle());
-            existingArticle.setContext(articleDTO.getContext());
-            existingArticle.setPhoto(fileName.toString());
+            if (file != null && !file.isEmpty()) {
+                String fileExtension = getFileExtension(file.getOriginalFilename());
+                String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+
+                String basePath = "src/main/resources/static/article-photo/";
+                Path oldFilePath = Paths.get(basePath + existingArticle.getPhoto());
+                Path filePath = Paths.get(basePath + fileName);
+
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                existingArticle.setPhoto(fileName);
+                Files.deleteIfExists(oldFilePath);
+            }
 
             List<String> roles = getRoleName(currentUser.getRoles());
 
@@ -550,26 +628,27 @@ public class ArticleController {
                 existingArticle.setEnabled(false);
             }
 
+            if (articleDTO != null) {
+                List<String> tagNames = articleDTO.getTagNames();
+                List<Tag> tags = tagService.findByTagNames(tagNames);
+                existingArticle.setTags(tags);
+            }
             Article updatedArticle = articleService.savedArticle(existingArticle);
-
-            List<String> tagNames = articleDTO.getTagNames();
-
-            List<Tag> tags = tagService.findByTagNames(tagNames);
-
-            updatedArticle.setTags(tags);
-
-            updatedArticle = articleService.savedArticle(updatedArticle);
-
-            Files.deleteIfExists(oldFilePath);
 
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Article updated successfully", updatedArticle));
+        } catch (JsonParseException | JsonMappingException e) {
+            return ResponseEntity.badRequest().body(
+                    new ResponseObject("ERROR", "Invalid JSON data", null));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject("ERROR", e.getMessage(), null));
-        } catch (Exception e) {
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     new ResponseObject("ERROR", "Failed to update article", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Internal server error", null));
         }
     }
 
