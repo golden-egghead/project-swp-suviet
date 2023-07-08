@@ -32,6 +32,7 @@ import Footer from './components/Footer';
 import AdminPage from './admin/admin';
 // import ModeratorPage from './components/moderator/mod';
 import Moderator from './components/moderator2/moderator';
+import EditVideo from './components/moderator2/layouts/Video/data/EditVideo'
 
 
 import Map from './components/Map/Map';
@@ -66,6 +67,7 @@ function App() {
           
           <Route path="/admin/*" element={<ProtectedRouteWrapper><AdminPage /></ProtectedRouteWrapper>} />
           <Route path="/moderator/*" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
+          <Route path="/moderator/video/edit/:videoID" element={<EditVideo />} />
           <Route path="/postarticle" element={<ProtectedRoute><PostArticle /></ProtectedRoute>} />
       
           {/* <Route path="/upPro" element={<UpdateProfile />} /> */}

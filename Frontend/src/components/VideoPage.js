@@ -45,7 +45,7 @@ const VideoPage = (props) => {
 
     const fetchVideoDatafromPeriodName = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/periods/videos?periodName=${selectedPeriod}`);
+            const response = await axios.get(`http://localhost:8080/api/period/videos?periodName=${selectedPeriod}`);
             setListVideos(response.data.data)
             // setTotalPages(response.data.total_pages)
             console.log("log111:", response)

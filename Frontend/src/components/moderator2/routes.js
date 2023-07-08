@@ -38,7 +38,7 @@ const routes = [
 		name: 'Thoát Đăng Nhập',
 		key: 'logout',
 		icon: <LogoutIcon fontSize="small" />,
-		route: 'moderator/logout',
+		route: 'logout',
 		component: <Logout />
 	}
 ];

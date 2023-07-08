@@ -50,44 +50,44 @@ function DashboardNavbar({ absolute, light, isMini }) {
 		}
 	});
 
-	return (
-		<AppBar
-			position={absolute ? 'absolute' : navbarType}
-			color="inherit"
-			sx={(theme) => navbar(theme, { transparentNavbar, absolute, light, darkMode })}
-		>
-			<Toolbar sx={(theme) => navbarContainer(theme)}>
-				<MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-					<Breadcrumbs icon={<HomeIcon />} title={route[route.length - 1]} route={route} light={light} />
-				</MDBox>
-				{isMini ? null : (
-					<MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-						<MDBox color={light ? 'white' : 'inherit'}>
-							<IconButton
-								size="small"
-								disableRipple
-								color="inherit"
-								sx={navbarMobileMenu}
-								onClick={handleMiniSidenav}
-							>
-								{miniSidenav ? (
-									<MenuOpenIcon sx={iconsStyle} fontSize="medium" />
-								) : (
-									<MenuIcon sx={iconsStyle} fontSize="medium" />
-								)}
-							</IconButton>
-							<IconButton
-								size="small"
-								disableRipple
-								color="inherit"
-								sx={navbarIconButton}
-								onClick={handleConfiguratorOpen}
-							></IconButton>
-						</MDBox>
-					</MDBox>
-				)}
-			</Toolbar>
-		</AppBar>
+	return (<></>
+		// <AppBar
+		// 	position={absolute ? 'absolute' : navbarType}
+		// 	color="inherit"
+		// 	sx={(theme) => navbar(theme, { transparentNavbar, absolute, light, darkMode })}
+		// >
+		// 	<Toolbar sx={(theme) => navbarContainer(theme)}>
+		// 		<MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+		// 			<Breadcrumbs icon={<HomeIcon />} title={route[route.length - 1]} route={route} light={light} />
+		// 		</MDBox>
+		// 		{isMini ? null : (
+		// 			<MDBox sx={(theme) => navbarRow(theme, { isMini })}>
+		// 				<MDBox color={light ? 'white' : 'inherit'}>
+		// 					<IconButton
+		// 						size="small"
+		// 						disableRipple
+		// 						color="inherit"
+		// 						sx={navbarMobileMenu}
+		// 						onClick={handleMiniSidenav}
+		// 					>
+		// 						{miniSidenav ? (
+		// 							<MenuOpenIcon sx={iconsStyle} fontSize="medium" />
+		// 						) : (
+		// 							<MenuIcon sx={iconsStyle} fontSize="medium" />
+		// 						)}
+		// 					</IconButton>
+		// 					<IconButton
+		// 						size="small"
+		// 						disableRipple
+		// 						color="inherit"
+		// 						sx={navbarIconButton}
+		// 						onClick={handleConfiguratorOpen}
+		// 					></IconButton>
+		// 				</MDBox>
+		// 			</MDBox>
+		// 		)}
+		// 	</Toolbar>
+		// </AppBar>
 	);
 }
 

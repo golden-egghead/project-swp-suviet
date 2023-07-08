@@ -163,7 +163,7 @@ export default function Moderator() {
 						{layout === 'vr' && <Configurator />}
 						<Routes>
 							{getRoutes(routes)}
-							<Route path="" element={<Navigate to="moderator/dashboard" />} />
+							<Route path="" element={<Navigate to="/moderator" />} />
 						</Routes>
 					</ThemeProvider>
 				</CacheProvider>
@@ -187,7 +187,7 @@ export default function Moderator() {
 					{layout === 'vr' && <Configurator />}
 					<Routes>
 						{getRoutes(routes)}
-						<Route path="" element={<Navigate to="moderator/dashboard" />} />
+						<Route path="" element={<Navigate to="/moderator" />} />
 					</Routes>
 				</ThemeProvider>
 			)}
