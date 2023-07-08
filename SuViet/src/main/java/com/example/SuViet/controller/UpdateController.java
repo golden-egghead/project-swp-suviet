@@ -48,54 +48,55 @@ public class UpdateController {
         return new ResponseObject("OK", "Query successfully", profileDTO.convertToDTO(user));
     }
 
-    @PutMapping("/profile/update")
-    public ResponseEntity<UpdateResponse> updateProfile(@RequestParam("image") MultipartFile image,
-                                                        @RequestParam("fullName") String fullName) throws IOException {
+    @PostMapping("/profile/update")
+    public ResponseEntity<UpdateResponse> updateProfile(
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "fullName", required = false) String fullName
+    ) throws IOException {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
         Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
         Path imagePath = Paths.get("avatars");
 
-        if (!image.isEmpty()) {
-            if(!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
+        if (image != null && !image.isEmpty()) {
+            if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
                 Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
             }
-            if(user.getAvatar() != null){
+            if (user.getAvatar() != null) {
                 Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(user.getAvatar());
                 Path updateFile = CURRENT_FOLDER.resolve(staticPath)
                         .resolve(imagePath).resolve(image.getOriginalFilename());
                 Files.copy(image.getInputStream(), updateFile, StandardCopyOption.REPLACE_EXISTING);
                 Files.deleteIfExists(oldFile);
                 user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
-            }else {
+            } else {
                 Path file = CURRENT_FOLDER.resolve(staticPath)
                         .resolve(imagePath).resolve(image.getOriginalFilename());
                 try (OutputStream os = Files.newOutputStream(file)) {
                     os.write(image.getBytes());
                 }
                 user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
-                  }
-        }else{
-                user.setAvatar(user.getAvatar());
-        }
-        if(hasSpecialCharacters(fullName) == true){
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new UpdateResponse("FAILED", "FullName have contain special",null)
-            );
+            }
         }
 
-        if(!fullName.trim().isEmpty()){
+        if (fullName != null && !fullName.trim().isEmpty()) {
+            if (hasSpecialCharacters(fullName)) {
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                        new UpdateResponse("FAILED", "FullName contains special characters.", null)
+                );
+            }
             user.setFullname(fullName);
         }
+
         userService.updateUser(user);
 
         ProfileDTO dto = new ProfileDTO();
         return ResponseEntity.status(HttpStatus.OK).body(
-                new UpdateResponse("OK", "UPDATE SUCCESSFULLY", dto.convertToDTO(user))
+                new UpdateResponse("OK", "Profile updated successfully.", dto.convertToDTO(user))
         );
-
     }
+
 
     public static boolean hasSpecialCharacters(String inputString) {
         String specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
