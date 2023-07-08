@@ -30,35 +30,35 @@ const Id = ({ id }) => (
 
 const Video = ({ item }) => {
 	const [open, setOpen] = useState(false);
-  
+
 	const handleOpenModal = () => {
-	  setOpen(true);
+		setOpen(true);
 	};
-  
+
 	const handleCloseModal = () => {
-	  setOpen(false);
+		setOpen(false);
 	};
-  
+
 	return (
-	  <MDBox display="flex" alignItems="center" lineHeight={1}>
-		<MDBox ml={2} lineHeight={1}>
-		  <MDTypography
-			display="block"
-			variant="button"
-			fontWeight="medium"
-			fontSize={15}
-			onClick={handleOpenModal}
-		  >
-			<Button style={{backgroundColor:'yellow', color:'black'}}>Watch Video</Button>		
-		  </MDTypography>
-		  {open && (
-			<ModalCase setOpen={handleCloseModal} url={item.video} />
-		  )}
+		<MDBox display="flex" alignItems="center" lineHeight={1}>
+			<MDBox ml={2} lineHeight={1}>
+				<MDTypography
+					display="block"
+					variant="button"
+					fontWeight="medium"
+					fontSize={15}
+					onClick={handleOpenModal}
+				>
+					<Button style={{ backgroundColor: 'yellow', color: 'black' }}>Watch Video</Button>
+				</MDTypography>
+				{open && (
+					<ModalCase setOpen={handleCloseModal} url={item.video} />
+				)}
+			</MDBox>
 		</MDBox>
-	  </MDBox>
 	);
-  };
-  
+};
+
 
 const Function = ({ title }) => (
 	<MDBox lineHeight={1} textAlign="left" width="300px">
@@ -94,15 +94,15 @@ export default function Data() {
 	//Edit
 	const navigate = useNavigate();
 
-	const EditFunction = (videoID) => {
-		navigate("/moderator/video/edit/" + videoID);
-	  }
+	const EditFunction = (item) => {
+		navigate("/moderator/video/edit/" + item.videoID, { state: item });
+	}
 
-	// const handleEditVideo = async (item) => {
+	// const handleChangeActive = async (item) => {
 	// 	const updatedData = accountData.map((dataItem) => {
 	// 		if (dataItem.userID === item.userID) {
-	// 			const updatedItem = { ...dataItem, enabled: !dataItem.enabled };
-	// 			// fetchApi(`http://localhost:8080/api/admin`,'method(PUT, DELETE, ...)');
+	// 			const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
+	// 			fetchApi(dataItem.userID);
 	// 			return updatedItem;
 	// 		}
 	// 		return dataItem;
@@ -111,17 +111,23 @@ export default function Data() {
 	// 	setData(updatedData);
 	// };
 
-	const handleChangeActive = async (item) => {
-		const updatedData = accountData.map((dataItem) => {
-			if (dataItem.userID === item.userID) {
-				const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
-				fetchApi(dataItem.userID);
-				return updatedItem;
-			}
-			return dataItem;
-		});
-
-		setData(updatedData);
+	const RemoveFunction = (id) => {
+		if (window.confirm('Do you want to remove?')) {
+			const baseUrl = `https://64994ec179fbe9bcf83ef4f0.mockapi.io/APIPE/`;
+			fetch(baseUrl + id, {
+				method: 'DELETE',
+				headers: {
+					'content-type': 'application/json'
+				}
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					alert('Remove successfully!');
+				})
+				.catch((err) => {
+					console.log(err.message);
+				});
+		}
 	};
 
 	const rows = accountData.map((item) => ({
@@ -131,12 +137,12 @@ export default function Data() {
 		Action: (<>
 			<Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor: 'green' }}
 				className='edit-btn'
-				onClick={() => { EditFunction(item.videoID) }}>
+				onClick={() => { EditFunction(item) }}>
 				<EditIcon />
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { handleChangeActive(item.videoID) }}>
+				onClick={() => { RemoveFunction(item.videoID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),
@@ -144,7 +150,7 @@ export default function Data() {
 
 	return {
 		columns: [
-			{ Header: <div style={{fontSize:'20px', color:'red', paddingLeft:'12px'}}>ID</div>, accessor: 'ID', align: 'center'},
+			{ Header: <div style={{ fontSize: '20px', color: 'red', paddingLeft: '12px' }}>ID</div>, accessor: 'ID', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Video</div>, accessor: 'Video', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Tiêu Đề</div>, accessor: 'Title', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red', textAlign: 'center' }}>Trạng Thái</div>, accessor: 'Action', align: 'center' },

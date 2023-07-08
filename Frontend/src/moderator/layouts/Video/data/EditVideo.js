@@ -1,48 +1,56 @@
 import { Description } from '@mui/icons-material';
 import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-function EditVideo({ data }) {
+function EditVideo({ data, page }) {
 	const videoID = useParams();
 	const pr = videoID.videoID;
 	const baseUrl = `http://localhost:8080/api/videos/update-video/`;
-	useEffect(() => {
-		fetch(baseUrl + pr)
-			.then((response) => response.json())
-			.then((data) => {
-				setID(data.videoID);
-				setVideo(data.video);
-				setTitle(data.title);
-				setDescription(data.description);
-			})
-			.catch((error) => console.log(error.message));
-	}, [videoID]);
-	console.log(data);
+
+	const location = useLocation();
+	const props = location.state;
 	const [ID, setID] = useState('');
 	const [video, setVideo] = useState('');
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		setID(props.videoID);
+		setVideo(props.video);
+		setTitle(props.title);
+		setDescription(props.description);
+	},[]
+	)
+
+	// const handleVideoChange = (e) => {
+	// 	const file = e.target.files[0];
+	// 	setVideoFile(file);
+	//   };
+	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const videos = { ID, video, title, description};
+		const videos = { ID, video, title, description };
 		fetch(baseUrl + pr, {
 			method: 'PUT',
 			headers: {
-				'content-type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
 			body: JSON.stringify(videos)
 		})
 			.then((res) => {
-				alert('Update successfully!');
+				// alert('Update successfully!');
+				toast.success('Cập nhật thành công!');
 				navigate('/moderator/video');
 			})
 			.catch((err) => {
 				console.log(err.message);
 			});
 	};
+
 	return (
 		<form className="edit-container" onSubmit={handleSubmit}>
 			<div className="edit-form">
@@ -52,11 +60,15 @@ function EditVideo({ data }) {
 				<div className="form-body">
 					<div className="form-group">
 						<TextField
-						fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
+							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div>
+					{/* <div className="form-group">
+						<label>Choose Video File</label>
+						<input type="file" onChange={handleVideoChange} accept="video/*" />
+					</div> */}
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
 							label="Video"
 							variant="filled"
@@ -66,7 +78,7 @@ function EditVideo({ data }) {
 					</div>
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
 							label="Title"
 							variant="filled"
@@ -77,7 +89,7 @@ function EditVideo({ data }) {
 					</div>
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
 							label="Description"
 							variant="filled"

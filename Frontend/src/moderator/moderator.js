@@ -163,7 +163,10 @@ export default function Moderator() {
 						{layout === 'vr' && <Configurator />}
 						<Routes>
 							{getRoutes(routes)}
-							<Route path="" element={<Navigate to="/moderator" />} />
+							<Route path="" element={<Navigate to="/moderator/video" />} />
+							<Route path="/moderator/video" element={<Navigate to="/moderator/video" />} />
+							<Route path="/moderator/character" element={<Navigate to="/moderator/character" />} />
+							{/* <Route path="" element={<Navigate to="/moderator" />} /> */}
 						</Routes>
 					</ThemeProvider>
 				</CacheProvider>
@@ -175,7 +178,7 @@ export default function Moderator() {
 							<Sidenav
 								color={sidenavColor}
 								brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-								brandName="Admin Dashboard"
+								brandName="áddmin Dashboard"
 								routes={routes}
 								onMouseEnter={handleOnMouseEnter}
 								onMouseLeave={handleOnMouseLeave}
@@ -187,7 +190,9 @@ export default function Moderator() {
 					{layout === 'vr' && <Configurator />}
 					<Routes>
 						{getRoutes(routes)}
-						<Route path="" element={<Navigate to="/moderator" />} />
+						<Route path="" element={<Navigate to="/moderator/video" />} />
+						<Route path="/moderator/video" element={<Navigate to="/moderator/video" />} />
+							<Route path="/moderator/character" element={<Navigate to="/moderator/character" />} />
 					</Routes>
 				</ThemeProvider>
 			)}

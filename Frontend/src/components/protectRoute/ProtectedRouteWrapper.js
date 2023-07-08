@@ -1,35 +1,38 @@
 import React, { useEffect } from 'react';
-import AdminPage from "../../admin/admin";
-import Moderator from "../../moderator/moderator"
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import AdminPage from '../../admin/admin'
+import Moderator from '../../moderator/moderator'
 
-const ProtectedRouteWrapper = ({ role }) => {
-    const navigate = useNavigate();
-    useEffect(() => {
-      const token = localStorage.getItem('accessToken');
-      const roleName = localStorage.getItem('role');
-      if (!token) {
-        // Redirect to login page if token is not present
-        alert('please login first');
-        navigate("/");
-      } 
-      else if (roleName === "ADMIN"){
-        navigate("/admin");
-      } 
-      else if (roleName === "MODERATOR"){
-        navigate("/moderator");
-      } else {
-        alert('You are not authorized to access this page');
-        navigate("/")
-      }
-    }, []);
-  
-    return (
-      <div>
-        <AdminPage />
-        <Moderator />
-      </div>
-    )
+const ProtectedRouteWrapper = () => {
+  const navigate = useNavigate();
 
-  };
-  export default ProtectedRouteWrapper;
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const userRole = localStorage.getItem('role');
+
+    if (!token) {
+      // Redirect to login page if token is not present
+      alert('Please login first');
+      navigate("/");
+    } else if (userRole === "ADMIN") {
+      // Redirect to admin page if the user is an admin
+      navigate("/admin");
+    } else if (userRole === "MODERATOR") {
+      // Redirect to moderator page if the user is a moderator
+      navigate("/moderator");
+    } else {
+      // Redirect to unauthorized page if the user has no role
+      alert('You are not authorized to access this page');
+      navigate("/");
+    }
+  }, []);
+
+  return (
+    <div>
+      <AdminPage />
+      <Moderator />
+    </div>
+  );
+};
+
+export default ProtectedRouteWrapper;
