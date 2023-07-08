@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { MaterialUIControllerProvider as AdminProvider } from './admin/context';
-import { MaterialUIControllerProvider as ModeratorProvider } from './components/moderator2/context';
+import { MaterialUIControllerProvider as ModeratorProvider } from './moderator/context';
 
 // import { StyledEngineProvider } from '@mui/material/styles';
 

@@ -31,9 +31,8 @@ import ProtectedRoute from './components/protectRoute/ProtectedRoute';
 import Footer from './components/Footer';
 import AdminPage from './admin/admin';
 // import ModeratorPage from './components/moderator/mod';
-import Moderator from './components/moderator2/moderator';
-import EditVideo from './components/moderator2/layouts/Video/data/EditVideo'
-
+import Moderator from './moderator/moderator';
+import EditVideo from './moderator/layouts/Video/data/EditVideo'
 
 import Map from './components/Map/Map';
 import UserProfile from './components/user/Profile';

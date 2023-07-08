@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import AdminPage from "../../admin/admin";
-import Moderator from "../../components/moderator2/moderator"
+import Moderator from "../../moderator/moderator"
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 const ProtectedRouteWrapper = ({ role }) => {
@@ -27,7 +27,7 @@ const ProtectedRouteWrapper = ({ role }) => {
     return (
       <div>
         <AdminPage />
-        <Moderator/>
+        <Moderator />
       </div>
     )
 
