@@ -6,6 +6,9 @@ import com.example.SuViet.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +24,7 @@ public class CharacterDTO {
     private User user;
     private String periodName;
 
-    public CharacterDTO convertToDTO(Character character){
+    public static CharacterDTO convertToDTO(Character character){
         CharacterDTO characterDTO = new CharacterDTO();
         characterDTO.setCharacterID(character.getCharacterID());
         characterDTO.setCharacterName(character.getCharacterName());
@@ -31,6 +34,7 @@ public class CharacterDTO {
         characterDTO.setDescription(character.getDescription());
         characterDTO.setImage(character.getImage());
         characterDTO.setUser(character.getUser());
+        characterDTO.setPeriodName(character.getPeriod().getPeriodName());
         return characterDTO;
     }
     public boolean hasSpecialCharacters(String inputString) {

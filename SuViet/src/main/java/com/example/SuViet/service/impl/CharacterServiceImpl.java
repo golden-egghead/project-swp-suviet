@@ -1,12 +1,16 @@
 package com.example.SuViet.service.impl;
 
+import com.example.SuViet.dto.CharacterDTO;
+import com.example.SuViet.dto.VideoDTO;
 import com.example.SuViet.model.Character;
+import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -33,8 +37,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Page<Character> searchCharactersByNameWithPagination(String title, int offset, int pageSize) {
-        return characterRepository.findAllByCharacterNameContainingAndEnabled(title, true, PageRequest.of(offset - 1, pageSize));
+    public Page<CharacterDTO> searchCharactersByNameWithPagination(String title, int offset, int pageSize) {
+        Page<Character> characters = characterRepository.findAllByCharacterNameContainingAndEnabled(title, true, PageRequest.of(offset - 1, pageSize));
+        return characters.map(character -> CharacterDTO.convertToDTO(character));
     }
 
     @Override
@@ -49,8 +54,9 @@ public class CharacterServiceImpl implements CharacterService {
 
 
     @Override
-    public Page<Character> getCharactersWithPagination(int offset, int pageSize) {
-        return characterRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
+    public Page<CharacterDTO> getCharactersWithPagination(int offset, int pageSize) {
+        Page<Character> characters = characterRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
+        return characters.map(character -> CharacterDTO.convertToDTO(character));
     }
 
     @Override
@@ -62,6 +68,21 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public List<Character> getCharacterByPeriod(String periodName) {
         return characterRepository.getByPeriodName(periodName);
+    }
+
+    @Override
+    public boolean deleteACharacter(int characterID) {
+        Character characterToDelete = characterRepository.findById(characterID).get();
+        try {
+            if (characterToDelete.isEnabled()) {
+                characterToDelete.setEnabled(false);
+            } else  {
+                characterToDelete.setEnabled(true);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

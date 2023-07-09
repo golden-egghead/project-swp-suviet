@@ -1,10 +1,8 @@
 package com.example.SuViet.controller;
 
 import com.example.SuViet.dto.CharacterDTO;
+import com.example.SuViet.model.*;
 import com.example.SuViet.model.Character;
-import com.example.SuViet.model.Period;
-import com.example.SuViet.model.Role;
-import com.example.SuViet.model.User;
 import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.response.ResponsePaginationObject;
@@ -19,14 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +29,6 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class CharacterController {
-    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
     private final CharacterService characterService;
     private final CharacterRepository repository;
     private final UserService userService;
@@ -50,26 +43,32 @@ public class CharacterController {
 
     @GetMapping("/characters/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllCharacters(@PathVariable int offset) {
+        if (offset <= 0) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 6,
+                            0, 0, null)
+            );
+        }
         int count = 0;
         List<Character> characterList = characterService.getAllCharacters();
         for (int i = 0; i < characterList.size(); i++) {
             count++;
         }
-        if (characterList.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponsePaginationObject()
-            );
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
-                            Math.ceil(count / 6.0), characterService.getCharactersWithPagination(offset, 6))
-            );
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
+                        Math.ceil(count / 6.0), characterService.getCharactersWithPagination(offset, 6))
+        );
     }
 
     @GetMapping("/characters/search/{offset}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponsePaginationObject> searchCharacterByName(@PathVariable int offset, @RequestParam("title") String keyword) {
+        if (offset <= 0) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 6,
+                            0, 0, null)
+            );
+        }
         List<Character> characterList = characterService.searchCharactersByName(keyword);
         List<Character> allCharactersList = characterService.getAllCharacters();
         int count = 0, countAll = 0;
@@ -188,7 +187,7 @@ public class CharacterController {
         character.setPeriod(period);
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("OK", "The Character updated successfully", characterService.saveCharacter(character))
+                new ResponseObject("OK", "The Character updated successfully",   characterService.saveCharacter(character))
         );
     }
 
@@ -196,19 +195,24 @@ public class CharacterController {
     @DeleteMapping(value = "/character/delete/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> deleteACharacter(@PathVariable("id") int id) {
-        User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<String> roles = getRoleName(currentUser.getRoles());
-        if (roles.contains("MODERATOR")) {
-            Character toDelete = characterService.getCharacterById(id).get();
-            toDelete.setEnabled(false);
-            characterService.saveCharacter(toDelete);
+        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
+                );
+            }
+        }
+        boolean checkUpdate = characterService.deleteACharacter(id);
+        if (checkUpdate) {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "The Character deleted successfully", toDelete));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ResponseObject("FAILED", "Your role can be accessible this feature!", null)
+                    new ResponseObject("OK", "Deleted successfully!",characterService.saveCharacter(characterService.getCharacterById(id).get()))
             );
         }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                new ResponseObject("FAILED", "Deleted fail!", null)
+        );
     }
 
 }
