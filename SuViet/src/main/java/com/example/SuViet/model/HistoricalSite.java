@@ -19,8 +19,8 @@ public class HistoricalSite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int historicalSiteID;
 
-    @Column(columnDefinition = "ntext", nullable = false)
-    private String location;
+    @Column(columnDefinition = "ntext", nullable = false,name = "Location")
+    private String locate;
 
     @Column(columnDefinition = "ntext", nullable = false)
     private String description;

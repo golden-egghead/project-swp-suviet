@@ -127,7 +127,7 @@ public class HistoricalSiteController {
         } else {
             historicalSite.setHistoricalSiteName(historicalSiteName);
             historicalSite.setDescription(description);
-            historicalSite.setLocation(location);
+            historicalSite.setLocate(location);
             historicalSite.setCreatedDate(LocalDateTime.now());
             historicalSite.setUser(user);
             historicalSite.setEnabled(true);
@@ -183,7 +183,7 @@ public class HistoricalSiteController {
         }
         historicalSite.setHistoricalSiteName(historicalSiteName);
         historicalSite.setDescription(description);
-        historicalSite.setLocation(location);
+        historicalSite.setLocate(location);
         historicalSite.setCreatedDate(LocalDateTime.now());
         historicalSite.setUser(user);
         historicalSite.setEnabled(true);
