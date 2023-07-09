@@ -1,5 +1,8 @@
 package com.example.SuViet.service.impl;
 
+import com.example.SuViet.dto.CharacterDTO;
+import com.example.SuViet.dto.HistoricalItemDTO;
+import com.example.SuViet.model.Character;
 import com.example.SuViet.model.HistoricalItem;
 import com.example.SuViet.repository.HistoricalItemRepository;
 import com.example.SuViet.service.HistoricalItemService;
@@ -33,8 +36,9 @@ public class HistoricalItemServiceImpl implements HistoricalItemService {
     }
 
     @Override
-    public Page<HistoricalItem> getHistoricalItemsWithPagination(int offset, int pageSize) {
-        return repo.findAllByEnabled(true, PageRequest.of(offset-1, pageSize));
+    public Page<HistoricalItemDTO> getHistoricalItemsWithPagination(int offset, int pageSize) {
+        Page<HistoricalItem> historicalItems = repo.findAllByEnabled(true, PageRequest.of(offset-1, pageSize));
+        return historicalItems.map(historicalItem -> HistoricalItemDTO.convertToDTO(historicalItem));
     }
 
     @Override
@@ -43,14 +47,29 @@ public class HistoricalItemServiceImpl implements HistoricalItemService {
     }
 
     @Override
-    public Page<HistoricalItem> getAllHistoricalItemsByName(String historicalItemsName, int offset, int pageSize) {
-        return repo.findAllByEnabledAndNameContaining(true, historicalItemsName, PageRequest.of(offset-1, pageSize));
+    public Page<HistoricalItemDTO> getAllHistoricalItemsByName(String historicalItemsName, int offset, int pageSize) {
+        Page<HistoricalItem> historicalItems = repo.findAllByEnabledAndNameContaining(true, historicalItemsName, PageRequest.of(offset-1, pageSize));
+        return historicalItems.map(historicalItem -> HistoricalItemDTO.convertToDTO(historicalItem));
     }
 
     @Override
-    public Page<HistoricalItem> getHistoricalItemWithSortAndPaging(int offset, int pageSize, String field) {
-        Page<HistoricalItem> historicalItemPage = repo.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
-        return historicalItemPage;
+    public Page<HistoricalItemDTO> getHistoricalItemWithSortAndPaging(int offset, int pageSize, String field) {
+        Page<HistoricalItem> historicalItems = repo.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
+       return historicalItems.map(historicalItem -> HistoricalItemDTO.convertToDTO(historicalItem));
     }
 
+    @Override
+    public boolean deleteAHistoricalItem(int id) {
+        HistoricalItem itemToDelete = repo.findById(id).get();
+        try {
+            if (itemToDelete.isEnabled()) {
+                itemToDelete.setEnabled(false);
+            } else  {
+                itemToDelete.setEnabled(true);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

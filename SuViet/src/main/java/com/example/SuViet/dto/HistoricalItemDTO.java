@@ -1,5 +1,8 @@
 package com.example.SuViet.dto;
 
+import com.example.SuViet.model.Character;
+import com.example.SuViet.model.HistoricalItem;
+import com.example.SuViet.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +20,21 @@ public class HistoricalItemDTO {
     private String description;
     private boolean enabled;
     private String periodName;
-
+    private String photo;
+    private User user;
+    public static HistoricalItemDTO convertToDTO(HistoricalItem historicalItem){
+        HistoricalItemDTO historicalItemDTO = new HistoricalItemDTO();
+        historicalItemDTO.setHistoricalItemID(historicalItem.getHistoricalItemID());
+        historicalItemDTO.setName(historicalItem.getName());
+        historicalItemDTO.setEnabled(historicalItem.isEnabled());
+        historicalItemDTO.setNation(historicalItem.getNation());
+        historicalItemDTO.setType(historicalItem.getType());
+        historicalItemDTO.setDescription(historicalItem.getDescription());
+        historicalItemDTO.setPeriodName(historicalItem.getPeriod().getPeriodName());
+        historicalItemDTO.setUser(historicalItem.getUser());
+        historicalItemDTO.setPhoto(historicalItem.getPhoto());
+        return historicalItemDTO;
+    }
     public boolean hasSpecialCharacters(String inputString) {
         String specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
