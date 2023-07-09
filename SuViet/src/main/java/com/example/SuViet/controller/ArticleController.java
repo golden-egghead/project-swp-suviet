@@ -158,6 +158,21 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("{articleId}/comments")
+    public ResponseEntity<ResponseObject> getComments(
+            @PathVariable int articleId) {
+
+        try {
+            Article article = articleService.getArticleById(articleId);
+            List<Comment> comments = commentService.getAllEnabledComments(article);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Get article's comment successfully", comments));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Un Error occrurred", null));
+        }
+    }
+
     @GetMapping("details/{articleId}")
     public ResponseEntity<ResponseObject> getArticleDetails(
             @PathVariable int articleId) {
