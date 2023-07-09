@@ -1,97 +1,18 @@
-// // import React, { useEffect, useState } from 'react';
-// // import axios from 'axios';
-
-// // const UserProfile = () => {
-// //   const [fullName, setFullName] = useState('');
-// //   const [image, setImage] = useState(null);
-// //   const [email, setEmail] = useState('');
-// //   const [role, setRole] = useState('');
-// //   const accessToken = localStorage.getItem('accessToken');
-
-// //   useEffect(() => {
-// //     const fetchProfileData = async () => {
-// //       try {
-// //         const response = await axios.get('http://localhost:8080/api/user/profile', {
-// //           headers: {
-// //             Authorization: `Bearer ${accessToken}`, 
-// //           },
-// //         });
-// //         const profileData = response.data.dto;
-
-// //         setFullName(profileData.fullName);
-// //         setEmail(profileData.email);
-// //         setImage(profileData.image);
-// //         setRole(profileData.role);
-// //       } catch (error) {
-// //         console.error('Error fetching user profile:', error);
-// //       }
-// //     };
-
-// //     fetchProfileData();
-// //   }, []);
-
-// //   return (
-// //     <div>
-// //       <h2>User Profile</h2>
-// //       <p>Full Name: {fullName}</p>
-// //       <p>Email: {email}</p>
-// //       <p>Role: {role}</p>
-// //       {image && <img src={image} alt="Profile" />}
-// //     </div>
-// //   );
-// // };
-
-// // export default UserProfile;
-
-
-// // UserProfile.js
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-// const UserProfile = () => {
-//   const [fullName, setFullName] = useState('');
-//   const [image, setImage] = useState(null);
-//   const [email, setEmail] = useState('');
-//   const [role, setRole] = useState('');
-//   const accessToken = localStorage.getItem('accessToken');
-
-//   useEffect(() => {
-//     const fetchProfileData = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:8080/api/user/profile', {
-//           headers: {
-//             Authorization: `Bearer ${accessToken}`, 
-//           },
-//         });
-//         const profileData = response.data.dto;
-
-//         setFullName(profileData.fullName);
-//         setEmail(profileData.email);
-//         setImage(profileData.image);
-//         setRole(profileData.role);
-//       } catch (error) {
-//         console.error('Error fetching user profile:', error);
-//       }
-//     };
-
-//     fetchProfileData();
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>User Profile</h2>
-//       <p>Full Name: {fullName}</p>
-//       <p>Email: {email}</p>
-//       <p>Role: {role}</p>
-//       {image && <img src={image} alt="Profile" />}
-//     </div>
-//   );
-// };
-
-// export default UserProfile;
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  FormFeedback,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+} from "react-bootstrap";
 
 const UserProfile = () => {
   const [fullName, setFullName] = useState('');
@@ -177,11 +98,17 @@ const UserProfile = () => {
 
   return (
     <div>
-      <h2>User Profile</h2>
+      <Row className="mt-4">
+          {/* { JSON.stringify(data) } */}
+
+          <Col sm={{ size: 6, offset: 3 }}>
+            <Card color="dark" inverse>
+                <h3> Thông tin tài khoản </h3>
       <p>Full Name: {isEditing ? <input type="text" value={updatedFullName} onChange={(e) => setUpdatedFullName(e.target.value)} maxLength={50} /> : fullName}</p>
       <p>Email: {email}</p>
       <p>Role: {role}</p>
-      {image && <img src={image} alt="Profile" />}
+      <p>Avatar:</p> <br />
+      {image && <img src={image} alt="Avatar" />}
       <br />
       {isEditing ? (
         <div>
@@ -193,6 +120,9 @@ const UserProfile = () => {
       ) : (
         <button type="button" onClick={handleEdit}>Edit</button>
       )}
+      </Card>
+          </Col>
+        </Row>
     </div>
   );
 };

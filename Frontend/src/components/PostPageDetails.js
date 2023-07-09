@@ -70,8 +70,8 @@ export default function PostPageDetails() {
       </Card>
     </Col>
     <div>
-         <Comments
-           currentUserId="1" />
+    <Comments
+           articleId={articleID} />
 
 
         </div>

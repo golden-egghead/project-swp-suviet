@@ -31,6 +31,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                 mail: mail,
                 password: password,
             });
+            localStorage.setItem('accessToken', response.data.accessToken);
             const { userID, roleName, fullname } = response.data;
             // const { userID } = response.data;
             localStorage.setItem('userID', userID);
@@ -43,12 +44,13 @@ const LoginT = ({ setIsAuthenticated }) => {
             else if (roleName === "MODERATOR") {
                 navigate("/moderator");
             }
-            const { accessToken } = response.data;
-            localStorage.setItem('accessToken', accessToken);
+            // const { accessToken } = response.data;
+            
             setIsAuthenticated(true);
             setFullname(fullname);
             toast.success('Đăng nhập thành công!');
             console.log('login successful:', response.data);
+            
         } catch (error) {
             // Handle error, display error message, etc.
             console.error('Error during login:', error);
