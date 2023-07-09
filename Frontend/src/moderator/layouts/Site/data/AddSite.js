@@ -3,26 +3,27 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function AddVideo() {
+function AddSite() {
 
 	const [ID, setID] = useState('');
-	const [video, setVideo] = useState('');
-	const [title, setTitle] = useState('');
+	const [photo, setPhoto] = useState('');
+    const [historicalSiteName, setHistoricalSiteName] = useState('');
+	const [locate, setLocate] = useState('');
 	const [description, setDescription] = useState('');
-	const [periodName, setPeriodName] = useState([]);
+	const [images, setImages] = useState([]);
 	const navigate = useNavigate();
-	const baseUrl = `http://localhost:8080/api/videos/upload-video`;
+	const baseUrl = `http://localhost:8080/api/historicalSites//upload-historicalSite`;
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const videos = { ID, video, title, description, periodName };
+		const sites = { ID, photo, historicalSiteName, locate, description, images };
 		fetch(baseUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
-			body: JSON.stringify(videos)
+			body: JSON.stringify(sites)
 		})
 			.then((res) => {
 				toast.success('Thêm Thành Công!');
@@ -31,7 +32,7 @@ function AddVideo() {
 			.catch((err) => {
 				console.log(err.message);
 			});
-			console.log(videos);
+			console.log(sites);
 	};
 	
 
@@ -40,7 +41,7 @@ function AddVideo() {
 		<form className="add-container" onSubmit={handleSubmit}>
 			<div className="add-form">
 				<div className="form-title">
-					<h2>Tạo mới Video</h2>
+					<h2>Tạo mới Di Tích</h2>
 				</div>
 				<div className="form-body">
                 <div className="form-group">
@@ -55,20 +56,31 @@ function AddVideo() {
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Video"
+							label="Hình Ảnh"
 							variant="outlined"
-							value={video}
-							onChange={(e) => setVideo(e.target.value)}
+							value={photo}
+							onChange={(e) => setPhoto(e.target.value)}
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Tiêu Đề"
+							label="Tên Di TÍch"
 							variant="outlined"
-							value={title}
-							onChange={(e) => setTitle(e.target.value)}
+							value={historicalSiteName}
+							onChange={(e) => setHistoricalSiteName(e.target.value)}
+							required
+						/>
+					</div>
+                    <div className="form-group">
+						<TextField
+							fullWidth
+							id="filled-basic"
+							label="Vị Trí"
+							variant="outlined"
+							value={locate}
+							onChange={(e) => setLocate(e.target.value)}
 							required
 						/>
 					</div>
@@ -89,10 +101,10 @@ function AddVideo() {
 						<TextField
 						fullWidth
 							id="filled-basic"
-							label="Thời Kì"
+							label="Hình Ảnh"
 							variant="outlined"
-							value={periodName}
-							onChange={(e) => setPeriodName(e.target.value.split(','))}
+							value={images}
+							onChange={(e) => setImages(e.target.value.split(','))}
 							required
 						/>
 					</div>
@@ -103,7 +115,7 @@ function AddVideo() {
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/moderator/video">
+							<Link to="/moderator/site">
 								<Button variant="contained" color="error">
 									Hủy
 								</Button>
@@ -117,6 +129,6 @@ function AddVideo() {
     )
 }
 
-export default AddVideo;
+export default AddSite;
 
 

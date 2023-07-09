@@ -85,7 +85,7 @@ export default function VideoData() {
 
 		const fetchAllData = async () => {
 			const requests = [];
-			for (let i = 1; i <= 8; i++) {
+			for (let i = 1; i <= 20; i++) {
 				requests.push(getData(i));
 			}
 			const responses = await Promise.all(requests);

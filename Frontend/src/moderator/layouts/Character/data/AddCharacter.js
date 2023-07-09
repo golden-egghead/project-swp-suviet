@@ -36,34 +36,43 @@ function AddCharacter() {
 			console.log(videos);
 	};
 	
-
+	const handleCharacterChange = (event) => {
+		const file = event.target.files[0];
+		setImage(file.name);
+	}
+	
 	return (
+		<div className='item'>
 		<form className="add-container" onSubmit={handleSubmit}>
 			<div className="add-form">
 				<div className="form-title">
-					<h2>Add New Character</h2>
+					<h2>Tạo Mới Nhân Vật</h2>
 				</div>
 				<div className="form-body">
-					<div className="form-group">
+                <div className="form-group">
 						<TextField
-						fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
+							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div>
 					<div className="form-group">
+						<label>Choose Characte File</label>
+						<input type="file" onChange={handleCharacterChange} accept="character/*" />
+					</div>
+					{/* <div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
-							label="Image"
-							variant="filled"
+							label="Hình Ảnh"
+							variant="outlined"
 							value={image}
 							onChange={(e) => setImage(e.target.value)}
 						/>
-					</div>
+					</div> */}
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
-							label="characterName"
-							variant="filled"
+							label="Tên Nhân Vật"
+							variant="outlined"
 							value={characterName}
 							onChange={(e) => setCharacterName(e.target.value)}
 							required
@@ -71,43 +80,33 @@ function AddCharacter() {
 					</div>
                     <div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
-							label="estate"
-							variant="filled"
+							label="Địa Vị"
+							variant="outlined"
 							value={estate}
 							onChange={(e) => setEstate(e.target.value)}
-							required
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
-							label="Description"
-							variant="filled"
+							label="Mô Tả"
+							variant="outlined"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
 							required
+							multiline
+							rows={10}
 						/>
 					</div>
                     <div className="form-group">
 						<TextField
 						fullWidth
 							id="filled-basic"
-							label="Story"
-							variant="filled"
-							value={story}
-							onChange={(e) => setStory(e.target.value)}
-							required
-						/>
-					</div>
-					<div className="form-group">
-						<TextField
-						fullWidth
-							id="filled-basic"
-							label="PeriodName"
-							variant="filled"
+							label="Thời Kì"
+							variant="outlined"
 							value={periodName}
 							onChange={(e) => setPeriodName(e.target.value)}
 							required
@@ -116,13 +115,13 @@ function AddCharacter() {
 					<div className="form-group">
 						<div className="save-btn">
 							<Button variant="contained" color="success" type="submit">
-								Save
+								Lưu
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/dashboard">
+							<Link to="/moderator/character">
 								<Button variant="contained" color="error">
-									Cancel
+									Hủy
 								</Button>
 							</Link>
 						</div>
@@ -130,6 +129,7 @@ function AddCharacter() {
 				</div>
 			</div>
 		</form>
+        </div>
     )
 }
 

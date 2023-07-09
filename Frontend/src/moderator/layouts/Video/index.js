@@ -14,6 +14,7 @@ import DataTable from '../../examples/Tables/DataTable';
 import videoData from './data/videoData';
 import Button from '@mui/material/Button'
 import { Link } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 
 function Videos() {
 	const { columns, rows } = videoData();
@@ -21,7 +22,7 @@ function Videos() {
 		<DashboardLayout>
 			<DashboardNavbar />
 			<Link to='/moderator/video/add'><Button style={{color: 'white'}} variant="contained" >
-				Create
+				Tạo Mới <AddIcon/>
 			</Button></Link>
 			<MDBox pt={6} pb={3}>
 				<Grid container spacing={6}>

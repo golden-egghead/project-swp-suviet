@@ -49,7 +49,7 @@ const routes = [
 	},
 	{
 		type: 'collapse',
-		name: 'Cổ Vật',
+		name: 'Cổ Vật - Bảo Vật',
 		key: 'item',
 		icon: <CategoryIcon  fontSize="small" />,
 		route: 'item',

@@ -12,12 +12,18 @@ import DashboardNavbar from '../../examples/Navbars/DashboardNavbar';
 import DataTable from '../../examples/Tables/DataTable';
 // Data
 import bookData from './data/bookData';
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add';
 
 function Books() {
 	const { columns, rows } = bookData();
 	return (
 		<DashboardLayout>
 			<DashboardNavbar />
+			<Link to='/moderator/book/add'><Button style={{color: 'white'}} variant="contained" >
+				Tạo Mới <AddIcon/>
+			</Button></Link>
 			<MDBox pt={6} pb={3}>
 				<Grid container spacing={6}>
 					<Grid item xs={12}>

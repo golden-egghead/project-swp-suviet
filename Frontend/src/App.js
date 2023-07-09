@@ -13,6 +13,7 @@ import HistoricalItems from './components/HistoricalItems';
 import HomePage from './components/HomePage';
 import PostArticle from './components/PostArticle';
 import PostPageDetails from './components/PostPageDetails';
+import BookDetail from './components/BookDetail';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GoogleLogin } from '@react-oauth/google';
@@ -41,9 +42,14 @@ import AddCharacter from './moderator/layouts/Character/data/AddCharacter'
 //item
 import EditItem from './moderator/layouts/Item/data/EditItem';
 import AddItem from './moderator/layouts/Item/data/AddItem';
+//Book
+import EditBook from './moderator/layouts/Book/data/EditBook';
+import AddBook from './moderator/layouts/Book/data/AddBook';
 
 import Map from './components/Map/Map';
 import UserProfile from './components/user/Profile';
+import AddSite from './moderator/layouts/Site/data/AddSite';
+
 
 
 function App() {
@@ -66,6 +72,7 @@ function App() {
           <Route path="/historicalfigure-details/:characterID" element={<HistoricalFigureDetails />} />
           <Route path="/vinhdanh" element={<VinhDanh />} />
           <Route path="/book" element={<BookPage />} />
+          <Route path="/book-details/:bookID" element={<BookDetail />} />
           <Route path="/historicalsite" element={<HistoricalSite />} />
           <Route path="/historicalitem" element={<HistoricalItems />} />
   
@@ -76,10 +83,14 @@ function App() {
           <Route path="/moderator/*" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
           <Route path="/moderator/video/edit/:videoID" element={<EditVideo />} />
           <Route path="/moderator/character/edit/:characterID" element={<EditCharacter />} />
+          <Route path="/moderator/book/edit/:bookID" element={<EditBook />} />
           <Route path="/moderator/item/edit/:historicalItemID" element={<EditItem />} />
           <Route path="/moderator/video/add" element={<AddVideo />} />
           <Route path="/moderator/character/add" element={<AddCharacter />} />
+          <Route path="/moderator/book/add" element={<AddBook />} />
           <Route path="/moderator/item/add" element={<AddItem />} />
+          <Route path="/moderator/site/add" element={<AddSite />} />
+
           <Route path="/postarticle" element={<ProtectedRoute><PostArticle /></ProtectedRoute>} />
       
           {/* <Route path="/upPro" element={<UpdateProfile />} /> */}

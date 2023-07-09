@@ -53,10 +53,11 @@ function EditVideo({ data }) {
 	};
 
 	return (
+		<div className='item'>
 		<form className="edit-container" onSubmit={handleSubmit}>
 			<div className="edit-form">
 				<div className="form-title">
-					<h2>Edit Video</h2>
+					<h2>Cập Nhật Video</h2>
 				</div>
 				<div className="form-body">
 					<div className="form-group">
@@ -72,7 +73,7 @@ function EditVideo({ data }) {
 							fullWidth
 							id="filled-basic"
 							label="Video"
-							variant="filled"
+							variant="outlined"
 							value={video}
 							onChange={(e) => setVideo(e.target.value)}
 						/>
@@ -81,8 +82,8 @@ function EditVideo({ data }) {
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Title"
-							variant="filled"
+							label="Tiêu Đề"
+							variant="outlined"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
 							required
@@ -92,19 +93,21 @@ function EditVideo({ data }) {
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Description"
-							variant="filled"
+							label="Mô Tả"
+							variant="outlined"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
 							required
+							multiline
+							rows={10}
 						/>
 					</div>
-					<div className="form-group">
+                    <div className="form-group">
 						<TextField
 						fullWidth
 							id="filled-basic"
-							label="PeriodName"
-							variant="filled"
+							label="Thời Kì"
+							variant="outlined"
 							value={periodName}
 							onChange={(e) => setPeriodName(e.target.value.split(','))}
 							required
@@ -113,13 +116,13 @@ function EditVideo({ data }) {
 					<div className="form-group">
 						<div className="update-btn">
 							<Button variant="contained" color="success" type="submit">
-								Update
+								Cập Nhật
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/moderator/video">
+							<Link to="/moderator/character">
 								<Button variant="contained" color="error">
-									Cancel
+									Hủy Bỏ
 								</Button>
 							</Link>
 						</div>
@@ -127,6 +130,7 @@ function EditVideo({ data }) {
 				</div>
 			</div>
 		</form>
+        </div>
 	)
 }
 

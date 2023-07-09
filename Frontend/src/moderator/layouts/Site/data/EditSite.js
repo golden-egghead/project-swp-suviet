@@ -2,51 +2,52 @@ import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './EditCharacter.css';
 
-function EditCharacter({ data }) {
-	const characterID = useParams();
-	const pr = characterID.characterID;
-	const baseUrl = `http://localhost:8080/api/character/edit/`;
+function EditSite({ data }) {
+	const historicalSiteID = useParams();
+	const pr = historicalSiteID.historicalSiteID;
+	const baseUrl = `http://localhost:8080/api/historicalSites/update-historicalSite/`;
 
 	const location = useLocation();
 	const props = location.state;
 	const [ID, setID] = useState('');
-	const [image, setImage] = useState('');
-	const [characterName, setCharacterName] = useState('');
+	const [photo, setPhoto] = useState('');
+    const [historicalSiteName, setHistoricalSiteName] = useState('');
+	const [locate, setLocate] = useState('');
 	const [description, setDescription] = useState('');
-	const [periodName, setPeriodName] = useState('');
+	const [images, setImages] = useState([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		setID(props.characterID);
-		setImage(props.image);
-		setCharacterName(props.characterName);
+		setID(props.videoID);
+		setPhoto(props.photo);
+		setHistoricalSiteName(props.historicalSiteName);
+        setLocate(props.locate)
 		setDescription(props.description);
-		setPeriodName(props.periodName)
-	}, []
+		setImages(props.images)
+	},[]
 	)
 
 	// const handleVideoChange = (e) => {
 	// 	const file = e.target.files[0];
 	// 	setVideoFile(file);
 	//   };
-
+	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const characters = { ID, image, characterName, description, periodName };
+		const sites = { ID, photo, historicalSiteName, locate, description, images};
 		fetch(baseUrl + pr, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
-			body: JSON.stringify(characters)
+			body: JSON.stringify(sites)
 		})
 			.then((res) => {
 				// alert('Update successfully!');
 				toast.success('Cập nhật thành công!');
-				navigate('/moderator/character');
+				navigate('/moderator/video');
 			})
 			.catch((err) => {
 				console.log(err.message);
@@ -54,11 +55,11 @@ function EditCharacter({ data }) {
 	};
 
 	return (
-		<div className='edit'>
+		<div className='item'>
 		<form className="edit-container" onSubmit={handleSubmit}>
 			<div className="edit-form">
 				<div className="form-title">
-					<h2>Cập Nhật Nhân Vật</h2>
+					<h2>Cập Nhật Video</h2>
 				</div>
 				<div className="form-body">
 					<div className="form-group">
@@ -75,18 +76,29 @@ function EditCharacter({ data }) {
 							id="filled-basic"
 							label="Hình Ảnh"
 							variant="outlined"
-							value={image}
-							onChange={(e) => setImage(e.target.value)}
+							value={photo}
+							onChange={(e) => setPhoto(e.target.value)}
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Tên Nhân Vật"
+							label="Tên Di TÍch"
 							variant="outlined"
-							value={characterName}
-							onChange={(e) => setCharacterName(e.target.value)}
+							value={historicalSiteName}
+							onChange={(e) => setHistoricalSiteName(e.target.value)}
+							required
+						/>
+					</div>
+                    <div className="form-group">
+						<TextField
+							fullWidth
+							id="filled-basic"
+							label="Vị Trí"
+							variant="outlined"
+							value={locate}
+							onChange={(e) => setLocate(e.target.value)}
 							required
 						/>
 					</div>
@@ -103,14 +115,14 @@ function EditCharacter({ data }) {
 							rows={10}
 						/>
 					</div>
-					<div className="form-group">
+                    <div className="form-group">
 						<TextField
-							fullWidth
+						fullWidth
 							id="filled-basic"
-							label="Thời Kì"
+							label="Hình Ảnh"
 							variant="outlined"
-							value={periodName}
-							onChange={(e) => setPeriodName(e.target.value)}
+							value={images}
+							onChange={(e) => setImages(e.target.value.split(','))}
 							required
 						/>
 					</div>
@@ -131,8 +143,8 @@ function EditCharacter({ data }) {
 				</div>
 			</div>
 		</form>
-		</div>
+        </div>
 	)
 }
 
-export default EditCharacter;
+export default EditSite;
