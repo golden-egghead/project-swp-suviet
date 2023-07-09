@@ -62,7 +62,7 @@ const Video = ({ item }) => {
 
 const Function = ({ title }) => (
 	<MDBox lineHeight={1} textAlign="left" width="300px">
-		<MDTypography display="block" variant="caption" color="text" fontWeight="medium" fontSize={15}>
+		<MDTypography display="block" variant="caption" color="black" fontWeight="medium" fontSize={17}>
 			{title}
 		</MDTypography>
 	</MDBox>
@@ -70,22 +70,27 @@ const Function = ({ title }) => (
 
 
 
-export default function Data() {
-	const [accountData, setData] = useState([]);
+export default function VideoData() {
+	const [accountData, setAccountData] = useState([]);
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
 				const { data } = await axios.get(`http://localhost:8080/api/videos/${page}`);
-				setData((prevData) => [...prevData, ...data.data.content]);
+				return data.data.content;
 			} catch (error) {
 				console.error(error);
+				return [];
 			}
 		};
 
 		const fetchAllData = async () => {
-			for (let i = 1; i <= 13; i++) {
-				await getData(i);
+			const requests = [];
+			for (let i = 1; i <= 8; i++) {
+				requests.push(getData(i));
 			}
+			const responses = await Promise.all(requests);
+			const mergedData = responses.flat();
+			setAccountData(mergedData);
 		};
 
 		fetchAllData();
@@ -97,19 +102,6 @@ export default function Data() {
 	const EditFunction = (item) => {
 		navigate("/moderator/video/edit/" + item.videoID, { state: item });
 	}
-
-	// const handleChangeActive = async (item) => {
-	// 	const updatedData = accountData.map((dataItem) => {
-	// 		if (dataItem.userID === item.userID) {
-	// 			const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
-	// 			fetchApi(dataItem.userID);
-	// 			return updatedItem;
-	// 		}
-	// 		return dataItem;
-	// 	});
-
-	// 	setData(updatedData);
-	// };
 
 	const RemoveVideo = async (videoID) => {
 		if (window.confirm('Do you want to remove?')) {
@@ -124,7 +116,7 @@ export default function Data() {
 			});
 	
 			if (response.ok) {
-			  setData((prevData) => prevData.filter((item) => item.videoID !== videoID));
+			  setAccountData((prevData) => prevData.filter((item) => item.videoID !== videoID));
 			  toast.success('Xóa Thành Công!');
 			} else {
 			  throw new Error('Xóa Thất Bại');

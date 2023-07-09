@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const Id = ({ id }) => (
@@ -29,76 +30,80 @@ const Id = ({ id }) => (
 
 const Character = ({ src }) => (
 	<MDBox display="flex" alignItems="center" lineHeight={1}>
-		<MDBox ml={2} lineHeight={1}>		
-				<img style={{height:'100px', width:'100px'}} src={src} alt=''></img>
+		<MDBox ml={2} lineHeight={1}>
+			<img style={{ height: '100px', width: '100px' }} src={src} alt=''></img>
 			{/* <MDTypography variant="caption" fontSize={15}>ID: {id}</MDTypography> */}
 		</MDBox>
 	</MDBox>
 );
-  
+
 
 const Function = ({ title }) => (
 	<MDBox lineHeight={1} textAlign="left" width="300px">
-		<MDTypography display="block" variant="caption" color="text" fontWeight="medium" fontSize={15}>
+		<MDTypography display="block" variant="caption" color="black" fontWeight="medium" fontSize={18}>
 			{title}
 		</MDTypography>
 	</MDBox>
 );
 
 export default function Data() {
-	const [accountData, setData] = useState([]);
+	const [accountData, setAccountData] = useState([]);
+
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
 				const { data } = await axios.get(`http://localhost:8080/api/characters/${page}`);
-				setData((prevData) => [...prevData, ...data.data.content]);
+				return data.data.content;
 			} catch (error) {
 				console.error(error);
+				return [];
 			}
 		};
 
 		const fetchAllData = async () => {
-			for (let i = 1; i <= 5; i++) {
-				await getData(i);
+			const requests = [];
+			for (let i = 1; i <= 8; i++) {
+				requests.push(getData(i));
 			}
+			const responses = await Promise.all(requests);
+			const mergedData = responses.flat();
+			setAccountData(mergedData);
 		};
 
 		fetchAllData();
 	}, []);
+
 
 	//Edit
 	const navigate = useNavigate();
 
 	const EditFunction = (item) => {
 		navigate("/moderator/character/edit/" + + item.characterID, { state: item });
-	  }
+	}
 
-	// const handleEditVideo = async (item) => {
-	// 	const updatedData = accountData.map((dataItem) => {
-	// 		if (dataItem.userID === item.userID) {
-	// 			const updatedItem = { ...dataItem, enabled: !dataItem.enabled };
-	// 			// fetchApi(`http://localhost:8080/api/admin`,'method(PUT, DELETE, ...)');
-	// 			return updatedItem;
-	// 		}
-	// 		return dataItem;
-	// 	});
+	const RemoveCharacter = async (characterID) => {
+		if (window.confirm('Do you want to remove?')) {
+			try {
+				const baseUrl = `http://localhost:8080/api/character/delete/`;
+				const response = await fetch(baseUrl + characterID, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+					}
+				});
 
-	// 	setData(updatedData);
-	// };
-
-	const handleChangeActive = async (item) => {
-		const updatedData = accountData.map((dataItem) => {
-			if (dataItem.userID === item.userID) {
-				const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
-				fetchApi(dataItem.userID);
-				return updatedItem;
+				if (response.ok) {
+					setAccountData((prevData) => prevData.filter((item) => item.characterID !== characterID));
+					toast.success('Xóa Thành Công!');
+				} else {
+					throw new Error('Xóa Thất Bại');
+				}
+			} catch (err) {
+				console.log(err.message);
 			}
-			return dataItem;
-		});
-
-		setData(updatedData);
+		}
 	};
-
 	const rows = accountData.map((item) => ({
 		ID: <Id id={item.characterID} />,
 		Character: <Character src={item.image} />,
@@ -111,7 +116,7 @@ export default function Data() {
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { handleChangeActive(item.videoID) }}>
+				onClick={() => { RemoveCharacter(item.characterID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),
@@ -119,7 +124,7 @@ export default function Data() {
 
 	return {
 		columns: [
-			{ Header: <div style={{fontSize:'20px', color:'red', paddingLeft:'12px'}}>ID</div>, accessor: 'ID', align: 'center'},
+			{ Header: <div style={{ fontSize: '20px', color: 'red', paddingLeft: '12px' }}>ID</div>, accessor: 'ID', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Hình Ảnh</div>, accessor: 'Character', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Nhân Vật</div>, accessor: 'Title', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red', textAlign: 'center' }}>Trạng Thái</div>, accessor: 'Action', align: 'center' },

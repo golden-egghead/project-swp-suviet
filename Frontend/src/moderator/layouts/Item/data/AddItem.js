@@ -1,67 +1,52 @@
 import { Button, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './EditCharacter.css';
+import './AddItem.css';
 
-function EditCharacter({ data }) {
-	const characterID = useParams();
-	const pr = characterID.characterID;
-	const baseUrl = `http://localhost:8080/api/character/edit/`;
+function AddCharacter() {
 
-	const location = useLocation();
-	const props = location.state;
 	const [ID, setID] = useState('');
-	const [image, setImage] = useState('');
-	const [characterName, setCharacterName] = useState('');
+	const [photo, setPhoto] = useState('');
+	const [name, setName] = useState('');
+    const [type, setType] = useState('');
+    const [nation, setNation] = useState('');
 	const [description, setDescription] = useState('');
 	const [periodName, setPeriodName] = useState('');
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		setID(props.characterID);
-		setImage(props.image);
-		setCharacterName(props.characterName);
-		setDescription(props.description);
-		setPeriodName(props.periodName)
-	}, []
-	)
-
-	// const handleVideoChange = (e) => {
-	// 	const file = e.target.files[0];
-	// 	setVideoFile(file);
-	//   };
+	const baseUrl = `http://localhost:8080/api/historicalItem/upload`;
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const characters = { ID, image, characterName, description, periodName };
-		fetch(baseUrl + pr, {
-			method: 'PUT',
+		const videos = { ID, photo, name, type, nation, description, periodName };
+		fetch(baseUrl, {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
-			body: JSON.stringify(characters)
+			body: JSON.stringify(videos)
 		})
 			.then((res) => {
-				// alert('Update successfully!');
-				toast.success('Cập nhật thành công!');
+				toast.success('Thêm Thành Công!');
 				navigate('/moderator/character');
 			})
 			.catch((err) => {
 				console.log(err.message);
 			});
+			console.log(videos);
 	};
+	
 
 	return (
-		<div className='edit'>
-		<form className="edit-container" onSubmit={handleSubmit}>
-			<div className="edit-form">
+        <div className='item'>
+		<form className="add-container" onSubmit={handleSubmit}>
+			<div className="add-form">
 				<div className="form-title">
-					<h2>Edit Character</h2>
+					<h2>Add New Item</h2>
 				</div>
 				<div className="form-body">
-					<div className="form-group">
+                <div className="form-group">
 						<TextField
 							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div>
@@ -73,20 +58,41 @@ function EditCharacter({ data }) {
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Image"
+							label="Photo"
 							variant="outlined"
-							value={image}
-							onChange={(e) => setImage(e.target.value)}
+							value={photo}
+							onChange={(e) => setPhoto(e.target.value)}
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="CharacterName"
+							label="Name"
 							variant="outlined"
-							value={characterName}
-							onChange={(e) => setCharacterName(e.target.value)}
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							required
+						/>
+					</div>
+                    <div className="form-group">
+						<TextField
+							fullWidth
+							id="filled-basic"
+							label="Type"
+							variant="outlined"
+							value={type}
+							onChange={(e) => setType(e.target.value)}
+						/>
+					</div>
+                    <div className="form-group">
+						<TextField
+							fullWidth
+							id="filled-basic"
+							label="Nation"
+							variant="outlined"
+							value={nation}
+							onChange={(e) => setNation(e.target.value)}
 							required
 						/>
 					</div>
@@ -100,12 +106,12 @@ function EditCharacter({ data }) {
 							onChange={(e) => setDescription(e.target.value)}
 							required
 							multiline
-							rows={4}
+							rows={10}
 						/>
 					</div>
-					<div className="form-group">
+                    <div className="form-group">
 						<TextField
-							fullWidth
+						fullWidth
 							id="filled-basic"
 							label="PeriodName"
 							variant="outlined"
@@ -115,13 +121,13 @@ function EditCharacter({ data }) {
 						/>
 					</div>
 					<div className="form-group">
-						<div className="update-btn">
+						<div className="save-btn">
 							<Button variant="contained" color="success" type="submit">
-								Update
+								Save
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/moderator/character">
+							<Link to="/dashboard">
 								<Button variant="contained" color="error">
 									Cancel
 								</Button>
@@ -131,8 +137,10 @@ function EditCharacter({ data }) {
 				</div>
 			</div>
 		</form>
-		</div>
-	)
+        </div>
+    )
 }
 
-export default EditCharacter;
+export default AddCharacter;
+
+

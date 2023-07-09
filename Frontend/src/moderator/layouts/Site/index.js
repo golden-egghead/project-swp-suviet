@@ -11,18 +11,13 @@ import DashboardLayout from '../../examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from '../../examples/Navbars/DashboardNavbar';
 import DataTable from '../../examples/Tables/DataTable';
 // Data
-import videoData from './data/videoData';
-import Button from '@mui/material/Button'
-import { Link } from 'react-router-dom';
+import SiteData from './data/SiteData';
 
-function Videos() {
-	const { columns, rows } = videoData();
+function Sites() {
+	const { columns, rows } = SiteData();
 	return (
 		<DashboardLayout>
 			<DashboardNavbar />
-			<Link to='/moderator/video/add'><Button style={{color: 'white'}} variant="contained" >
-				Create
-			</Button></Link>
 			<MDBox pt={6} pb={3}>
 				<Grid container spacing={6}>
 					<Grid item xs={12}>
@@ -38,7 +33,7 @@ function Videos() {
 								coloredShadow="info"
 							>
 								<MDTypography variant="h4" color="white" textAlign='center' fontSize='25px'>
-									Video
+									Di Tích
 								</MDTypography>
 							</MDBox>
 							<MDBox pt={3}>
@@ -58,4 +53,4 @@ function Videos() {
 	);
 }
 
-export default Videos;
+export default Sites;

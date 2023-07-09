@@ -2,39 +2,41 @@ import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './EditCharacter.css';
+import './EditItem.css';
 
-function EditCharacter({ data }) {
-	const characterID = useParams();
-	const pr = characterID.characterID;
-	const baseUrl = `http://localhost:8080/api/character/edit/`;
+function EditItem({ data }) {
+	const historicalItemID = useParams();
+	const pr = historicalItemID.historicalItemID;
+	const baseUrl = `http://localhost:8080/api/historicalItem/edit/`;
 
 	const location = useLocation();
 	const props = location.state;
 	const [ID, setID] = useState('');
-	const [image, setImage] = useState('');
-	const [characterName, setCharacterName] = useState('');
+    const [photo, setPhoto] = useState('');
+	const [name, setName] = useState('');
+    const [nation, setNation] = useState('');
 	const [description, setDescription] = useState('');
-	const [periodName, setPeriodName] = useState('');
+    const [periodName, setPeriodName] = useState('');
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		setID(props.characterID);
-		setImage(props.image);
-		setCharacterName(props.characterName);
+		setID(props.historicalItemID);
+        setPhoto(props.photo);
+		setName(props.name);
+        setNation(props.nation);
 		setDescription(props.description);
-		setPeriodName(props.periodName)
-	}, []
+        setPeriodName(props.periodName);
+	},[]
 	)
 
 	// const handleVideoChange = (e) => {
 	// 	const file = e.target.files[0];
 	// 	setVideoFile(file);
 	//   };
-
+	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const characters = { ID, image, characterName, description, periodName };
+		const characters = { ID, photo, name, nation, description, periodName};
 		fetch(baseUrl + pr, {
 			method: 'PUT',
 			headers: {
@@ -54,11 +56,11 @@ function EditCharacter({ data }) {
 	};
 
 	return (
-		<div className='edit'>
+        <div className='item'>
 		<form className="edit-container" onSubmit={handleSubmit}>
 			<div className="edit-form">
 				<div className="form-title">
-					<h2>Edit Character</h2>
+					<h2>Edit Item</h2>
 				</div>
 				<div className="form-body">
 					<div className="form-group">
@@ -73,20 +75,31 @@ function EditCharacter({ data }) {
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="Image"
+							label="Photo"
 							variant="outlined"
-							value={image}
-							onChange={(e) => setImage(e.target.value)}
+							value={photo}
+							onChange={(e) => setPhoto(e.target.value)}
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
-							label="CharacterName"
+							label="Name"
 							variant="outlined"
-							value={characterName}
-							onChange={(e) => setCharacterName(e.target.value)}
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							required
+						/>
+					</div>
+                    <div className="form-group">
+						<TextField
+							fullWidth
+							id="filled-basic"
+							label="Nation"
+							variant="outlined"
+							value={nation}
+							onChange={(e) => setNation(e.target.value)}
 							required
 						/>
 					</div>
@@ -100,12 +113,12 @@ function EditCharacter({ data }) {
 							onChange={(e) => setDescription(e.target.value)}
 							required
 							multiline
-							rows={4}
+							rows={10}
 						/>
 					</div>
-					<div className="form-group">
+                    <div className="form-group">
 						<TextField
-							fullWidth
+						fullWidth
 							id="filled-basic"
 							label="PeriodName"
 							variant="outlined"
@@ -131,8 +144,8 @@ function EditCharacter({ data }) {
 				</div>
 			</div>
 		</form>
-		</div>
+        </div>
 	)
 }
 
-export default EditCharacter;
+export default EditItem;

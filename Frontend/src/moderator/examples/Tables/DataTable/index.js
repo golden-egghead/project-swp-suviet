@@ -28,7 +28,7 @@ import DataTableBodyCell from './DataTableBodyCell';
 import { Pagination } from '@mui/material';
 
 function DataTable({ entriesPerPage, canSearch, showTotalEntries, table, pagination, isSorted, noEndBorder }) {
-	const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 5;
+	const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 4;
 	const entries = entriesPerPage.entries
 		? entriesPerPage.entries.map((el) => el.toString())
 		: ['5', '10', '15', '20', '25'];

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const Id = ({ id }) => (
@@ -27,7 +28,7 @@ const Id = ({ id }) => (
 
 
 
-const Book = ({ src }) => (
+const Item = ({ src }) => (
 	<MDBox display="flex" alignItems="center" lineHeight={1}>
 		<MDBox ml={2} lineHeight={1}>		
 				<img style={{height:'100px', width:'100px'}} src={src} alt=''></img>
@@ -46,21 +47,27 @@ const Function = ({ title }) => (
 );
 
 export default function Data() {
-	const [accountData, setData] = useState([]);
+	const [accountData, setAccountData] = useState([]);
+
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
-				const { data } = await axios.get(`http://localhost:8080/api/Books/${page}`);
-				setData((prevData) => [...prevData, ...data.data.content]);
+				const { data } = await axios.get(`http://localhost:8080/api/HistoricalItems/${page}`);
+				return data.data.content;
 			} catch (error) {
 				console.error(error);
+				return [];
 			}
 		};
 
 		const fetchAllData = async () => {
-			for (let i = 1; i <= 20; i++) {
-				await getData(i);
+			const requests = [];
+			for (let i = 1; i <= 10; i++) {
+				requests.push(getData(i));
 			}
+			const responses = await Promise.all(requests);
+			const mergedData = responses.flat();
+			setAccountData(mergedData);
 		};
 
 		fetchAllData();
@@ -69,49 +76,47 @@ export default function Data() {
 	//Edit
 	const navigate = useNavigate();
 
-	const EditFunction = (bookID) => {
-		navigate("/moderator/book/edit/" + bookID);
+	const EditFunction = (item) => {
+		navigate("/moderator/item/edit/" + + item.historicalItemID, { state: item });
 	  }
+    
+    const RemoveItem = async (historicalItemID) => {
+		if (window.confirm('Do you want to remove?')) {
+			try {
+				const baseUrl = `http://localhost:8080/api/historicalItem/delete/`;
+				const response = await fetch(baseUrl + historicalItemID, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+					}
+				});
 
-	// const handleEditVideo = async (item) => {
-	// 	const updatedData = accountData.map((dataItem) => {
-	// 		if (dataItem.userID === item.userID) {
-	// 			const updatedItem = { ...dataItem, enabled: !dataItem.enabled };
-	// 			// fetchApi(`http://localhost:8080/api/admin`,'method(PUT, DELETE, ...)');
-	// 			return updatedItem;
-	// 		}
-	// 		return dataItem;
-	// 	});
-
-	// 	setData(updatedData);
-	// };
-
-	const handleChangeActive = async (item) => {
-		const updatedData = accountData.map((dataItem) => {
-			if (dataItem.userID === item.userID) {
-				const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
-				fetchApi(dataItem.userID);
-				return updatedItem;
+				if (response.ok) {
+					setAccountData((prevData) => prevData.filter((item) => item.historicalItemID !== historicalItemID));
+					toast.success('Xóa Thành Công!');
+				} else {
+					throw new Error('Xóa Thất Bại');
+				}
+			} catch (err) {
+				console.log(err.message);
 			}
-			return dataItem;
-		});
-
-		setData(updatedData);
+		}
 	};
 
 	const rows = accountData.map((item) => ({
-		ID: <Id id={item.bookID} />,
-		Book: <Book src={item.cover} />,
-		Title: <Function title={item.title} />,
+		ID: <Id id={item.historicalItemID} />,
+		Item: <Item src={item.photo} />,
+		Title: <Function title={item.name} />,
 		Action: (<>
 			<Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor: 'green' }}
 				className='edit-btn'
-				onClick={() => { EditFunction(item.videoID) }}>
+				onClick={() => { EditFunction(item) }}>
 				<EditIcon />
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { handleChangeActive(item.videoID) }}>
+				onClick={() => { RemoveItem(item.historicalItemID)}}>
 				<DeleteIcon />
 			</Button>
 		</>),
@@ -120,8 +125,8 @@ export default function Data() {
 	return {
 		columns: [
 			{ Header: <div style={{fontSize:'20px', color:'red', paddingLeft:'12px'}}>ID</div>, accessor: 'ID', align: 'center'},
-			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Hình Ảnh</div>, accessor: 'Book', align: 'center' },
-			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Tiêu Đề</div>, accessor: 'Title', align: 'center' },
+			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Hình Ảnh</div>, accessor: 'Item', align: 'center' },
+			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Cổ Vật</div>, accessor: 'Title', align: 'center' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red', textAlign: 'center' }}>Trạng Thái</div>, accessor: 'Action', align: 'center' },
 		],
 		rows: rows || []

@@ -32,9 +32,15 @@ import Footer from './components/Footer';
 import AdminPage from './admin/admin';
 // import ModeratorPage from './components/moderator/mod';
 import Moderator from './moderator/moderator';
+//video
 import EditVideo from './moderator/layouts/Video/data/EditVideo';
 import AddVideo from './moderator/layouts/Video/data/AddVideo';
-import EditCharacter from './moderator/layouts/Character/data/EditCharacter'
+//character
+import EditCharacter from './moderator/layouts/Character/data/EditCharacter';
+import AddCharacter from './moderator/layouts/Character/data/AddCharacter'
+//item
+import EditItem from './moderator/layouts/Item/data/EditItem';
+import AddItem from './moderator/layouts/Item/data/AddItem';
 
 import Map from './components/Map/Map';
 import UserProfile from './components/user/Profile';
@@ -70,7 +76,10 @@ function App() {
           <Route path="/moderator/*" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
           <Route path="/moderator/video/edit/:videoID" element={<EditVideo />} />
           <Route path="/moderator/character/edit/:characterID" element={<EditCharacter />} />
-          <Route path="/moderator/add" element={<AddVideo />} />
+          <Route path="/moderator/item/edit/:historicalItemID" element={<EditItem />} />
+          <Route path="/moderator/video/add" element={<AddVideo />} />
+          <Route path="/moderator/character/add" element={<AddCharacter />} />
+          <Route path="/moderator/item/add" element={<AddItem />} />
           <Route path="/postarticle" element={<ProtectedRoute><PostArticle /></ProtectedRoute>} />
       
           {/* <Route path="/upPro" element={<UpdateProfile />} /> */}

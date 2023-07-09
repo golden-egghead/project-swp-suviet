@@ -26,8 +26,7 @@ const Id = ({ id }) => (
 
 
 
-
-const Book = ({ src }) => (
+const HistoricalSite = ({ src }) => (
 	<MDBox display="flex" alignItems="center" lineHeight={1}>
 		<MDBox ml={2} lineHeight={1}>		
 				<img style={{height:'100px', width:'100px'}} src={src} alt=''></img>
@@ -50,7 +49,7 @@ export default function Data() {
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
-				const { data } = await axios.get(`http://localhost:8080/api/Books/${page}`);
+				const { data } = await axios.get(`http://localhost:8080/api/historicalSites/${page}`);
 				setData((prevData) => [...prevData, ...data.data.content]);
 			} catch (error) {
 				console.error(error);
@@ -58,7 +57,7 @@ export default function Data() {
 		};
 
 		const fetchAllData = async () => {
-			for (let i = 1; i <= 20; i++) {
+			for (let i = 1; i <= 5; i++) {
 				await getData(i);
 			}
 		};
@@ -69,8 +68,8 @@ export default function Data() {
 	//Edit
 	const navigate = useNavigate();
 
-	const EditFunction = (bookID) => {
-		navigate("/moderator/book/edit/" + bookID);
+	const EditFunction = (item) => {
+		navigate("/moderator/site/edit/" + + item.historicalSiteID, { state: item });
 	  }
 
 	// const handleEditVideo = async (item) => {
@@ -100,13 +99,13 @@ export default function Data() {
 	};
 
 	const rows = accountData.map((item) => ({
-		ID: <Id id={item.bookID} />,
-		Book: <Book src={item.cover} />,
-		Title: <Function title={item.title} />,
+		ID: <Id id={item.historicalSiteID} />,
+		HistoricalSite: <HistoricalSite src={item.photo} />,
+		Title: <Function title={item.historicalSiteName} />,
 		Action: (<>
 			<Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor: 'green' }}
 				className='edit-btn'
-				onClick={() => { EditFunction(item.videoID) }}>
+				onClick={() => { EditFunction(item) }}>
 				<EditIcon />
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
@@ -120,8 +119,8 @@ export default function Data() {
 	return {
 		columns: [
 			{ Header: <div style={{fontSize:'20px', color:'red', paddingLeft:'12px'}}>ID</div>, accessor: 'ID', align: 'center'},
-			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Hình Ảnh</div>, accessor: 'Book', align: 'center' },
-			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Tiêu Đề</div>, accessor: 'Title', align: 'center' },
+			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Hình Ảnh</div>, accessor: 'HistoricalSite', align: 'center' },
+			{ Header: <div style={{ fontSize: '20px', color: 'red', paddingLeft:'58px' }}>Di Tích</div>, accessor: 'Title', align: 'left' },
 			{ Header: <div style={{ fontSize: '20px', color: 'red', textAlign: 'center' }}>Trạng Thái</div>, accessor: 'Action', align: 'center' },
 		],
 		rows: rows || []

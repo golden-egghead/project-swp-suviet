@@ -128,7 +128,7 @@ public class BookController {
         return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
     }
 
-    @PostMapping("/upload-video")
+    @PostMapping("/book/upload")
     public ResponseEntity<ResponseObject> uploadABook(@RequestBody BookDTO bookDTO) {
         List<Book> books = bookService.findBookByName(bookDTO.getTitle());
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -170,7 +170,7 @@ public class BookController {
 
     }
 
-    @PutMapping("/update-video/{videoID}")
+    @PutMapping("/book/update/{bookID}")
     public ResponseEntity<ResponseObject> updateABook(@PathVariable int bookID,
                                                        @RequestBody BookDTO bookDTO) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -228,7 +228,7 @@ public class BookController {
         );
     }
 
-    @DeleteMapping("/delete-video/{videoID}")
+    @DeleteMapping("/book/delete/{bookID}")
     public ResponseEntity<ResponseObject> deleteAVideo(@PathVariable int bookID) {
         boolean checkDelete = bookService.deleteABook(bookID);
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());

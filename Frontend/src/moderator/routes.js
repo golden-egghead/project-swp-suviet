@@ -1,10 +1,16 @@
 
-import Videos from './layouts/Video'
-import Logout from './layouts/logout'
-import Characters from './layouts/Character'
-import Books from './layouts/Book'
+import Videos from './layouts/Video';
+import Logout from './layouts/logout';
+import Characters from './layouts/Character';
+import Books from './layouts/Book';
+import Sites from './layouts/Site';
+import Items from './layouts/Item';
 // @mui icons
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import MuseumIcon from '@mui/icons-material/Museum';
+import CategoryIcon from '@mui/icons-material/Category';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const routes = [
@@ -13,7 +19,7 @@ const routes = [
 		type: 'collapse',
 		name: 'Video',
 		key: 'video',
-		icon: <ManageAccountsIcon fontSize="small" />,
+		icon: <OndemandVideoIcon fontSize="small" />,
 		route: 'video',
 		component: <Videos />
 	},
@@ -21,7 +27,7 @@ const routes = [
 		type: 'collapse',
 		name: 'Nhân Vật',
 		key: 'character',
-		icon: <ManageAccountsIcon fontSize="small" />,
+		icon: <AccountBoxIcon fontSize="small" />,
 		route: 'character',
 		component: <Characters />
 	},
@@ -29,9 +35,25 @@ const routes = [
 		type: 'collapse',
 		name: 'Sách',
 		key: 'book',
-		icon: <ManageAccountsIcon fontSize="small" />,
+		icon: <AutoStoriesIcon  fontSize="small" />,
 		route: 'book',
 		component: <Books />
+	},
+	{
+		type: 'collapse',
+		name: 'Di Tích',
+		key: 'site',
+		icon: <MuseumIcon  fontSize="small" />,
+		route: 'site',
+		component: <Sites />
+	},
+	{
+		type: 'collapse',
+		name: 'Cổ Vật',
+		key: 'item',
+		icon: <CategoryIcon  fontSize="small" />,
+		route: 'item',
+		component: <Items />
 	},
 	{
 		type: 'collapse',

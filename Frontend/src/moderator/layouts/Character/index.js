@@ -12,12 +12,17 @@ import DashboardNavbar from '../../examples/Navbars/DashboardNavbar';
 import DataTable from '../../examples/Tables/DataTable';
 // Data
 import characterData from './data/characterData';
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button'
 
 function Characters() {
 	const { columns, rows } = characterData();
 	return (
 		<DashboardLayout>
 			<DashboardNavbar />
+			<Link to='/moderator/character/add'><Button style={{color: 'white'}} variant="contained" >
+				Create
+			</Button></Link>
 			<MDBox pt={6} pb={3}>
 				<Grid container spacing={6}>
 					<Grid item xs={12}>

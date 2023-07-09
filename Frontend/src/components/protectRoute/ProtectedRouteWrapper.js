@@ -27,11 +27,22 @@ const ProtectedRouteWrapper = () => {
     }
   }, []);
 
+  const renderProtectedComponent = () => {
+    const userRole = localStorage.getItem('role');
+
+    if (userRole === "ADMIN") {
+      return <AdminPage />;
+    } else if (userRole === "MODERATOR") {
+      return <Moderator />;
+    } else {
+      return null; // or render an unauthorized page component
+    }
+  };
+
   return (
     <div>
-      <AdminPage />
-      <Moderator />
-    </div>
+    {renderProtectedComponent()}
+  </div>
   );
 };
 
