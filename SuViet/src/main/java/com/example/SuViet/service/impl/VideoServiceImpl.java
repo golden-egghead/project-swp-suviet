@@ -7,7 +7,9 @@ import com.example.SuViet.repository.VideoRepository;
 import com.example.SuViet.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -74,11 +76,17 @@ public class VideoServiceImpl implements VideoService {
         List<VideoDTO> videoDTOS = videos.stream().map(video -> VideoDTO.convertToDTO(video)).collect(Collectors.toList());
         List<VideoDTO> filteredVideos = new ArrayList<>();
         for (VideoDTO vid : videoDTOS) {
-            if (vid.getUser() == null || vid.getUser() == user) {
+            if (vid.getEmail() == "" || vid.getEmail() == user.getMail()) {
                 filteredVideos.add(vid);
             }
         }
         return filteredVideos;
+    }
+
+    @Override
+    public Page<VideoDTO> getOwnVideosWithPagination(int offset, int pagesize, User user) {
+        Page<VideoDTO> videos = new PageImpl<VideoDTO>(getAllOwnVideos(user), PageRequest.of(offset - 1, pagesize) , getAllOwnVideos(user).size());
+        return videos;
     }
 
     @Override

@@ -48,12 +48,6 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -61,35 +55,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseJwt> login(@RequestBody LoginDTO loginDTO) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-//                    login.getMail(), login.getPassword()));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        } catch (AuthenticationException e) {
-//            throw new AuthenticationException("Authentication failed: " + e.getMessage()) {};
-//        }
-//        boolean isEnabled = userRepository.findByMail(login.getMail()).isEnabled();
-//        if (!isEnabled) {
-//            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-//                    new ResponseObject("FAILED", "Please to verify your email", null)
-//            );
-//        }
-//        if (userRepository.findByMail(login.getMail()).getPassword().equals(login.getPassword())) {
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new String("Invalid password!")
-//            );
-//        }
-//        String fullName = userRepository.findByMail(login.getMail()).getFullname();
-//        String role = userRepository.findByMail(login.getMail()).getRoles().toString();
-//        UserDTO userDTO = new UserDTO(login.getMail(), fullName, role);
-//        return ResponseEntity.status(HttpStatus.OK).body(
-//                new ResponseObject("OK", "Login successfully", userDTO)
-//        );
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getMail(), loginDTO.getPassword()));
         if (authentication.isAuthenticated()) {
             boolean isEnabled = userRepository.findByMail(loginDTO.getMail()).get().isEnabled();
             if (!isEnabled) {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                         new ResponseJwt("FAILED", "FAILED", -1, "", "", "", "","", "")
                 );
             }

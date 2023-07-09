@@ -34,7 +34,9 @@ public class VideoDTO {
 
     private List<String> periodName;
 
-    private User user;
+    private String email;
+
+    private String fullname;
 
     public static VideoDTO convertToDTO(Video video) {
         VideoDTO videoDTO = new VideoDTO();
@@ -46,7 +48,13 @@ public class VideoDTO {
         videoDTO.setPeriodID(video.getPeriods().stream().map(period -> period.getPeriodID()).collect(Collectors.toList()));
         videoDTO.setPeriodName(video.getPeriods().stream().map(period -> period.getPeriodName()).collect(Collectors.toList()));
         videoDTO.setCreatedDate(video.getCreatedDate());
-        videoDTO.setUser(video.getUser());
+        if (video.getUser() == null) {
+            videoDTO.setEmail("");
+            videoDTO.setFullname("");
+        } else {
+            videoDTO.setEmail(video.getUser().getMail());
+            videoDTO.setFullname(video.getUser().getFullname());
+        }
         return videoDTO;
     }
 }

@@ -26,5 +26,7 @@ public interface VideoService {
 
     List<VideoDTO> getAllOwnVideos(User user);
 
+    Page<VideoDTO> getOwnVideosWithPagination(int offset, int pagesize, User user);
+
     boolean deleteAVideo(int videoID);
 }

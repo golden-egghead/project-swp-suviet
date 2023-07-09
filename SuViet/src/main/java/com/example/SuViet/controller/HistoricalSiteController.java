@@ -102,7 +102,6 @@ public class HistoricalSiteController {
     public ResponseEntity<ResponseObject> uploadAHistoricalSite(@RequestParam("location") String location,
                                                                 @RequestParam("description") String description,
                                                                 @RequestParam("historicalSiteName") String historicalSiteName,
-                                                                @RequestParam("periodName") String periodName,
                                                                 @RequestParam("photo") MultipartFile file) {
         List<HistoricalSite> historicalSites = historicalSiteService.findAllByNameAndEnabled(historicalSiteName, true);
         HistoricalSite historicalSite = new HistoricalSite();
@@ -134,7 +133,6 @@ public class HistoricalSiteController {
             historicalSite.setEnabled(true);
             historicalSite.setPhoto("http://localhost:8080/api/historicalSites/files/" + imageStorageService.storeFile(file));
             historicalSite.setDetail(description);
-            historicalSite.setPeriod(periodRepository.findByPeriodName(periodName));
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Saved...", historicalSiteService.saveHistoricalSite(historicalSite))
             );
@@ -157,7 +155,6 @@ public class HistoricalSiteController {
                                                                @RequestParam("location") String location,
                                                                @RequestParam("description") String description,
                                                                @RequestParam("historicalSiteName") String historicalSiteName,
-                                                               @RequestParam("periodName") String periodName,
                                                                @RequestParam("photo") MultipartFile file) {
 
         HistoricalSite historicalSite = historicalSiteService.getHistoricalSiteByID(historicalSiteID).get();
@@ -192,7 +189,6 @@ public class HistoricalSiteController {
         historicalSite.setEnabled(true);
         historicalSite.setPhoto("http://localhost:8080/api/historicalSites/files/" + imageStorageService.storeFile(file));
         historicalSite.setDetail(description);
-        historicalSite.setPeriod(periodRepository.findByPeriodName(periodName));
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "Updated succesfully...", historicalSiteService.saveHistoricalSite(historicalSite))
         );

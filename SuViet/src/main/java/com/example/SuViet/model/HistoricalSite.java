@@ -42,7 +42,7 @@ public class HistoricalSite {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "PeriodID")
+    @JoinColumn(name = "PeriodID", nullable = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Period period;
