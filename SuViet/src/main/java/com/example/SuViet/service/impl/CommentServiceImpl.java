@@ -1,11 +1,13 @@
 package com.example.SuViet.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.repository.CommentRepository;
 import com.example.SuViet.service.CommentService;
-
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -23,5 +25,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment getCommentById(int commentId) {
         return commentRepository.findById(commentId).orElse(null);
+    }
+
+    @Override
+    public List<Comment> getAllEnabledComments(Article article) {
+        return commentRepository.findByArticleAndEnabledOrderByCreatedDateDesc(article, true);
     }
 }
