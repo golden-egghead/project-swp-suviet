@@ -13,6 +13,7 @@ import {
   Label,
   Row,
 } from "react-bootstrap";
+import profile from './profile.css';
 
 const UserProfile = () => {
   const [fullName, setFullName] = useState('');
@@ -101,8 +102,10 @@ const UserProfile = () => {
       <Row className="mt-4">
           {/* { JSON.stringify(data) } */}
 
-          <Col sm={{ size: 6, offset: 3 }}>
-            <Card color="dark" inverse>
+          <Col 
+          className='profile-content'
+          >
+            <Card className='profile' color="dark" inverse>
                 <h3> Thông tin tài khoản </h3>
       <p>Full Name: {isEditing ? <input type="text" value={updatedFullName} onChange={(e) => setUpdatedFullName(e.target.value)} maxLength={50} /> : fullName}</p>
       <p>Email: {email}</p>
@@ -114,11 +117,11 @@ const UserProfile = () => {
         <div>
           <input type="file" accept="image/*" onChange={handleImageChange} />
           <br />
-          <button type="submit" onClick={handleSubmit}>Save</button>
-          <button type="button" onClick={handleCancel}>Cancel</button>
+          <button className='button' type="submit" onClick={handleSubmit}>Save</button>
+          <button className='button' type="button" onClick={handleCancel}>Cancel</button>
         </div>
       ) : (
-        <button type="button" onClick={handleEdit}>Edit</button>
+        <button className='button' type="button" onClick={handleEdit}>Edit</button>
       )}
       </Card>
           </Col>

@@ -45,12 +45,12 @@ const LoginT = ({ setIsAuthenticated }) => {
                 navigate("/moderator");
             }
             // const { accessToken } = response.data;
-            
+
             setIsAuthenticated(true);
             setFullname(fullname);
             toast.success('Đăng nhập thành công!');
             console.log('login successful:', response.data);
-            
+
         } catch (error) {
             // Handle error, display error message, etc.
             console.error('Error during login:', error);
@@ -174,21 +174,18 @@ const LoginT = ({ setIsAuthenticated }) => {
     };
 
     return (
-        <Popup className="login-container"
+        <Popup className="login-popup"
             trigger={<button style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} className="button"> Tài khoản </button>}
             {...{ contentStyle, overlayStyle }}
             modal
             nested
         >
             {(close) => (
-                <div className="login-container" >
+                <div  >
 
 
-                    <img style={{
-                        resizeMode: 'contain',
-                        height: 100,
-                        width: 200,
-                    }} src="LogoSuViet.jpg"></img>
+                    <img className="loginlogo"
+                         src="LogoSuViet.jpg"></img>
                     <h1 className="login-title" > Đăng nhập vào Sử Việt </h1>
 
                     <div className="login-popup">
@@ -225,14 +222,17 @@ const LoginT = ({ setIsAuthenticated }) => {
                         {/* )} */}
                         <br />
                         {/*sign up */}
-                        <Popup
-                            trigger={<button className='login-register' > Đăng ký </button>}
+                        <Popup className="login-popup"
+                            trigger={<button style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} > Đăng ký </button>}
                             {...{ contentStyle, overlayStyle }}
                             modal
                             nested
                         >
-                            <h1>Đăng ký
+                            <img className="loginlogo"
+                         src="LogoSuViet.jpg"></img>
+                            <h1 className='login-title'>Đăng ký
                             </h1>
+                            <div className="login-popup">
                             <form onSubmit={handleRegistration}>
                                 <input
                                     type="mail"
@@ -260,6 +260,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 <br />
                                 <button type="submit">Register</button>
                             </form>
+                            </div>
                         </Popup>
                     </div>
                 </div>

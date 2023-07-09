@@ -49,6 +49,7 @@ import AddBook from './moderator/layouts/Book/data/AddBook';
 import Map from './components/Map/Map';
 import UserProfile from './components/user/Profile';
 import AddSite from './moderator/layouts/Site/data/AddSite';
+import ArticleControl from './comments/ArticleControl';
 
 
 
@@ -81,6 +82,7 @@ function App() {
           
           <Route path="/admin/*" element={<ProtectedRouteWrapper><AdminPage /></ProtectedRouteWrapper>} />
           <Route path="/moderator/*" element={<ProtectedRouteWrapper><Moderator /></ProtectedRouteWrapper>} />
+          <Route path="/articlecontrol" element={<ArticleControl />} />
           <Route path="/moderator/video/edit/:videoID" element={<EditVideo />} />
           <Route path="/moderator/character/edit/:characterID" element={<EditCharacter />} />
           <Route path="/moderator/book/edit/:bookID" element={<EditBook />} />
