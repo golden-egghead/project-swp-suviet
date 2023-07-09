@@ -1,6 +1,5 @@
 package com.example.SuViet.dto;
 
-import com.example.SuViet.model.Character;
 import com.example.SuViet.model.HistoricalItem;
 import com.example.SuViet.model.User;
 import lombok.AllArgsConstructor;

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -37,7 +39,7 @@ public class Book {
     private String yearOfPublication;
 
     @Column(columnDefinition = "date", nullable = false)
-    public Date createdDate;
+    public LocalDateTime createdDate;
 
     @Column(columnDefinition = "nvarchar", length = Integer.MAX_VALUE, nullable = false)
     private String publisher;
@@ -51,7 +53,7 @@ public class Book {
     @Column(nullable = false)
     private boolean enabled;
 
-    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, Date createdDate, String publisher, double price, String cover, boolean enabled, Collection<Period> periods) {
+    public Book(int bookID, String title, String author, String category, String description, int pageNumber, String yearOfPublication, LocalDateTime createdDate, String publisher, double price, String cover, boolean enabled, Collection<Period> periods) {
         this.bookID = bookID;
         this.title = title;
         this.author = author;

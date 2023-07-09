@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Nationalized;
 
 @NoArgsConstructor
 @AllArgsConstructor

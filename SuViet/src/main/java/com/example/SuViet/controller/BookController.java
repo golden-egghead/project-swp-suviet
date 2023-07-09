@@ -1,16 +1,13 @@
 package com.example.SuViet.controller;
 
 import com.example.SuViet.dto.BookDTO;
-import com.example.SuViet.dto.CharacterDTO;
 import com.example.SuViet.model.*;
-import com.example.SuViet.model.Character;
 import com.example.SuViet.repository.PeriodRepository;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.service.BookService;
 import com.example.SuViet.service.PeriodService;
 import com.example.SuViet.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,20 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +27,6 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class BookController {
     private final BookService bookService;
-    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
     private final UserService userService;
     private final PeriodService periodService;
 
@@ -121,7 +107,7 @@ public class BookController {
 
     @GetMapping("/booksSortByTitle/{offset}")
     public ResponseEntity<ResponsePaginationObject> getBooksWithPaginationAndSort(@PathVariable int offset) {
-        Page<Book> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, "title");
+        Page<BookDTO> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, "title");
         int listSize = booksWithPagination.getSize();
         int count = 0;
         for (int i = 0; i < listSize; i++) {
@@ -142,150 +128,125 @@ public class BookController {
         return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
     }
 
-    @DeleteMapping(value = "/Books/delete/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> deleteABook(@PathVariable("id") int id) {
-        //role mod
-        // tim character, co ton tai update: disable, ko ton tai bao
-        //save
-        User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<String> roles = getRoleName(currentUser.getRoles());
-        if (roles.contains("MODERATOR")) {
-            Book toDelete = bookService.findBookById(id).get();
-            toDelete.setEnabled(false);
-            bookService.saveBook(toDelete);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "The Book deleted successfully", toDelete));
+    @PostMapping("/upload-video")
+    public ResponseEntity<ResponseObject> uploadABook(@RequestBody BookDTO bookDTO) {
+        List<Book> books = bookService.findBookByName(bookDTO.getTitle());
+        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
+                );
+            }
+        }
+        if (books.size() > 0) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "Video has already exist!", null)
+            );
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ResponseObject("FAILED", "Your role can be accessible this feature!", null)
-            );
-        }
-    }
-    @PostMapping(value = "/book/upload")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> uploadANewBook(@RequestParam String data,
-                                                              @RequestParam("image") MultipartFile cover) throws IOException, ParseException {
-        Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
-        Path imagePath = Paths.get("books");
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
-            Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
-        }
-        Path file = CURRENT_FOLDER.resolve(staticPath)
-                .resolve(imagePath).resolve(cover.getOriginalFilename());
-        try (OutputStream os = Files.newOutputStream(file)) {
-            os.write(cover.getBytes());
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        BookDTO dto = objectMapper.readValue(data, BookDTO.class);
-        User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<String> roles = getRoleName(currentUser.getRoles());
-        if (roles.contains("MODERATOR")){
-            List<Book> existedBook = bookService.findBookByName(dto.getTitle());
-            if(existedBook.size() == 0){
-                Book toUpload = new Book();
-                BeanUtils.copyProperties(dto, toUpload);
-                toUpload.setCover(imagePath.resolve(cover.getOriginalFilename()).toString());
-                toUpload.setUser(currentUser);
-
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                Date currentDate = formatter.parse(formatter.format(new Date(System.currentTimeMillis())));
-                toUpload.setCreatedDate(currentDate);
-
-                List<String> periodNames = dto.getPeriodName();
-                List<Period> periods = new ArrayList<>();
-                for (int i = 0; i < periodNames.size(); i++) {
-                    Period period = periodRepository.findByPeriodName(periodNames.get(0));
-                    periods.add(period);
-                }
-
-                if (periods.size() == 0) {
-                    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                            new ResponseObject("FAILED", "Cannot find out period", null)
-                    );
-                }
-                toUpload.setPeriods(periods);
-                bookService.saveBook(toUpload);
-                return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject("OK", "Uploaded successfully!", toUpload)
-                );
-            }else{
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseObject("FAILED", "Book has already exist!", null)
-                );
-            }
-        }else{
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ResponseObject("FAILED", "Your role can be accessible this feature!", null)
-            );
-        }
-    }
-    @PutMapping(value = "/book/edit/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> editABook(@PathVariable("id") int id,
-                                                         @RequestParam String data,
-                                                         @RequestParam("image") MultipartFile cover) throws IOException {
-        User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<String> roles = getRoleName(currentUser.getRoles());
-        if (roles.contains("MODERATOR")) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            BookDTO dto = objectMapper.readValue(data, BookDTO.class);
-            Book toUpdate = bookService.findBookById(id).get();
-            System.out.println("BOOK: " + toUpdate);
-            if(toUpdate == null){
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseObject("FAILED", "The book is not existed!", null)
-                );
-            }
-
-            //xử lí ảnh
-            Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
-            Path imagePath = Paths.get("books");
-            System.out.println("OLD FILE: " + CURRENT_FOLDER.resolve(staticPath).resolve(toUpdate.getCover()).toString());
-            Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(toUpdate.getCover());
-
-            Path updateFile = CURRENT_FOLDER.resolve(staticPath)
-                    .resolve(imagePath).resolve(cover.getOriginalFilename());
-            Files.copy(cover.getInputStream(), updateFile, StandardCopyOption.REPLACE_EXISTING);
-            Files.deleteIfExists(oldFile);
-            toUpdate.setCover(imagePath.resolve(cover.getOriginalFilename()).toString());
-            //xử lí title
-            if (dto.hasSpecialCharacters(dto.getTitle()) != true) {
-                toUpdate.setTitle(dto.getTitle());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                        new ResponseObject("FAILED", "The title is invalid!", null)
-                );
-            }
-            //xử lí period
-            List<String> periodNames = dto.getPeriodName();
+            Book book = new Book();
+            BeanUtils.copyProperties(bookDTO, book);
+            book.setCreatedDate(LocalDateTime.now());
+            book.setUser(user);
+            List<String> periodNames = bookDTO.getPeriodName();
             List<Period> periods = new ArrayList<>();
             for (int i = 0; i < periodNames.size(); i++) {
                 Period period = periodRepository.findByPeriodName(periodNames.get(0));
                 periods.add(period);
             }
 
-            if (periods.size() == 0) {
+            if (periods.size() <= 0) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                         new ResponseObject("FAILED", "Cannot find out period", null)
                 );
             }
-            toUpdate.setPeriods(periods);
-            toUpdate.setTitle(dto.getTitle());
-            toUpdate.setAuthor(dto.getAuthor());
-            toUpdate.setCategory(dto.getCategory());
-            toUpdate.setDescription(dto.getDescription());
-            toUpdate.setPageNumber(dto.getPageNumber());
-            toUpdate.setYearOfPublication(dto.getYearOfPublication());
-            toUpdate.setPublisher(dto.getPublisher());
-            toUpdate.setEnabled(dto.isEnabled());
-           bookService.saveBook(toUpdate);
+            book.setPeriods(periods);
+            book.setEnabled(true);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "The Character updated successfully", toUpdate));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ResponseObject("FAILED", "Your role can be accessible this feature!", null)
+                    new ResponseObject("OK", "Saved...", bookService.saveBook(book))
             );
         }
+
+    }
+
+    @PutMapping("/update-video/{videoID}")
+    public ResponseEntity<ResponseObject> updateABook(@PathVariable int bookID,
+                                                       @RequestBody BookDTO bookDTO) {
+        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Book book = bookService.findBookById(bookID).get();
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
+                );
+            }
+        }
+        if (book == null) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "There is no video with id " + bookID, null)
+            );
+        }
+        if (book.getUser() == null) {
+            book.setUser(user);
+        } else {
+            if (user != book.getUser()) {
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                        new ResponseObject("FAILED", "You cannot update this video!", null)
+                );
+            }
+        }
+        book.setTitle(bookDTO.getTitle());
+        book.setAuthor(bookDTO.getAuthor());
+        book.setCategory(bookDTO.getCategory());
+        book.setDescription(bookDTO.getDescription());
+        book.setPageNumber(bookDTO.getPageNumber());
+        book.setYearOfPublication(bookDTO.getYearOfPublication());
+        book.setCreatedDate(LocalDateTime.now());
+
+        book.setPublisher(bookDTO.getPublisher());
+        book.setPrice(bookDTO.getPrice());
+        book.setCover(bookDTO.getCover());
+        book.setEnabled(true);
+
+        List<String> periodNames = bookDTO.getPeriodName();
+        List<Period> periods = new ArrayList<>();
+        for (int i = 0; i < periodNames.size(); i++) {
+            Period period = periodRepository.findByPeriodName(periodNames.get(0));
+            periods.add(period);
+        }
+
+        if (periods.size() <= 0) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                    new ResponseObject("FAILED", "Cannot find out period", null)
+            );
+        }
+        book.setPeriods(periods);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("OK", "Updated successfully", bookService.saveBook(book))
+        );
+    }
+
+    @DeleteMapping("/delete-video/{videoID}")
+    public ResponseEntity<ResponseObject> deleteAVideo(@PathVariable int bookID) {
+        boolean checkDelete = bookService.deleteABook(bookID);
+        User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Role> roles = (List<Role>) user.getRoles();
+        for (Role r : roles) {
+            if (r.getRoleName().equals("MEMBER") || r.getRoleName().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        new ResponseObject("FAILED", "Unforbidden", null)
+                );
+            }
+        }
+        if (checkDelete) {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Deleted successfully!", bookService.saveBook(bookService.findBookById(bookID).get()))
+            );
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                new ResponseObject("FAILED", "Deleted fail!", null)
+        );
     }
 }

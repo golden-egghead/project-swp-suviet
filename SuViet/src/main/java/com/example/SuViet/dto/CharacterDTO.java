@@ -1,13 +1,11 @@
 package com.example.SuViet.dto;
 
 import com.example.SuViet.model.Character;
-import com.example.SuViet.model.Period;
 import com.example.SuViet.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 
 @Getter
 @Setter

@@ -1,7 +1,6 @@
 package com.example.SuViet.repository;
 
 import com.example.SuViet.model.Character;
-import com.example.SuViet.model.Period;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

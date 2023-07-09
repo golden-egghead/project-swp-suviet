@@ -1,19 +1,15 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.dto.CharacterDTO;
-import com.example.SuViet.dto.VideoDTO;
 import com.example.SuViet.model.Character;
-import com.example.SuViet.model.Video;
 import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

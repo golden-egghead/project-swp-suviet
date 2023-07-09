@@ -1,8 +1,6 @@
 package com.example.SuViet.service.impl;
 
-import com.example.SuViet.dto.CharacterDTO;
 import com.example.SuViet.dto.HistoricalItemDTO;
-import com.example.SuViet.model.Character;
 import com.example.SuViet.model.HistoricalItem;
 import com.example.SuViet.repository.HistoricalItemRepository;
 import com.example.SuViet.service.HistoricalItemService;

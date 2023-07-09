@@ -10,7 +10,6 @@ import com.example.SuViet.service.CharacterService;
 import com.example.SuViet.service.PeriodService;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.service.impl.CharacterServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,14 +1,13 @@
 package com.example.SuViet.service.impl;
 
+import com.example.SuViet.dto.BookDTO;
 import com.example.SuViet.model.Book;
-import com.example.SuViet.model.Character;
 import com.example.SuViet.repository.BookRepository;
 import com.example.SuViet.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,19 +43,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> getBookWithPaging(int offset, int pageSize) {
-        return bookRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
+    public Page<BookDTO> getBookWithPaging(int offset, int pageSize) {
+        Page<Book> books = bookRepository.findAllByEnabled(true, PageRequest.of(offset - 1, pageSize));
+        return books.map(book -> BookDTO.convertToDTO(book));
     }
 
     @Override
-    public Page<Book> findBookByNameWithPaging(String title, int offset, int pageSize) {
-        return bookRepository.findAllByTitleContainingAndEnabled( title,true, PageRequest.of(offset - 1, pageSize));
+    public Page<BookDTO> findBookByNameWithPaging(String title, int offset, int pageSize) {
+        Page<Book> books = bookRepository.findAllByTitleContainingAndEnabled( title,true, PageRequest.of(offset - 1, pageSize));
+        return books.map(book -> BookDTO.convertToDTO(book));
     }
 
     @Override
-    public Page<Book> getBooksWithSortAndPaging(int offset, int pageSize, String field) {
+    public Page<BookDTO> getBooksWithSortAndPaging(int offset, int pageSize, String field) {
         Page<Book> books = bookRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
-        return books;
+        return books.map(book -> BookDTO.convertToDTO(book));
     }
 
     @Override
@@ -65,8 +66,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> findBookByAuthorWithPaging(String author, int offset, int pageSize) {
-        return bookRepository.findAllByAuthorContainingAndEnabled(author, true, PageRequest.of(offset -1, pageSize));
+    public Page<BookDTO> findBookByAuthorWithPaging(String author, int offset, int pageSize) {
+        Page<Book> books = bookRepository.findAllByAuthorContainingAndEnabled(author, true, PageRequest.of(offset -1, pageSize));
+        return books.map(book -> BookDTO.convertToDTO(book));
+    }
+
+    @Override
+    public boolean deleteABook(int bookID) {
+        Book bookToDelete = bookRepository.findById(bookID).get();
+        try {
+            if (bookToDelete.isEnabled()) {
+                bookToDelete.setEnabled(false);
+            } else  {
+                bookToDelete.setEnabled(true);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
