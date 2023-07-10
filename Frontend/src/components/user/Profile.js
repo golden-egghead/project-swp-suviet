@@ -86,6 +86,7 @@ const UserProfile = () => {
       setFullName(response.data.dto.fullName);
       localStorage.setItem('fullname', response.data.dto.fullName);
       setImage(null);
+      console.log(response)
       alert(response.data.message);
       window.location.reload();
     } catch (err) {

@@ -15,6 +15,7 @@ import { Card, Row, Col } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./auth/Login";
+import CarouselHomePage from "./CarouselHomePage";
 
 const Header = (props) => {
   const [isLoginPopupOpen, setLoginPopupOpen] = useState(false);
@@ -112,17 +113,17 @@ const Header = (props) => {
     </Row> */}
     <Navbar expand="lg">
         <Nav.Link href="#home"></Nav.Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+        {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
+        {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
+          {/* <Nav className="me-auto">
           <Link style={{color:'white', textDecoration:'none'}} to="/vinhdanh"><Nav.Link
             href="#vinhdanh"
             className={activeLink === 'vinhdanh' ? 'active' : ''}
             onClick={() => handleLinkClick('vinhdanh')}
             >
             VINH DANH
-          </Nav.Link></Link>
-          <Link style={{color:'white', textDecoration:'none'}} to="/game"><Nav.Link
+          </Nav.Link></Link> */}
+          {/* <Link style={{color:'white', textDecoration:'none'}} to="/game"><Nav.Link
             href="#minigame"
             className={activeLink === 'minigame' ? 'active' : ''}
             onClick={() => handleLinkClick('minigame')}
@@ -130,8 +131,13 @@ const Header = (props) => {
             BXH THÀNH VIÊN
           </Nav.Link></Link>
           </Nav>
-        </Navbar.Collapse>
+        </Navbar.Collapse> */}
     </Navbar>
+    <Card style={{backgroundColor: '#F5F5F5'}}>
+    <div>
+      <CarouselHomePage />
+    </div>
+  </Card>
   </>);
 }
 

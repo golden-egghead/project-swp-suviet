@@ -19,13 +19,16 @@ const CommentForm = ({ accessToken, articleId, updateComments, replyToComment })
       if (response.ok) {
         // Comment posted successfully
         console.log('Comment posted successfully');
+        
         setCommentText('');
         updateComments(); // Update comments after posting a new comment
       } else {
         // Handle error when posting comment
+        alert('login to comment')
         console.error('Failed to post comment');
       }
     } catch (error) {
+      alert('login to comments')
       console.error('Failed to post comment', error);
     }
   };

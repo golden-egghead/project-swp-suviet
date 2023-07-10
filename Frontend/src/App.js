@@ -71,7 +71,7 @@ function App() {
           <Route path="/video-details/:videoID" element={<VideoDetails />} />
           <Route path="/historicalfigure" element={<HistoricalFigurePage />} />
           <Route path="/historicalfigure-details/:characterID" element={<HistoricalFigureDetails />} />
-          <Route path="/vinhdanh" element={<VinhDanh />} />
+      
           <Route path="/book" element={<BookPage />} />
           <Route path="/book-details/:bookID" element={<BookDetail />} />
           <Route path="/historicalsite" element={<HistoricalSite />} />
