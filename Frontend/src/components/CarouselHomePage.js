@@ -24,7 +24,7 @@ export default function CarouselHomePage() {
             caption: "Hang Pắc Bó"
         },
         {
-            image: "https://phuot3mien.com/wp-content/uploads/2021/06/kinh-thanh-hue-1.jpeg",
+            image: "https://kenhhomestay.com/wp-content/uploads/2022/07/kinh-thanh-hue-2.jpg",
             caption: "Kinh Thành Huế"
         },
         {
@@ -53,7 +53,7 @@ export default function CarouselHomePage() {
             }}>
                 <Carousel
                     data={data}
-                    time={1500}
+                    time={1500}                                              
                     width="800px"
                     height="500px"
                     captionStyle={captionStyle}
@@ -69,7 +69,7 @@ export default function CarouselHomePage() {
                     slideImageFit="cover"
                     style={{
                         textAlign: "left",
-                        maxWidth: "850px",
+                        maxWidth: "100%",
                         maxHeight: "500px",
                         margin: "40px",
                     }}

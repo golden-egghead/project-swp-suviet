@@ -91,6 +91,7 @@ public class HistoricalSiteController {
     }
 
     @GetMapping("/moderator-historicalSites")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> getAllOwnHistoricalSites() {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -102,7 +103,7 @@ public class HistoricalSiteController {
     public ResponseEntity<ResponseObject> uploadAHistoricalSite(@RequestParam("location") String location,
                                                                 @RequestParam("description") String description,
                                                                 @RequestParam("historicalSiteName") String historicalSiteName,
-                                                                @RequestParam("photo") MultipartFile file) {
+                                                                @RequestPart("photo") MultipartFile file) {
         List<HistoricalSite> historicalSites = historicalSiteService.findAllByNameAndEnabled(historicalSiteName, true);
         HistoricalSite historicalSite = new HistoricalSite();
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());

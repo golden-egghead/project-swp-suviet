@@ -1,7 +1,6 @@
 package com.example.SuViet.service.impl;
 
 import com.example.SuViet.service.ImageStorageService;
-import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;

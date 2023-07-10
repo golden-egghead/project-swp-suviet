@@ -177,8 +177,7 @@ export default function Moderator() {
 						<>
 							<Sidenav
 								color={sidenavColor}
-								brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-								brandName="áddmin Dashboard"
+								brandName={<span style={{ fontSize: '30px' }}>SỬ VIỆT</span>}
 								routes={routes}
 								onMouseEnter={handleOnMouseEnter}
 								onMouseLeave={handleOnMouseLeave}

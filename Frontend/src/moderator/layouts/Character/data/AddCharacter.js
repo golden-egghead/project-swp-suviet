@@ -17,14 +17,14 @@ function AddCharacter() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const videos = { ID, image, characterName, estate, description, story, periodName };
+		const characters = { ID, image, characterName, estate, description, story, periodName };
 		fetch(baseUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
-			body: JSON.stringify(videos)
+			body: JSON.stringify(characters)
 		})
 			.then((res) => {
 				toast.success('Thêm Thành Công!');
@@ -33,13 +33,8 @@ function AddCharacter() {
 			.catch((err) => {
 				console.log(err.message);
 			});
-			console.log(videos);
+			console.log(characters);
 	};
-	
-	const handleCharacterChange = (event) => {
-		const file = event.target.files[0];
-		setImage(file.name);
-	}
 	
 	return (
 		<div className='item'>
@@ -54,10 +49,6 @@ function AddCharacter() {
 							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div>
 					<div className="form-group">
-						<label>Choose Characte File</label>
-						<input type="file" onChange={handleCharacterChange} accept="character/*" />
-					</div>
-					{/* <div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
@@ -66,7 +57,7 @@ function AddCharacter() {
 							value={image}
 							onChange={(e) => setImage(e.target.value)}
 						/>
-					</div> */}
+					</div>
 					<div className="form-group">
 						<TextField
 							fullWidth

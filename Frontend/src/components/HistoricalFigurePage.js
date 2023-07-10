@@ -10,15 +10,17 @@ import Container from 'react-bootstrap/Container';
 import { Button } from 'react-bootstrap';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import  Box  from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import { FcBookmark } from 'react-icons/fc';
-
+import FilterCharacterPage from './FilterCharacterPage';
 
 
 const HistoricalFigurePage = (props) => {
+  const [selectedPeriod, setSelectedPeriod] = useState('');
 
   const [listCharacter, setListCharacter] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -37,6 +39,20 @@ const HistoricalFigurePage = (props) => {
       console.error('Error fetching data:', error);
     }
   };
+
+  const fetchVideoDatafromPeriodName = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/period/characters?periodName=${selectedPeriod}`);
+      setListCharacter(response.data.data)
+      console.log("log111:", response)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchVideoDatafromPeriodName();
+  }, [selectedPeriod]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -107,6 +123,14 @@ const HistoricalFigurePage = (props) => {
     maxHeight: '100%',
   });
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
   //ToolTip
   // const handleMouseEnter = (characterID) => {
   //   setHoveredCharacter(characterID);
@@ -148,7 +172,7 @@ const HistoricalFigurePage = (props) => {
           </Form></Col>
         <Col><div className='text-header'>NHÂN VẬT</div></Col>
       </Row>
-      {listCharacter.map((character) => (
+      {/* {listCharacter.map((character) => (
         <Paper
           sx={{
             p: 2,
@@ -187,9 +211,85 @@ const HistoricalFigurePage = (props) => {
             </Grid>
           </Grid>
         </Paper>
-      ))}
+      ))} */}
       {/* </div> */}
+
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <Item>
+              <Grid container spacing={2}>
+                {listCharacter.map((character) => (
+                  <Paper
+                    sx={{
+                      p: 2,
+                      margin: 'auto',
+                      maxWidth: 1200,
+                      flexGrow: 1,
+                      backgroundColor: 'rgba(180, 180, 180, 0.1)'
+                    }}
+                    key={character.characterID}
+                    style={{ boxShadow: '10px', marginTop: '60px', marginBottom: '50px', borderRadius: '20px' }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item>
+                        <Link to={`/historicalfigure-details/${character.characterID}`} style={{ color: 'white', textDecoration: 'none' }}>
+                          <ButtonBase sx={{ width: 500, height: 500 }}>
+                            <Img style={{ width: 500, height: 500, borderRadius: '20px' }} alt="complex" src={character.image} />
+                          </ButtonBase>
+                        </Link>
+                      </Grid>
+                      <Grid item xs={12} sm container>
+                        <Grid item xs container direction="column" spacing={2}>
+                          <Grid style={{ paddingTop: '120px' }} item xs>
+                            <Typography style={{ textAlign: 'center', fontWeight: 'bold', color: 'red', fontSize: '30px' }} gutterBottom variant="subtitle1" component="div">
+                              {character.characterName}
+                            </Typography>
+                            <Typography style={{ textAlign: 'left', fontSize: '20px', marginLeft: '40px' }} variant="body2" gutterBottom>
+                              {character.description}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid item>
+                          <Typography style={{ fontSize: '30px' }} variant="subtitle1" component="div">
+                            {<FcBookmark />}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                ))}
+              </Grid>
+              <ReactPaginate
+              breakLabel="..."
+              nextLabel="next >"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={totalPages}
+              previousLabel="< previous"
+
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination d-flex justify-content-center"
+              activeClassName='active'
+            />
+            </Item>
+          </Grid>
+          <Grid item xs={4} container justifyContent="center" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+            <FilterCharacterPage setSelectedPeriod={setSelectedPeriod} />
+          </Grid>
+        </Grid>
+      </Box>
     </Container >
+    {/* <Grid item xs={4} container justifyContent="center" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
+      <FilterCharacterPage setSelectedPeriod={setSelectedPeriod} />
+    </Grid>
     <ReactPaginate
       breakLabel="..."
       nextLabel="next >"
@@ -208,7 +308,7 @@ const HistoricalFigurePage = (props) => {
       breakLinkClassName="page-link"
       containerClassName="pagination"
       activeClassName='active'
-    />
+    /> */}
   </>)
 
 }
