@@ -99,20 +99,17 @@ button {
   border-radius: 25px;
 }
 
-h2 {
+.h2 {
   text-align: center;
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
 }
 
-label {
-  margin-bottom: 8px;
-}
 
-input {
+.input {
   padding: 8px;
   margin-top: 10px;
   margin-bottom: 4px;
@@ -120,7 +117,7 @@ input {
   border: 2px solid #ccc;
 }
 
-button {
+.button {
   padding: 8px 16px;
   border-radius: 4px;
   background-color: #272727;
