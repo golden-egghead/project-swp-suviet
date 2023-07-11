@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 
 function AddSite() {
 
-	const [ID, setID] = useState('');
-	const [photo, setPhoto] = useState('');
+	// const [ID, setID] = useState('');
+	// const [photo, setPhoto] = useState('');
 	const [historicalSiteName, setHistoricalSiteName] = useState('');
 	const [locate, setLocate] = useState('');
 	const [description, setDescription] = useState('');
@@ -17,14 +17,21 @@ function AddSite() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const sites = { ID, photo, historicalSiteName, locate, description };
+		// const sites = { 
+		// 	// "ID" : ID, 
+		// 	// "photo" : photo, 
+		// 	"historicalSiteName" : historicalSiteName, 
+		// 	"locate" : locate, 
+		// 	"description" : description };
+		const formData = new FormData();
+    	formData.append('data', JSON.stringify({ historicalSiteName, locate, description }));
 		fetch(baseUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			},
-			body: JSON.stringify(sites)
+			body: formData
 		})
 			.then((res) => {
 				toast.success('Thêm Thành Công!');
@@ -33,7 +40,7 @@ function AddSite() {
 			.catch((err) => {
 				console.log(err.message);
 			});
-		console.log(sites);
+		console.log(formData);
 	};
 
 	// function generateFileName(file) {
@@ -42,9 +49,9 @@ function AddSite() {
 	// 	return `${randomName}.${extension}`;
 	//   }
 
-	  const handleSiteChange = (event) => {
-		setPhoto(event.target.files[0]);
-	  };
+	//   const handleSiteChange = (event) => {
+	// 	setPhoto(event.target.files[0]);
+	//   };
 	  
 
 	return (
@@ -55,13 +62,13 @@ function AddSite() {
 						<h2>Tạo mới Di Tích</h2>
 					</div>
 					<div className="form-body">
-						<div className="form-group">
+						{/* <div className="form-group">
 							<TextField
 								fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
-						</div>
-						<div className="form-group">
+						</div> */}
+						{/* <div className="form-group">
 							<input type="file" onChange={handleSiteChange} />
-						</div>
+						</div> */}
 						{/* <div className="form-group">
 							<img src={photo} alt="Selected Image" />
 						</div> */}
