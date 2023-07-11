@@ -35,6 +35,10 @@ function AddCharacter() {
 			});
 			console.log(characters);
 	};
+
+	const handleCharacterChange = (event) => {
+		setImage(event.target.files[0]);
+	  };
 	
 	return (
 		<div className='item'>
@@ -48,7 +52,11 @@ function AddCharacter() {
 						<TextField
 							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div>
-					<div className="form-group">
+					<div className="form-group"> 
+						<label>Choose Video File</label>
+						<input type="file" onChange={handleCharacterChange} />
+					</div> 
+					{/* <div className="form-group">
 						<TextField
 							fullWidth
 							id="filled-basic"
@@ -57,7 +65,7 @@ function AddCharacter() {
 							value={image}
 							onChange={(e) => setImage(e.target.value)}
 						/>
-					</div>
+					</div> */}
 					<div className="form-group">
 						<TextField
 							fullWidth
