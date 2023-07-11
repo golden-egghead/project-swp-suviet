@@ -190,7 +190,7 @@ export default function Moderator() {
 					<Routes>
 						{getRoutes(routes)}
 						<Route path="" element={<Navigate to="/moderator" />} />
-						<Route path="/moderator/video" element={<Navigate to="/moderator/video" />} />
+						{/* <Route path="/moderator/video" element={<Navigate to="/moderator/video" />} /> */}
 						<Route path="/moderator/character" element={<Navigate to="/moderator/character" />} />
 					</Routes>
 				</ThemeProvider>

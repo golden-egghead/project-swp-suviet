@@ -181,7 +181,7 @@ function EditBook({ data }) {
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/moderator/character">
+							<Link to="/moderator/book">
 								<Button variant="contained" color="error">
 									Hủy Bỏ
 								</Button>

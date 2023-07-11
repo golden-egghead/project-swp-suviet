@@ -43,8 +43,7 @@ function AddSite() {
 	//   }
 
 	  const handleSiteChange = (event) => {
-		const file = event.target.files[0];
-		setPhoto(file);
+		setPhoto(event.target.files[0]);
 	  };
 	  
 
@@ -61,12 +60,11 @@ function AddSite() {
 								fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 						</div>
 						<div className="form-group">
-							<label>Choose Video File</label>
-							<input type="file" onChange={handleSiteChange} accept="site/*" multiple/>
+							<input type="file" onChange={handleSiteChange} />
 						</div>
-						<div className="form-group">
+						{/* <div className="form-group">
 							<img src={photo} alt="Selected Image" />
-						</div>
+						</div> */}
 						{/* <div className="form-group">
 						<TextField
 							fullWidth
