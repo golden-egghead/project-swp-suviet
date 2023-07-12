@@ -7,17 +7,18 @@ import com.example.SuViet.model.User;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.response.UpdateResponse;
 import com.example.SuViet.security.UpdateUsersDetails;
+import com.example.SuViet.service.ImageStorageService;
 import com.example.SuViet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,7 +38,7 @@ public class UpdateController {
 
     @Autowired
     private UserRepository userRepository;
-
+    private final ImageStorageService imageStorageService;
     @Autowired
     private UserService userService;
     @GetMapping("/profile")
@@ -56,13 +57,14 @@ public class UpdateController {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
-        Path staticPath = Paths.get("D:\\SuVietProject\\Project_SWP391_SuViet_G7\\SuViet\\src\\main\\resources");
+        Path staticPath = Paths.get("SuViet\\src\\main\\resources");
         Path imagePath = Paths.get("avatars");
-
-        if (image != null && !image.isEmpty()) {
-            if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
+        
+        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
                 Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
             }
+        if (image != null && !image.isEmpty()) {
+            
             if (user.getAvatar() != null) {
                 Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(user.getAvatar());
                 Path updateFile = CURRENT_FOLDER.resolve(staticPath)
@@ -76,8 +78,9 @@ public class UpdateController {
                 try (OutputStream os = Files.newOutputStream(file)) {
                     os.write(image.getBytes());
                 }
-                user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
+                user.setAvatar("http://localhost:8080/api/profile/files/"+ imageStorageService.storeFile(image));
             }
+            // imagePath.resolve(image.getOriginalFilename()).toString()
         }
 
         if (fullName != null && !fullName.trim().isEmpty()) {
@@ -96,7 +99,16 @@ public class UpdateController {
                 new UpdateResponse("OK", "Profile updated successfully.", dto.convertToDTO(user))
         );
     }
-
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<byte[]> readDetailFile(@PathVariable String filename) {
+        try {
+            byte[] bytes = imageStorageService.readFileContent(filename);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
+                    .body(bytes);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
 
     public static boolean hasSpecialCharacters(String inputString) {
         String specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";

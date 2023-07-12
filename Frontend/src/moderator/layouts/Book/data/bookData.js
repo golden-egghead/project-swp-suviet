@@ -5,12 +5,13 @@ import MDTypography from '../../../components/MDTypography';
 
 // Images
 // import team2 from '../../../assets/images/team-2.jpg';
-import fetchApi from '../../fetchApi';
+// import fetchApi from '../../fetchApi';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const Id = ({ id }) => (
@@ -46,21 +47,27 @@ const Function = ({ title }) => (
 );
 
 export default function Data() {
-	const [accountData, setData] = useState([]);
+	const [accountData, setAccountData] = useState([]);
+
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
 				const { data } = await axios.get(`http://localhost:8080/api/Books/${page}`);
-				setData((prevData) => [...prevData, ...data.data.content]);
+				return data.data.content;
 			} catch (error) {
 				console.error(error);
+				return [];
 			}
 		};
 
 		const fetchAllData = async () => {
-			for (let i = 1; i <= 20; i++) {
-				await getData(i);
+			const requests = [];
+			for (let i = 1; i <= 30; i++) {
+				requests.push(getData(i));
 			}
+			const responses = await Promise.all(requests);
+			const mergedData = responses.flat();
+			setAccountData(mergedData);
 		};
 
 		fetchAllData();
@@ -69,34 +76,32 @@ export default function Data() {
 	//Edit
 	const navigate = useNavigate();
 
-	const EditFunction = (bookID) => {
-		navigate("/moderator/book/edit/" + bookID);
+	const EditFunction = (item) => {
+		navigate("/moderator/book/edit/" + + item.bookID, { state: item });
 	  }
 
-	// const handleEditVideo = async (item) => {
-	// 	const updatedData = accountData.map((dataItem) => {
-	// 		if (dataItem.userID === item.userID) {
-	// 			const updatedItem = { ...dataItem, enabled: !dataItem.enabled };
-	// 			// fetchApi(`http://localhost:8080/api/admin`,'method(PUT, DELETE, ...)');
-	// 			return updatedItem;
-	// 		}
-	// 		return dataItem;
-	// 	});
+	  const RemoveBook = async (bookID) => {
+		if (window.confirm('Do you want to remove?')) {
+			try {
+				const baseUrl = `http://localhost:8080/api/book/delete/`;
+				const response = await fetch(baseUrl + bookID, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+					}
+				});
 
-	// 	setData(updatedData);
-	// };
-
-	const handleChangeActive = async (item) => {
-		const updatedData = accountData.map((dataItem) => {
-			if (dataItem.userID === item.userID) {
-				const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
-				fetchApi(dataItem.userID);
-				return updatedItem;
+				if (response.ok) {
+					setAccountData((prevData) => prevData.filter((item) => item.bookID !== bookID));
+					toast.success('Xóa Thành Công!');
+				} else {
+					throw new Error('Xóa Thất Bại');
+				}
+			} catch (err) {
+				console.log(err.message);
 			}
-			return dataItem;
-		});
-
-		setData(updatedData);
+		}
 	};
 
 	const rows = accountData.map((item) => ({
@@ -106,12 +111,12 @@ export default function Data() {
 		Action: (<>
 			<Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor: 'green' }}
 				className='edit-btn'
-				onClick={() => { EditFunction(item.videoID) }}>
+				onClick={() => { EditFunction(item) }}>
 				<EditIcon />
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { handleChangeActive(item.videoID) }}>
+				onClick={() => { RemoveBook(item.bookID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),

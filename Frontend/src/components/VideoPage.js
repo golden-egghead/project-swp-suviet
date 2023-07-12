@@ -213,8 +213,7 @@ const VideoPage = (props) => {
                                     </Grid>
                                 ))}
                             </Grid>
-                        </Item>
-                        <ReactPaginate
+                            <ReactPaginate
             breakLabel="..."
             nextLabel="next >"
             onPageChange={handlePageClick}
@@ -230,9 +229,11 @@ const VideoPage = (props) => {
             nextLinkClassName="page-link"
             breakClassName="page-item"
             breakLinkClassName="page-link"
-            containerClassName="pagination"
+            containerClassName="pagination d-flex justify-content-center"
             activeClassName='active'
         />
+                        </Item>
+                        
                     </Grid>
                     <Grid item xs={4} container justifyContent="center" style={{backgroundColor:'rgba(0,0,0,0.1)'}}>
                         <FilterVideoPage setSelectedPeriod={setSelectedPeriod} />

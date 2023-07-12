@@ -48,6 +48,7 @@ const Function = ({ title }) => (
 
 export default function Data() {
 	const [accountData, setAccountData] = useState([]);
+	const [currentPage, setCurrentPage] = useState(0);
 
 	useEffect(() => {
 		const getData = async (page) => {
@@ -63,7 +64,7 @@ export default function Data() {
 		const fetchAllData = async () => {
 			const requests = [];
 			for (let i = 1; i <= 8; i++) {
-				requests.push(getData(i));
+				requests.push(getData(currentPage + i));
 			}
 			const responses = await Promise.all(requests);
 			const mergedData = responses.flat();

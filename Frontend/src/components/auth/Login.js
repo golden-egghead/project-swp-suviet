@@ -45,12 +45,12 @@ const LoginT = ({ setIsAuthenticated }) => {
                 navigate("/moderator");
             }
             // const { accessToken } = response.data;
-            
+
             setIsAuthenticated(true);
             setFullname(fullname);
             toast.success('Đăng nhập thành công!');
             console.log('login successful:', response.data);
-            
+
         } catch (error) {
             // Handle error, display error message, etc.
             console.error('Error during login:', error);
@@ -174,34 +174,31 @@ const LoginT = ({ setIsAuthenticated }) => {
     };
 
     return (
-        <Popup className="login-container"
+        <Popup className="login-popup"
             trigger={<button style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} className="button"> Tài khoản </button>}
             {...{ contentStyle, overlayStyle }}
             modal
             nested
         >
             {(close) => (
-                <div className="login-container" >
+                <div  >
 
 
-                    <img style={{
-                        resizeMode: 'contain',
-                        height: 100,
-                        width: 200,
-                    }} src="LogoSuViet.jpg"></img>
+                    <img className="loginlogo"
+                         src="LogoSuViet.jpg"></img>
                     <h1 className="login-title" > Đăng nhập vào Sử Việt </h1>
 
                     <div className="login-popup">
 
 
                         <form onSubmit={handleLogin}>
-                            <input type="mail" placeholder="mail" value={mail} onChange={(e) => setMail(e.target.value)} />
+                            <input className='input' type="mail" placeholder="mail" value={mail} onChange={(e) => setMail(e.target.value)} />
                             <br />
-                            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input className='input' type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <br />
                             <div> Forgot Password </div>
                             <br />
-                            <button style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit">Đăng nhập</button>
+                            <button className='login-title' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit">Đăng nhập</button>
                         </form>
 
 
@@ -221,20 +218,23 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 <button onClick={logOut}>Log out</button>
                             </div>
                         ) : ( */}
-                        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+                        <button className='button' onClick={() => login()}>Sign in with Google 🚀 </button>
                         {/* )} */}
                         <br />
                         {/*sign up */}
-                        <Popup
-                            trigger={<button className='login-register' > Đăng ký </button>}
+                        <Popup className="login-popup"
+                            trigger={<button className='button' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} > Đăng ký </button>}
                             {...{ contentStyle, overlayStyle }}
                             modal
                             nested
                         >
-                            <h1>Đăng ký
+                            <img className="loginlogo"
+                         src="LogoSuViet.jpg"></img>
+                            <h1 className='login-title'>Đăng ký
                             </h1>
+                            <div className="login-popup">
                             <form onSubmit={handleRegistration}>
-                                <input
+                                <input className='input'
                                     type="mail"
                                     placeholder="mail"
                                     value={mail}
@@ -242,7 +242,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 />
                                 <br />
                                 <br />
-                                <input
+                                <input className='input'
                                     type="password"
                                     placeholder="Password"
                                     value={password}
@@ -250,7 +250,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 />
                                 <br />
                                 <br />
-                                <input
+                                <input className='input'
                                     type="fullname"
                                     placeholder="fullname"
                                     value={fullname}
@@ -258,8 +258,9 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 />
                                 <br />
                                 <br />
-                                <button type="submit">Register</button>
+                                <button className='button' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit">Register</button>
                             </form>
+                            </div>
                         </Popup>
                     </div>
                 </div>

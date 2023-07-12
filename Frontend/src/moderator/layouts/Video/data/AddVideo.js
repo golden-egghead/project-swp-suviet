@@ -36,32 +36,37 @@ function AddVideo() {
 	
 
 	return (
+		<div className='item'>
 		<form className="add-container" onSubmit={handleSubmit}>
 			<div className="add-form">
 				<div className="form-title">
-					<h2>Add New User</h2>
+					<h2>Tạo mới Video</h2>
 				</div>
 				<div className="form-body">
-					<div className="form-group">
+                <div className="form-group">
 						<TextField
-						fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
+							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div>
+					{/* <div className="form-group">
+						<label>Choose Video File</label>
+						<input type="file" onChange={handleVideoChange} accept="video/*" />
+					</div> */}
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
 							label="Video"
-							variant="filled"
+							variant="outlined"
 							value={video}
 							onChange={(e) => setVideo(e.target.value)}
 						/>
 					</div>
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
-							label="Title"
-							variant="filled"
+							label="Tiêu Đề"
+							variant="outlined"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
 							required
@@ -69,21 +74,23 @@ function AddVideo() {
 					</div>
 					<div className="form-group">
 						<TextField
-						fullWidth
+							fullWidth
 							id="filled-basic"
-							label="Description"
-							variant="filled"
+							label="Mô Tả"
+							variant="outlined"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
 							required
+							multiline
+							rows={10}
 						/>
 					</div>
-					<div className="form-group">
+                    <div className="form-group">
 						<TextField
 						fullWidth
 							id="filled-basic"
-							label="PeriodName"
-							variant="filled"
+							label="Thời Kì"
+							variant="outlined"
 							value={periodName}
 							onChange={(e) => setPeriodName(e.target.value.split(','))}
 							required
@@ -92,13 +99,13 @@ function AddVideo() {
 					<div className="form-group">
 						<div className="save-btn">
 							<Button variant="contained" color="success" type="submit">
-								Save
+								Lưu
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/dashboard">
+							<Link to="/moderator/video">
 								<Button variant="contained" color="error">
-									Cancel
+									Hủy
 								</Button>
 							</Link>
 						</div>
@@ -106,6 +113,7 @@ function AddVideo() {
 				</div>
 			</div>
 		</form>
+        </div>
     )
 }
 

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const Id = ({ id }) => (
@@ -44,22 +45,27 @@ const Function = ({ title }) => (
 	</MDBox>
 );
 
-export default function Data() {
-	const [accountData, setData] = useState([]);
+export default function VideoData() {
+	const [accountData, setAccountData] = useState([]);
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
 				const { data } = await axios.get(`http://localhost:8080/api/historicalSites/${page}`);
-				setData((prevData) => [...prevData, ...data.data.content]);
+				return data.data.content;
 			} catch (error) {
 				console.error(error);
+				return [];
 			}
 		};
 
 		const fetchAllData = async () => {
-			for (let i = 1; i <= 5; i++) {
-				await getData(i);
+			const requests = [];
+			for (let i = 1; i <= 20; i++) {
+				requests.push(getData(i));
 			}
+			const responses = await Promise.all(requests);
+			const mergedData = responses.flat();
+			setAccountData(mergedData);
 		};
 
 		fetchAllData();
@@ -72,31 +78,29 @@ export default function Data() {
 		navigate("/moderator/site/edit/" + + item.historicalSiteID, { state: item });
 	  }
 
-	// const handleEditVideo = async (item) => {
-	// 	const updatedData = accountData.map((dataItem) => {
-	// 		if (dataItem.userID === item.userID) {
-	// 			const updatedItem = { ...dataItem, enabled: !dataItem.enabled };
-	// 			// fetchApi(`http://localhost:8080/api/admin`,'method(PUT, DELETE, ...)');
-	// 			return updatedItem;
-	// 		}
-	// 		return dataItem;
-	// 	});
-
-	// 	setData(updatedData);
-	// };
-
-	const handleChangeActive = async (item) => {
-		const updatedData = accountData.map((dataItem) => {
-			if (dataItem.userID === item.userID) {
-				const updatedItem = { ...dataItem, roleID: dataItem.roleID == 2 ? 3 : 2 };
-				fetchApi(dataItem.userID);
-				return updatedItem;
+	  const RemoveSite = async (historicalSiteID) => {
+		if (window.confirm('Do you want to remove?')) {
+		  try {
+			const baseUrl = `http://localhost:8080/api/historicalSites/delete-historicalSite/`;
+			const response = await fetch(baseUrl + historicalSiteID, {
+			  method: 'DELETE',
+			  headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+			  }
+			});
+	
+			if (response.ok) {
+			  setAccountData((prevData) => prevData.filter((item) => item.historicalSiteID !== historicalSiteID));
+			  toast.success('Xóa Thành Công!');
+			} else {
+			  throw new Error('Xóa Thất Bại');
 			}
-			return dataItem;
-		});
-
-		setData(updatedData);
-	};
+		  } catch (err) {
+			console.log(err.message);
+		  }
+		}
+	  };
 
 	const rows = accountData.map((item) => ({
 		ID: <Id id={item.historicalSiteID} />,
@@ -110,7 +114,7 @@ export default function Data() {
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { handleChangeActive(item.videoID) }}>
+				onClick={() => { RemoveSite(item.videoID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),

@@ -14,6 +14,7 @@ import DataTable from '../../examples/Tables/DataTable';
 import characterData from './data/characterData';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add';
 
 function Characters() {
 	const { columns, rows } = characterData();
@@ -21,7 +22,7 @@ function Characters() {
 		<DashboardLayout>
 			<DashboardNavbar />
 			<Link to='/moderator/character/add'><Button style={{color: 'white'}} variant="contained" >
-				Create
+				Tạo Mới <AddIcon/>
 			</Button></Link>
 			<MDBox pt={6} pb={3}>
 				<Grid container spacing={6}>

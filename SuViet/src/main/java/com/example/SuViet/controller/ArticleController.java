@@ -293,7 +293,7 @@ public class ArticleController {
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            String destinationDir = "src" + File.separator + "main" + File.separator + "resources" +
+            String destinationDir =  "SuViet" + File.separator + "src" + File.separator + "main" + File.separator + "resources" +
                     File.separator + "static" + File.separator + "article-photo" + File.separator;
 
             String filePathString = destinationDir + fileName;
