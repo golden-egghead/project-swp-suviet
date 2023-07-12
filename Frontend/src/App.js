@@ -50,6 +50,7 @@ import Map from './components/Map/Map';
 import UserProfile from './components/user/Profile';
 import AddSite from './moderator/layouts/Site/data/AddSite';
 import ArticleControl from './comments/ArticleControl';
+import EditSite from './moderator/layouts/Site/data/EditSite';
 
 
 
@@ -92,6 +93,7 @@ function App() {
           <Route path="/moderator/book/add" element={<AddBook />} />
           <Route path="/moderator/item/add" element={<AddItem />} />
           <Route path="/moderator/site/add" element={<AddSite />} />
+          <Route path="/moderator/site/edit/:historicalSiteID" element={<EditSite />} />
 
           <Route path="/postarticle" element={<ProtectedRoute><PostArticle /></ProtectedRoute>} />
       

@@ -5,26 +5,27 @@ import { toast } from 'react-toastify';
 
 function EditSite({ data }) {
 	const historicalSiteID = useParams();
-	const pr = historicalSiteID.historicalSiteID;
+	const pr = historicalSiteID?.historicalSiteID;
 	const baseUrl = `http://localhost:8080/api/historicalSites/update-historicalSite/`;
 
-	const location = useLocation();
-	const props = location.state;
+	const locate = useLocation();
+	const props = locate.state;
 	const [ID, setID] = useState('');
-	const [photo, setPhoto] = useState('');
+	const [photo, setPhoto] = useState(null);
     const [historicalSiteName, setHistoricalSiteName] = useState('');
-	const [locate, setLocate] = useState('');
+	const [location, setLocation] = useState('');
 	const [description, setDescription] = useState('');
-	const [images, setImages] = useState([]);
+	// const [images, setImages] = useState([]);
 	const navigate = useNavigate();
+	const [oldPhoto, setOldPhoto] = useState('');
+
 
 	useEffect(() => {
-		setID(props.videoID);
-		setPhoto(props.photo);
+		setID(props.historicalSiteID);
+		setOldPhoto(props.photo);
 		setHistoricalSiteName(props.historicalSiteName);
-        setLocate(props.locate)
+        setLocation(props.locate)
 		setDescription(props.description);
-		setImages(props.images)
 	},[]
 	)
 
@@ -35,24 +36,51 @@ function EditSite({ data }) {
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const sites = { ID, photo, historicalSiteName, locate, description, images};
-		fetch(baseUrl + pr, {
+		// const sites = { ID, photo, historicalSiteName, locate, description, images};
+		// fetch(baseUrl + pr, {
+		// 	method: 'PUT',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 		'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+		// 	},
+		// 	body: JSON.stringify(sites)
+		// })
+		// 	.then((res) => {
+		// 		// alert('Update successfully!');
+				
+		// 		toast.success('Cập nhật thành công!');
+		// 		navigate('/moderator/video');
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err.message);
+		// 	});
+		  const accessToken = localStorage.getItem('accessToken');
+		  const formData = new FormData();
+		  formData.append('location', location);
+		  formData.append('description', description);
+		  formData.append('historicalSiteName', historicalSiteName);
+		  if (photo) { // If a file has been selected, add it to the form data
+			formData.append("photo", photo);
+		  }
+		  fetch(baseUrl + pr, {
 			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-			},
-			body: JSON.stringify(sites)
-		})
-			.then((res) => {
-				// alert('Update successfully!');
-				toast.success('Cập nhật thành công!');
-				navigate('/moderator/video');
+			'Content-Type': 'multipart/form-data',
+			headers: { 'Authorization': 'Bearer ' + accessToken },
+			body: formData
+		  })
+			.then(response => {
+			  if (response.ok) {
+				alert('Post uploaded successfully!');
+			  } else {
+				alert('Error uploading post, please try again.');
+				
+			  }
 			})
-			.catch((err) => {
-				console.log(err.message);
+			.catch(error => {
+			  console.error(error);
+			  alert('An error occurred while uploading the post. Please try again later.')
 			});
-	};
+		}
 
 	return (
 		<div className='item'>
@@ -70,15 +98,24 @@ function EditSite({ data }) {
 						<label>Choose Video File</label>
 						<input type="file" onChange={handleVideoChange} accept="video/*" />
 					</div> */}
+					<div >
+					<label htmlFor="photo">Ảnh của bài viết:</label>
+
+					<img src={oldPhoto} alt="Old photo" style={{height:"100px", width: "100px", overflow:"auto" }} />
+					<br />
+					</div>
 					<div className="form-group">
-						<TextField
+					<input type="file" id="photo" onChange={(e) => setPhoto(e.target.files[0])} />
+					<br />
+
+						{/* <TextField
 							fullWidth
 							id="filled-basic"
 							label="Hình Ảnh"
 							variant="outlined"
 							value={photo}
 							onChange={(e) => setPhoto(e.target.value)}
-						/>
+						/> */}
 					</div>
 					<div className="form-group">
 						<TextField
@@ -97,8 +134,8 @@ function EditSite({ data }) {
 							id="filled-basic"
 							label="Vị Trí"
 							variant="outlined"
-							value={locate}
-							onChange={(e) => setLocate(e.target.value)}
+							value={location}
+							onChange={(e) => setLocation(e.target.value)}
 							required
 						/>
 					</div>
@@ -115,17 +152,7 @@ function EditSite({ data }) {
 							rows={10}
 						/>
 					</div>
-                    <div className="form-group">
-						<TextField
-						fullWidth
-							id="filled-basic"
-							label="Hình Ảnh"
-							variant="outlined"
-							value={images}
-							onChange={(e) => setImages(e.target.value.split(','))}
-							required
-						/>
-					</div>
+                    
 					<div className="form-group">
 						<div className="update-btn">
 							<Button variant="contained" color="success" type="submit">

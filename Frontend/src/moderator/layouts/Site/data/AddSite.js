@@ -7,13 +7,29 @@ import { toast } from 'react-toastify';
 function AddSite() {
 
 	// const [ID, setID] = useState('');
-	// const [photo, setPhoto] = useState('');
-	const [historicalSiteName, setHistoricalSiteName] = useState('');
-	const [locate, setLocate] = useState('');
+	const [location, setLocation] = useState('');
 	const [description, setDescription] = useState('');
+	const [historicalSiteName, setHistoricalSiteName] = useState('');
+	const [photo, setPhoto] = useState(null);
 	// const [images, setImages] = useState([]);
 	const navigate = useNavigate();
 	const baseUrl = 'http://localhost:8080/api/historicalSites/upload-historicalSite';
+
+	const handleLocationChange= (event) => {
+		setLocation(event.target.value);
+	  }
+	
+	  const handleDescriptionChange = (event) => {
+		setDescription(event.target.value);
+	  }
+	
+	  const handleHistoricalSiteNameChange = (event) => {
+		setHistoricalSiteName(event.target.value);
+	  }
+	
+	  const handlePhotoChange = (event) => {
+		setPhoto(event.target.files[0]);
+	  }
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -23,25 +39,61 @@ function AddSite() {
 		// 	"historicalSiteName" : historicalSiteName, 
 		// 	"locate" : locate, 
 		// 	"description" : description };
-		const formData = new FormData();
-    	formData.append('data', JSON.stringify({ historicalSiteName, locate, description }));
-		fetch(baseUrl, {
+		const accessToken = localStorage.getItem('accessToken');
+		if (!accessToken) {
+			alert('Please log in to upload a post!');
+			return;
+		  }
+		  const formData = new FormData();
+		  formData.append('location', location);
+		  formData.append('description', description);
+		  formData.append('historicalSiteName', historicalSiteName);
+		  formData.append('photo', photo);
+		  fetch('http://localhost:8080/api/historicalSites/upload-historicalSite', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-			},
+			headers: { 'Authorization': 'Bearer ' + accessToken },
 			body: formData
-		})
-			.then((res) => {
-				toast.success('Thêm Thành Công!');
-				navigate('/moderator/site');
+		  })
+			.then(response => {
+			  if (response.ok) {
+				alert('Post uploaded successfully!');
+			  } else {
+				alert('Error uploading post, please try again.');
+				
+			  }
 			})
-			.catch((err) => {
-				console.log(err.message);
+			.catch(error => {
+			  console.error(error);
+			  alert('An error occurred while uploading the post. Please try again later.')
 			});
-		console.log(formData);
-	};
+		}
+			// .then((res) => {
+			// 	res.json()
+			// 	toast.success('Thêm Thành Công!');
+			// 	navigate('/moderator');
+			// })
+			// .then((data) => {
+			// 	console.log(data);
+			// })
+			// .catch((err) => {
+			// 	console.log(err.message);
+			// });
+	// 		.then((response) => response.json())
+	// 		.then((data) => {
+	// 			// Handle the response data
+	// 			setDescription(response.data.description);
+	// 			setPhoto(response.data.photo);
+	// 			setHistoricalSiteName(response.data.historicalSiteName);
+	// 			setLocation(response.data.locate);
+	// 			console.log(data);
+	// 			alert('Bài viết ')
+	// 		})
+	// 		.catch((error) => {
+	// 			// Handle the error
+	// 			console.error(error);
+	// 		});
+
+	// };
 
 	// function generateFileName(file) {
 	// 	const extension = file.name.split('.').pop();
@@ -49,10 +101,10 @@ function AddSite() {
 	// 	return `${randomName}.${extension}`;
 	//   }
 
-	//   const handleSiteChange = (event) => {
-	// 	setPhoto(event.target.files[0]);
-	//   };
-	  
+	const handleSiteChange = (event) => {
+		setPhoto(event.target.files[0]);
+	};
+
 
 	return (
 		<div className='item'>
@@ -67,7 +119,7 @@ function AddSite() {
 								fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 						</div> */}
 						{/* <div className="form-group">
-							<input type="file" onChange={handleSiteChange} />
+							<input type="file" id="photo" onChange={handleSiteChange} />
 						</div> */}
 						{/* <div className="form-group">
 							<img src={photo} alt="Selected Image" />
@@ -82,6 +134,9 @@ function AddSite() {
 							onChange={(e) => setPhoto(e.target.value)}
 						/>
 					</div> */}
+					<label htmlFor="photo">Photo:</label>
+      <input type="file" id="photo" onChange={handlePhotoChange} />
+	  <br />
 						<div className="form-group">
 							<TextField
 								fullWidth
@@ -89,7 +144,7 @@ function AddSite() {
 								label="Tên Di TÍch"
 								variant="outlined"
 								value={historicalSiteName}
-								onChange={(e) => setHistoricalSiteName(e.target.value)}
+								onChange={handleHistoricalSiteNameChange}
 								required
 							/>
 						</div>
@@ -99,8 +154,8 @@ function AddSite() {
 								id="filled-basic"
 								label="Vị Trí"
 								variant="outlined"
-								value={locate}
-								onChange={(e) => setLocate(e.target.value)}
+								value={location}
+								onChange={handleLocationChange}
 								required
 							/>
 						</div>
@@ -111,7 +166,7 @@ function AddSite() {
 								label="Mô Tả"
 								variant="outlined"
 								value={description}
-								onChange={(e) => setDescription(e.target.value)}
+								onChange={handleDescriptionChange}
 								required
 								multiline
 								rows={10}

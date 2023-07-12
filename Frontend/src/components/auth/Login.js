@@ -21,6 +21,7 @@ const LoginT = ({ setIsAuthenticated }) => {
     const [password, setPassword] = useState('');
     const [fullname, setFullname] = useState('');
     const [roleName, setRoleName] = useState('');
+    const [avatar, setAvatar] = useState('');
     const [userID, setuserID] = useState(null);
     const navigate = useNavigate();
     const handleLogin = async (e) => {
@@ -37,6 +38,7 @@ const LoginT = ({ setIsAuthenticated }) => {
             localStorage.setItem('userID', userID);
             localStorage.setItem('role', roleName);
             localStorage.setItem('fullname', fullname);
+            localStorage.setItem('avatar', avatar);
             //Redirect to the appropriate route based on the user's role
             if (roleName === 'ADMIN') {
                 navigate("/admin");
@@ -48,6 +50,7 @@ const LoginT = ({ setIsAuthenticated }) => {
 
             setIsAuthenticated(true);
             setFullname(fullname);
+            setAvatar(avatar);
             toast.success('Đăng nhập thành công!');
             console.log('login successful:', response.data);
 
@@ -297,7 +300,7 @@ const Login = () => {
                         className="button"
                     >
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <span>Xin chào, {fullname}</span> <span>{avatar}</span> 
+                            <span>Xin chào, {fullname}</span> <span><img src={avatar} alt="Avatar" /></span> 
                             {/* <FontAwesomeIcon
                                 icon={faUser}
                                 style={{

@@ -39,11 +39,14 @@ import backgroundImage from './mapBG.jpg';
 
 
 const COLOR_RANGE = [
-  "#8F2738",
-  "#941B2F",
-  "#C78B24",
-  "#DB4B27",
-  "#6E6726"
+  "#92f895",
+  "#42a7f0",
+  "#077ef4",
+  "#0870f0",
+  "#0d1aa6",
+  "#8fb946",
+  "#69c77a",
+  "#66c6c4"
 
 ];
 
@@ -746,7 +749,7 @@ const MapCustom = memo(() => {
       outline: "none"
     },
     selected: {
-      fill: "#3A5182",
+      fill: "#FFC701",
       outline: "none"
     }
   };
@@ -825,7 +828,7 @@ const MapCustom = memo(() => {
                         geography={geo}
                         fill={
                           selectedState && selectedState.state === current?.state
-                            ? "#3A5182"
+                            ? "#FFC701"
                             : current
                               ? colorScale(current.value)
                               : DEFAULT_COLOR
@@ -882,7 +885,7 @@ const MapCustom = memo(() => {
                         geography={geo}
                         fill={
                           selectedState && selectedState.state === current?.state
-                            ? "#3A5182"
+                            ? "#FFC701"
                             : current
                               ? colorScale(current.value)
                               : DEFAULT_COLOR
