@@ -7,15 +7,17 @@ import com.example.SuViet.repository.CharacterRepository;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.service.CharacterService;
+import com.example.SuViet.service.FileImageService;
 import com.example.SuViet.service.PeriodService;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.service.impl.CharacterServiceImpl;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -30,12 +32,15 @@ public class CharacterController {
     private final CharacterRepository repository;
     private final UserService userService;
     private final PeriodService periodService;
+    private final FileImageService fileImageService;
 
-    public CharacterController(CharacterServiceImpl characterService, CharacterRepository repository, UserService userService, PeriodService periodService) {
+
+    public CharacterController(CharacterServiceImpl characterService, CharacterRepository repository, UserService userService, PeriodService periodService, FileImageService fileImageService) {
         this.characterService = characterService;
         this.repository = repository;
         this.userService = userService;
         this.periodService = periodService;
+        this.fileImageService = fileImageService;
     }
 
     @GetMapping("/characters/{offset}")
@@ -51,6 +56,7 @@ public class CharacterController {
         for (int i = 0; i < characterList.size(); i++) {
             count++;
         }
+//        List<CharacterDTO> dto =
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
                         Math.ceil(count / 6.0), characterService.getCharactersWithPagination(offset, 6))
@@ -89,7 +95,7 @@ public class CharacterController {
 
     @GetMapping("/charactersSort/{offset}")
     public ResponseEntity<ResponsePaginationObject> getCharactersWithPaginationAndSort(@PathVariable int offset) {
-        Page<Character> charactersWithPagination = characterService.getCharacterWithSortAndPaging(offset, 6, "characterName");
+        Page<CharacterDTO> charactersWithPagination = characterService.getCharacterWithSortAndPaging(offset, 6, "characterName");
         int listSize = charactersWithPagination.getSize();
         int count = 0;
         for (int i = 0; i < listSize; i++) {
@@ -109,10 +115,24 @@ public class CharacterController {
 
         return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
     }
-
-    @PostMapping(value = "/character/upload")
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<byte[]> readDetailFile(@PathVariable String filename) {
+        try {
+            byte[] bytes = fileImageService.readFileContent(filename);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
+                    .body(bytes);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
+    @PostMapping(value = "/characters/upload")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestBody CharacterDTO dto) throws IOException {
+    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestParam("name") String name,
+                                                              @RequestParam("estate") String estate,
+                                                              @RequestParam("description") String description,
+                                                              @RequestParam("story") String story,
+                                                              @RequestParam("periodName") String periodName,
+                                                              @RequestParam("image")MultipartFile image)  {
         User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<String> roles = getRoleName(currentUser.getRoles());
         if(roles.contains("MEMBER") || roles.contains("ADMIN")){
@@ -120,33 +140,42 @@ public class CharacterController {
                     new ResponseObject("FAILED", "Unforbidden", null)
             );
         }
-        List<Character> characters = characterService.searchCharactersByName(dto.getCharacterName());
+        List<Character> characters = characterService.searchCharactersByName(name);
         if(characters.size() > 0){
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "Character has already exist!", null)
             );
         }else{
             Character newCharacter = new Character();
-            BeanUtils.copyProperties(dto, newCharacter);
-            newCharacter.setUser(currentUser);
-            Period period = periodService.getPeriodByPeriodName(dto.getPeriodName());
+            newCharacter.setCharacterName(name);
+            newCharacter.setEstate(estate);
+            newCharacter.setDescription(description);
+            newCharacter.setStory(story);
+            Period period = periodService.getPeriodByPeriodName(periodName);
             if(period == null){
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                         new ResponseObject("FAILED", "Cannot find out period", null)
                 );
             }
             newCharacter.setPeriod(period);
+            newCharacter.setUser(currentUser);
             newCharacter.setEnabled(true);
+            newCharacter.setImage("http://localhost:8080/api/files/" +  fileImageService.storeFile("characters", image));
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Uploaded Successfully!", characterService.saveCharacter(newCharacter))
+                    new ResponseObject("OK", "Uploaded Successfully!", CharacterDTO.convertToDTO(characterService.saveCharacter(newCharacter)))
             );
         }
     }
 
-    @PutMapping(value = "/character/edit/{id}")
+    @PutMapping(value = "/edit/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> editACharacter(@PathVariable("id") int id,
-                                                         @RequestBody CharacterDTO info) throws IOException {
+                                                         @RequestParam("name") String name,
+                                                         @RequestParam("estate") String estate,
+                                                         @RequestParam("description") String description,
+                                                         @RequestParam("story") String story,
+                                                         @RequestParam("periodName") String periodName,
+                                                         @RequestParam("image")MultipartFile image) throws IOException {
         User currentUser = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         Character character = characterService.getCharacterById(id).get();
         List<String> roles = getRoleName(currentUser.getRoles());
@@ -170,26 +199,31 @@ public class CharacterController {
             }
         }
 
-        character.setCharacterName(info.getCharacterName());
-        character.setEnabled(true);
-        character.setImage(info.getImage());
-        character.setDescription(info.getDescription());
-
-        Period period = periodService.getPeriodByPeriodName(info.getPeriodName());
+        character.setCharacterName(name);
+        character.setEstate(estate);
+        character.setDescription(description);
+        character.setStory(story);
+        Period period = periodService.getPeriodByPeriodName(periodName);
         if(period == null){
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "Cannot find out period", null)
             );
         }
         character.setPeriod(period);
-
+        character.setUser(currentUser);
+        character.setEnabled(true);
+        if (image != null) {
+            character.setImage("http://localhost:8080/api/files/" +  fileImageService.storeFile("characters", image));
+        }else{
+        characterService.getCharacterById(id).get().getImage();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "The Character updated successfully",   characterService.saveCharacter(character))
         );
     }
 
 
-    @DeleteMapping(value = "/character/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> deleteACharacter(@PathVariable("id") int id) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());

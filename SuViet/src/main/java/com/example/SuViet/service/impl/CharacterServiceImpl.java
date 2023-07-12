@@ -56,9 +56,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Page<Character> getCharacterWithSortAndPaging(int offset, int pageSize, String field) {
+    public Page<CharacterDTO> getCharacterWithSortAndPaging(int offset, int pageSize, String field) {
         Page<Character> characters = characterRepository.findAllByEnabled(true,PageRequest.of(offset - 1, pageSize).withSort(Sort.by(field)));
-       return characters;
+        return characters.map(character -> CharacterDTO.convertToDTO(character));
     }
 
     @Override

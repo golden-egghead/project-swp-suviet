@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.UUID;
 @Service
 public class FileImageServiceIml implements FileImageService {
-    private final Path storageFolder = Paths.get("SuViet\\src\\main\\resources\\static");
+    private Path storageFolder;
 
 
     private boolean isImageFile(MultipartFile file) {
@@ -29,9 +29,18 @@ public class FileImageServiceIml implements FileImageService {
     }
 
     @Override
-    public String storeFile(String path,  MultipartFile file) {
+    public String storeFile(String path, MultipartFile file) {
+        if(path.trim().equals("characters")){
+            storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\characters");
+        } else if (path.trim().equals("avatars")) {
+            storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\avatars");
+        } else if (path.trim().equals("books")) {
+            storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\books");
+        }else{
+            storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\historicalItem");
+        }
         try {
-            Files.createDirectories(storageFolder.resolve(Paths.get(path)));
+            Files.createDirectories(storageFolder);
         } catch (IOException e) {
             throw new RuntimeException("Cannot initialize storage", e);
         }
@@ -53,10 +62,10 @@ public class FileImageServiceIml implements FileImageService {
             String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
             String generatedFileName = UUID.randomUUID().toString().replace("-", "");
             generatedFileName = generatedFileName + "." + fileExtension;
-            Path destinationFilePath = this.storageFolder.resolve(Paths.get(path)).resolve(
+            Path destinationFilePath = this.storageFolder.resolve(
                             Paths.get(generatedFileName))
                     .normalize().toAbsolutePath();
-            if (!destinationFilePath.getParent().equals(this.storageFolder.resolve(Paths.get(path)).toAbsolutePath())) {
+            if (!destinationFilePath.getParent().equals(this.storageFolder.toAbsolutePath())) {
                 throw new RuntimeException("Cannot store file outside current directory.");
             }
             try (InputStream inputStream = file.getInputStream()) {

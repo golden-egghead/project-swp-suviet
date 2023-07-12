@@ -35,7 +35,6 @@ import java.util.List;
 @RequestMapping("api/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UpdateController {
-    private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
     @Autowired
     private UserRepository userRepository;
@@ -57,33 +56,8 @@ public class UpdateController {
     ) throws IOException {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
+        user.setAvatar(fileImageService.storeFile( "avatars",image));
 
-//        Path staticPath = Paths.get("SuViet\\src\\main\\resources");
-//        Path imagePath = Paths.get("avatars");
-//
-//        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
-//                Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
-//            }
-//        if (image != null && !image.isEmpty()) {
-//
-//            if (user.getAvatar() != null) {
-//                Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(user.getAvatar());
-//                Path updateFile = CURRENT_FOLDER.resolve(staticPath)
-//                        .resolve(imagePath).resolve(image.getOriginalFilename());
-//                Files.copy(image.getInputStream(), updateFile, StandardCopyOption.REPLACE_EXISTING);
-//                Files.deleteIfExists(oldFile);
-//                user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
-//            } else {
-//                Path file = CURRENT_FOLDER.resolve(staticPath)
-//                        .resolve(imagePath).resolve(image.getOriginalFilename());
-//                try (OutputStream os = Files.newOutputStream(file)) {
-//                    os.write(image.getBytes());
-//                }
-//                user.setAvatar("http://localhost:8080/api/profile/files/"+ imageStorageService.storeFile(image));
-//            }
-//            // imagePath.resolve(image.getOriginalFilename()).toString()
-//        }
-        user.setAvatar(fileImageService.storeFile("avatars", image));
         userService.updateUser(user);
         if (fullName != null && !fullName.trim().isEmpty()) {
             if (hasSpecialCharacters(fullName)) {

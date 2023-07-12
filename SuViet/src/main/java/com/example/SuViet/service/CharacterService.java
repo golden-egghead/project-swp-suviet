@@ -15,7 +15,7 @@ public interface CharacterService {
 
      Optional<Character> getCharacterById(int id);
      Character saveCharacter(Character character);
-     Page<Character> getCharacterWithSortAndPaging(int offset, int pageSize, String field);
+     Page<CharacterDTO> getCharacterWithSortAndPaging(int offset, int pageSize, String field);
      List<Character> getCharacterByPeriod(String periodName);
 
      boolean deleteACharacter(int characterID);

@@ -5,6 +5,10 @@ import com.example.SuViet.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -19,7 +23,7 @@ public class CharacterDTO {
     private boolean enabled;
     private String image;
     private String description;
-    private User user;
+
     private String periodName;
 
     public static CharacterDTO convertToDTO(Character character){
@@ -31,7 +35,7 @@ public class CharacterDTO {
         characterDTO.setEnabled(character.isEnabled());
         characterDTO.setDescription(character.getDescription());
         characterDTO.setImage(character.getImage());
-        characterDTO.setUser(character.getUser());
+//"http://localhost:8080/characters/" +
         characterDTO.setPeriodName(character.getPeriod().getPeriodName());
         return characterDTO;
     }
