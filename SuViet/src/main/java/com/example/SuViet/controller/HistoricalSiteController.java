@@ -156,7 +156,7 @@ public class HistoricalSiteController {
                                                                @RequestParam("location") String location,
                                                                @RequestParam("description") String description,
                                                                @RequestParam("historicalSiteName") String historicalSiteName,
-                                                               @RequestParam(value = "photo", required = false) MultipartFile file) {
+                                                               @RequestParam("photo") MultipartFile file) {
         HistoricalSite historicalSite = historicalSiteService.getHistoricalSiteByID(historicalSiteID).get();
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<Role> roles = (List<Role>) user.getRoles();
