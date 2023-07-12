@@ -6,15 +6,16 @@ import com.example.SuViet.repository.PeriodRepository;
 import com.example.SuViet.response.ResponseObject;
 import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.service.BookService;
+import com.example.SuViet.service.FileImageService;
 import com.example.SuViet.service.PeriodService;
 import com.example.SuViet.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,22 +24,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/Books")
 @CrossOrigin(origins = "http://localhost:3000")
 public class BookController {
     private final BookService bookService;
     private final UserService userService;
-    private final PeriodService periodService;
+    private final FileImageService fileImageService;
 
     @Autowired
     PeriodRepository periodRepository;
-    public BookController(BookService bookService, UserService userService, PeriodService periodService) {
+    public BookController(BookService bookService, UserService userService, PeriodService periodService, FileImageService fileImageService) {
         this.bookService = bookService;
         this.userService = userService;
-        this.periodService = periodService;
+        this.fileImageService = fileImageService;
     }
 
-    @GetMapping("/Books/{offset}")
+    @GetMapping("/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllBooks(@PathVariable int offset) {
         List<Book> bookList = bookService.getAllBooks();
         int count = 0;
@@ -57,7 +58,7 @@ public class BookController {
         }
     }
 
-    @GetMapping("/Books/search/{offset}")
+    @GetMapping("/search/{offset}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponsePaginationObject> searchBookByName(@PathVariable int offset, @RequestParam("title") String keyword) {
         List<Book> bookList = bookService.findBookByName(keyword);
@@ -81,7 +82,7 @@ public class BookController {
         }
     }
 
-    @GetMapping("/Books/searchAuthor/{offset}")
+    @GetMapping("/searchAuthor/{offset}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponsePaginationObject> searchBookByAuthor(@PathVariable int offset, @RequestParam("author") String author) {
         List<Book> bookList = bookService.findBookByAuthor(author);
@@ -105,7 +106,7 @@ public class BookController {
         }
     }
 
-    @GetMapping("/booksSortByTitle/{offset}")
+    @GetMapping("/SortByTitle/{offset}")
     public ResponseEntity<ResponsePaginationObject> getBooksWithPaginationAndSort(@PathVariable int offset) {
         Page<BookDTO> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, "title");
         int listSize = booksWithPagination.getSize();
@@ -128,9 +129,19 @@ public class BookController {
         return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
     }
 
-    @PostMapping("/book/upload")
-    public ResponseEntity<ResponseObject> uploadABook(@RequestBody BookDTO bookDTO) {
-        List<Book> books = bookService.findBookByName(bookDTO.getTitle());
+    @PostMapping("/upload_book")
+    public ResponseEntity<ResponseObject> uploadABook(@RequestParam("title") String title,
+                                                      @RequestParam("title") String author,
+                                                      @RequestParam("title") String category,
+                                                      @RequestParam("title") String description,
+                                                      @RequestParam("title") int pageNumber,
+                                                      @RequestParam("title") String publisher,
+                                                      @RequestParam("title") String yearOfPublication,
+                                                      @RequestParam("title") double price,
+                                                      @RequestParam("title") List<String> periodName,
+                                                      @RequestParam("title") MultipartFile cover
+                                                      ) {
+        List<Book> books = bookService.findBookByName(title);
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<Role> roles = (List<Role>) user.getRoles();
         for (Role r : roles) {
@@ -146,23 +157,31 @@ public class BookController {
             );
         } else {
             Book book = new Book();
-            BeanUtils.copyProperties(bookDTO, book);
+            book.setTitle(title);
+            book.setAuthor(author);
+            book.setCategory(category);
+            book.setDescription(description);
+            book.setPageNumber(pageNumber);
+            book.setYearOfPublication(yearOfPublication);
             book.setCreatedDate(LocalDateTime.now());
+            book.setPublisher(publisher);
+            book.setCover(book.getCover());
+            book.setEnabled(true);
             book.setUser(user);
-            List<String> periodNames = bookDTO.getPeriodName();
+            book.setPrice(price);
+            List<String> periodNames = periodName;
             List<Period> periods = new ArrayList<>();
             for (int i = 0; i < periodNames.size(); i++) {
                 Period period = periodRepository.findByPeriodName(periodNames.get(0));
                 periods.add(period);
             }
-
             if (periods.size() <= 0) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                         new ResponseObject("FAILED", "Cannot find out period", null)
                 );
             }
             book.setPeriods(periods);
-            book.setEnabled(true);
+            book.setCover("http://localhost:8080/api/Books/files/" +fileImageService.storeFile( "books",cover));
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Saved...", bookService.saveBook(book))
             );
@@ -170,9 +189,18 @@ public class BookController {
 
     }
 
-    @PutMapping("/book/update/{bookID}")
+    @PutMapping("/update_book/{bookID}")
     public ResponseEntity<ResponseObject> updateABook(@PathVariable int bookID,
-                                                       @RequestBody BookDTO bookDTO) {
+                                                      @RequestParam("title") String title,
+                                                      @RequestParam("author") String author,
+                                                      @RequestParam("category") String category,
+                                                      @RequestParam("description") String description,
+                                                      @RequestParam("pageNumber") int pageNumber,
+                                                      @RequestParam("publisher") String publisher,
+                                                      @RequestParam("yearOfPublication") String yearOfPublication,
+                                                      @RequestParam("price") double price,
+                                                      @RequestParam("periodName") List<String> periodName,
+                                                      @RequestParam("cover") MultipartFile cover) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         Book book = bookService.findBookById(bookID).get();
         List<Role> roles = (List<Role>) user.getRoles();
@@ -197,32 +225,35 @@ public class BookController {
                 );
             }
         }
-        book.setTitle(bookDTO.getTitle());
-        book.setAuthor(bookDTO.getAuthor());
-        book.setCategory(bookDTO.getCategory());
-        book.setDescription(bookDTO.getDescription());
-        book.setPageNumber(bookDTO.getPageNumber());
-        book.setYearOfPublication(bookDTO.getYearOfPublication());
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setCategory(category);
+        book.setDescription(description);
+        book.setPageNumber(pageNumber);
+        book.setYearOfPublication(yearOfPublication);
         book.setCreatedDate(LocalDateTime.now());
-
-        book.setPublisher(bookDTO.getPublisher());
-        book.setPrice(bookDTO.getPrice());
-        book.setCover(bookDTO.getCover());
+        book.setPublisher(publisher);
+        book.setCover(book.getCover());
         book.setEnabled(true);
-
-        List<String> periodNames = bookDTO.getPeriodName();
+        book.setUser(user);
+        book.setPrice(price);
+        List<String> periodNames = periodName;
         List<Period> periods = new ArrayList<>();
         for (int i = 0; i < periodNames.size(); i++) {
             Period period = periodRepository.findByPeriodName(periodNames.get(0));
             periods.add(period);
         }
-
         if (periods.size() <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseObject("FAILED", "Cannot find out period", null)
             );
         }
         book.setPeriods(periods);
+        if(cover != null){
+            book.setCover("http://localhost:8080/api/Books/files/" +fileImageService.storeFile( "books",cover));
+        }else{
+            book.setCover(book.getCover());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "Updated successfully", bookService.saveBook(book))
         );
