@@ -164,7 +164,7 @@ public class ArticleController {
 
         try {
             Article article = articleService.getArticleById(articleId);
-            List<Comment> comments = commentService.getAllEnabledComments(article);
+            List<CommentDTO> comments = commentService.getAllEnabledComments(article);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Get article's comment successfully", comments));
         } catch (Exception e) {

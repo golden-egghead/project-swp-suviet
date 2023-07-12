@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.SuViet.dto.CommentDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.repository.CommentRepository;
@@ -28,7 +29,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllEnabledComments(Article article) {
-        return commentRepository.findByArticleAndEnabledOrderByCreatedDateDesc(article, true);
+    public List<CommentDTO> getAllEnabledComments(Article article) {
+        List<Comment> comments = commentRepository.findByArticleAndEnabledOrderByCreatedDateDesc(article, true);
+		return CommentDTO.convertToDTOList(comments);
     }
 }
