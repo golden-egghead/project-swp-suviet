@@ -215,7 +215,7 @@ public class CharacterController {
         if (image != null) {
             character.setImage("http://localhost:8080/api/files/" +  fileImageService.storeFile("characters", image));
         }else{
-        characterService.getCharacterById(id).get().getImage();
+            character.setImage(characterService.getCharacterById(id).get().getImage());
         }
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "The Character updated successfully",   characterService.saveCharacter(character))

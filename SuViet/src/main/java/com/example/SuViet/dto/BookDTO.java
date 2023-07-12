@@ -29,7 +29,7 @@ public class BookDTO {
     private double price;
     private String cover;
     private boolean enabled;
-    private Collection<Integer> periodID;
+//    private Collection<Integer> periodID;
     private List<String> periodName;
     private User user;
     public static BookDTO convertToDTO(Book book) {
@@ -45,7 +45,7 @@ public class BookDTO {
         bookDTO.setPublisher(book.getPublisher());
         bookDTO.setCover(book.getCover());
         bookDTO.setEnabled(book.isEnabled());
-        bookDTO.setPeriodID(book.getPeriods().stream().map(period -> period.getPeriodID()).collect(Collectors.toList()));
+//        bookDTO.setPeriodID(book.getPeriods().stream().map(period -> period.getPeriodID()).collect(Collectors.toList()));
         bookDTO.setPeriodName(book.getPeriods().stream().map(period -> period.getPeriodName()).collect(Collectors.toList()));
         bookDTO.setUser(book.getUser());
         return bookDTO;

@@ -22,7 +22,7 @@ public class FileImageServiceIml implements FileImageService {
     private Path storageFolder;
 
 
-    private boolean isImageFile(MultipartFile file) {
+    public boolean isImageFile(MultipartFile file) {
         String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
         return Arrays.asList(new String[] {"png", "jpg", "jpeg", "bmp"})
                 .contains(fileExtension.trim().toLowerCase());
@@ -50,7 +50,7 @@ public class FileImageServiceIml implements FileImageService {
                 throw new RuntimeException("Failed to store empty file.");
             }
             //check file is image?
-            if (!isImageFile(file)) {
+            if (isImageFile(file)) {
                 throw new RuntimeException("You can only upload image file");
             }
             //file must be <= 5 mb

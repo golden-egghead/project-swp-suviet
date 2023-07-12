@@ -35,10 +35,6 @@ import java.util.List;
 @RequestMapping("api/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UpdateController {
-
-    @Autowired
-    private UserRepository userRepository;
-    private final ImageStorageService imageStorageService;
     @Autowired
     private UserService userService;
     @GetMapping("/profile")
@@ -53,10 +49,14 @@ public class UpdateController {
     public ResponseEntity<UpdateResponse> updateProfile(
             @RequestParam(value = "image", required = false) MultipartFile image,
             @RequestParam(value = "fullName", required = false) String fullName
-    ) throws IOException {
+    ) {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
-        user.setAvatar(fileImageService.storeFile( "avatars",image));
+        if (image != null) {
+            user.setAvatar("http://localhost:8080/api/user/files/" + fileImageService.storeFile( "avatars",image));
+        }else{
+            user.setAvatar(user.getAvatar());
+        }
 
         userService.updateUser(user);
         if (fullName != null && !fullName.trim().isEmpty()) {
