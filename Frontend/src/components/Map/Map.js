@@ -35,11 +35,15 @@ import './Map.css';
 import _ from "lodash";
 import * as geoUrl from "./vietnam.json";
 
-import backgroundImage from './DSC_2843.jpg';
+import backgroundImage from './mapBG.jpg';
 
 
 const COLOR_RANGE = [
-  "#8896B5"
+  "#8F2738",
+  "#941B2F",
+  "#C78B24",
+  "#DB4B27",
+  "#6E6726"
 
 ];
 
@@ -968,7 +972,7 @@ export default function Map() {
     //   backgroundPosition: 'center',
     //   boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
     // }}>
-    <Card style={{ backgroundColor: 'f5f5f5' }}>
+      <Card style={{ backgroundColor: '000000' }}> 
       {/* <div className="overlay" /> */}
       
       <MapCustom />

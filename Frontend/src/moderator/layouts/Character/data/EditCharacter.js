@@ -16,11 +16,13 @@ function EditCharacter({ data }) {
 	const [characterName, setCharacterName] = useState('');
 	const [description, setDescription] = useState('');
 	const [periodName, setPeriodName] = useState('');
+	const [story, setStory] = useState('');
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		setID(props.characterID);
 		setImage(props.image);
+		setStory(props.story);
 		setCharacterName(props.characterName);
 		setDescription(props.description);
 		setPeriodName(props.periodName)
@@ -34,7 +36,7 @@ function EditCharacter({ data }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const characters = { ID, image, characterName, description, periodName };
+		const characters = { ID, image, characterName, description,story, periodName };
 		fetch(baseUrl + pr, {
 			method: 'PUT',
 			headers: {
@@ -98,6 +100,19 @@ function EditCharacter({ data }) {
 							variant="outlined"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
+							required
+							multiline
+							rows={10}
+						/>
+					</div>
+					<div className="form-group">
+						<TextField
+							fullWidth
+							id="filled-basic"
+							label="Chi tiết"
+							variant="outlined"
+							value={story}
+							onChange={(e) => setStory(e.target.value)}
 							required
 							multiline
 							rows={10}

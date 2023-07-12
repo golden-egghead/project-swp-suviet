@@ -37,7 +37,6 @@ const LoginT = ({ setIsAuthenticated }) => {
             localStorage.setItem('userID', userID);
             localStorage.setItem('role', roleName);
             localStorage.setItem('fullname', fullname);
-            localStorage.setItem('avatar', avatar);
             //Redirect to the appropriate route based on the user's role
             if (roleName === 'ADMIN') {
                 navigate("/admin");
@@ -280,6 +279,7 @@ const Login = () => {
         window.location.href = '/';
     };
     const fullname = localStorage.getItem('fullname');
+    // const avatar = localStorage.getItem('avatar');
     const avatar = localStorage.getItem('avatar');
     return (
         <div>

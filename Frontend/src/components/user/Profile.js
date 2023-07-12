@@ -38,6 +38,7 @@ const UserProfile = () => {
         setFullName(profileData.fullName);
         setEmail(profileData.email);
         setImage(profileData.image);
+        localStorage.setItem('avatar', response.data.dto.image);
         setRole(profileData.role);
         setIsLoading(false);
         console.log(response.data);
@@ -85,7 +86,9 @@ const UserProfile = () => {
 
       setFullName(response.data.dto.fullName);
       localStorage.setItem('fullname', response.data.dto.fullName);
+      
       setImage(response.data.dto.image);
+      localStorage.setItem('avatar', response.data.dto.image);
       console.log(response)
       alert(response.data.message);
       // window.location.reload();
