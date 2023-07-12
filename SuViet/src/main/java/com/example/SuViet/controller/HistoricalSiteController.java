@@ -156,7 +156,7 @@ public class HistoricalSiteController {
                                                                @RequestParam("location") String location,
                                                                @RequestParam("description") String description,
                                                                @RequestParam("historicalSiteName") String historicalSiteName,
-                                                               @RequestParam("photo") MultipartFile file) {
+                                                               @RequestParam(value = "photo", required = false) MultipartFile file) {
         HistoricalSite historicalSite = historicalSiteService.getHistoricalSiteByID(historicalSiteID).get();
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<Role> roles = (List<Role>) user.getRoles();
@@ -187,7 +187,11 @@ public class HistoricalSiteController {
         historicalSite.setCreatedDate(LocalDateTime.now());
         historicalSite.setUser(user);
         historicalSite.setEnabled(true);
-        historicalSite.setPhoto("http://localhost:8080/api/historicalSites/files/" + imageStorageService.storeFile(file));
+        if (file != null) {
+            historicalSite.setPhoto("http://localhost:8080/api/historicalSites/files/" + imageStorageService.storeFile(file));
+        } else {
+            historicalSite.setPhoto(historicalSiteService.getHistoricalSiteByID(historicalSiteID).get().getPhoto());
+        }
         historicalSite.setDetail(description);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("OK", "Updated succesfully...", historicalSiteService.saveHistoricalSite(historicalSite))
