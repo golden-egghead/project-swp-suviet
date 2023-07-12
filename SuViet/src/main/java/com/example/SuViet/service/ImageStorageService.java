@@ -4,5 +4,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageStorageService {
     public String storeFile(MultipartFile file);
-    public byte[] readFileContent(String filename);
+    public byte[] readFileContent(String filename, String page);
 }

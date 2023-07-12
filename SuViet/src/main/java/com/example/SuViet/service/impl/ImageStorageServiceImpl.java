@@ -18,7 +18,8 @@ import java.util.UUID;
 
 @Service
 public class ImageStorageServiceImpl implements ImageStorageService {
-    private final Path storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\historicalSite-photo");
+    private Path storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\historicalSite-photo");
+
 
     public ImageStorageServiceImpl() {
         try {
@@ -70,7 +71,10 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Override
-    public byte[] readFileContent(String filename) {
+    public byte[] readFileContent(String filename, String page) {
+        if (page.equals("avatar")) {
+            storageFolder = Paths.get("SuViet\\src\\main\\resources\\static\\avatars");
+        }
         try {
             Path file = storageFolder.resolve(filename);
             UrlResource resource =  new UrlResource(file.toUri());

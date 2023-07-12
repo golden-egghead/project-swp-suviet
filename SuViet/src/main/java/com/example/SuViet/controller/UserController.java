@@ -91,7 +91,7 @@ public class UserController {
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<byte[]> readDetailFile(@PathVariable String filename) {
         try {
-            byte[] bytes = imageStorageService.readFileContent(filename);
+            byte[] bytes = imageStorageService.readFileContent(filename, "avatar");
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
                     .body(bytes);
         } catch (Exception e) {
