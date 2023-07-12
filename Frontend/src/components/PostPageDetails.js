@@ -31,7 +31,7 @@ export default function PostPageDetails() {
             const foundVideos = content.filter(item => item.articleID == articleID);
             videos.push(...foundVideos);
           });
-  
+          
           setPost(videos);
   
         } catch (error) {
@@ -72,8 +72,6 @@ export default function PostPageDetails() {
     <div>
     <Comments
            articleId={articleID} />
-
-
         </div>
 </>);
   

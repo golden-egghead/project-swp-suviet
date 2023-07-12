@@ -797,7 +797,7 @@ const MapCustom = memo(() => {
     setSelectedState(null);
     setCustomText("");
   };
-  const [mapScale, setMapScale] = useState(4000);
+  const [mapScale, setMapScale] = useState(3300);
   const [zoomLevel, setZoomLevel] = useState(1);
   const handleZoomIn = () => {
     setMapScale(prevScale => prevScale * 1.2);
@@ -813,7 +813,7 @@ const MapCustom = memo(() => {
     <div>
       <div style={{ height: "100vh", display: "flex" }}>
         {!mapClicked ? (
-          <div style={{ flex: 1, justifyContent: "center", alignItems: "center", width: '500px', height: '1200px', overflow: 'auto' }}>
+          <div style={{ flex: 1,display: "flex", marginRight:'30px' , width: '300px', height: '800px', overflow: 'auto' }}>
             <ComposableMap
               style={{ width: '2000px', height: '3000px' }}
               projectionConfig={{
@@ -992,7 +992,7 @@ export default function Map() {
     }}>
       {/* <Card style={{ backgroundColor: '000000' }}>  */}
       {/* <div className="overlay" /> */}
-      
+      <div className="mapTitle">Chào mừng đến với Sử Việt</div>
       <MapCustom />
       </Card>
       {/* <div
