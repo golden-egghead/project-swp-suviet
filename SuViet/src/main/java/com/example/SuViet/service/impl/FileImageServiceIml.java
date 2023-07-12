@@ -50,7 +50,7 @@ public class FileImageServiceIml implements FileImageService {
                 throw new RuntimeException("Failed to store empty file.");
             }
             //check file is image?
-            if (isImageFile(file)) {
+            if (!isImageFile(file)) {
                 throw new RuntimeException("You can only upload image file");
             }
             //file must be <= 5 mb

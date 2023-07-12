@@ -200,6 +200,7 @@ function AddCharacter() {
 		})
 			.then(response => {
 				if (response.ok) {
+					console.log(story);
 					toast.success('Thêm Thành Công')
 					navigate('/moderator/character')
 				} else {
