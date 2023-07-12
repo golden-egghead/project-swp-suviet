@@ -35,18 +35,22 @@ import './Map.css';
 import _ from "lodash";
 import * as geoUrl from "./vietnam.json";
 
-import backgroundImage from './mapBG.jpg';
+import backgroundImage from './map.jpg';
 
 
 const COLOR_RANGE = [
+  "#c3e2f3",
+  "#f5dbca",
+  "#cbcb89",
+  "#cfdeab",
+  "#c6a939",
+  "#8bb1bd",
+  "#c2a3ae",
+  "#6da0a6",
   "#92f895",
   "#42a7f0",
-  "#077ef4",
-  "#0870f0",
-  "#0d1aa6",
-  "#8fb946",
-  "#69c77a",
-  "#66c6c4"
+  "#66c6c4",
+  "#69c77a"
 
 ];
 
@@ -919,8 +923,8 @@ const MapCustom = memo(() => {
         <div style={{ flex: mapClicked ? 2 : 0 }}>
 
           {selectedState && (
-            <div>
-              <Card style={{ backgroundColor: '#FFFFFF' }}>
+            <div className="mapcontent">
+
                 <h2>{selectedState.state}</h2>
 
                 <p>
@@ -950,7 +954,7 @@ const MapCustom = memo(() => {
 
 
                 </p>
-              </Card>
+
 
             </div>
           )}
@@ -969,16 +973,36 @@ const MapCustom = memo(() => {
 
 export default function Map() {
   return (
-    // <Card style={{
-    //   backgroundImage: `url(${backgroundImage})`,
-    //   backgroundSize: 'cover',
-    //   backgroundPosition: 'center',
-    //   boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
-    // }}>
-      <Card style={{ backgroundColor: '000000' }}> 
+    <Card style={{
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+    }}>
+       <Card style={{
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+    }}>
+      {/* <Card style={{ backgroundColor: '000000' }}>  */}
       {/* <div className="overlay" /> */}
       
       <MapCustom />
+      </Card>
+      {/* <div
+    style={{
+      position: 'absolute', // Position the overlay div absolutely
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+  
+    }}
+  /> */}
+
     </Card>
   )
 }

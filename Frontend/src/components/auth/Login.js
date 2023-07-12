@@ -14,6 +14,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import './login.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import backgroundImage from './loginBG.jpg';
 
 
 const LoginT = ({ setIsAuthenticated }) => {
@@ -103,7 +104,7 @@ const LoginT = ({ setIsAuthenticated }) => {
 
 
 
-    const contentStyle = { background: '#ffffff' };
+    const contentStyle = { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', }; 
     const overlayStyle = { background: 'rgba(0,0,10,0.5)' };
 
 
@@ -189,7 +190,7 @@ const LoginT = ({ setIsAuthenticated }) => {
 
                     <img className="loginlogo"
                          src="LogoSuViet.jpg"></img>
-                    <h1 className="login-title" > Đăng nhập vào Sử Việt </h1>
+                    <h1 className="login-title1" > Đăng nhập vào Sử Việt </h1>
 
                     <div className="login-popup">
 
@@ -199,9 +200,9 @@ const LoginT = ({ setIsAuthenticated }) => {
                             <br />
                             <input className='input' type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <br />
-                            <div> Forgot Password </div>
+                            <div> Quên mật khẩu? </div>
                             <br />
-                            <button className='login-title' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit">Đăng nhập</button>
+                            <button className='login-title2' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit">Đăng nhập</button>
                         </form>
 
 
@@ -221,7 +222,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 <button onClick={logOut}>Log out</button>
                             </div>
                         ) : ( */}
-                        <button className='button' onClick={() => login()}>Sign in with Google 🚀 </button>
+                        <button className='button' onClick={() => login()}>Đăng nhập bằng Google 🚀 </button>
                         {/* )} */}
                         <br />
                         {/*sign up */}
@@ -233,7 +234,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                         >
                             <img className="loginlogo"
                          src="LogoSuViet.jpg"></img>
-                            <h1 className='login-title'>Đăng ký
+                            <h1 className='login-title2'>Đăng ký
                             </h1>
                             <div className="login-popup">
                             <form onSubmit={handleRegistration}>
@@ -292,15 +293,15 @@ const Login = () => {
                         style={{
                             backgroundColor: "#FFC701",
                             color: "black",
-                            padding: "15px 40px",
-                            borderRadius: "25px",
+                            marginRight: "20px",
+                            borderRadius: "30px",
                             fontWeight: "bold",
                             position: "relative",
                         }}
                         className="button"
                     >
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <span>Xin chào, {fullname}</span> <span><img src={avatar} alt="Avatar" /></span> 
+                        <span>   {fullname} <img src={avatar} alt="Avatar" style={{ height: "40px", width: "40px", borderRadius: "50%", flex: 1 }}/> </span> 
                             {/* <FontAwesomeIcon
                                 icon={faUser}
                                 style={{
@@ -312,8 +313,9 @@ const Login = () => {
                             id="collasible-nav-dropdown"
                             style={{
                                 position: "absolute",
-                                left: "50px",
+                                left: "10px",
                                 right: 0,
+                                top: "30px",
                             }}
                         >
                             <Link
