@@ -7,6 +7,7 @@ import com.example.SuViet.model.User;
 import com.example.SuViet.repository.UserRepository;
 import com.example.SuViet.response.UpdateResponse;
 import com.example.SuViet.security.UpdateUsersDetails;
+import com.example.SuViet.service.FileImageService;
 import com.example.SuViet.service.ImageStorageService;
 import com.example.SuViet.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class UpdateController {
         ProfileDTO profileDTO = new ProfileDTO();
         return new ResponseObject("OK", "Query successfully", profileDTO.convertToDTO(user));
     }
-
+    private final FileImageService fileImageService;
     @PostMapping("/profile/update")
     public ResponseEntity<UpdateResponse> updateProfile(
             @RequestParam(value = "image", required = false) MultipartFile image,
@@ -57,32 +58,33 @@ public class UpdateController {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
-        Path staticPath = Paths.get("SuViet\\src\\main\\resources");
-        Path imagePath = Paths.get("avatars");
-        
-        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
-                Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
-            }
-        if (image != null && !image.isEmpty()) {
-            
-            if (user.getAvatar() != null) {
-                Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(user.getAvatar());
-                Path updateFile = CURRENT_FOLDER.resolve(staticPath)
-                        .resolve(imagePath).resolve(image.getOriginalFilename());
-                Files.copy(image.getInputStream(), updateFile, StandardCopyOption.REPLACE_EXISTING);
-                Files.deleteIfExists(oldFile);
-                user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
-            } else {
-                Path file = CURRENT_FOLDER.resolve(staticPath)
-                        .resolve(imagePath).resolve(image.getOriginalFilename());
-                try (OutputStream os = Files.newOutputStream(file)) {
-                    os.write(image.getBytes());
-                }
-                user.setAvatar("http://localhost:8080/api/profile/files/"+ imageStorageService.storeFile(image));
-            }
-            // imagePath.resolve(image.getOriginalFilename()).toString()
-        }
-
+//        Path staticPath = Paths.get("SuViet\\src\\main\\resources");
+//        Path imagePath = Paths.get("avatars");
+//
+//        if (!Files.exists(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath))) {
+//                Files.createDirectories(CURRENT_FOLDER.resolve(staticPath).resolve(imagePath));
+//            }
+//        if (image != null && !image.isEmpty()) {
+//
+//            if (user.getAvatar() != null) {
+//                Path oldFile = CURRENT_FOLDER.resolve(staticPath).resolve(user.getAvatar());
+//                Path updateFile = CURRENT_FOLDER.resolve(staticPath)
+//                        .resolve(imagePath).resolve(image.getOriginalFilename());
+//                Files.copy(image.getInputStream(), updateFile, StandardCopyOption.REPLACE_EXISTING);
+//                Files.deleteIfExists(oldFile);
+//                user.setAvatar(imagePath.resolve(image.getOriginalFilename()).toString());
+//            } else {
+//                Path file = CURRENT_FOLDER.resolve(staticPath)
+//                        .resolve(imagePath).resolve(image.getOriginalFilename());
+//                try (OutputStream os = Files.newOutputStream(file)) {
+//                    os.write(image.getBytes());
+//                }
+//                user.setAvatar("http://localhost:8080/api/profile/files/"+ imageStorageService.storeFile(image));
+//            }
+//            // imagePath.resolve(image.getOriginalFilename()).toString()
+//        }
+        user.setAvatar(fileImageService.storeFile("avatars", image));
+        userService.updateUser(user);
         if (fullName != null && !fullName.trim().isEmpty()) {
             if (hasSpecialCharacters(fullName)) {
                 return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
