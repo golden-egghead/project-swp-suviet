@@ -21,7 +21,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int commentID;
 
-    @Column(columnDefinition = "ntext", nullable = false)
+    // @Column(columnDefinition = "ntext", nullable = false)
+	@Column(columnDefinition = "nvarchar(max)", nullable = false)
     private String commentText;
 
     @Column(columnDefinition = "date", nullable = false)

@@ -1,10 +1,12 @@
 package com.example.SuViet.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.SuViet.dto.CommentDTO;
+import com.example.SuViet.dto.RepliesCommentDTO;
 import com.example.SuViet.model.Article;
 import com.example.SuViet.model.Comment;
 import com.example.SuViet.repository.CommentRepository;
@@ -31,6 +33,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDTO> getAllEnabledComments(Article article) {
         List<Comment> comments = commentRepository.findByArticleAndEnabledOrderByCreatedDateDesc(article, true);
-		return CommentDTO.convertToDTOList(comments);
+
+        List<CommentDTO> commentDTOs = CommentDTO.convertToDTOList(comments);
+        commentDTOs.forEach(commentDTO -> {
+            List<RepliesCommentDTO> enabledReplies = commentDTO.getRepliesComments().stream()
+                    .filter(RepliesCommentDTO::isEnabled)
+                    .collect(Collectors.toList());
+            commentDTO.setRepliesComments(enabledReplies);
+        });
+
+        return commentDTOs;
     }
+
 }
