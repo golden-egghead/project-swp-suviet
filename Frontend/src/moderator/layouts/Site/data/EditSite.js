@@ -10,7 +10,6 @@ function EditSite({ data }) {
 
 	const locate = useLocation();
 	const props = locate.state;
-	const [ID, setID] = useState('');
 	const [photo, setPhoto] = useState(null);
     const [historicalSiteName, setHistoricalSiteName] = useState('');
 	const [location, setLocation] = useState('');
@@ -21,7 +20,6 @@ function EditSite({ data }) {
 
 
 	useEffect(() => {
-		setID(props.historicalSiteID);
 		setOldPhoto(props.photo);
 		setHistoricalSiteName(props.historicalSiteName);
         setLocation(props.locate)
@@ -70,9 +68,10 @@ function EditSite({ data }) {
 		  })
 			.then(response => {
 			  if (response.ok) {
-				alert('Post uploaded successfully!');
+				toast.success('Cập Nhật Thành Công');
+				navigate('/moderator/site');
 			  } else {
-				alert('Error uploading post, please try again.');
+				toast.error('Cập Nhật Thất Bại');
 				
 			  }
 			})
@@ -87,20 +86,15 @@ function EditSite({ data }) {
 		<form className="edit-container" onSubmit={handleSubmit}>
 			<div className="edit-form">
 				<div className="form-title">
-					<h2>Cập Nhật Video</h2>
+					<h2>Cập Nhật Di Tích</h2>
 				</div>
 				<div className="form-body">
-					<div className="form-group">
-						<TextField
-							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
-					</div>
 					{/* <div className="form-group">
 						<label>Choose Video File</label>
 						<input type="file" onChange={handleVideoChange} accept="video/*" />
 					</div> */}
 					<div >
-					<label htmlFor="photo">Ảnh của bài viết:</label>
-
+					<label htmlFor="photo">Ảnh của Di Tích:</label>
 					<img src={oldPhoto} alt="Old photo" style={{height:"100px", width: "100px", overflow:"auto" }} />
 					<br />
 					</div>
