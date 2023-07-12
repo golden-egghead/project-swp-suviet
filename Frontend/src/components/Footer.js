@@ -9,7 +9,7 @@ import { Box } from "@mui/material";
 
 export default function Footer() {
     return (
-      <Box style={{marginTop:'40px'}}
+      <Box
         component="footer"
         sx={{
           backgroundColor: (theme) =>

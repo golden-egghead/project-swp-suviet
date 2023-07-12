@@ -64,7 +64,7 @@ function App() {
       <AuthProvider>
       {!isAdmin && !isModerator &&  <Header/>}
         <Routes history={history}>
-          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/" element={<Map />} />
           <Route path="/video-details" element={<VideoDetails />} />
           <Route path="/baiviet" element={<PostPage />} />
           <Route path="/postdetails/:articleID" element={<PostPageDetails />} />
@@ -100,7 +100,6 @@ function App() {
           {/* <Route path="/upPro" element={<UpdateProfile />} /> */}
           <Route path="/changePass" element={<ChangePassword />} />
           {/* <Route path="/mod" element={<ModeratorPage />} /> */}
-          <Route path="/map" element={<Map />} />
           <Route path="/profile" element={<UserProfile />} />
         
         </Routes>
