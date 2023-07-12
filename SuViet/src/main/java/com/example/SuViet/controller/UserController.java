@@ -9,6 +9,7 @@ import com.example.SuViet.dto.LoginDTO;
 import com.example.SuViet.dto.SignUp;
 import com.example.SuViet.repository.RoleRepository;
 import com.example.SuViet.repository.UserRepository;
+import com.example.SuViet.service.ImageStorageService;
 import com.example.SuViet.service.JwtService;
 import com.example.SuViet.service.UserService;
 import com.example.SuViet.utils.Utility;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,6 +55,9 @@ public class UserController {
     @Autowired
     private CustomUserDetailService userDetailService;
 
+    @Autowired
+    private ImageStorageService imageStorageService;
+
     @PostMapping("/login")
     public ResponseEntity<ResponseJwt> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getMail(), loginDTO.getPassword()));
@@ -75,11 +80,23 @@ public class UserController {
             String avatar = userRepository.findByMail(loginDTO.getMail()).get().getAvatar();
             return ResponseEntity.ok(
                     new ResponseJwt("OK", "Login successfully", userID, loginDTO.getMail(), loginDTO.getPassword(),
-                            userRepository.findByMail(loginDTO.getMail()).get().getFullname(), avatar, roleName, token));
+                            userRepository.findByMail(loginDTO.getMail()).get().getFullname(),
+                            "http://localhost:8080/api/auth/files/" + avatar, roleName, token));
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
 
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<byte[]> readDetailFile(@PathVariable String filename) {
+        try {
+            byte[] bytes = imageStorageService.readFileContent(filename);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
+                    .body(bytes);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/checkEmail")
