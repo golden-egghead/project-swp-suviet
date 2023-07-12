@@ -133,11 +133,11 @@ const Header = (props) => {
           </Nav>
         </Navbar.Collapse> */}
     </Navbar>
-    <Card style={{backgroundColor: '#F5F5F5'}}>
+    {/* <Card style={{backgroundColor: '#F5F5F5'}}>
     <div>
       <CarouselHomePage />
     </div>
-  </Card>
+  </Card> */}
   </>);
 }
 

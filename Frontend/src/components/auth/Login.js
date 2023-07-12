@@ -32,11 +32,12 @@ const LoginT = ({ setIsAuthenticated }) => {
                 password: password,
             });
             localStorage.setItem('accessToken', response.data.accessToken);
-            const { userID, roleName, fullname } = response.data;
+            const { userID, roleName, fullname, avatar } = response.data;
             // const { userID } = response.data;
             localStorage.setItem('userID', userID);
             localStorage.setItem('role', roleName);
             localStorage.setItem('fullname', fullname);
+            localStorage.setItem('avatar', avatar);
             //Redirect to the appropriate route based on the user's role
             if (roleName === 'ADMIN') {
                 navigate("/admin");
@@ -279,6 +280,7 @@ const Login = () => {
         window.location.href = '/';
     };
     const fullname = localStorage.getItem('fullname');
+    const avatar = localStorage.getItem('avatar');
     return (
         <div>
             {isAuthenticated ? (
@@ -295,13 +297,13 @@ const Login = () => {
                         className="button"
                     >
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <span>Xin chào, {fullname}</span>
-                            <FontAwesomeIcon
+                            <span>Xin chào, {fullname}</span> <span>{avatar}</span> 
+                            {/* <FontAwesomeIcon
                                 icon={faUser}
                                 style={{
                                     marginLeft: "5px",
                                 }}
-                            />
+                            /> */}
                         </div>
                         <NavDropdown
                             id="collasible-nav-dropdown"

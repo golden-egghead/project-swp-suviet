@@ -104,7 +104,7 @@ public class UpdateController {
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<byte[]> readDetailFile(@PathVariable String filename) {
         try {
-            byte[] bytes = imageStorageService.readFileContent(filename);
+            byte[] bytes = fileImageService.readFileContent(filename);
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
                     .body(bytes);
         } catch (Exception e) {

@@ -30,9 +30,13 @@ import { scaleQuantile } from "d3-scale";
 import { Tooltip } from "react-tooltip";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
+import './Map.css';
 
 import _ from "lodash";
 import * as geoUrl from "./vietnam.json";
+
+import backgroundImage from './DSC_2843.jpg';
+
 
 const COLOR_RANGE = [
   "#8896B5"
@@ -761,7 +765,7 @@ const MapCustom = memo(() => {
   // const onChangeButtonClick = () => {
   //   setData(getHeatMapData());
   // };
-
+  const [mapClicked, setMapClicked] = useState(false);
   const handleClick = (geo, current = {}) => {
     const { NAME_1 } = geo.properties;
     setSelectedState(current);
@@ -770,6 +774,7 @@ const MapCustom = memo(() => {
     setCustomText(text);
     setCustomLinks(links);
     setCustomImages(images);
+    setMapClicked(true);
   };
 
   const onChangeButtonClick = () => {
@@ -777,63 +782,135 @@ const MapCustom = memo(() => {
     setSelectedState(null);
     setCustomText("");
   };
+  const [mapScale, setMapScale] = useState(4000);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const handleZoomIn = () => {
+    setMapScale(prevScale => prevScale * 1.2);
+    setZoomLevel(prevLevel => prevLevel + 1);
+  };
+
+  const handleZoomOut = () => {
+    setMapScale(prevScale => prevScale / 1.2);
+    setZoomLevel(prevLevel => prevLevel - 1);
+  };
+
   return (
     <div>
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1 }}>
-          <ComposableMap
-            height={1000}
-            projectionConfig={{
-              scale: 3550,
-              center: [107, 16]
-            }}
-            projection="geoMercator"
-            data-tip=""
+      <div style={{ height: "100vh", display: "flex" }}>
+        {!mapClicked ? (
+          <div style={{ flex: 1, justifyContent: "center", alignItems: "center", width: '500px', height: '1200px', overflow: 'auto' }}>
+            <ComposableMap
+              style={{ width: '2000px', height: '3000px' }}
+              projectionConfig={{
+                scale: mapScale,
+                center: [107, 16],
+              }}
+              projection="geoMercator"
+              data-tip=""
+            >
+              <Geographies geography={geoUrl}  >
+                {({ geographies }) =>
+                  geographies.map((geo) => {
+                    const current = data.find(
+                      (s) => s.state === geo.properties.NAME_1
+                    );
+                    return (
+                      <Geography
+                        data-tooltip-id="my-tooltip"
+                        key={geo.rsmKey}
+                        geography={geo}
+                        fill={
+                          selectedState && selectedState.state === current?.state
+                            ? "#3A5182"
+                            : current
+                              ? colorScale(current.value)
+                              : DEFAULT_COLOR
+                        }
+                        onMouseEnter={() => onMouseEnter(geo, current)}
+                        onMouseLeave={onMouseLeave}
+                        onClick={() => handleClick(geo, current)}
+                        style={geographyStyle}
 
-          >
-            <Geographies geography={geoUrl}  >
-              {({ geographies }) =>
-                geographies.map((geo) => {
-                  const current = data.find(
-                    (s) => s.state === geo.properties.NAME_1
-                  );
-                  return (
-                    <Geography
-                      data-tooltip-id="my-tooltip"
-                      key={geo.rsmKey}
-                      geography={geo}
-                      fill={
-                        selectedState && selectedState.state === current?.state
-                          ? "#3A5182"
-                          : current
-                            ? colorScale(current.value)
-                            : DEFAULT_COLOR
-                      }
-                      onMouseEnter={() => onMouseEnter(geo, current)}
-                      onMouseLeave={onMouseLeave}
-                      onClick={() => handleClick(geo, current)}
-                      style={geographyStyle}
+                      />
+                    );
+                  })
+                }
+              </Geographies>
+              {/* Add Marker for Hanoi */}
+              <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
+                {/* <circle r={4} /> */}
+                <text
+                  textAnchor="middle"
+                  y={-10}
+                  style={{ fontFamily: "system-ui", fontSize: "15px" }}
+                >
+                  ★
+                </text>
+              </Marker>
+            </ComposableMap>
+          </div>
+        ) : (
+          <div style={{ flex: 1 }}>
+            <ComposableMap
+              height={1000}
+              projectionConfig={{
+                scale: 3550,
+                center: [107, 16],
+              }}
+              projection="geoMercator"
+              data-tip=""
+            >
+              <div>
+                <button onClick={handleZoomIn}>+</button>
+                <button onClick={handleZoomOut}>-</button>
+              </div>
+              <Geographies geography={geoUrl}  >
+                {({ geographies }) =>
+                  geographies.map((geo) => {
+                    const current = data.find(
+                      (s) => s.state === geo.properties.NAME_1
+                    );
+                    return (
+                      
+                      <Geography
+                        data-tooltip-id="my-tooltip"
+                        key={geo.rsmKey}
+                        geography={geo}
+                        fill={
+                          selectedState && selectedState.state === current?.state
+                            ? "#3A5182"
+                            : current
+                              ? colorScale(current.value)
+                              : DEFAULT_COLOR
+                        }
+                        onMouseEnter={() => onMouseEnter(geo, current)}
+                        onMouseLeave={onMouseLeave}
+                        onClick={() => handleClick(geo, current)}
+                        style={geographyStyle}
 
-                    />
-                  );
-                })
-              }
-            </Geographies>
-            {/* Add Marker for Hanoi */}
-            <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
-              {/* <circle r={4} /> */}
-              <text
-                textAnchor="middle"
-                y={-10}
-                style={{ fontFamily: "system-ui", fontSize: "15px" }}
-              >
-                ★
-              </text>
-            </Marker>
-          </ComposableMap>
-        </div>
+                      />
+                    );
+                  })
+                }
+              </Geographies>
+              {/* Add Marker for Hanoi */}
+              <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
+                {/* <circle r={4} /> */}
+                <text
+                  textAnchor="middle"
+                  y={-10}
+                  style={{ fontFamily: "system-ui", fontSize: "15px" }}
+                >
+                  ★
+                </text>
+              </Marker>
+              
+            </ComposableMap>
+          </div>
+          
+        )}
+        <div style={{ flex: mapClicked ? 2 : 0 }}>
 
-        <div style={{ flex: 2 }}>
           {selectedState && (
             <div>
               <Card style={{ backgroundColor: '#FFFFFF' }}>
@@ -885,7 +962,15 @@ const MapCustom = memo(() => {
 
 export default function Map() {
   return (
-    <Card style={{ backgroundColor: '#F5F5F5' }}>
+    // <Card style={{
+    //   backgroundImage: `url(${backgroundImage})`,
+    //   backgroundSize: 'cover',
+    //   backgroundPosition: 'center',
+    //   boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+    // }}>
+    <Card style={{ backgroundColor: 'f5f5f5' }}>
+      {/* <div className="overlay" /> */}
+      
       <MapCustom />
     </Card>
   )

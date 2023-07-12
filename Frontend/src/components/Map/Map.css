@@ -1,7 +1,15 @@
 .map-container3 {
     width: 500px;
-    height: 300px;
+    height: 800px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    overflow: auto;
   }
-  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.5)
+  }
