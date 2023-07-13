@@ -84,27 +84,27 @@ export default function Data() {
 
 	const RemoveCharacter = async (characterID) => {
 		if (window.confirm('Do you want to remove?')) {
-			try {
-				const baseUrl = `http://localhost:8080/api/character/delete/`;
-				const response = await fetch(baseUrl + characterID, {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-					}
-				});
-
-				if (response.ok) {
-					setAccountData((prevData) => prevData.filter((item) => item.characterID !== characterID));
-					toast.success('Xóa Thành Công!');
-				} else {
-					throw new Error('Xóa Thất Bại');
-				}
-			} catch (err) {
-				console.log(err.message);
+		  try {
+			const baseUrl = `http://localhost:8080/api/characters/delete/`;
+			const response = await fetch(baseUrl + characterID, {
+			  method: 'DELETE',
+			  headers: {
+				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+			  }
+			});
+	
+			if (response.ok) {
+			  setAccountData((prevData) => prevData.filter((item) => item.characterID !== characterID));
+			  toast.success('Xóa Thành Công!');
+			} else {
+			  throw new Error('Xóa Thất Bại');
 			}
+		  } catch (err) {
+			console.log(err.message);
+		  }
 		}
-	};
+	  };
+
 	const rows = accountData.map((item) => ({
 		ID: <Id id={item.characterID} />,
 		Character: <Character src={item.image} />,

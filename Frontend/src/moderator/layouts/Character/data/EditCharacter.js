@@ -157,6 +157,7 @@ import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import './EditCharacter.css';
 
 function EditSite({ data }) {
 	const characterID = useParams();
@@ -211,7 +212,8 @@ function EditSite({ data }) {
 				toast.success('Cập Nhật Thành Công');
 				navigate('/moderator/character');
 			  } else {
-				alert('Error uploading post, please try again.');
+				// alert('Error uploading post, please try again.');
+				console.error(response)
 				
 			  }
 			})
@@ -299,6 +301,8 @@ function EditSite({ data }) {
 							value={story}
 							onChange={(e) => setStory(e.target.value)}
 							required
+							multiline
+							rows={10}
 						/>
 					</div>
 					<div className="form-group">
