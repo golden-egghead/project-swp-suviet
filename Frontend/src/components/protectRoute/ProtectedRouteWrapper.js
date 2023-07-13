@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import AdminPage from '../../admin/admin'
 import Moderator from '../../moderator/moderator'
+import ArticleControl from '../../comments/ArticleControl'
 
 const ProtectedRouteWrapper = () => {
   const navigate = useNavigate();
@@ -26,14 +27,23 @@ const ProtectedRouteWrapper = () => {
       navigate("/");
     }
   }, []);
-
+  const [isDashboard, setIsDashboard] = useState(false);
   const renderProtectedComponent = () => {
     const userRole = localStorage.getItem('role');
+    
 
     if (userRole === "ADMIN") {
       return <AdminPage />;
     } else if (userRole === "MODERATOR") {
-      return <Moderator />;
+      const currentUrl = window.location.pathname;
+      if (currentUrl === "/moderator") {
+        return <Moderator />;
+      } else if (currentUrl === "/articlecontrol") {
+        return <ArticleControl />;
+      } else {
+        alert('Invalid URL');
+        navigate("/moderator"); // Redirect to moderator page if the URL is invalid
+      }
     } else {
       return null; // or render an unauthorized page component
     }

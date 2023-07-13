@@ -85,7 +85,6 @@ export default function VideoData() {
 			const response = await fetch(baseUrl + historicalSiteID, {
 			  method: 'DELETE',
 			  headers: {
-				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			  }
 			});
@@ -114,7 +113,7 @@ export default function VideoData() {
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { RemoveSite(item.videoID) }}>
+				onClick={() => { RemoveSite(item.historicalSiteID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),

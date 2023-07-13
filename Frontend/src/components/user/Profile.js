@@ -85,7 +85,7 @@ const UserProfile = () => {
 
       setFullName(response.data.dto.fullName);
       localStorage.setItem('fullname', response.data.dto.fullName);
-      
+      localStorage.setItem('avatar', response.data.dto.avatar);
       setImage(response.data.dto.image);
       console.log(response)
       alert(response.data.message);

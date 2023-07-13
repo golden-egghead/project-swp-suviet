@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SuVietApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SuVietApplication.class, args);
+		SpringApplication.run(SuVietApplication.class, args); 
 	}
 
 }

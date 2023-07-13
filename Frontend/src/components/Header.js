@@ -46,44 +46,53 @@ const Header = (props) => {
   const handleLinkClick = (eventKey) => {
     setActiveLink(eventKey);
   }
+  const [userRole, setUserRole] = useState('');
 
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    setUserRole(role);
+    console.log(localStorage.getItem('role'))
+    
+  }, []);
   return (<>
     <Navbar expand="lg">
-    <Link style={{color:'white', textDecoration:'none'}} to="/">
-      <Nav.Link href="#home"><Card.Img style={{width:'130px', marginLeft:'20px'}} src="assets/image/Logo1.jpg" alt='' /></Nav.Link></Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto">
-            {/* <Nav.Link href="#thoiki">Các Thời Kì</Nav.Link> */}
-            <NavDropdown title="Phòng Trưng Bày" id="collasible-nav-dropdown">
-              <Link style={{color:'white', textDecoration:'none'}} to="/historicalfigure"><NavDropdown.Item href="#historicalfigure">Nhân Vật</NavDropdown.Item></Link>
-              <Link style={{color:'white', textDecoration:'none'}} to="/historicalsite"><NavDropdown.Item href="#historicalsite">Di Tích</NavDropdown.Item></Link>
-              <Link style={{color:'white', textDecoration:'none'}} to="/historicalitem"><NavDropdown.Item href="#historicalitem">Di Vật-Cổ Vật</NavDropdown.Item></Link>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Link style={{color:'white', textDecoration:'none'}} to="/video"><Nav.Link href="#video">Video</Nav.Link></Link>
-            <Link style={{color:'white', textDecoration:'none'}} to="/book"><Nav.Link href="#book">Sách</Nav.Link></Link>
-            <Link style={{color:'white', textDecoration:'none'}} to="/baiviet"><Nav.Link href="#baiviet">Bài Viết</Nav.Link></Link>
-            <Link to="/postarticle"><Nav.Link href="#postarticle"><i class="fa-solid fa-pen-to-square fa-1.5x"></i> Viết bài</Nav.Link></Link>
-          </Nav>
-          {/* <Link onClick={() => setIsOpen(true)}> */}
-            {/* <button style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight:'bold' }} className='btn' onClick={() => setLoginPopupOpen(true)}>
+      <Link style={{ color: 'white', textDecoration: 'none' }} to="/">
+        <Nav.Link href="#home"><Card.Img style={{ width: '130px', marginLeft: '20px' }} src="assets/image/Logo1.jpg" alt='' /></Nav.Link></Link>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="ms-auto">
+          {/* <Nav.Link href="#thoiki">Các Thời Kì</Nav.Link> */}
+          <NavDropdown title="Phòng Trưng Bày" id="collasible-nav-dropdown">
+            <Link style={{ color: 'white', textDecoration: 'none' }} to="/historicalfigure"><NavDropdown.Item href="#historicalfigure">Nhân Vật</NavDropdown.Item></Link>
+            <Link style={{ color: 'white', textDecoration: 'none' }} to="/historicalsite"><NavDropdown.Item href="#historicalsite">Di Tích</NavDropdown.Item></Link>
+            <Link style={{ color: 'white', textDecoration: 'none' }} to="/historicalitem"><NavDropdown.Item href="#historicalitem">Di Vật-Cổ Vật</NavDropdown.Item></Link>
+          </NavDropdown>
+          <Link style={{ color: 'white', textDecoration: 'none' }} to="/timeline"><Nav.Link href="#timeline">Dòng lịch sử</Nav.Link></Link>
+          <Link style={{ color: 'white', textDecoration: 'none' }} to="/video"><Nav.Link href="#video">Video</Nav.Link></Link>
+          <Link style={{ color: 'white', textDecoration: 'none' }} to="/book"><Nav.Link href="#book">Sách</Nav.Link></Link>
+          <Link style={{ color: 'white', textDecoration: 'none' }} to="/baiviet"><Nav.Link href="#baiviet">Bài Viết</Nav.Link></Link>
+          <Link to="/postarticle"><Nav.Link href="#postarticle"><i class="fa-solid fa-pen-to-square fa-1.5x"></i> Viết bài</Nav.Link></Link>
+          {userRole === 'MODERATOR' && (
+            
+            <Link to="/articlecontrol"><Nav.Link href="#articlecontrol"><i class="fa-solid fa-file-pen"></i></Nav.Link></Link>
+            
+          )}
+        </Nav>
+        {/* <Link onClick={() => setIsOpen(true)}> */}
+        {/* <button style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight:'bold' }} className='btn' onClick={() => setLoginPopupOpen(true)}>
               Tài Khoản 
             </button> */}
-            {/* <LoginPopup /> */}
+        {/* <LoginPopup /> */}
 
 
-            <Login />
+        <Login />
 
-            {/* {isLoginPopupOpen && (
+        {/* {isLoginPopupOpen && (
         <LoginPopup onClose={() => setLoginPopupOpen(false)} onLogin={handleLogin} />
       )} */}
 
-          {/* </Link> */}
-           {/* <button
+        {/* </Link> */}
+        {/* <button
             style={{
               backgroundColor: "#FFC701",
               color: "black",
@@ -97,8 +106,8 @@ const Header = (props) => {
             Tài Khoản
           </button> */}
 
-          {/* {isModelOpen && <SignInPopup onClick={handleCloseModel} />} */}
-        </Navbar.Collapse>
+        {/* {isModelOpen && <SignInPopup onClick={handleCloseModel} />} */}
+      </Navbar.Collapse>
     </Navbar>
     {/* {isOpen && <ModalLogin setIsOpen={setIsOpen} />} */}
     {/* <Row>
@@ -112,10 +121,10 @@ const Header = (props) => {
             </Col>
     </Row> */}
     <Navbar expand="lg">
-        <Nav.Link href="#home"></Nav.Link>
-        {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
-        {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
-          {/* <Nav className="me-auto">
+      <Nav.Link href="#home"></Nav.Link>
+      {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
+      {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
+      {/* <Nav className="me-auto">
           <Link style={{color:'white', textDecoration:'none'}} to="/vinhdanh"><Nav.Link
             href="#vinhdanh"
             className={activeLink === 'vinhdanh' ? 'active' : ''}
@@ -123,7 +132,7 @@ const Header = (props) => {
             >
             VINH DANH
           </Nav.Link></Link> */}
-          {/* <Link style={{color:'white', textDecoration:'none'}} to="/game"><Nav.Link
+      {/* <Link style={{color:'white', textDecoration:'none'}} to="/game"><Nav.Link
             href="#minigame"
             className={activeLink === 'minigame' ? 'active' : ''}
             onClick={() => handleLinkClick('minigame')}

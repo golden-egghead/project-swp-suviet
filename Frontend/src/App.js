@@ -51,6 +51,7 @@ import UserProfile from './components/user/Profile';
 import AddSite from './moderator/layouts/Site/data/AddSite';
 import ArticleControl from './comments/ArticleControl';
 import EditSite from './moderator/layouts/Site/data/EditSite';
+import TimeLine from './components/TimeLine';
 
 
 
@@ -101,6 +102,7 @@ function App() {
           <Route path="/changePass" element={<ChangePassword />} />
           {/* <Route path="/mod" element={<ModeratorPage />} /> */}
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/timeline" element={<TimeLine />} />
         
         </Routes>
         {!isAdmin && !isModerator &&  <Footer/>}

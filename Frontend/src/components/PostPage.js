@@ -1,5 +1,4 @@
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import { Button } from '@mui/material';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -9,6 +8,7 @@ import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import './PostPage.css'
 
 
 function PostPage(props) {
@@ -23,7 +23,7 @@ function PostPage(props) {
 
 
     const fetchData = async (page, searchTerm) => {
-        try {   
+        try {
             const response = await axios.get(`http://localhost:8080/api/articles/${page}`);
             setListPosts(response.data.data)
             setTotalPages(response.data.total_pages)
@@ -154,7 +154,7 @@ function PostPage(props) {
             <Row >
             </Row>
             <Container fluid={true}>
-                <Row style={{ margin: '20px' }}>
+                {/* <Row style={{ margin: '20px' }}>
                     {listPosts.map(post => (
                         <Col key={post.articleID} xs>
                             <div className="d-flex justify-content-around">
@@ -170,28 +170,70 @@ function PostPage(props) {
                             </div>
                         </Col>
                     ))}
-                </Row>
+                </Row> */}
+                <div className="post">
+                    {listPosts.map(post => (
+                        <div className="card"
+                            style={{
+                                backgroundColor: 'rgb(192, 192, 192)',
+                                color: '#272727',
+                                padding: '20px',
+                                borderRadius: '10px',
+                                border: '0px',
+                                borderColor: 'tomato',
+                                borderStyle: 'solid',
+                                transition: '200ms',
+                                maxWidth: '500px',
+                                marginLeft: '39px',
+                                marginTop:'30px',
+                                marginBottom:'30px',
+                            }}>
+                            {/* <div className="card-header">
+                                <div className="profile">
+                                    <span className="letter">abc</span>
+                                </div>
+                                <div className="card-title-group">
+                                    <h5 className="card-title">zyx</h5>
+                                    <div className="card-date">{post.createdDate}</div>
+                                </div>
+                            </div> */}
+                             <Link to={`/postdetails/${post.articleID}`} style={{ textDecoration: 'none' }}>
+                            <img className="card-image" src={post.photo} alt="Logo" />
+                            </Link>
+                            <div style={{ fontSize: '20px', textAlign:'center'}} className="card-text">{post.title}</div>
+                            <div className="card-header">
+                                <div className="card-title-group">
+                                    {/* <h5 className="card-title">zyx</h5> */}
+                                    <div  style={{ fontSize: '15px'}} className="card-date">{post.createdDate}</div>
+                                </div>
+                            </div>
+                            <Button>View: {post.articleView}</Button>
+                        </div>
+                    ))}
+                </div>
+                
             </Container>
-        </Container>
-        <ReactPaginate
-            breakLabel="..."
-            nextLabel="next >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={totalPages}
-            previousLabel="< previous"
+            <ReactPaginate
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={totalPages}
+                previousLabel="< previous"
 
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            containerClassName="pagination"
-            activeClassName='active'
-        />
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination d-flex justify-content-center"
+                activeClassName='active'
+            />
+        </Container >
+
     </>);
 
 }

@@ -42,7 +42,7 @@ const HistoricalFigurePage = (props) => {
 
   const fetchVideoDatafromPeriodName = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/period/characters?periodName=${selectedPeriod}`);
+      const response = await axios.get(`http://localhost:8080/api/periods/characters?periodName=${selectedPeriod}`);
       setListCharacter(response.data.data)
       console.log("log111:", response)
     } catch (error) {

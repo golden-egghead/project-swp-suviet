@@ -5,7 +5,7 @@ import 'react-vertical-timeline-component/style.min.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function TimeLine() {
+ function TimeLineN() {
 
   const [listPeriods, setListPeriods] = useState([]);
 
@@ -50,3 +50,11 @@ export default function TimeLine() {
     </VerticalTimeline>
   </>)
 }
+const TimeLine= () => {
+ return (
+  <div style={{ backgroundColor: 'black' }}>
+  <TimeLineN />
+  </div>
+ )
+} 
+export default TimeLine;

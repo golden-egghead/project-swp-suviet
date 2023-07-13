@@ -35,18 +35,22 @@ import './Map.css';
 import _ from "lodash";
 import * as geoUrl from "./vietnam.json";
 
-import backgroundImage from './mapBG.jpg';
+import backgroundImage from './map.jpg';
 
 
 const COLOR_RANGE = [
+  "#c3e2f3",
+  "#f5dbca",
+  "#cbcb89",
+  "#cfdeab",
+  "#c6a939",
+  "#8bb1bd",
+  "#c2a3ae",
+  "#6da0a6",
   "#92f895",
   "#42a7f0",
-  "#077ef4",
-  "#0870f0",
-  "#0d1aa6",
-  "#8fb946",
-  "#69c77a",
-  "#66c6c4"
+  "#66c6c4",
+  "#69c77a"
 
 ];
 
@@ -398,6 +402,7 @@ const customTexts = {
   },
   "Nghệ An": {
     text: "tên gọi tỉnh Nghệ An, từ thời Hùng Vương lập nước, Nghệ An thuộc đất Việt Thường, nhà Hán là huyện Hàm Hoan thuộc quận Cửu Chân, nhà Ngô là Cửu Đức, nhà Đinh, nhà Lê gọi là Hoan Châu, lúc này Hoan châu thống lĩnh 4 huyện là Cửu Đức, Phố Dương, Việt Thường và Hoài Hoan. Đây chính là Mộc bản sách Khâm định Việt sử thông giám cương mục khắc về lịch sử tên gọi vùng đất Nghệ An từ thời Hùng Vương dựng nước đến thời Tiền Lê.</br>Tại Mộc bản sách Đại Việt sử ký toàn thư, quyển 2, mặt khắc 4, khắc về việc Vua Lý Thái Tổ cho đổi Hoan Châu làm Trại. Đến thời vua Lý Thái Tông năm Thiên Thành thứ 3 (1030), năm Thiên Thành thứ 3, đổi Hoan Châu là Nghệ An. Tên gọi Nghệ An bắt đầu từ đây. Đến tháng 11 năm Tân Tỵ (1041) vua Lý Thái Tông cử Uy Minh hầu Lý Nhật Quang làm Tri Châu Nghệ An.</br>Bước sang thời Trần, năm 1375, vua Trần Duệ Tông cho đổi Hoan Châu thành 4 lộ: Nhật nam, Nghệ An nam, Nghệ An bắc và Nghệ An trung. Năm 1379, vua Trần Thuận Tông lại cho đổi trấn Nghệ An thành trấn Lâm An.</br>Năm Bính Tuất (1466), vua Lê Thánh Tông cho đặt các đơn vị hành chính trong nước làm 12 đạo thừa tuyên, trong đó có Đạo thừa tuyên Nghệ An, năm 1469 vua Lê Thánh Tông ấn định các đơn vị hành chính trực thuộc đạo Thừa Tuyên Nghệ An: Nghệ An lúc này quản lĩnh 8 phủ, 18 huyện và 2 châu. Đến năm Canh Tuất (1490), vua Lê Thánh Tông cho đổi thừa tuyên Nghệ An thành Xứ Nghệ An. Cuối thế kỷ XVIII, dưới triều Tây Sơn, vua Quang Trung Nguyễn Huệ đã cho đổi trấn Nghệ An là Trung Đô hay còn được gọi là trấn Nghĩa An, nhà vua bàn việc dời kinh đô từ Phú Xuân về Nghệ An với tướng Nguyễn Quang Diệu, nhà vua còn cho sửa thành lũy, đặt kho tàng và dùng binh túc trực ở đấy.",
+    links: ["/historicalfigure-details/41"],
     images: ["https://media.truyenhinhdulich.vn/upload/news/75_thanh_co_nghe_an_ngoi_thanh_chung_tich_lich_su.jpg"]
   },
   "Hà Tĩnh": {
@@ -561,7 +566,7 @@ const customTexts = {
   },
   "Hà Nội": {
     text: '<p>Hà Nội là thủ đô của nước Cộng hoà Xã hội chủ  nghĩa Việt Nam, nằm chếch về phía tây bắc của trung tâm vùng đồng bằng Sông  Hồng, có vị trí từ 20°53 đến 21°23 vĩ độ Bắc và 105°44 đến 106°02 kinh độ Đông.  Phía Bắc giáp các tỉnh Thái Nguyên, Vĩnh Phúc; phía Nam giáp Hà Nam, Hòa Bình;  phía Đông giáp Bắc Giang, Bắc Ninh, Hưng Yên; phía Tây giáp Hòa Bình, Phú Thọ.</p><p><br>Hà Nội là trung tâm chính trị - hành chính quốc gia,  trung tâm lớn về văn hoá, khoa học, giáo dục, kinh tế và giao dịch quốc tế. hiện có 30 đơn vị hành chính cấp huyện – gồm 12 quận, 17 huyện, 1 thị  xã – và 584 đơn vị hành chính cấp xã – gồm 386 xã, 177 phường và 21 thị trấn. </p><p>Trong  mối quan hệ khu vực và quốc tế, thủ đô Hà Nội có nhiều lợi thế về vị trí địa  lý- chính trị, lịch sử phát triển lâu đời và là đô thị trung tâm quan trọng của  Việt Nam, có sức hút và tác động rộng lớn đối với quốc gia trong khu vực và  quốc tế. </p><p> Phát  triển không gian Thủ đô Hà Nội được đặt trong mối quan hệ vùng Thủ đô Hà Nội  với mối quan hệ tương hỗ hai chiều. Trong đó Thủ đô Hà Nội tác động đến vùngbằng  việc thể hiện vai trò là đầu tàu, trung tâm tăng trưởng kinh tế, thúc đẩy toàn  vùng phát triển thông qua sự mở rộng, lan toả các hoạt động kinh tế, đô thị hóa  ra các tỉnh xung quanh. Vùng tác  động đến Thủ đô Hà Nộibằng  việc cung cấp cho Hà Nội nguồn thực phẩm, nguồn lao động, quĩ đất phát triển  cho các khu chức năng mang tính chất liên kết và chia sẻ chức năng vùng.</p><p><br>Hà Nội là trung tâm đầu mối giao thông đối ngoại đường  bộ, đường sắt, đường hàng không quốc gia, quốc tế, có điều kiện thuận lợi để phát triển hợp tác khai thác các công trình hạ tầng kỹ  thuật đầu mối mang tính liên vùng như: Vùng Hà Nội - Vĩnh  Phúc - Hưng Yên khai thác sông Hồng. Vùng Hà Nội - Hà Nam giải quyết tiêu thoát  nước mặt và các giải pháp bảo vệ môi trường sông Đáy. Vùng Hà Nội - Hòa Bình  xây dựng Nghĩa trang liên Vùng và bảo vệ nguồn nước sông Đà. Vùng Hà Nội - Thái  Nguyên - Vĩnh Phúc - Bắc Ninh - Hưng Yên khai thác và quản lý khu xử lý chất  thải rắn liên vùng. </p>',
-    links: ["/video-details/2", "/video-details/3"],
+    links: ["/video-details/76"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/hanoi/hanoi.jpg",
       "https://vcdn1-dulich.vnecdn.net/2022/05/11/hoan-kiem-lake-7673-1613972680-1508-1652253984.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=2wB1cBTUcNKuk68nrG6LMQ",
       "https://cdnimg.vietnamplus.vn/uploaded/hotnnz/2022_08_30/ha_noi.jpg"]
@@ -629,6 +634,7 @@ const customTexts = {
   },
   "Hồ Chí Minh": {
     text: 'Những người Việt đầu tiên tự động vượt biển tới khai vùng đất này hoàn toàn không có sự tổ chức của nhà Nguyễn. Nhờ cuộc hôn nhân giữa công nữ Ngọc Vạn với vua Chân Lạp Chey Chetta II từ năm 1620, mối quan hệ giữa Đại Việt và Chân Lạp trở nên êm đẹp, dân cư hai nước có thể tự do qua lại sinh sống. Khu vực Sài Gòn, Đồng Nai bắt đầu xuất hiện những người Việt định cư. Trước đó, người Khmer, người Chăm, người Man cũng sinh sống rải rác ở đây từ xa xưa.</br > Giai đoạn từ 1623 tới 1698 được xem như thời kỳ hình thành của Sài Gòn sau này.Năm 1623, chúa Nguyễn sai một phái bộ tới yêu cầu con rể là vua Chey Chettha II cho lập đồn thu thuế tại Prei Nokor(Sài Gòn) và Kas Krobei(Bến Nghé).Tuy đây là vùng rừng rậm hoang vắng nhưng lại nằm trên đường giao thông của các thương nhân Việt Nam, Trung Quốc,... qua Campuchia và Xiêm.Hai sự kiện quan trọng tiếp theo của thời kỳ này là lập doanh trại và dinh thự của Phó vương Nặc Nộn và lập đồn dinh ở Tân Mỹ(gần ngã tư Cống Quỳnh - Nguyễn Trãi ngày nay).Có thể nói Sài Gòn hình thành từ ba cơ quan chính quyền này.</br > Năm 1679, chúa Nguyễn Phúc Tần cho một số nhóm người Hoa tị nạn triều Mãn Thanh tới Mỹ Tho, Biên Hòa và Sài Gòn để lánh nạn.Đến năm 1698, chúa Nguyễn sai tướng Nguyễn Hữu Cảnh vào kinh lý miền Nam.Trên cơ sở những lưu dân Việt đã tự phát tới khu vực này trước đó, Nguyễn Hữu Cảnh cho lập phủ Gia Định và hai huyện Phước Long, Tân Bình.Vùng Đông Nam Bộ được sát nhập vào cương vực Việt Nam.</br >Thời điểm ban đầu này, khu vực Biên Hòa, Gia Định có khoảng 10.000 hộ với 200.000 khẩu.Công cuộc khai hoang được tiến hành theo những phương thức mới, mang lại hiệu quả hơn.</br >Cuối thế kỉ 17 và đầu thế kỉ 18, Mỹ Tho và Cù lao Phố là hai trung tâm thương mại lớn nhất Nam Bộ.Tuy nhiên, cuối thế kỉ 18, sau các biến loạn và chiến tranh, thương nhân dần chuyển về vùng Chợ Lớn.Khu vực Sài Gòn dần trở thành trung tâm kinh tế lớn nhất Nam Bộ.',
+    links: ["/video-details/77"],
     images: ["https://nguoikesu.com/images/wiki/thanh-pho-ho-chi-minh/339662013eee699cf1ba92873d4094d2.jpg",
       "https://nguoikesu.com/images/wiki/thanh-pho-ho-chi-minh/8a4944feeb3e0ff93362a67b9ff73e69.jpg",
       "https://nguoikesu.com/images/wiki/thanh-pho-ho-chi-minh/5b0e4f7d1b1bd9499223dc3126248ac7.jpg",
@@ -729,7 +735,9 @@ const MapCustom = memo(() => {
   const [customLinks, setCustomLinks] = useState("");
   const [customImages, setCustomImages] = useState("");
   const linkLabels = {
-    "/video-details/2": "Tầm nhìn của Bác Hồ về chiến dịch Điện Biên Phủ trên không",
+    "/video-details/76": "Lăng Chủ tịch Hồ Chí Minh",
+    "/video-details/77": "Dinh Độc Lập",
+    "/historicalfigure-details/41": "Hồ Chí Minh",
     "/another-link": "Custom Label 2",
     "/cao-bang": "Custom Label 3",
     // Add custom labels for other links...
@@ -789,7 +797,7 @@ const MapCustom = memo(() => {
     setSelectedState(null);
     setCustomText("");
   };
-  const [mapScale, setMapScale] = useState(4000);
+  const [mapScale, setMapScale] = useState(3300);
   const [zoomLevel, setZoomLevel] = useState(1);
   const handleZoomIn = () => {
     setMapScale(prevScale => prevScale * 1.2);
@@ -805,7 +813,7 @@ const MapCustom = memo(() => {
     <div>
       <div style={{ height: "100vh", display: "flex" }}>
         {!mapClicked ? (
-          <div style={{ flex: 1, justifyContent: "center", alignItems: "center", width: '500px', height: '1200px', overflow: 'auto' }}>
+          <div style={{ flex: 1,display: "flex", marginRight:'30px' , width: '300px', height: '800px', overflow: 'auto' }}>
             <ComposableMap
               style={{ width: '2000px', height: '3000px' }}
               projectionConfig={{
@@ -919,8 +927,8 @@ const MapCustom = memo(() => {
         <div style={{ flex: mapClicked ? 2 : 0 }}>
 
           {selectedState && (
-            <div>
-              <Card style={{ backgroundColor: '#FFFFFF' }}>
+            <div className="mapcontent">
+
                 <h2>{selectedState.state}</h2>
 
                 <p>
@@ -950,7 +958,7 @@ const MapCustom = memo(() => {
 
 
                 </p>
-              </Card>
+
 
             </div>
           )}
@@ -969,16 +977,36 @@ const MapCustom = memo(() => {
 
 export default function Map() {
   return (
-    // <Card style={{
-    //   backgroundImage: `url(${backgroundImage})`,
-    //   backgroundSize: 'cover',
-    //   backgroundPosition: 'center',
-    //   boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
-    // }}>
-      <Card style={{ backgroundColor: '000000' }}> 
+    <Card style={{
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+    }}>
+       <Card style={{
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+    }}>
+      {/* <Card style={{ backgroundColor: '000000' }}>  */}
       {/* <div className="overlay" /> */}
-      
+      <div className="mapTitle">Chào mừng đến với Sử Việt</div>
       <MapCustom />
+      </Card>
+      {/* <div
+    style={{
+      position: 'absolute', // Position the overlay div absolutely
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
+  
+    }}
+  /> */}
+
     </Card>
   )
 }

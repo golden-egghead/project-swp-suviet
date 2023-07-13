@@ -16,6 +16,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
+import CarouselHomePage from './CarouselHomePage';
+import { Card } from 'react-bootstrap';
 
 
 const HistoricalSite = (props) => {
@@ -102,6 +104,11 @@ const HistoricalSite = (props) => {
 
     return (<>
         <Row>
+            <Card style={{ backgroundColor: '#F5F5F5' }}>
+                <div>
+                    <CarouselHomePage />
+                </div>
+            </Card>
             <Col>
                 <div style={{ paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b>Di Tích</b></div>
             </Col>
@@ -131,7 +138,7 @@ const HistoricalSite = (props) => {
                         <Button variant="btn btn-success"><i className="fa-solid fa-magnifying-glass"></i></Button>
                     </Form></Col>
                 <Col><div className='text-header'>Di Tích</div></Col>
-                <Row><h1 style={{textAlign:'center'}}>Di Tích Lịch Sử</h1></Row>
+                <Row><h1 style={{ textAlign: 'center' }}>Di Tích Lịch Sử</h1></Row>
             </Row>
             {/* <Row>
                     {listSites.map(sites => (
@@ -149,7 +156,7 @@ const HistoricalSite = (props) => {
                     ))}
                 </Row> */}
 
-            <Grid container spacing={2} style={{marginBottom:'40px'}}>
+            <Grid container spacing={2} style={{ marginBottom: '40px' }}>
                 {listSites.map((site) => (
                     <Grid item key={site.historicalsiteID} xs={12}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -171,7 +178,7 @@ const HistoricalSite = (props) => {
                                         <Typography style={{ marginTop: '20px', textAlign: 'center', fontSize: '30px', color: 'red' }} gutterBottom variant="body2">
                                             {site.historicalSiteName}
                                         </Typography>
-                                        <Typography style={{ fontSize: '20px', color:'black' }} display="block" variant="caption" color="text.secondary">
+                                        <Typography style={{ fontSize: '20px', color: 'black' }} display="block" variant="caption" color="text.secondary">
                                             <div dangerouslySetInnerHTML={{ __html: site.description }} />
                                         </Typography>
                                     </Box>

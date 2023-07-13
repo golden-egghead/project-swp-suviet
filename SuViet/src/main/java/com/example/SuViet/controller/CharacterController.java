@@ -130,7 +130,7 @@ public class CharacterController {
     }
     @PostMapping(value = "/characters/upload")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestParam("name") String name,
+    public ResponseEntity<ResponseObject> uploadANewCharacter(@RequestParam("characterName") String name,
                                                               @RequestParam("estate") String estate,
                                                               @RequestParam("description") String description,
                                                               @RequestParam("story") String story,
@@ -170,10 +170,10 @@ public class CharacterController {
         }
     }
 
-    @PutMapping(value = "/edit/{id}")
+    @PutMapping(value = "/characters/edit/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> editACharacter(@PathVariable("id") int id,
-                                                         @RequestParam("name") String name,
+                                                         @RequestParam("characterName") String name,
                                                          @RequestParam("estate") String estate,
                                                          @RequestParam("description") String description,
                                                          @RequestParam("story") String story,
@@ -229,7 +229,7 @@ public class CharacterController {
     }
 
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/characters/delete/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<ResponseObject> deleteACharacter(@PathVariable("id") int id) {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());

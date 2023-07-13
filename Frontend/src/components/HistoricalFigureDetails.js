@@ -15,7 +15,7 @@ export default function HistoricalFigureDetails() {
     useEffect(() => {
       const fetchVideo = async () => {
         try {
-          const totalPages = 5; // Số trang tổng cộng trong API
+          const totalPages = 10; // Số trang tổng cộng trong API
           const promises = [];
   
           for (let page = 1; page <= totalPages; page++) {
