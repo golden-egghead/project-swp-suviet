@@ -49,9 +49,13 @@ public class UpdateController {
     public ResponseEntity<UpdateResponse> updateProfile(
             @RequestParam(value = "image", required = false) MultipartFile image,
             @RequestParam(value = "fullName", required = false) String fullName
-    ) {
+    ) throws IOException {
         User user = userService.getUserByMail(
                 SecurityContextHolder.getContext().getAuthentication().getName());
+
+        String ava = user.getAvatar().substring(user.getAvatar().lastIndexOf('/') + 1);
+        Path oldPath = Paths.get("SuViet/src/main/resources/static/avatars/".concat(ava));
+        Files.deleteIfExists(oldPath);
         if (image != null) {
             user.setAvatar("http://localhost:8080/api/user/files/" + fileImageService.storeFile( "avatars",image));
         }else{

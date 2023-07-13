@@ -17,6 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -200,7 +204,7 @@ public class BookController {
                                                       @RequestParam("yearOfPublication") String yearOfPublication,
                                                       @RequestParam("price") double price,
                                                       @RequestParam("periodName") List<String> periodName,
-                                                      @RequestParam("cover") MultipartFile cover) {
+                                                      @RequestParam("cover") MultipartFile cover) throws IOException {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         Book book = bookService.findBookById(bookID).get();
         List<Role> roles = (List<Role>) user.getRoles();
@@ -249,6 +253,9 @@ public class BookController {
             );
         }
         book.setPeriods(periods);
+        String oldImage = book.getCover().substring(book.getCover().lastIndexOf('/') + 1);
+        Path oldPath = Paths.get("SuViet/src/main/resources/static/books/".concat(oldImage));
+        Files.deleteIfExists(oldPath);
         if(cover != null){
             book.setCover("http://localhost:8080/api/Books/files/" +fileImageService.storeFile( "books",cover));
         }else{

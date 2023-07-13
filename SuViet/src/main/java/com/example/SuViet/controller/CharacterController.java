@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -212,6 +215,9 @@ public class CharacterController {
         character.setPeriod(period);
         character.setUser(currentUser);
         character.setEnabled(true);
+        String oldImage = character.getImage().substring(character.getImage().lastIndexOf('/') + 1);
+        Path oldPath = Paths.get("SuViet/src/main/resources/static/characters/".concat(oldImage));
+        Files.deleteIfExists(oldPath);
         if (image != null) {
             character.setImage("http://localhost:8080/api/files/" +  fileImageService.storeFile("characters", image));
         }else{
