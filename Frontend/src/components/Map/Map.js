@@ -813,7 +813,7 @@ const MapCustom = memo(() => {
     <div>
       <div style={{ height: "100vh", display: "flex" }}>
         {!mapClicked ? (
-          <div style={{ flex: 1,display: "flex", marginRight:'30px' , width: '300px', height: '800px', overflow: 'auto' }}>
+          <div className='map' style={{ flex: 1,display: "flex", margin: 'auto' , width: '300px', height: '1000px', overflow:'auto' }}>
             <ComposableMap
               style={{ width: '2000px', height: '3000px' }}
               projectionConfig={{
@@ -864,8 +864,8 @@ const MapCustom = memo(() => {
               </Marker>
             </ComposableMap>
           </div>
-        ) : (
-          <div style={{ flex: 1 }}>
+        ) : ( 
+          <div className='map-animation' style={{ flex: 1 }}>
             <ComposableMap
               height={1000}
               projectionConfig={{
