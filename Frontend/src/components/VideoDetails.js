@@ -47,28 +47,29 @@ const VideoDetails = () => {
 
   return (
     <>
-      <Row>
-        <Col style={{ marginTop: '30px', paddingLeft: '40px' }}>
+      <Row style={{height: '3rem'}}>
+        <Col>
           Bạn đang ở: Trang Chủ/ Video / <b>Chi Tiết Video</b>
         </Col>
-        <Col xs="auto" className="ml-auto" style={{ marginTop: '30px', marginRight:'40px'}}>
+        <Col xs="auto" className="ml-auto">
           <Button style={{fontSize:'20px'}} onClick={handleBack}>
           <IoReturnUpBackSharp />
           </Button>
         </Col>
       </Row>
       <Col xs>
-        <div className="d-flex justify-content-around">
-          <Card style={{ width: '80rem', marginTop: '50px',marginBottom:'50px' }}>
-            <Card.Body>
-            <div className="embed-responsive embed-responsive-16by9">
+        <div className="d-flex justify-content-around" 
+        style={{backgroundImage: `url('https://vhx.imgix.net/sbtnott/assets/44ad8c03-33f4-44ce-8cec-3e263f0ba586-63b0cf8f.jpeg?auto=format%2Ccompress&fit=crop&h=720&q=75&w=1280')`}}>
+          <Card style={{ width: '65rem', marginTop: '50px',marginBottom:'50px' }}>
+            <Card.Body style={{display: 'flex'}}>
+            <div className="embed-responsive embed-responsive-16by9" style={{height: '150%'}}>
                         <ReactPlayer
                         url={video.length > 0 && (video[0].video)}
                         className="embed-responsive-item"
                         controls
                     />
             </div>
-              <Card.Text>
+              <Card.Text style={{width: '30rem', margin: 'auto'}}>
               {video.length > 0 && (
                   <div dangerouslySetInnerHTML={{ __html: video[0].description }} />
                 )}
