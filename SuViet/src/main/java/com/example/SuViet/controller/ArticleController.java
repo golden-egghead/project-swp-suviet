@@ -293,7 +293,8 @@ public class ArticleController {
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
-            String destinationDir =  "SuViet" + File.separator + "src" + File.separator + "main" + File.separator + "resources" +
+            String destinationDir = "SuViet" + File.separator + "src" + File.separator + "main" + File.separator
+                    + "resources" +
                     File.separator + "static" + File.separator + "article-photo" + File.separator;
 
             String filePathString = destinationDir + fileName;
@@ -315,6 +316,16 @@ public class ArticleController {
             } else {
                 article.setStatus(false);
                 article.setEnabled(false);
+
+                List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+                for (int i = 0; i < moderators.size(); i++) {
+                    Notification notification = new Notification();
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setEnabled(true);
+                    notification.setMessage("An article is posted");
+                    notification.setUser(moderators.get(i));
+                    notificationServices.createNotification(notification);
+                }
             }
 
             article.setUser(user);
@@ -364,6 +375,15 @@ public class ArticleController {
             comment.setArticle(article);
 
             Comment savedComment = commentService.savedArticleComment(comment);
+            List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+            for (int i = 0; i < moderators.size(); i++) {
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("An comment is posted");
+                notification.setUser(moderators.get(i));
+                notificationServices.createNotification(notification);
+            }
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new ResponseObject("Ok", "Comment created successfully", savedComment));
         } catch (EntityNotFoundException e) {
@@ -483,6 +503,24 @@ public class ArticleController {
         }
 
     }
+
+    // @PutMapping("/browse/comment/{commentId}")
+    // public ResponseEntity<ResponseObject> browseComment(
+    // @PathVariable("commentId") int commentId,
+    // @RequestParam boolean browsed) {
+    // try {
+    // Comment comments = commentService.getCommentById(commentId);
+    // User postUser = comments.getUser();
+
+    // if (browsed) {
+    // comments.setEnabled(true);
+    // comments.setStatus(true);
+    // }
+    // } catch (Exception e) {
+    // // TODO: handle exception
+    // }
+
+    // }
 
     @PutMapping("/report/{userId}")
     public void reportCounter(
@@ -718,7 +756,7 @@ public class ArticleController {
             }
 
             existingReplyComment.setCommentText(repliesCommentDTO.getCommentText());
-            existingComment.setStatus(false);
+            existingReplyComment.setStatus(false);
 
             RepliesComment updatedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
             return ResponseEntity.status(HttpStatus.OK).body(

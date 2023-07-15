@@ -30,4 +30,5 @@ public interface UserService {
     boolean updateRole(int id);
     User getUserByRoleName(String roleName);
     
+    public List<User> getUsersWithModeratorRole(String roleName);
 }

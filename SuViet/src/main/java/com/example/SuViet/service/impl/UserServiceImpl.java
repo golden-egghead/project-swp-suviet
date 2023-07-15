@@ -273,4 +273,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRoles_RoleName(roleName);
     }
 
+    @Override
+    public List<User> getUsersWithModeratorRole(String roleName) {
+        return userRepository.findByRolesRoleName(roleName);
+    }
+
 }

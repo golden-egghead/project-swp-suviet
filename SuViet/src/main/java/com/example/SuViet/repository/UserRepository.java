@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByMail(String email);
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByMailAndEnabled(String email, boolean isEnabled);
 
     User findByRoles_RoleName(String roleName);
+
+    List<User> findByRolesRoleName(String roleName);
+
 }
