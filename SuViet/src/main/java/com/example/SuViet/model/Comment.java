@@ -29,11 +29,16 @@ public class Comment {
     private LocalDateTime createdDate;
 
     @Column(nullable = false)
+    private boolean status;
+
+    @Column(nullable = false)
     private boolean enabled;
 
-    public Comment(String commentText, LocalDateTime createdDate, boolean enabled) {
+    public Comment(String commentText, LocalDateTime createdDate,
+        boolean status, boolean enabled) {
         this.commentText = commentText;
         this.createdDate = createdDate;
+        this.status = status;
         this.enabled = enabled;
     }
 

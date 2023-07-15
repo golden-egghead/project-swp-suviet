@@ -356,7 +356,8 @@ public class ArticleController {
             Article article = articleService.getArticleById(articleId);
 
             Comment comment = new Comment();
-            comment.setCommentText(filterToxic(commentDTO.getCommentText()));
+            comment.setCommentText((commentDTO.getCommentText()));
+            comment.setStatus(false);
             comment.setEnabled(true);
             comment.setCreatedDate(LocalDateTime.now());
             comment.setUser(user);
@@ -389,7 +390,8 @@ public class ArticleController {
             Comment comment = commentService.getCommentById(commentId);
 
             RepliesComment replyComment = new RepliesComment();
-            replyComment.setCommentText(filterToxic(repliesCommentDTO.getCommentText()));
+            replyComment.setCommentText((repliesCommentDTO.getCommentText()));
+            replyComment.setStatus(false);
             replyComment.setEnabled(true);
             replyComment.setCreatedDate(LocalDateTime.now());
             replyComment.setUser(user);
@@ -683,7 +685,8 @@ public class ArticleController {
                         new ResponseObject("ERROR", "User is not authorized to update the comment", null));
             }
 
-            existingComment.setCommentText(filterToxic(commentDTO.getCommentText()));
+            existingComment.setCommentText((commentDTO.getCommentText()));
+            existingComment.setStatus(false);
 
             Comment updatedComment = commentService.savedArticleComment(existingComment);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -714,7 +717,8 @@ public class ArticleController {
                         new ResponseObject("ERROR", "User is not authorized to update the comment", null));
             }
 
-            existingReplyComment.setCommentText(filterToxic(repliesCommentDTO.getCommentText()));
+            existingReplyComment.setCommentText(repliesCommentDTO.getCommentText());
+            existingComment.setStatus(false);
 
             RepliesComment updatedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
             return ResponseEntity.status(HttpStatus.OK).body(

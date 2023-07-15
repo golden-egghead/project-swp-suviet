@@ -28,6 +28,9 @@ public class RepliesComment {
     private LocalDateTime createdDate;
 
     @Column(nullable = false)
+    private boolean status;
+
+    @Column(nullable = false)
     private boolean enabled;
 
     @JsonIgnore
@@ -52,9 +55,10 @@ public class RepliesComment {
     private Article article;
     
 
-    public RepliesComment(String commentText, LocalDateTime createdDate, boolean enabled) {
+    public RepliesComment(String commentText, LocalDateTime createdDate,boolean status, boolean enabled) {
         this.commentText = commentText;
         this.createdDate = createdDate;
+        this.status = status;
         this.enabled = enabled;
     }
 }
