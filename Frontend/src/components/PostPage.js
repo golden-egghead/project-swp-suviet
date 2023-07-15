@@ -120,9 +120,9 @@ function PostPage(props) {
                 <Col>
                     <Form style={{ maxWidth: '600px', margin: '20px', padding: '30px 1px', marginLeft: '60px' }} className="d-flex" onSubmit={handleSearchSubmit}>
                         <Dropdown>
-                            <Dropdown.Toggle style={{ marginRight: '10px' }} id="dropdown-button-dark-example1" variant="secondary">
+                            {/* <Dropdown.Toggle style={{ marginRight: '10px' }} id="dropdown-button-dark-example1" variant="secondary">
                                 <i className="fa-solid fa-arrow-down-wide-short fa-1x"></i>
-                            </Dropdown.Toggle>
+                            </Dropdown.Toggle> */}
 
                             <Dropdown.Menu variant="dark">
                                 <Dropdown.Item onClick={handleSortViewDescClick} href="#s=1">View <i className='fa-solid fa-arrow-down-long'></i></Dropdown.Item>
