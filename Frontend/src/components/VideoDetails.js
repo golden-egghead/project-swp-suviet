@@ -59,17 +59,20 @@ const VideoDetails = () => {
       </Row>
       <Col xs>
         <div className="d-flex justify-content-around" 
-        style={{backgroundImage: `url('https://vhx.imgix.net/sbtnott/assets/44ad8c03-33f4-44ce-8cec-3e263f0ba586-63b0cf8f.jpeg?auto=format%2Ccompress&fit=crop&h=720&q=75&w=1280')`}}>
-          <Card style={{ width: '65rem', marginTop: '50px',marginBottom:'50px' }}>
+        style={{backgroundImage: `url('https://vhx.imgix.net/sbtnott/assets/44ad8c03-33f4-44ce-8cec-3e263f0ba586-63b0cf8f.jpeg?auto=format%2Ccompress&fit=crop&h=720&q=75&w=1280')`,
+        backgroundRepeat: `no-repeat`,
+        backgroundSize: `cover`,
+        height: `40rem`}}>
+          <Card style={{ width: '75rem', margin: `auto`, height: `30rem` }}>
             <Card.Body style={{display: 'flex'}}>
-            <div className="embed-responsive embed-responsive-16by9" style={{height: '150%'}}>
+            <div className="embed-responsive embed-responsive-16by9" style={{margin: `auto`}}>
                         <ReactPlayer
                         url={video.length > 0 && (video[0].video)}
                         className="embed-responsive-item"
                         controls
                     />
             </div>
-              <Card.Text style={{width: '30rem', margin: 'auto'}}>
+              <Card.Text style={{width: '45rem', margin: 'auto'}}>
               {video.length > 0 && (
                   <div dangerouslySetInnerHTML={{ __html: video[0].description }} />
                 )}
