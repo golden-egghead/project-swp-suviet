@@ -10,6 +10,7 @@ import VinhDanh from './components/VinhDanh';
 import BookPage from './components/BookPage';
 import HistoricalSite from './components/HistoricalSite';
 import HistoricalItems from './components/HistoricalItems';
+import HistoricalItemDetails from './components/HistoricalItemDetials'
 import HomePage from './components/HomePage';
 import PostArticle from './components/PostArticle';
 import PostPageDetails from './components/PostPageDetails';
@@ -78,6 +79,7 @@ function App() {
           <Route path="/book-details/:bookID" element={<BookDetail />} />
           <Route path="/historicalsite" element={<HistoricalSite />} />
           <Route path="/historicalitem" element={<HistoricalItems />} />
+          <Route path="/historical-detail/:historicalItemID" element={<HistoricalItemDetails />} />
   
           <Route path="/ggUser" element={<GoogleUserInf />} />
           

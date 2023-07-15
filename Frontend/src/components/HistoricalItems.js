@@ -15,6 +15,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
+import { Link } from 'react-router-dom';
 
 
 const HistoricalItems = (props) => {
@@ -135,11 +136,13 @@ const HistoricalItems = (props) => {
                 {listItems.map(item => (
                     <Box key={item.historicalItemID} sx={{ width: 500, my: 5, margin: '0 auto' }}>
                         {item ? (
+                            <Link to={`/historical-detail/${item.historicalItemID}`} style={{ color: 'white', textDecoration: 'none' }}>
                             <img
                             style={{ width: 500, height: 400, borderRadius:'20px', marginTop:'30px', boxShadow: '5px 5px 8px black'}}
                             alt={item.name}
                             src={item.photo}
                         />
+                        </Link>
                         ) : (
                             <Skeleton variant="rectangular" width={500} height={400} />
                         )}

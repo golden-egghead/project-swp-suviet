@@ -17,7 +17,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import CarouselHomePage from './CarouselHomePage';
-import { Card } from 'react-bootstrap';
 
 
 const HistoricalSite = (props) => {
@@ -104,11 +103,6 @@ const HistoricalSite = (props) => {
 
     return (<>
         <Row>
-            <Card style={{ backgroundColor: '#F5F5F5' }}>
-                <div>
-                    <CarouselHomePage />
-                </div>
-            </Card>
             <Col>
                 <div style={{ paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b>Di Tích</b></div>
             </Col>
