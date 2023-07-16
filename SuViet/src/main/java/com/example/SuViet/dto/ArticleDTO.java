@@ -30,7 +30,7 @@ public class ArticleDTO {
     private int articleView;
     private UserDTO user;
     private int userID;
-    private int voteLevel;
+    private double voteLevel;
     private String periodName;
     private Collection<Tag> tags;
     private List<String> tagNames;
@@ -79,13 +79,13 @@ public class ArticleDTO {
         return article;
     }
 
-    private static int getAverageVoteLevel(Collection<Vote> votes) {
+    private static double getAverageVoteLevel(Collection<Vote> votes) {
         if (votes.isEmpty()) {
             return 0;
         }
 
-        int totalVotes = votes.size();
-        int totalVoteLevel = 0;
+        double totalVotes = votes.size();
+        double totalVoteLevel = 0;
         for (Vote vote : votes) {
             totalVoteLevel += vote.getVoteLevel();
         }

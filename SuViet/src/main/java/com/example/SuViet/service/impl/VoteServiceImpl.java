@@ -2,6 +2,8 @@ package com.example.SuViet.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.example.SuViet.model.Article;
+import com.example.SuViet.model.User;
 import com.example.SuViet.model.Vote;
 import com.example.SuViet.repository.VoteRepository;
 import com.example.SuViet.service.VoteService;
@@ -21,6 +23,12 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote getVoteById(int id) {
-        return voteRepository.findById(null).orElse(null);
+        return voteRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Vote getArticleVoteByCurrentUser(Article article, User user) {
+        return voteRepository.findByUserAndArticle(user, article);
+    }
+
 }

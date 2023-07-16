@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,9 +22,10 @@ public class CommentDTO {
     private String commentText;
     private String createdDate;
     private boolean enabled;
+    private boolean status;
     private UserDTO user;
-    private int userID;
-    private int articleID;
+    // private int userID;
+    // private int articleID;
     private List<RepliesCommentDTO> repliesComments;
 
     public static List<CommentDTO> convertToDTOList(List<Comment> comments) {
@@ -41,6 +41,7 @@ public class CommentDTO {
         // dto.setCreatedDate(comment.getCreatedDate());
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dto.setCreatedDate(comment.getCreatedDate().format(dateFormatter));
+        dto.setStatus(comment.isStatus());
         dto.setEnabled(comment.isEnabled());
         dto.setUser(UserDTO.convertToDTO(comment.getUser()));
         // dto.setRepliesComments(new ArrayList<>(comment.getRepliesComments()));
@@ -55,7 +56,7 @@ public class CommentDTO {
         comment.setCommentID(this.commentID);
         comment.setCommentText(this.commentText);
         // comment.setCreatedDate(this.createdDate);
-		try {
+        try {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime formattedDate = LocalDateTime.parse(this.createdDate, dateFormatter);
             comment.setCreatedDate(formattedDate);

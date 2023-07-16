@@ -28,13 +28,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleDTO> getAllPendingArticles(Pageable pageable) {
-        Page<Article> articlPage = articleRepository.findByEnabledIsFalseAndStatusIsFalse(pageable);
+        Page<Article> articlPage = articleRepository.findByEnabledIsTrueAndStatusIsFalse(pageable);
         return articlPage.map(ArticleDTO::convertToDTO);
     }
 
     @Override
     public Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable) {
-        Page<Article> articlesPage = articleRepository.findByTitleIgnoreCaseContainingAndEnabledIsTrue(title, pageable);
+        Page<Article> articlesPage = articleRepository
+                .findByTitleIgnoreCaseContainingAndEnabledIsTrueAndStatusIsTrue(title, pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 

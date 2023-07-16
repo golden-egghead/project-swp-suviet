@@ -77,6 +77,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -113,8 +114,8 @@ public class ArticleController {
     public ResponseEntity<ResponsePaginationObject> getAllEnabledArticles(@PathVariable int offset,
             @RequestParam(value = "title", defaultValue = "") String title,
             @RequestParam(value = "tagNames", defaultValue = "") List<String> tagNames,
-            @RequestParam(value = "sortBy", defaultValue = "ArticleView") String sortBy,
-            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
+            @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
+            @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
 
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
@@ -169,7 +170,23 @@ public class ArticleController {
                     new ResponseObject("OK", "Get article's comment successfully", comments));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "Un Error occrurred", null));
+                    new ResponseObject("ERROR", "Un Error occurred", null));
+        }
+    }
+
+    @GetMapping("{articleId}/votes")
+    public ResponseEntity<ResponseObject> getVoteForUser(
+            @PathVariable int articleId) {
+        try {
+            User user = userService.getUserByMail(SecurityContextHolder
+                    .getContext().getAuthentication().getName());
+            Article article = articleService.getArticleById(articleId);
+            Vote vote = voteService.getArticleVoteByCurrentUser(article, user);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Get article's vote by current user successfully", vote));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Un Error occurred", null));
         }
     }
 
@@ -191,7 +208,7 @@ public class ArticleController {
     @GetMapping("/pending/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllPendingArticles(@PathVariable int offset,
             @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
-            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
+            @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
 
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
@@ -220,6 +237,47 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("/pending/comments/{offset}")
+    public ResponseEntity<ResponsePaginationObject> getAllPendingComment(@PathVariable int offset,
+            @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
+            @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
+
+        if (offset <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, PAGE_SIZE,
+                            0, 0, null));
+        }
+
+        try {
+            Sort.Direction direction = Sort.Direction.fromString(sortOrder);
+            Sort sort = Sort.by(direction, sortBy);
+            PageRequest pageRequest = PageRequest.of(offset - 1, PAGE_SIZE, sort);
+            Page<CommentDTO> commentPage;
+            Page<RepliesCommentDTO> replycommentPage;
+
+            commentPage = commentService.getAllPenddingComments(pageRequest);
+            replycommentPage = repliesCommentService.getAllPendingRepliescomment(pageRequest);
+
+            List<CommentDTO> commentList = commentPage.getContent();
+            List<RepliesCommentDTO> replyCommentList = replycommentPage.getContent();
+            int commentCount = commentPage.getContent().size();
+            int replyCommentCount = replycommentPage.getContent().size();
+
+            int totalCount = commentCount + replyCommentCount;
+            int combinedTotalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+
+            List<Object> combineList = new ArrayList<>();
+            combineList.addAll(commentList);
+            combineList.addAll(replyCommentList);
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponsePaginationObject("OK", "Query successfully", offset, PAGE_SIZE, totalCount,
+                            combinedTotalPages, combineList));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponsePaginationObject("ERROR", "An error occurred", 0, 0, 0, 0, null));
+        }
+    }
     // @PostMapping("")
     // public ResponseEntity<ResponseObject> postAnArticle(@RequestParam String
     // data,
@@ -315,7 +373,7 @@ public class ArticleController {
                 article.setEnabled(true);
             } else {
                 article.setStatus(false);
-                article.setEnabled(false);
+                article.setEnabled(true);
 
                 List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
                 for (int i = 0; i < moderators.size(); i++) {
@@ -368,22 +426,31 @@ public class ArticleController {
 
             Comment comment = new Comment();
             comment.setCommentText((commentDTO.getCommentText()));
-            comment.setStatus(false);
-            comment.setEnabled(true);
             comment.setCreatedDate(LocalDateTime.now());
             comment.setUser(user);
             comment.setArticle(article);
 
-            Comment savedComment = commentService.savedArticleComment(comment);
-            List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
-            for (int i = 0; i < moderators.size(); i++) {
-                Notification notification = new Notification();
-                notification.setCreatedDate(LocalDateTime.now());
-                notification.setEnabled(true);
-                notification.setMessage("An comment is posted");
-                notification.setUser(moderators.get(i));
-                notificationServices.createNotification(notification);
+            List<String> roles = getRoleName(user.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                comment.setEnabled(true);
+                comment.setStatus(true);
+            } else {
+                comment.setStatus(false);
+                comment.setEnabled(true);
+
+                List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+                for (int i = 0; i < moderators.size(); i++) {
+                    Notification notification = new Notification();
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setEnabled(true);
+                    notification.setMessage("A comment is posted");
+                    notification.setUser(moderators.get(i));
+                    notificationServices.createNotification(notification);
+                }
             }
+
+            Comment savedComment = commentService.savedArticleComment(comment);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new ResponseObject("Ok", "Comment created successfully", savedComment));
         } catch (EntityNotFoundException e) {
@@ -411,12 +478,30 @@ public class ArticleController {
 
             RepliesComment replyComment = new RepliesComment();
             replyComment.setCommentText((repliesCommentDTO.getCommentText()));
-            replyComment.setStatus(false);
-            replyComment.setEnabled(true);
             replyComment.setCreatedDate(LocalDateTime.now());
             replyComment.setUser(user);
             replyComment.setArticle(article);
             replyComment.setComment(comment);
+
+            List<String> roles = getRoleName(user.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                replyComment.setEnabled(true);
+                replyComment.setStatus(true);
+            } else {
+                replyComment.setStatus(false);
+                replyComment.setEnabled(true);
+
+                List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+                for (int i = 0; i < moderators.size(); i++) {
+                    Notification notification = new Notification();
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setEnabled(true);
+                    notification.setMessage("A reply comment is posted");
+                    notification.setUser(moderators.get(i));
+                    notificationServices.createNotification(notification);
+                }
+            }
 
             RepliesComment savedReplyComment = repliesCommentService.savedReplyComment(replyComment);
             return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -467,6 +552,12 @@ public class ArticleController {
             Article article = articleService.getArticleById(articleId);
             User postUser = article.getUser();
 
+            if (article.isStatus()) {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("OK", "This article has been"
+                                + " browsed by someone", article));
+            }
+
             if (browsed) {
                 article.setEnabled(true);
                 article.setStatus(true);
@@ -485,7 +576,6 @@ public class ArticleController {
                 notification.setMessage("Your article has been disapproved");
                 notification.setUser(postUser);
                 notificationServices.createNotification(notification);
-
             }
 
             Article savedArticle = articleService.savedArticle(article);
@@ -504,23 +594,103 @@ public class ArticleController {
 
     }
 
-    // @PutMapping("/browse/comment/{commentId}")
-    // public ResponseEntity<ResponseObject> browseComment(
-    // @PathVariable("commentId") int commentId,
-    // @RequestParam boolean browsed) {
-    // try {
-    // Comment comments = commentService.getCommentById(commentId);
-    // User postUser = comments.getUser();
+    @PutMapping("/browse/comment/{commentId}")
+    public ResponseEntity<ResponseObject> browseComment(
+            @PathVariable("commentId") int commentId,
+            @RequestParam boolean browsed) {
+        try {
+            Comment comment = commentService.getCommentById(commentId);
+            User postUser = comment.getUser();
 
-    // if (browsed) {
-    // comments.setEnabled(true);
-    // comments.setStatus(true);
-    // }
-    // } catch (Exception e) {
-    // // TODO: handle exception
-    // }
+            if (comment.isStatus()) {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("OK", "This comment has been"
+                                + " browsed by someone", comment));
+            }
 
-    // }
+            if (browsed) {
+                comment.setEnabled(true);
+                comment.setStatus(true);
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("Your comment has been approved");
+                notification.setUser(postUser);
+                notificationServices.createNotification(notification);
+            } else {
+                comment.setStatus(true);
+                comment.setEnabled(false);
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("Your comments has been disapproved");
+                notification.setUser(postUser);
+                notificationServices.createNotification(notification);
+            }
+
+            Comment savedComment = commentService.savedArticleComment(comment);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("Ok", "Browsed", savedComment));
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to browse", null));
+        }
+
+    }
+
+    @PutMapping("/browse/replycomment/{replyId}")
+    public ResponseEntity<ResponseObject> browseReplyComment(
+            @PathVariable("replyId") int replyId,
+            @RequestParam boolean browsed) {
+        try {
+            RepliesComment replyComment = repliesCommentService.getReplyCommentById(replyId);
+            User postUser = replyComment.getUser();
+
+            if (replyComment.isStatus()) {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("OK", "This reply comment has been"
+                                + " browsed by someone", replyComment));
+            }
+
+            if (browsed) {
+                replyComment.setEnabled(true);
+                replyComment.setStatus(true);
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("Your reply comment has been approved");
+                notification.setUser(postUser);
+                notificationServices.createNotification(notification);
+            } else {
+                replyComment.setStatus(true);
+                replyComment.setEnabled(false);
+                Notification notification = new Notification();
+                notification.setCreatedDate(LocalDateTime.now());
+                notification.setEnabled(true);
+                notification.setMessage("Your reply comments has been disapproved");
+                notification.setUser(postUser);
+                notificationServices.createNotification(notification);
+            }
+
+            RepliesComment savedReplyComment = repliesCommentService.savedReplyComment(replyComment);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("Ok", "Browsed", savedReplyComment));
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("ERROR", e.getMessage(), null));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "Failed to browse", null));
+        }
+
+    }
 
     @PutMapping("/report/{userId}")
     public void reportCounter(
@@ -680,7 +850,17 @@ public class ArticleController {
                 existingArticle.setEnabled(true);
             } else {
                 existingArticle.setStatus(false);
-                existingArticle.setEnabled(false);
+                existingArticle.setEnabled(true);
+
+                List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+                for (int i = 0; i < moderators.size(); i++) {
+                    Notification notification = new Notification();
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setEnabled(true);
+                    notification.setMessage("An article is required to edit");
+                    notification.setUser(moderators.get(i));
+                    notificationServices.createNotification(notification);
+                }
             }
 
             if (articleDTO != null) {
@@ -724,7 +904,26 @@ public class ArticleController {
             }
 
             existingComment.setCommentText((commentDTO.getCommentText()));
-            existingComment.setStatus(false);
+
+            List<String> roles = getRoleName(currentUser.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                existingComment.setStatus(true);
+                existingComment.setEnabled(true);
+            } else {
+                existingComment.setStatus(false);
+                existingComment.setEnabled(true);
+
+                List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+                for (int i = 0; i < moderators.size(); i++) {
+                    Notification notification = new Notification();
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setEnabled(true);
+                    notification.setMessage("A comment is required to edit");
+                    notification.setUser(moderators.get(i));
+                    notificationServices.createNotification(notification);
+                }
+            }
 
             Comment updatedComment = commentService.savedArticleComment(existingComment);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -756,7 +955,26 @@ public class ArticleController {
             }
 
             existingReplyComment.setCommentText(repliesCommentDTO.getCommentText());
-            existingReplyComment.setStatus(false);
+
+            List<String> roles = getRoleName(currentUser.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                existingReplyComment.setStatus(true);
+                existingReplyComment.setEnabled(true);
+            } else {
+                existingReplyComment.setStatus(false);
+                existingReplyComment.setEnabled(true);
+
+                List<User> moderators = userService.getUsersWithModeratorRole("MODERATOR");
+                for (int i = 0; i < moderators.size(); i++) {
+                    Notification notification = new Notification();
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notification.setEnabled(true);
+                    notification.setMessage("A reply comment is required to edit");
+                    notification.setUser(moderators.get(i));
+                    notificationServices.createNotification(notification);
+                }
+            }
 
             RepliesComment updatedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -804,22 +1022,30 @@ public class ArticleController {
 
             if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
                 existingArticle.setEnabled(false);
-
-                Article deletedArticle = articleService.savedArticle(existingArticle);
-                return ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponseObject("OK", "Article deleted successfully", deletedArticle));
             } else {
                 if (!ownerUser.equals(currentUser)) {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                            new ResponseObject("ERROR", "User is not authorized to update the article", null));
+                            new ResponseObject("ERROR", "User is not authorized to update this article", null));
                 } else {
                     existingArticle.setEnabled(false);
-
-                    Article deletedArticle = articleService.savedArticle(existingArticle);
-                    return ResponseEntity.status(HttpStatus.OK).body(
-                            new ResponseObject("OK", "Article deleted successfully", deletedArticle));
                 }
             }
+
+            Article deletedArticle = articleService.savedArticle(existingArticle);
+            Notification notification = new Notification();
+            notification.setCreatedDate(LocalDateTime.now());
+            notification.setEnabled(true);
+            if (currentUser.equals(existingArticle.getUser())) {
+                notification.setMessage("Your article successful deleted");
+            } else {
+                notification.setMessage("Your article has been deleted by "
+                        + currentUser.getFullname());
+            }
+
+            notification.setUser(existingArticle.getUser());
+            notificationServices.createNotification(notification);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Article deleted successfully", deletedArticle));
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -835,12 +1061,39 @@ public class ArticleController {
             @PathVariable("commentId") int commentId) {
         try {
             Comment existingComment = commentService.getCommentById(commentId);
+            User ownerUser = existingComment.getUser();
+            User currentUser = userService
+                    .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-            existingComment.setEnabled(false);
+            List<String> roles = getRoleName(currentUser.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                existingComment.setEnabled(false);
+            } else {
+                if (!ownerUser.equals(currentUser)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                            new ResponseObject("ERROR", "User is not authorized to update this comment", null));
+                } else {
+                    existingComment.setEnabled(false);
+                }
+            }
 
             Comment deletedComment = commentService.savedArticleComment(existingComment);
+            Notification notification = new Notification();
+            notification.setCreatedDate(LocalDateTime.now());
+            notification.setEnabled(true);
+            if (currentUser.equals(existingComment.getUser())) {
+                notification.setMessage("Your comment successful deleted");
+            } else {
+                notification.setMessage("Your comment has been deleted by "
+                        + currentUser.getFullname());
+            }
+
+            notification.setUser(existingComment.getUser());
+            notificationServices.createNotification(notification);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Comment deleted successfully", deletedComment));
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseObject("ERROR", e.getMessage(), null));
@@ -857,9 +1110,36 @@ public class ArticleController {
         try {
             RepliesComment existingReplyComment = repliesCommentService.getReplyCommentById(replyId);
 
-            existingReplyComment.setEnabled(false);
+            User ownerUser = existingReplyComment.getUser();
+            User currentUser = userService
+                    .getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+            List<String> roles = getRoleName(currentUser.getRoles());
+
+            if (roles.contains("MODERATOR") || roles.contains("ADMIN")) {
+                existingReplyComment.setEnabled(false);
+            } else {
+                if (!ownerUser.equals(currentUser)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                            new ResponseObject("ERROR", "User is not authorized to update this  reply comment", null));
+                } else {
+                    existingReplyComment.setEnabled(false);
+                }
+            }
 
             RepliesComment deletedReplyComment = repliesCommentService.savedReplyComment(existingReplyComment);
+            Notification notification = new Notification();
+            notification.setCreatedDate(LocalDateTime.now());
+            notification.setEnabled(true);
+            if (currentUser.equals(existingReplyComment.getUser())) {
+                notification.setMessage("Your reply comment successful deleted");
+            } else {
+                notification.setMessage("Your reply comment has been deleted by "
+                        + currentUser.getFullname());
+            }
+
+            notification.setUser(existingReplyComment.getUser());
+            notificationServices.createNotification(notification);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("OK", "Reply comment deleted successfully", deletedReplyComment));
         } catch (EntityNotFoundException e) {

@@ -15,10 +15,11 @@ public class RepliesCommentDTO {
     private int replyID;
     private String commentText;
     private String createdDate;
+    private boolean status;
     private boolean enabled;
     private UserDTO user;
-    private int userID;
-    private int articleID;
+    // private int userID;
+    // private int articleID;
     private int commentID;
 
     public static RepliesCommentDTO convertToDTO(RepliesComment repliesComment) {
@@ -28,6 +29,7 @@ public class RepliesCommentDTO {
         // dto.setCreatedDate(repliesComment.getCreatedDate());
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dto.setCreatedDate(repliesComment.getCreatedDate().format(dateFormatter));
+        dto.setStatus(repliesComment.isStatus());
         dto.setEnabled(repliesComment.isEnabled());
         dto.setUser(UserDTO.convertToDTO(repliesComment.getUser()));
         dto.setCommentID(repliesComment.getComment().getCommentID());
@@ -40,7 +42,7 @@ public class RepliesCommentDTO {
         repliesComment.setReplyID(this.replyID);
         repliesComment.setCommentText(this.commentText);
         // repliesComment.setCreatedDate(this.createdDate);
-		try {
+        try {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime formattedDate = LocalDateTime.parse(this.createdDate, dateFormatter);
             repliesComment.setCreatedDate(formattedDate);
@@ -50,7 +52,7 @@ public class RepliesCommentDTO {
         }
         repliesComment.setEnabled(this.enabled);
         repliesComment.setUser(this.user.convertToEntity());
-      
+
         return repliesComment;
     }
 }

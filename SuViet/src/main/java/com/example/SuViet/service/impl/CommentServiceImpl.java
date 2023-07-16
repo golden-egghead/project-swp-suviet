@@ -3,6 +3,8 @@ package com.example.SuViet.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.SuViet.dto.CommentDTO;
@@ -32,12 +34,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> getAllEnabledComments(Article article) {
-        List<Comment> comments = commentRepository.findByArticleAndEnabledOrderByCreatedDateDesc(article, true);
+        List<Comment> comments = commentRepository
+                .findByArticleAndEnabledIsTrueAndStatusIsTrueOrderByCreatedDateDesc(article);
 
         List<CommentDTO> commentDTOs = CommentDTO.convertToDTOList(comments);
         commentDTOs.forEach(commentDTO -> {
             List<RepliesCommentDTO> enabledReplies = commentDTO.getRepliesComments().stream()
                     .filter(RepliesCommentDTO::isEnabled)
+                    .filter(RepliesCommentDTO::isStatus)
                     .collect(Collectors.toList());
             commentDTO.setRepliesComments(enabledReplies);
         });
@@ -45,4 +49,9 @@ public class CommentServiceImpl implements CommentService {
         return commentDTOs;
     }
 
+    @Override
+    public Page<CommentDTO> getAllPenddingComments(Pageable pageable) {
+        Page<Comment> commentsPage = commentRepository.findByEnabledIsTrueAndStatusIsFalse(pageable);
+        return commentsPage.map(CommentDTO::convertToDTO);
+    }
 }
