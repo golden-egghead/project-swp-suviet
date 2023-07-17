@@ -80,8 +80,8 @@ function PostArticle() {
         <input type="file" id="file" onChange={handleFileChange} />
       </div>
       <div>
-          <button type="button" onClick={toggleTags}>
-            Tags
+          <button type="button" onClick={toggleTags} className='btnTag'>
+            Thể loại
           </button>
           {showTags && (
             <select multiple id="tags" value={tags} onChange={handleTagChange}>
@@ -96,7 +96,7 @@ function PostArticle() {
             </select>
           )}
         </div>
-      <button className='buttonpost' type="submit">Submit</button>
+      <button className='buttonpost' type="submit" >Đăng</button>
       </div>
     </form>
   );
