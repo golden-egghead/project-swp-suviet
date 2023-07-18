@@ -142,6 +142,7 @@
 
 import axios from 'axios';
 import React, { useState } from 'react';
+import './profile.css';
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
@@ -171,8 +172,8 @@ const ChangePassword = () => {
 
       // Check if the request was successful
       if (response.status === 200) {
-        console.log( response.data);
-        alert( response.data.message );
+        console.log(response.data);
+        alert(response.data.message);
         setOldPassword('');
         setNewPassword('');
         setConfirmPassword('');
@@ -187,39 +188,47 @@ const ChangePassword = () => {
   };
 
   return (
-    <div>
-      <h2>Change Password</h2>
+    <div className='wrapper_change-password'>
+      <div className='change-password_main'>
+      <h2>Đặt lại mật khẩu</h2>
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <div className='change-password'>
+        <form className='change-password_form' onSubmit={handleSubmit}>
 
-        <input
-          type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          maxLength={50}
-          placeholder="Mật khẩu cũ"
-          required
-        />
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          maxLength={50}
-          placeholder="Mật khẩu mới"
-          required
-        />
-        <input
-          type="text"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          maxLength={50}
-          placeholder="Xác nhận lại mật khẩu"
-          required
-        />
-        <button type="submit" disabled={isSubmitting}>
-          Save
-        </button>
-      </form>
+          <input
+            type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            maxLength={50}
+            placeholder="Mật khẩu cũ"
+            required
+          />
+          <br />
+          <input
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            maxLength={50}
+            placeholder="Mật khẩu mới"
+            required
+          />
+          <br />
+          <input
+            type="text"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            maxLength={50}
+            placeholder="Xác nhận lại mật khẩu"
+            required
+          />
+          <br />
+          <button className='btnSave' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit" disabled={isSubmitting}>
+            Lưu
+          </button>
+        </form>
+      </div>
+
+    </div>
     </div>
   );
 };
