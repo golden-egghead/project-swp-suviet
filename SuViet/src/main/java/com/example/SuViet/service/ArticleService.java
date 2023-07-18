@@ -2,6 +2,7 @@ package com.example.SuViet.service;
 
 import com.example.SuViet.dto.ArticleDTO;
 import com.example.SuViet.model.Article;
+import com.example.SuViet.model.User;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface ArticleService {
     Page<ArticleDTO> getAllEnabledArticles(Pageable pageable);
 
     Page<ArticleDTO> getAllPendingArticles(Pageable pageable);
+
+    Page<ArticleDTO> getAllOwnerArticle(Pageable pageable, User user);
 
     Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable);
 

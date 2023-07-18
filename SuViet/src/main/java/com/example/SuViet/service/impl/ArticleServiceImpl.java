@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.SuViet.dto.ArticleDTO;
 import com.example.SuViet.model.Article;
+import com.example.SuViet.model.User;
 import com.example.SuViet.repository.ArticleRepository;
 import com.example.SuViet.service.ArticleService;
 
@@ -33,6 +34,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Page<ArticleDTO> getAllOwnerArticle(Pageable pageable, User user) {
+        Page<Article> articleOwnerPage = articleRepository.findByUser(pageable, user);
+        return articleOwnerPage.map(ArticleDTO::convertToDTO);
+    }
+
+    @Override
     public Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable) {
         Page<Article> articlesPage = articleRepository
                 .findByTitleIgnoreCaseContainingAndEnabledIsTrueAndStatusIsTrue(title, pageable);
@@ -55,4 +62,5 @@ public class ArticleServiceImpl implements ArticleService {
     public Article getArticleById(int articleId) {
         return articleRepository.findById(articleId).orElse(null);
     }
+
 }

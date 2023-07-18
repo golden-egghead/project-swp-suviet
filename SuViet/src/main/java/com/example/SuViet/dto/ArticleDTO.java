@@ -29,7 +29,7 @@ public class ArticleDTO {
     private boolean status;
     private int articleView;
     private UserDTO user;
-    private int userID;
+    // private int userID;
     private double voteLevel;
     private String periodName;
     private Collection<Tag> tags;

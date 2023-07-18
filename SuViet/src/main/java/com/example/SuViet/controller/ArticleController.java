@@ -237,6 +237,44 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("/owner/article/{offset}")
+    public ResponseEntity<ResponsePaginationObject> getOwnerArticle(
+            @PathVariable("offset") int offset,
+            @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
+            @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder) {
+
+        if (offset <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new ResponsePaginationObject("FAILED",
+                            "We do not have page " + offset, offset, PAGE_SIZE,
+                            0, 0, null));
+        }
+
+        try {
+            User currentUser = userService.getUserByMail(SecurityContextHolder
+                    .getContext().getAuthentication().getName());
+
+            Sort.Direction direction = Sort.Direction.fromString(sortOrder);
+            Sort sort = Sort.by(direction, sortBy);
+            PageRequest pageRequest = PageRequest.of(offset - 1, PAGE_SIZE, sort);
+            Page<ArticleDTO> articleOwnerPage;
+
+            articleOwnerPage = articleService.getAllOwnerArticle(pageRequest, currentUser);
+
+            List<ArticleDTO> articleList = articleOwnerPage.getContent();
+            int count = articleList.size();
+            int totalPages = articleOwnerPage.getTotalPages();
+
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponsePaginationObject("OK", "Query successfully", offset, PAGE_SIZE, count,
+                            totalPages, articleList));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponsePaginationObject("ERROR", "An error occurred",
+                            0, 0, 0, 0, null));
+        }
+    }
+
     @GetMapping("/pending/comments/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllPendingComment(@PathVariable int offset,
             @RequestParam(value = "sortBy", defaultValue = "CreatedDate") String sortBy,
