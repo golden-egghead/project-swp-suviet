@@ -40,4 +40,29 @@
     margin-bottom: 4rem;
     border-radius: 5px;
   }
+
+  .buttonpost {
+    width: 80px;
+    height: 40px;
+    align-items: center;
+    line-height: 35px;
+    background-color: rgb(255, 199, 1);
+    color: #000;
+    border: 0px;
+  }
+
+  .buttonpost:hover {
+    background-color: rgb(236, 221, 49);
+    color: #000;
+  }
+
+  .btnTag {
+    border-radius: 5px;
+    background-color: #000;
+    color: #fff;
+  }
+
+  .btnTag:hover {
+    background-color: #474545;
+  }
   

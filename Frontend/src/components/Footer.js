@@ -34,7 +34,7 @@ export default function Footer() {
                 Liên Hệ
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                123 Main Street, Quận 1, Việt Nam
+                Nhà Văn Hóa Sinh Viên, Dĩ An, Bình Dương
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Email: suviet2204@gmail.com
