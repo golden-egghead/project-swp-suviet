@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CommentForm = ({ accessToken, articleId, updateComments, replyToComment }) => {
   const [commentText, setCommentText] = useState('');
@@ -19,7 +21,7 @@ const CommentForm = ({ accessToken, articleId, updateComments, replyToComment })
       if (response.ok) {
         // Comment posted successfully
         console.log('Comment posted successfully');
-        
+        toast.success('Bình luận đã được gửi cho quản trị viên xét duyệt!');
         setCommentText('');
         updateComments(); // Update comments after posting a new comment
       } else {
@@ -44,7 +46,7 @@ const CommentForm = ({ accessToken, articleId, updateComments, replyToComment })
         },
         body: JSON.stringify({ commentText }),
       });
-  
+      toast.success('Bình luận đã được gửi cho quản trị viên xét duyệt!');
       // Rest of the code...
     } catch (error) {
       console.error('Failed to post reply', error);
@@ -116,8 +118,6 @@ const Comments = ({ articleId }) => {
         updateComments={fetchComments}
         replyToComment={replyToComment}
       />
-
-      <h2>Bình luận</h2>
       {comments?.map((comment) => (
         <div key={comment.id}>
           <p>Comment: {comment.commentText}</p>

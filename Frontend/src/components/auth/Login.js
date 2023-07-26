@@ -283,29 +283,25 @@ const Login = () => {
                             backgroundColor: "#FFC701",
                             color: "black",
                             marginRight: "20px",
-                            borderRadius: "30px",
+                            borderRadius: "25px",
                             fontWeight: "bold",
                             position: "relative",
                         }}
                         className="button"
                     >
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <span>   {fullname} <img src={avatar} alt="Avatar" style={{ height: "40px", width: "40px", borderRadius: "50%", flex: 1 }} /> </span>
-                            {/* <FontAwesomeIcon
-                                icon={faUser}
-                                style={{
-                                    marginLeft: "5px",
-                                }}
-                            /> */}
-                        </div>
                         <NavDropdown
+                        title={
+                            <div >
+                              <span style={{ marginRight: "5px" }}>{fullname}</span>
+                              <img
+                                src={avatar}
+                                alt="Avatar"
+                                style={{ height: "40px", width: "40px", borderRadius: "50%" }}
+                              />
+                            </div>
+                          }
                             id="collasible-nav-dropdown"
-                            style={{
-                                position: "absolute",
-                                left: "10px",
-                                right: 0,
-                                top: "30px",
-                            }}
                         >
                             <Link
                                 style={{ color: "white", textDecoration: "none" }}
@@ -344,6 +340,7 @@ const Login = () => {
                                 />
                             </NavDropdown.Item>
                         </NavDropdown>
+                        </div>
                     </button>
                 </div>
             ) : (

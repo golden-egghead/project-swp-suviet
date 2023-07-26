@@ -53,6 +53,12 @@ import AddSite from './moderator/layouts/Site/data/AddSite';
 import ArticleControl from './comments/ArticleControl';
 import EditSite from './moderator/layouts/Site/data/EditSite';
 import TimeLine from './components/TimeLine';
+import Paracel from './components/Map/Paracel';
+import ForgotPassword from './components/user/ForgotPassword';
+import ResetPassword from './components/user/ResetPassword';
+import OwnerArticles from './components/user/OwnerArticles';
+import UserArticlePending from './components/user/UserArticlePending';
+import BrowsedComment from './comments/BrowsedComment';
 
 
 
@@ -105,6 +111,13 @@ function App() {
           {/* <Route path="/mod" element={<ModeratorPage />} /> */}
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/timeline" element={<TimeLine />} />
+          <Route path="/paracel" element={<Paracel />} />
+          <Route path="/ownerarticles" element={<OwnerArticles />} />
+          <Route path="/userarticlepending" element={<UserArticlePending />} />
+          <Route path="/browsercomment" element={<BrowsedComment />} />
+        <Route exact path="/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/reset-password/:code" element={<ResetPassword/>} />
+      
         
         </Routes>
         {!isAdmin && !isModerator &&  <Footer/>}

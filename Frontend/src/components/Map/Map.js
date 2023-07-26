@@ -32,10 +32,11 @@ import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import './Map.css';
 
-import _ from "lodash";
+// import _ from "lodash";
 import * as geoUrl from "./vietnam.json";
 
 import backgroundImage from './map.jpg';
+import Paracel from "./Paracel";
 
 
 const COLOR_RANGE = [
@@ -863,6 +864,7 @@ const MapCustom = memo(() => {
                 </text>
               </Marker>
             </ComposableMap>
+       
           </div>
         ) : ( 
           <div className='map-animation' style={{ flex: 1 }}>
@@ -958,7 +960,7 @@ const MapCustom = memo(() => {
 
 
                 </p>
-
+         
 
             </div>
           )}

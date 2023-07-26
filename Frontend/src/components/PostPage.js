@@ -21,7 +21,7 @@ function PostPage(props) {
     const navigate = useNavigate();
     const location = useLocation();
 
-
+    
     const fetchData = async (page, searchTerm) => {
         try {
             const response = await axios.get(`http://localhost:8080/api/articles/${page}`);
@@ -208,6 +208,7 @@ function PostPage(props) {
                                 </div>
                             </div>
                             <Button>View: {post.articleView}</Button>
+                            <div>Vote: {post.voteLevel}</div>
                         </div>
                     ))}
                 </div>
