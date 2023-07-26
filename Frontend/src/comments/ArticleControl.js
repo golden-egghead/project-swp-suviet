@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './article_control.css'
 
 const ReviewArticle = ({ accessToken }) => {
   const [articles, setArticles] = useState([]);
@@ -55,17 +56,18 @@ const ReviewArticle = ({ accessToken }) => {
 
   return (
     <div>
-      <h1>Pending Articles</h1>
+      <h1 className='pending_h1'>Pending Articles</h1>
       {articles.map((article) => (
-        <div key={article.articleID}>
+        <div className='article' key={article.articleID}>
           <h2>Title: {article.title}</h2>
-          <p>Content: {article.context}</p>
-          <p>Created Date: {article.createdDate}</p>
-          <p>Status: {article.status ? 'Approved' : 'Pending'}</p>
-          <p>Enabled: {article.enabled ? 'Yes' : 'No'}</p>
-          <button onClick={() => handleArticleAction(article.articleID, true)}>Approve</button>
-          <button onClick={() => handleArticleAction(article.articleID, false)}>Reject</button>
-          <hr />
+          <p><b>Content:</b> {article.context}</p>
+          <p><b>Created Date:</b> {article.createdDate}</p>
+          <p><b>Status:</b> {article.status ? 'Approved' : 'Pending'}</p>
+          <p><b>Enabled:</b> {article.enabled ? 'Yes' : 'No'}</p>
+          <div className='button-container'>
+            <button className='button-approve' onClick={() => handleArticleAction(article.articleID, true)}>Approve</button>
+            <button className='button-reject' onClick={() => handleArticleAction(article.articleID, false)}>Reject</button>
+          </div>
         </div>
       ))}
     </div>
