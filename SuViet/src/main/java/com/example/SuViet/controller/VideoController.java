@@ -66,7 +66,7 @@ public class VideoController {
     public ResponseEntity<ResponsePaginationObject> searchVideosById(@RequestParam(value = "title") String title, @PathVariable int offset) {
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 6,
+                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 12,
                             0, 0, null)
             );
         }
@@ -83,13 +83,13 @@ public class VideoController {
         }
         if (title.trim().isEmpty() || title.trim() == "") {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query successfully", offset, 6, countAll,
-                            Math.ceil(countAll / 6.0), videoService.getVideosWithPagination(offset, 6))
+                    new ResponsePaginationObject("OK", "Query successfully", offset, 12, countAll,
+                            Math.ceil(countAll / 6.0), videoService.getVideosWithPagination(offset, 12))
             );
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
-                        Math.ceil(count / 6.0), videoService.searchVideosByTitleWithPagination(title, offset, 6))
+                new ResponsePaginationObject("OK", "Query successfully", offset, 12, count,
+                        Math.ceil(count / 12.0), videoService.searchVideosByTitleWithPagination(title, offset, 12))
         );
 
     }
@@ -99,7 +99,7 @@ public class VideoController {
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (offset <= 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 6,
+                    new ResponsePaginationObject("FAILED", "We do not have page " + offset, offset, 12,
                             0, 0, null)
             );
         }
@@ -109,8 +109,8 @@ public class VideoController {
             count++;
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
-                        Math.ceil(count / 6.0), videoService.getOwnVideosWithPagination(offset, 6, user))
+                new ResponsePaginationObject("OK", "Query successfully", offset, 12, count,
+                        Math.ceil(count / 12.0), videoService.getOwnVideosWithPagination(offset, 12, user))
         );
     }
 
