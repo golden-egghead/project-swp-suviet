@@ -24,7 +24,7 @@
 // export default Map;
 
 
-import React, { useState, memo } from "react";
+import React, { useRef,useState, memo } from "react";
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import { scaleQuantile } from "d3-scale";
 import { Tooltip } from "react-tooltip";
@@ -44,7 +44,7 @@ const COLOR_RANGE = [
   "#FFF6B1",
   "#B7D99C",
   "#A397C7",
-  
+
 
 ];
 
@@ -395,10 +395,12 @@ const customTexts = {
     images: ["http://www.nhatuvanmocque.com/kcfinder/upload/images/57Ditichhamrong05.jpg"]
   },
   "Nghệ An": {
-    text: "tên gọi tỉnh Nghệ An, từ thời Hùng Vương lập nước, Nghệ An thuộc đất Việt Thường, nhà Hán là huyện Hàm Hoan thuộc quận Cửu Chân, nhà Ngô là Cửu Đức, nhà Đinh, nhà Lê gọi là Hoan Châu, lúc này Hoan châu thống lĩnh 4 huyện là Cửu Đức, Phố Dương, Việt Thường và Hoài Hoan. Đây chính là Mộc bản sách Khâm định Việt sử thông giám cương mục khắc về lịch sử tên gọi vùng đất Nghệ An từ thời Hùng Vương dựng nước đến thời Tiền Lê.</br>Tại Mộc bản sách Đại Việt sử ký toàn thư, quyển 2, mặt khắc 4, khắc về việc Vua Lý Thái Tổ cho đổi Hoan Châu làm Trại. Đến thời vua Lý Thái Tông năm Thiên Thành thứ 3 (1030), năm Thiên Thành thứ 3, đổi Hoan Châu là Nghệ An. Tên gọi Nghệ An bắt đầu từ đây. Đến tháng 11 năm Tân Tỵ (1041) vua Lý Thái Tông cử Uy Minh hầu Lý Nhật Quang làm Tri Châu Nghệ An.</br>Bước sang thời Trần, năm 1375, vua Trần Duệ Tông cho đổi Hoan Châu thành 4 lộ: Nhật nam, Nghệ An nam, Nghệ An bắc và Nghệ An trung. Năm 1379, vua Trần Thuận Tông lại cho đổi trấn Nghệ An thành trấn Lâm An.</br>Năm Bính Tuất (1466), vua Lê Thánh Tông cho đặt các đơn vị hành chính trong nước làm 12 đạo thừa tuyên, trong đó có Đạo thừa tuyên Nghệ An, năm 1469 vua Lê Thánh Tông ấn định các đơn vị hành chính trực thuộc đạo Thừa Tuyên Nghệ An: Nghệ An lúc này quản lĩnh 8 phủ, 18 huyện và 2 châu. Đến năm Canh Tuất (1490), vua Lê Thánh Tông cho đổi thừa tuyên Nghệ An thành Xứ Nghệ An. Cuối thế kỷ XVIII, dưới triều Tây Sơn, vua Quang Trung Nguyễn Huệ đã cho đổi trấn Nghệ An là Trung Đô hay còn được gọi là trấn Nghĩa An, nhà vua bàn việc dời kinh đô từ Phú Xuân về Nghệ An với tướng Nguyễn Quang Diệu, nhà vua còn cho sửa thành lũy, đặt kho tàng và dùng binh túc trực ở đấy.",
+    text: "tên gọi tỉnh Nghệ An, từ thời Hùng Vương lập nước, Nghệ An thuộc đất Việt Thường, nhà Hán là huyện Hàm Hoan thuộc quận Cửu Chân, nhà Ngô là Cửu Đức, nhà Đinh, nhà Lê gọi là Hoan Châu, lúc này Hoan châu thống lĩnh 4 huyện là Cửu Đức, Phố Dương, Việt Thường và Hoài Hoan. Đây chính là Mộc bản sách Khâm định Việt sử thông giám cương mục khắc về lịch sử tên gọi vùng đất Nghệ An từ thời Hùng Vương dựng nước đến thời Tiền Lê.</br>",
     links: ["/historicalfigure-details/41"],
     images: ["https://media.truyenhinhdulich.vn/upload/news/75_thanh_co_nghe_an_ngoi_thanh_chung_tich_lich_su.jpg"],
-    video: "https://www.youtube.com/watch?v=RHfzVlFUl10.mp4"
+    videos: [
+      "https://www.youtube.com/embed/Y6uHw9y7YqQ",
+    ],
   },
   "Hà Tĩnh": {
     text: "Suốt chiều dài lịch sử, vùng đất Hà Tĩnh nhiều lần thay đổi tổ chức, địa giới hành chính và tên gọi. Thời Hùng Vương, Hà Tĩnh thuộc bộ Cửu Đức, một trong 15 bộ của nước Văn Lang. Đầu thế kỷ VI, nhà Lương đổi Cửu Đức thành Đức Châu. Cuối thế kỷ VI, nhà Tuỳ lại đổi Đức Châu thành Hoan Châu. Năm 607, Đức Châu nhập vào Nhật Nam. Năm 622, nhà Đường đổi quận Nhật Nam thành châu Nam Đức, rồi Đức Châu, đến năm 627 lại đổi thành Hoan Châu. Tên Hoan Châu được giữ nguyên cho đến cuối Bắc thuộc. Thời kỳ Đại Việt cũng có nhiều thay đổi.</br>Đến năm 1831, vua Minh Mạng trên quy mô cuộc cải cách hành chính toàn quốc, tách hai phủ Hà Hoa và Đức Thọ của trấn Nghệ An thành lập tỉnh Hà Tĩnh. Đây là niên đại quan trọng trong tiến trình lịch sử Hà Tĩnh, chứng tỏ vùng đất này đã hội đủ các điều kiện để thành một đơn vị hành chính trực thuộc triều đình trung ương. Kỳ họp thứ 2 Quốc hội khoá V (ngày 27-12-1975), đã quyết định hợp nhất hai tỉnh Nghệ An và Hà Tĩnh thành tỉnh Nghệ Tĩnh.</br>Kỳ họp thứ 9 Quốc hội khoá VIII (ngày 16-8-1991) đã quyết định chia tách tỉnh Nghệ Tĩnh thành hai tỉnh Nghệ An và Hà Tĩnh.</br>Hiện tại, tỉnh Hà Tĩnh có 1 thành phố trực thuộc tỉnh, 2 thị xã và 10 huyện gồm: Thành phố Hà Tĩnh, Thị xã Hồng Lĩnh, Thị xã Kỳ Anh và các huyện Nghi Xuân, Đức Thọ, Hương Sơn, Hương Khê, Vũ Quang, Can Lộc, Thạch Hà, Lộc Hà, Cẩm Xuyên, Kỳ Anh (trong đó có 4 huyện và 1 thị xã miền núi); có 262 xã, phường, thị trấn.",
@@ -729,6 +731,7 @@ const MapCustom = memo(() => {
   const [customText, setCustomText] = useState("");
   const [customLinks, setCustomLinks] = useState("");
   const [customImages, setCustomImages] = useState("");
+  const [customVideos, setCustomVideos] = useState("");
   const linkLabels = {
     "/video-details/76": "Lăng Chủ tịch Hồ Chí Minh",
     "/video-details/77": "Dinh Độc Lập",
@@ -780,10 +783,11 @@ const MapCustom = memo(() => {
     const { NAME_1 } = geo.properties;
     setSelectedState(current);
     const countryInfo = customTexts[current.state] || {};
-    const { text = "", links = [], images = [] } = countryInfo;
+    const { text = "", links = [], images = [], videos = [] } = countryInfo;
     setCustomText(text);
     setCustomLinks(links);
     setCustomImages(images);
+    setCustomVideos(videos);
     setMapClicked(true);
   };
 
@@ -792,7 +796,7 @@ const MapCustom = memo(() => {
     setSelectedState(null);
     setCustomText("");
   };
-  const [mapScale, setMapScale] = useState(3300);
+  const [mapScale, setMapScale] = useState(3400);
   const [zoomLevel, setZoomLevel] = useState(1);
   const handleZoomIn = () => {
     setMapScale(prevScale => prevScale * 1.2);
@@ -803,169 +807,256 @@ const MapCustom = memo(() => {
     setMapScale(prevScale => prevScale / 1.2);
     setZoomLevel(prevLevel => prevLevel - 1);
   };
+  const mapContainerRef = useRef(null);
+  const [scrollPercentage, setScrollPercentage] = useState(0);
 
+  const handleMapScroll = () => {
+    const container = mapContainerRef.current;
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    const totalScroll = scrollHeight - clientHeight;
+    const currentScrollPercentage = (scrollTop / totalScroll) * 100;
+    setScrollPercentage(currentScrollPercentage);
+  };
   return (
     <div>
-      <div style={{ height: "100vh", display: "flex" }}>
-        {!mapClicked ? (
-          <div className='map' style={{ flex: 1,display: "flex", margin: 'auto' , width: '300px', height: '1000px', overflow:'auto' }}>
-            <ComposableMap
-              style={{ width: '2000px', height: '3000px' }}
-              projectionConfig={{
-                scale: mapScale,
-                center: [107, 16],
-              }}
-              projection="geoMercator"
-              data-tip=""
-            >
-              <Geographies geography={geoUrl}  >
-                {({ geographies }) =>
-                  geographies.map((geo) => {
-                    const current = data.find(
-                      (s) => s.state === geo.properties.NAME_1
-                    );
-                    return (
-                      <Geography
-                        data-tooltip-id="my-tooltip"
-                        key={geo.rsmKey}
-                        geography={geo}
-                        fill={
-                          selectedState && selectedState.state === current?.state
-                            ? "#FFC701"
-                            : current
-                              ? colorScale(current.value)
-                              : DEFAULT_COLOR
-                        }
-                        onMouseEnter={() => onMouseEnter(geo, current)}
-                        onMouseLeave={onMouseLeave}
-                        onClick={() => handleClick(geo, current)}
-                        style={geographyStyle}
-
-                      />
-                    );
-                  })
-                }
-              </Geographies>
-              {/* Add Marker for Hanoi */}
-              <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
-                {/* <circle r={4} /> */}
-                <text
-                  textAnchor="middle"
-                  y={-10}
-                  style={{ fontFamily: "system-ui", fontSize: "15px" }}
-                >
-                  ★
-                </text>
-              </Marker>
-            </ComposableMap>
-       
-          </div>
-        ) : ( 
-          <div className='map-animation' style={{ flex: 1 }}>
-            <ComposableMap
-              height={1000}
-              projectionConfig={{
-                scale: 3550,
-                center: [107, 16],
-              }}
-              projection="geoMercator"
-              data-tip=""
-            >
-              <div>
-                <button onClick={handleZoomIn}>+</button>
-                <button onClick={handleZoomOut}>-</button>
-              </div>
-              <Geographies geography={geoUrl}  >
-                {({ geographies }) =>
-                  geographies.map((geo) => {
-                    const current = data.find(
-                      (s) => s.state === geo.properties.NAME_1
-                    );
-                    return (
-                      
-                      <Geography
-                        data-tooltip-id="my-tooltip"
-                        key={geo.rsmKey}
-                        geography={geo}
-                        fill={
-                          selectedState && selectedState.state === current?.state
-                            ? "#FFC701"
-                            : current
-                              ? colorScale(current.value)
-                              : DEFAULT_COLOR
-                        }
-                        onMouseEnter={() => onMouseEnter(geo, current)}
-                        onMouseLeave={onMouseLeave}
-                        onClick={() => handleClick(geo, current)}
-                        style={geographyStyle}
-
-                      />
-                    );
-                  })
-                }
-              </Geographies>
-              {/* Add Marker for Hanoi */}
-              <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
-                {/* <circle r={4} /> */}
-                <text
-                  textAnchor="middle"
-                  y={-10}
-                  style={{ fontFamily: "system-ui", fontSize: "15px" }}
-                >
-                  ★
-                </text>
-              </Marker>
-              
-            </ComposableMap>
-          </div>
-          
-        )}
+      
         <div style={{ flex: mapClicked ? 2 : 0 }}>
 
-          {selectedState && (
-            <div className="mapcontent">
+          {!mapClicked ? (<>
+            <div style={{ display: "flex" , position: 'relative' }}>
+            <div ref={mapContainerRef} className='map' style={{  flex: 1, display: "flex", width: '4000px', height: '1000px', overflow: 'auto', zIndex: 1 }}  onScroll={handleMapScroll}>
+              <ComposableMap
+               style={{  width: '3000px', height: '2500px' }}
+                projectionConfig={{
+                  scale: mapScale,
+                  center: [108, 15.3],
+                }}
+                projection="geoMercator"
+                data-tip=""
+              >
+                <Geographies geography={geoUrl}  >
+                  {({ geographies }) =>
+                    geographies.map((geo) => {
+                      const current = data.find(
+                        (s) => s.state === geo.properties.NAME_1
+                      );
+                      return (
+                        <Geography
+                          data-tooltip-id="my-tooltip"
+                          key={geo.rsmKey}
+                          geography={geo}
+                          fill={
+                            selectedState && selectedState.state === current?.state
+                              ? "#FFC701"
+                              : current
+                                ? colorScale(current.value)
+                                : DEFAULT_COLOR
+                          }
+                          onMouseEnter={() => onMouseEnter(geo, current)}
+                          onMouseLeave={onMouseLeave}
+                          onClick={() => handleClick(geo, current)}
+                          style={geographyStyle}
 
-                <h2>{selectedState.state}</h2>
-                {selectedState.video && (
-            <video controls style={{ width: "300px", height: "auto" }}>
-              <source src={selectedState.video} type="video/mp4" />
-            </video>
-          )}
-                <p>
-                  {Array.isArray(customImages) && (
-                    customImages.map((image, index) => (
-                      <img key={index}
-                        src={image}
-                        alt={`Country Image ${index + 1}`}
-                        style={{ width: "300px", height: "150px" }} />
-                    ))
-                  )}
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: customText
-                    }}
-                  ></p>
-
-
-                  {Array.isArray(customLinks) &&
-                    customLinks.map((link, index) => (
-                      <p key={index}>
-                        <Link to={link} className="custom-link">
-                          {linkLabels[link] || `Link ${index + 1}`}
-                        </Link>
-                      </p>
-                    ))}
-
-
-                </p>
-         
-
+                        />
+                      );
+                    })
+                  }
+                </Geographies>
+                {/* Add Marker for Hanoi */}
+                <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
+                  {/* <circle r={4} /> */}
+                  <text
+                    textAnchor="middle"
+                    y={-10}
+                    style={{ fontFamily: "system-ui", fontSize: "15px" }}
+                  >
+                    ★
+                  </text>
+                </Marker>
+                <Marker coordinates={[110, 16]} fill="#00FF00">
+                  <circle r={5} />
+                </Marker>
+                <Marker coordinates={[110.5, 15.8]} fill="#00FF00">
+                  <circle r={3} />
+                </Marker>
+                <Marker coordinates={[109.9, 15.4]} fill="#00FF00">
+                  <circle r={2} />
+                </Marker>
+                <Marker coordinates={[113.7, 11]} fill="#00FF00">
+                  <circle r={6} />
+                </Marker>
+                <Marker coordinates={[113.5, 10.5]} fill="#00FF00">
+                  <circle r={4} />
+                </Marker>
+                <Marker coordinates={[114, 10.6]} fill="#00FF00">
+                  <circle r={5} />
+                </Marker>
+              </ComposableMap>
+              <div className="map-home"  style={{ flex: 1, position: 'absolute', zIndex: 0, transition: 'transform 0.5s',
+          transform: `translateX(${scrollPercentage >= 50 ? '-125%' : '0'})`,
+        }}
+      >
+              <p className="map-home-content">Đây là web về lịch sử Việt Nam, cung cấp thông tin và cho phép người dùng tương tác....</p>
+              <iframe
+              className="map-home-content"
+                width="560"
+                height="315"
+                style={{ justifyContent: 'center' }}
+                src="https://www.youtube.com/embed/QicLsVNMGSE"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
             </div>
+            </div>
+            
+            </div>
+          </>
+          ) : (
+            <><div style={{ display: "flex" }}>
+              <div className='map-animation' style={{ width: '1000px' }}>
+
+                <ComposableMap
+                  height={1000}
+                  width={1300}
+                  projectionConfig={{
+                    scale: 4200,
+                    center: [109.5, 16.3],
+                  }}
+                  projection="geoMercator"
+                  data-tip=""
+                >
+                  <div>
+                    <button onClick={handleZoomIn}>+</button>
+                    <button onClick={handleZoomOut}>-</button>
+                  </div>
+                  <Geographies geography={geoUrl}  >
+                    {({ geographies }) =>
+                      geographies.map((geo) => {
+                        const current = data.find(
+                          (s) => s.state === geo.properties.NAME_1
+                        );
+                        return (
+
+                          <Geography
+                            data-tooltip-id="my-tooltip"
+                            key={geo.rsmKey}
+                            geography={geo}
+                            fill={
+                              selectedState && selectedState.state === current?.state
+                                ? "#FFC701"
+                                : current
+                                  ? colorScale(current.value)
+                                  : DEFAULT_COLOR
+                            }
+                            onMouseEnter={() => onMouseEnter(geo, current)}
+                            onMouseLeave={onMouseLeave}
+                            onClick={() => handleClick(geo, current)}
+                            style={geographyStyle}
+
+                          />
+                        );
+                      })
+                    }
+                  </Geographies>
+                  {/* Add Marker for Hanoi */}
+                  <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
+                    {/* <circle r={4} /> */}
+                    <text
+                      textAnchor="middle"
+                      y={-10}
+                      style={{ fontFamily: "system-ui", fontSize: "15px" }}
+                    >
+                      ★
+                    </text>
+                  </Marker>
+                  <Marker coordinates={[110, 16]} fill="#00FF00">
+                  <circle r={5} />
+                </Marker>
+                <Marker coordinates={[110.5, 15.8]} fill="#00FF00">
+                  <circle r={3} />
+                </Marker>
+                <Marker coordinates={[109.9, 15.4]} fill="#00FF00">
+                  <circle r={2} />
+                </Marker>
+                <Marker coordinates={[113.7, 11]} fill="#00FF00">
+                  <circle r={6} />
+                </Marker>
+                <Marker coordinates={[113.5, 10.5]} fill="#00FF00">
+                  <circle r={4} />
+                </Marker>
+                <Marker coordinates={[114, 10.6]} fill="#00FF00">
+                  <circle r={5} />
+                </Marker>
+                </ComposableMap>
+
+              </div>
+              {selectedState && (
+                <div className="mapcontent"  style={{ flex: 1 }}>
+
+                  <h2 className="title_map">{selectedState.state}</h2>
+                  <br />
+                  <p>
+                    <div className="video-center">
+                      {Array.isArray(customVideos) &&
+                        customVideos.map((video, index) => (
+                          <iframe
+                            key={index}
+                            width="660"
+                            height="415"
+                            style={{ justifyContent: 'center' }}
+                            src={video}
+                            title={`Country Video ${index + 1}`}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        ))}
+                      <br />
+                    </div>
+
+                    {/* {Array.isArray(customImages) && (
+                customImages.map((image, index) => (
+                  <img key={index}
+                    src={image}
+                    alt={`Country Image ${index + 1}`}
+                    style={{ width: "300px", height: "150px" }} />
+                ))
+              )} */}
+
+                    <div style={{ marginTop: '50px' }}>
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: customText
+                        }}
+                      ></p>
+                    </div>
+
+                    {Array.isArray(customLinks) &&
+                      customLinks.map((link, index) => (
+                        <p key={index}>
+                          <Link to={link} className="custom-link">
+                            {linkLabels[link] || `Link ${index + 1}`}
+                          </Link>
+                        </p>
+                      ))}
+
+
+                  </p>
+
+
+                </div>
+                
+
+              )}
+              </div></>
           )}
+
           {/* <p>Content: {selectedState.content}</p> */}
         </div>
 
-      </div>
+   
       <Tooltip id="my-tooltip">
         <div>
           {tooltipContent}
@@ -984,16 +1075,16 @@ export default function Map() {
       backgroundColor: 'rgba(0, 0, 0, 0.7)',
       boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
     }}>
-       <Card style={{
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
-    }}>
-      {/* <Card style={{ backgroundColor: '000000' }}>  */}
-      {/* <div className="overlay" /> */}
-      <div className="mapTitle">Chào mừng đến với Sử Việt</div>
-      <MapCustom />
+      <Card style={{
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+      }}>
+        {/* <Card style={{ backgroundColor: '000000' }}>  */}
+        {/* <div className="overlay" /> */}
+        <h2 className="title-map-home"> Chào mừng đến với Sử Việt</h2>
+        <MapCustom />
       </Card>
       {/* <div
     style={{
