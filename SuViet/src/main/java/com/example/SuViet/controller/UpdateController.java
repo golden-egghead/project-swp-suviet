@@ -1,3 +1,4 @@
+
 package com.example.SuViet.controller;
 import com.example.SuViet.dto.ProfileDTO;
 import com.example.SuViet.model.Role;
@@ -54,10 +55,10 @@ public class UpdateController {
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
         String ava = user.getAvatar().substring(user.getAvatar().lastIndexOf('/') + 1);
-        Path oldPath = Paths.get("SuViet/src/main/resources/static/avatars/".concat(ava));
+        Path oldPath = Paths.get("\\SuViet\\src\\main\\resources\\static\\avatars\\".concat(ava));
         Files.deleteIfExists(oldPath);
         if (image != null) {
-            user.setAvatar("http://localhost:8080/api/user/files/" + fileImageService.storeFile( "avatars",image));
+            user.setAvatar( fileImageService.storeFile( "avatars",image));
         }else{
             user.setAvatar(user.getAvatar());
         }

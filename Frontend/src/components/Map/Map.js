@@ -40,18 +40,11 @@ import Paracel from "./Paracel";
 
 
 const COLOR_RANGE = [
-  "#c3e2f3",
-  "#f5dbca",
-  "#cbcb89",
-  "#cfdeab",
-  "#c6a939",
-  "#8bb1bd",
-  "#c2a3ae",
-  "#6da0a6",
-  "#92f895",
-  "#42a7f0",
-  "#66c6c4",
-  "#69c77a"
+  "#FABEA6",
+  "#FFF6B1",
+  "#B7D99C",
+  "#A397C7",
+  
 
 ];
 
@@ -404,7 +397,8 @@ const customTexts = {
   "Nghệ An": {
     text: "tên gọi tỉnh Nghệ An, từ thời Hùng Vương lập nước, Nghệ An thuộc đất Việt Thường, nhà Hán là huyện Hàm Hoan thuộc quận Cửu Chân, nhà Ngô là Cửu Đức, nhà Đinh, nhà Lê gọi là Hoan Châu, lúc này Hoan châu thống lĩnh 4 huyện là Cửu Đức, Phố Dương, Việt Thường và Hoài Hoan. Đây chính là Mộc bản sách Khâm định Việt sử thông giám cương mục khắc về lịch sử tên gọi vùng đất Nghệ An từ thời Hùng Vương dựng nước đến thời Tiền Lê.</br>Tại Mộc bản sách Đại Việt sử ký toàn thư, quyển 2, mặt khắc 4, khắc về việc Vua Lý Thái Tổ cho đổi Hoan Châu làm Trại. Đến thời vua Lý Thái Tông năm Thiên Thành thứ 3 (1030), năm Thiên Thành thứ 3, đổi Hoan Châu là Nghệ An. Tên gọi Nghệ An bắt đầu từ đây. Đến tháng 11 năm Tân Tỵ (1041) vua Lý Thái Tông cử Uy Minh hầu Lý Nhật Quang làm Tri Châu Nghệ An.</br>Bước sang thời Trần, năm 1375, vua Trần Duệ Tông cho đổi Hoan Châu thành 4 lộ: Nhật nam, Nghệ An nam, Nghệ An bắc và Nghệ An trung. Năm 1379, vua Trần Thuận Tông lại cho đổi trấn Nghệ An thành trấn Lâm An.</br>Năm Bính Tuất (1466), vua Lê Thánh Tông cho đặt các đơn vị hành chính trong nước làm 12 đạo thừa tuyên, trong đó có Đạo thừa tuyên Nghệ An, năm 1469 vua Lê Thánh Tông ấn định các đơn vị hành chính trực thuộc đạo Thừa Tuyên Nghệ An: Nghệ An lúc này quản lĩnh 8 phủ, 18 huyện và 2 châu. Đến năm Canh Tuất (1490), vua Lê Thánh Tông cho đổi thừa tuyên Nghệ An thành Xứ Nghệ An. Cuối thế kỷ XVIII, dưới triều Tây Sơn, vua Quang Trung Nguyễn Huệ đã cho đổi trấn Nghệ An là Trung Đô hay còn được gọi là trấn Nghĩa An, nhà vua bàn việc dời kinh đô từ Phú Xuân về Nghệ An với tướng Nguyễn Quang Diệu, nhà vua còn cho sửa thành lũy, đặt kho tàng và dùng binh túc trực ở đấy.",
     links: ["/historicalfigure-details/41"],
-    images: ["https://media.truyenhinhdulich.vn/upload/news/75_thanh_co_nghe_an_ngoi_thanh_chung_tich_lich_su.jpg"]
+    images: ["https://media.truyenhinhdulich.vn/upload/news/75_thanh_co_nghe_an_ngoi_thanh_chung_tich_lich_su.jpg"],
+    video: "https://www.youtube.com/watch?v=RHfzVlFUl10.mp4"
   },
   "Hà Tĩnh": {
     text: "Suốt chiều dài lịch sử, vùng đất Hà Tĩnh nhiều lần thay đổi tổ chức, địa giới hành chính và tên gọi. Thời Hùng Vương, Hà Tĩnh thuộc bộ Cửu Đức, một trong 15 bộ của nước Văn Lang. Đầu thế kỷ VI, nhà Lương đổi Cửu Đức thành Đức Châu. Cuối thế kỷ VI, nhà Tuỳ lại đổi Đức Châu thành Hoan Châu. Năm 607, Đức Châu nhập vào Nhật Nam. Năm 622, nhà Đường đổi quận Nhật Nam thành châu Nam Đức, rồi Đức Châu, đến năm 627 lại đổi thành Hoan Châu. Tên Hoan Châu được giữ nguyên cho đến cuối Bắc thuộc. Thời kỳ Đại Việt cũng có nhiều thay đổi.</br>Đến năm 1831, vua Minh Mạng trên quy mô cuộc cải cách hành chính toàn quốc, tách hai phủ Hà Hoa và Đức Thọ của trấn Nghệ An thành lập tỉnh Hà Tĩnh. Đây là niên đại quan trọng trong tiến trình lịch sử Hà Tĩnh, chứng tỏ vùng đất này đã hội đủ các điều kiện để thành một đơn vị hành chính trực thuộc triều đình trung ương. Kỳ họp thứ 2 Quốc hội khoá V (ngày 27-12-1975), đã quyết định hợp nhất hai tỉnh Nghệ An và Hà Tĩnh thành tỉnh Nghệ Tĩnh.</br>Kỳ họp thứ 9 Quốc hội khoá VIII (ngày 16-8-1991) đã quyết định chia tách tỉnh Nghệ Tĩnh thành hai tỉnh Nghệ An và Hà Tĩnh.</br>Hiện tại, tỉnh Hà Tĩnh có 1 thành phố trực thuộc tỉnh, 2 thị xã và 10 huyện gồm: Thành phố Hà Tĩnh, Thị xã Hồng Lĩnh, Thị xã Kỳ Anh và các huyện Nghi Xuân, Đức Thọ, Hương Sơn, Hương Khê, Vũ Quang, Can Lộc, Thạch Hà, Lộc Hà, Cẩm Xuyên, Kỳ Anh (trong đó có 4 huyện và 1 thị xã miền núi); có 262 xã, phường, thị trấn.",
@@ -932,7 +926,11 @@ const MapCustom = memo(() => {
             <div className="mapcontent">
 
                 <h2>{selectedState.state}</h2>
-
+                {selectedState.video && (
+            <video controls style={{ width: "300px", height: "auto" }}>
+              <source src={selectedState.video} type="video/mp4" />
+            </video>
+          )}
                 <p>
                   {Array.isArray(customImages) && (
                     customImages.map((image, index) => (

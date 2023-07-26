@@ -81,7 +81,7 @@ public class UserController {
             return ResponseEntity.ok(
                     new ResponseJwt("OK", "Login successfully", userID, loginDTO.getMail(), loginDTO.getPassword(),
                             userRepository.findByMail(loginDTO.getMail()).get().getFullname(),
-                            "http://localhost:8080/api/auth/files/" + avatar, roleName, token));
+                            "http://localhost:8080/api/user/files/" + avatar, roleName, token));
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }

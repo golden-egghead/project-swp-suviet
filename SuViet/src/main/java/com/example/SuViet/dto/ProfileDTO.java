@@ -25,7 +25,7 @@ public class ProfileDTO {
         ProfileDTO dto = new ProfileDTO();
         dto.setEmail(user.getMail());
         dto.setFullName(user.getFullname());
-        dto.setImage(user.getAvatar());
+        dto.setImage("http://localhost:8080/api/user/files/" + user.getAvatar());
         dto.setRole(user.getRoles().stream().map(role -> role.getRoleName()).collect(Collectors.toList()));
         return dto;
     }

@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 import {
   Button,
@@ -123,7 +124,7 @@ const UserProfile = () => {
           <button className='button' type="button" onClick={handleCancel}>Cancel</button>
         </div>
       ) : (
-        <button className='button' type="button" onClick={handleEdit}>Edit</button>
+        <button className='button' type="button" onClick={handleEdit}> <i class="fa-solid fa-gear"></i> Edit </button>
       )}
       </Card>
           </Col>

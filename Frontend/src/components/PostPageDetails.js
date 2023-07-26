@@ -138,8 +138,9 @@ export default function PostPageDetails() {
             handleVoteArticle(newValue);
           }}
         />
-      </Box>
-    )}
+      </Box> 
+    )}<Card.Text>Đánh giá: {article.voteLevel}/5 </Card.Text>
+    <Card.Text> ({article.totalVote})</Card.Text>
                   
               <Card.Body>
                 <Card.Text style={{ fontSize: '18px' }}>{article.context}</Card.Text>
