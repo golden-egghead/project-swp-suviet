@@ -31,6 +31,7 @@ public class ArticleDTO {
     private UserDTO user;
     // private int userID;
     private double voteLevel;
+    private int totalVote;
     private String periodName;
     private Collection<Tag> tags;
     private List<String> tagNames;
@@ -49,6 +50,7 @@ public class ArticleDTO {
         dto.setArticleView(article.getArticleView());
         dto.setUser(UserDTO.convertToDTO(article.getUser()));
         dto.setVoteLevel(getAverageVoteLevel(article.getVotes()));
+        dto.setTotalVote(article.getVotes().size());
         dto.setPeriodName(getPeriodNames(article.getPeriods()));
         dto.setTagNames(getTagNames(article.getTags()));
         dto.setComments(getCommentDTOList(article.getComments()));

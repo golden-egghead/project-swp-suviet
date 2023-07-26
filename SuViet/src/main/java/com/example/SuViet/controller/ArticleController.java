@@ -159,11 +159,25 @@ public class ArticleController {
         }
     }
 
+    @GetMapping("details/{articleId}")
+    public ResponseEntity<ResponseObject> getArticleDetails(
+            @PathVariable int articleId) {
+        try {
+
+            Article article = articleService.getArticleById(articleId);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("OK", "Success", ArticleDTO.convertToDTO(article)));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    new ResponseObject("ERROR", "An error occur", null));
+        }
+    }
+    
     @GetMapping("{articleId}/comments")
     public ResponseEntity<ResponseObject> getComments(
             @PathVariable int articleId) {
 
-        try {
+                try {
             Article article = articleService.getArticleById(articleId);
             List<CommentDTO> comments = commentService.getAllEnabledComments(article);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -190,20 +204,6 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("details/{articleId}")
-    public ResponseEntity<ResponseObject> getArticleDetails(
-            @PathVariable int articleId) {
-        try {
-
-            Article article = articleService.getArticleById(articleId);
-            articleService.savedArticle(article);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Success", article));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "An error occur", null));
-        }
-    }
 
     @GetMapping("/pending/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllPendingArticles(@PathVariable int offset,
