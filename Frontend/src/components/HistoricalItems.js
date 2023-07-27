@@ -101,6 +101,7 @@ const HistoricalItems = (props) => {
     }
 
     return (<>
+    <div className='item-page'>
         <Row>
             <Col>
                 <div style={{ paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b>Di Vật - Cổ Vật</b></div>
@@ -134,11 +135,11 @@ const HistoricalItems = (props) => {
             </Row>
             <Grid container wrap="wrap">
                 {listItems.map(item => (
-                    <Box key={item.historicalItemID} sx={{ width: 500, my: 5, margin: '0 auto' }}>
+                    <Box className='item-page-card' key={item.historicalItemID} sx={{ width: 500, my: 5}}>
                         {item ? (
                             <Link to={`/historical-detail/${item.historicalItemID}`} style={{ color: 'white', textDecoration: 'none' }}>
                             <img
-                            style={{ width: 500, height: 400, borderRadius:'20px', marginTop:'30px', boxShadow: '5px 5px 8px black'}}
+                            style={{ width: 500, height: 400, borderRadius: '20px'}}
                             alt={item.name}
                             src={item.photo}
                         />
@@ -191,6 +192,7 @@ const HistoricalItems = (props) => {
             containerClassName="pagination"
             activeClassName='active'
         />
+        </div>
     </>)
 
 }

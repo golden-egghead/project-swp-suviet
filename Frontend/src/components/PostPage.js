@@ -110,9 +110,10 @@ function PostPage(props) {
     }
 
     return (<>
+    <div className='post-page'>
         <Row>
             <Col>
-                <div style={{ paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b> Bài viết</b></div>
+                <div style={{ marginTop: '25px', paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b> Bài viết</b></div>
             </Col>
         </Row>
         <Container fluid={true} id="container">
@@ -173,9 +174,9 @@ function PostPage(props) {
                 </Row> */}
                 <div className="post">
                     {listPosts.map(post => (
-                        <div className="card"
+                        <div className="card post-page-card"
                             style={{
-                                backgroundColor: 'rgb(192, 192, 192)',
+                                
                                 color: '#272727',
                                 padding: '20px',
                                 borderRadius: '10px',
@@ -201,14 +202,16 @@ function PostPage(props) {
                             <img className="card-image" src={post.photo} alt="Logo" />
                             
                             <div style={{ fontSize: '20px', textAlign:'center'}} className="card-text">{post.title}</div>
+                            <div className='card-container'>
                             <div className="card-header">
                                 <div className="card-title-group">
                                     {/* <h5 className="card-title">zyx</h5> */}
-                                    <div  style={{ fontSize: '15px'}} className="card-date">{post.createdDate}</div>
+                                    <div  style={{ fontSize: '20px'}} className="card-date">{post.createdDate}</div>
                                 </div>
                             </div>
-                            <Button>View: {post.articleView}</Button>
+                            <div>View: {post.articleView}</div>
                             <div>Vote: {post.voteLevel}</div>
+                            </div>
                             </Link>
                         </div>
                     ))}
@@ -235,7 +238,7 @@ function PostPage(props) {
                 activeClassName='active'
             />
         </Container >
-
+        </div>
     </>);
 
 }

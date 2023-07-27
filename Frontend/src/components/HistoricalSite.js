@@ -17,7 +17,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import CarouselHomePage from './CarouselHomePage';
-
+import './PostPage.css'
 
 const HistoricalSite = (props) => {
 
@@ -102,6 +102,7 @@ const HistoricalSite = (props) => {
     }
 
     return (<>
+    <div className='site-page'>
         <Row>
             <Col>
                 <div style={{ paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b>Di Tích</b></div>
@@ -132,7 +133,6 @@ const HistoricalSite = (props) => {
                         <Button variant="btn btn-success"><i className="fa-solid fa-magnifying-glass"></i></Button>
                     </Form></Col>
                 <Col><div className='text-header'>Di Tích</div></Col>
-                <Row><h1 style={{ textAlign: 'center' }}>Di Tích Lịch Sử</h1></Row>
             </Row>
             {/* <Row>
                     {listSites.map(sites => (
@@ -153,11 +153,11 @@ const HistoricalSite = (props) => {
             <Grid container spacing={2} style={{ marginBottom: '40px'}}>
                 {listSites.map((site) => (
                     <Grid item key={site.historicalsiteID} xs={12}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box className='site-page-card'sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ width: 500, marginRight: 2 }}>
                                 {site ? (
                                     <img
-                                        style={{ width: 500, height: 400, borderRadius: '20px', marginTop: '30px', boxShadow: '5px 5px 8px black' }}
+                                        style={{ width: 500, height: 400, borderRadius: '5px', marginTop: '30px'}}
                                         alt={site.historicalSiteName}
                                         src={site.photo}
                                     />
@@ -208,6 +208,7 @@ const HistoricalSite = (props) => {
                 activeClassName='active'
             />
         </Container>
+        </div>
     </>)
 
 }

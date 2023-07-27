@@ -10,6 +10,45 @@
     max-width: 380px;
 } */
 
+.post-page,
+.book-page,
+.site-page,
+.item-page {
+	background: url('auth/loginBG.jpg') no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.site-page-card,
+.item-page-card {
+	border-radius: 25px;
+	box-shadow: 5px 5px 8px black
+}
+
+.item-page-card {
+	margin: 30px 58px;
+}
+
+.book-page-card,
+.site-page-card,
+.item-page-card {
+	background: transparent;
+	border: 1px solid rgba(137, 133, 133, 0.5);
+	backdrop-filter: blur(8px);
+}
+
+.col {
+	background-color: #fff;
+}
+.post-page-card {
+	position: relative;
+	height: 560px;
+	width: 500px;
+	background: transparent;
+	border: 30px solid rgba(137, 133, 133, 0.5);
+	backdrop-filter: blur(50000px);
+}
+
 .post {
 	display: flex;
 	flex-wrap: wrap;
@@ -25,6 +64,20 @@
 	border-radius: 10px;
 	background-color: yellow;
 }
+
+.card-container {
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	left: 0;
+	text-align: center;
+}
+
+.card-date {
+	margin-left: 183%;
+	width: 100%;
+}
+
 
 /* .profile {
 	width: 2.5rem;
