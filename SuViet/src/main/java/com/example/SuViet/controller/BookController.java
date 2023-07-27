@@ -56,8 +56,8 @@ public class BookController {
             );
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, offset,
-                            Math.ceil(count / 6.0), bookService.getBookWithPaging(offset, 6))
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 12, offset,
+                            Math.ceil(count / 12.0), bookService.getBookWithPaging(offset, 12))
             );
         }
     }
@@ -75,13 +75,13 @@ public class BookController {
         }
         if (keyword.trim().isEmpty() || keyword.trim() == "") {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, countAll,
-                            Math.ceil(countAll / 6.0), bookService.getBookWithPaging(offset, 6))
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 12, countAll,
+                            Math.ceil(countAll / 12.0), bookService.getBookWithPaging(offset, 12))
             );
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, count,
-                            Math.ceil(count / 6.0), bookService.findBookByNameWithPaging(keyword, offset, 6))
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 12, count,
+                            Math.ceil(count / 12.0), bookService.findBookByNameWithPaging(keyword, offset, 12))
             );
         }
     }
@@ -99,28 +99,28 @@ public class BookController {
         }
         if (author.trim().isEmpty() || author.trim() == "") {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, countAll,
-                            Math.ceil(countAll / 6.0), bookService.getBookWithPaging(offset, 6))
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 12, countAll,
+                            Math.ceil(countAll / 12.0), bookService.getBookWithPaging(offset, 12))
             );
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 6, count,
-                            Math.ceil(count / 6.0), bookService.findBookByAuthorWithPaging(author, offset, 6))
+                    new ResponsePaginationObject("OK", "Query Successfully!", offset, 12, count,
+                            Math.ceil(count / 12.0), bookService.findBookByAuthorWithPaging(author, offset, 12))
             );
         }
     }
 
     @GetMapping("/SortByTitle/{offset}")
     public ResponseEntity<ResponsePaginationObject> getBooksWithPaginationAndSort(@PathVariable int offset) {
-        Page<BookDTO> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 6, "title");
+        Page<BookDTO> booksWithPagination = bookService.getBooksWithSortAndPaging(offset, 12, "title");
         int listSize = booksWithPagination.getSize();
         int count = 0;
         for (int i = 0; i < listSize; i++) {
             count++;
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponsePaginationObject("OK", "Query successfully", offset, 6, count,
-                        Math.ceil(count / 6.0), booksWithPagination)
+                new ResponsePaginationObject("OK", "Query successfully", offset, 12, count,
+                        Math.ceil(count / 12.0), booksWithPagination)
         );
     }
 
@@ -135,15 +135,15 @@ public class BookController {
 
     @PostMapping("/upload_book")
     public ResponseEntity<ResponseObject> uploadABook(@RequestParam("title") String title,
-                                                      @RequestParam("title") String author,
-                                                      @RequestParam("title") String category,
-                                                      @RequestParam("title") String description,
-                                                      @RequestParam("title") int pageNumber,
-                                                      @RequestParam("title") String publisher,
-                                                      @RequestParam("title") String yearOfPublication,
-                                                      @RequestParam("title") double price,
-                                                      @RequestParam("title") List<String> periodName,
-                                                      @RequestParam("title") MultipartFile cover
+                                                      @RequestParam("author") String author,
+                                                      @RequestParam("category") String category,
+                                                      @RequestParam("description") String description,
+                                                      @RequestParam("pageNumber") int pageNumber,
+                                                      @RequestParam("publisher") String publisher,
+                                                      @RequestParam("yearOfPublication") String yearOfPublication,
+                                                      @RequestParam("price") double price,
+                                                      @RequestParam("periodName") List<String> periodName,
+                                                      @RequestParam("cover") MultipartFile cover
                                                       ) {
         List<Book> books = bookService.findBookByName(title);
         User user = userService.getUserByMail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -157,7 +157,7 @@ public class BookController {
         }
         if (books.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponseObject("FAILED", "Video has already exist!", null)
+                    new ResponseObject("FAILED", "Book has already exist!", null)
             );
         } else {
             Book book = new Book();

@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
-import ModalCase from './showPopup';
 import { toast } from 'react-toastify';
+
 
 const Id = ({ id }) => (
 	<MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -27,55 +27,30 @@ const Id = ({ id }) => (
 
 
 
-
-const Video = ({ item }) => {
-	const [open, setOpen] = useState(false);
-
-	const handleOpenModal = () => {
-		setOpen(true);
-	};
-
-	const handleCloseModal = () => {
-		setOpen(false);
-	};
-
-	return (
-		<MDBox display="flex" alignItems="center" lineHeight={1}>
-			<MDBox ml={2} lineHeight={1}>
-				<MDTypography
-					display="block"
-					variant="button"
-					fontWeight="medium"
-					fontSize={15}
-					onClick={handleOpenModal}
-				>
-					<Button style={{ backgroundColor: 'yellow', color: 'black' }}>Watch Video</Button>
-				</MDTypography>
-				{open && (
-					<ModalCase setOpen={handleCloseModal} url={item.video} />
-				)}
-			</MDBox>
+const Article = ({ src }) => (
+	<MDBox display="flex" alignItems="center" lineHeight={1}>
+		<MDBox ml={2} lineHeight={1}>		
+				<img style={{height:'100px', width:'100px'}} src={src} alt=''></img>
+			{/* <MDTypography variant="caption" fontSize={15}>ID: {id}</MDTypography> */}
 		</MDBox>
-	);
-};
-
+	</MDBox>
+);
+  
 
 const Function = ({ title }) => (
 	<MDBox lineHeight={1} textAlign="left" width="300px">
-		<MDTypography display="block" variant="caption" fontWeight="medium" fontSize={17}>
+		<MDTypography display="block" variant="caption" color="black" fontWeight="medium" fontSize={18}>
 			{title}
 		</MDTypography>
 	</MDBox>
 );
 
-
-
-export default function VideoData() {
+export default function ArticleData() {
 	const [accountData, setAccountData] = useState([]);
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
-				const { data } = await axios.get(`http://localhost:8080/api/videos/${page}`);
+				const { data } = await axios.get(`http://localhost:8080/api/articles/${page}`);
 				return data.data.content;
 			} catch (error) {
 				console.error(error);
@@ -85,7 +60,7 @@ export default function VideoData() {
 
 		const fetchAllData = async () => {
 			const requests = [];
-			for (let i = 1; i <= 25; i++) {
+			for (let i = 1; i <= 20; i++) {
 				requests.push(getData(i));
 			}
 			const responses = await Promise.all(requests);
@@ -100,23 +75,22 @@ export default function VideoData() {
 	const navigate = useNavigate();
 
 	const EditFunction = (item) => {
-		navigate("/moderator/video/edit/" + item.videoID, { state: item });
-	}
+		navigate("/moderator/article/edit/" + + item.articleID, { state: item });
+	  }
 
-	const RemoveVideo = async (videoID) => {
+	  const RemoveSite = async (articleID) => {
 		if (window.confirm('Do you want to remove?')) {
 		  try {
-			const baseUrl = `http://localhost:8080/api/videos/delete-video/`;
-			const response = await fetch(baseUrl + videoID, {
+			const baseUrl = `http://localhost:8080/api/historicalSites/delete-historicalSite/`;
+			const response = await fetch(baseUrl + articleID, {
 			  method: 'DELETE',
 			  headers: {
-				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
 			  }
 			});
 	
 			if (response.ok) {
-			  setAccountData((prevData) => prevData.filter((item) => item.videoID !== videoID));
+			  setAccountData((prevData) => prevData.filter((item) => item.articleID !== articleID));
 			  toast.success('Xóa Thành Công!');
 			} else {
 			  throw new Error('Xóa Thất Bại');
@@ -126,11 +100,10 @@ export default function VideoData() {
 		  }
 		}
 	  };
-	  
 
-	const rows = accountData.map((item) => ({
-		ID: <Id id={item.videoID} />,
-		Video: <Video item={item} />,
+	const rows = accountData ? accountData.map((item) => ({
+		ID: <Id id={item.articleID} />,
+		Article: <Article src={item.photo} />,
 		Title: <Function title={item.title} />,
 		Action: (<>
 			<Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor: 'green' }}
@@ -140,18 +113,18 @@ export default function VideoData() {
 			</Button>
 			<Button variant="outlined" color='error' style={{ margin: '5px', backgroundColor: 'red' }}
 				className='delete-btn'
-				onClick={() => { RemoveVideo(item.videoID) }}>
+				onClick={() => { RemoveSite(item.articleID) }}>
 				<DeleteIcon />
 			</Button>
 		</>),
-	}));
+	})): [];
 
 	return {
 		columns: [
-			{ Header: <div style={{ fontSize: '20px', color: 'red', paddingLeft: '12px' }}>ID</div>, accessor: 'ID', align: 'center' },
-			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Video</div>, accessor: 'Video', align: 'center' },
-			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Tiêu Đề</div>, accessor: 'Title', align: 'center' },
-			{ Header: <div style={{ fontSize: '20px', color: 'red', textAlign: 'center' }}>Trạng Thái</div>, accessor: 'Action', align: 'center' },
+			{ Header: <div style={{fontSize:'20px', color:'red', paddingLeft:'12px'}}>ID</div>, accessor: 'ID', align: 'center'},
+			{ Header: <div style={{ fontSize: '20px', color: 'red' }}>Hình Ảnh</div>, accessor: 'Article', align: 'center' },
+			{ Header: <div style={{ fontSize: '20px', color: 'red', paddingLeft:'58px' }}>Bài Viết</div>, accessor: 'Title', align: 'left' },
+			{ Header: <div style={{ fontSize: '20px', color: 'red', textAlign: 'center' }}>Tác Vụ</div>, accessor: 'Action', align: 'center' },
 		],
 		rows: rows || []
 	};

@@ -5,12 +5,14 @@ import Characters from './layouts/Character';
 import Books from './layouts/Book';
 import Sites from './layouts/Site';
 import Items from './layouts/Item';
+import Articles from './layouts/Article';
 // @mui icons
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import MuseumIcon from '@mui/icons-material/Museum';
 import CategoryIcon from '@mui/icons-material/Category';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const routes = [
@@ -54,6 +56,14 @@ const routes = [
 		icon: <CategoryIcon  fontSize="small" />,
 		route: 'item',
 		component: <Items />
+	},
+	{
+		type: 'collapse',
+		name: 'Bài Viết',
+		key: 'article',
+		icon: <PostAddIcon fontSize="small" />,
+		route: 'logout',
+		component: <Articles />
 	},
 	{
 		type: 'collapse',

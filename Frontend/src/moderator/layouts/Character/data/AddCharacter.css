@@ -4,11 +4,11 @@
     background-repeat: no-repeat;
     background-position: center;
   }  
-    .add-container {
+    .add-container-character {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 130vh;
     }
     
     .add-form {
@@ -66,3 +66,24 @@ label.custom-file-upload:hover {
 label.custom-file-upload:active {
   background-color: #216db1;
 }
+
+/* Styles for the form-group container */
+.form-group {
+    margin-bottom: 15px; /* Optional: Add some spacing between form groups */
+  }
+  
+  /* Styles for the select element */
+  #period-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  /* Optional: Style the option elements */
+  #period-select option {
+    padding: 5px;
+  }

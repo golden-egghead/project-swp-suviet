@@ -62,6 +62,7 @@ function AddSite() {
 				alert('An error occurred while uploading the post. Please try again later.')
 			});
 	}
+
 	return (
 		<div className='item'>
 			<form className="add-container" onSubmit={handleSubmit}>
@@ -70,8 +71,17 @@ function AddSite() {
 						<h2>Tạo mới Di Tích</h2>
 					</div>
 					<div className="form-body">
-						<label htmlFor="photo">Photo:</label>
-						<input type="file" id="photo" onChange={handlePhotoChange} />
+						<label htmlFor="file">Hình ảnh:</label>
+						<br />
+						<div style={{ display: 'flex', width: '100%' }}>
+							<label class="custom-file-upload" htmlFor="file">
+								Chọn ảnh
+							</label>
+							<input type="file" id="file" onChange={handlePhotoChange} />
+							<p style={{ width: '300px', marginLeft: '10px', marginBottom: '0px', marginTop: '7px' }}>
+								{photo ? photo.name : 'Không có ảnh nào được chọn'}
+							</p>
+						</div>
 						<br />
 						<div className="form-group">
 							<TextField

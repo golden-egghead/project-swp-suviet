@@ -39,7 +39,7 @@
 // 	const handleCharacterChange = (event) => {
 // 		setImage(event.target.files[0]);
 // 	  };
-	
+
 // 	return (
 // 		<div className='item'>
 // 		<form className="add-container" onSubmit={handleSubmit}>
@@ -136,10 +136,11 @@
 
 
 import { Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-// import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
+import './AddCharacter.css'
 
 function AddCharacter() {
 
@@ -152,6 +153,21 @@ function AddCharacter() {
 	const [periodName, setPeriodName] = useState('');
 	// const [photo, setPhoto] = useState(null);
 	// const [images, setImages] = useState([]);
+
+	const [listPeriods, setListPeriods] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(`http://localhost:8080/api/period/videos?periodName`);
+				setListPeriods(response.data.data)
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchData();
+	}, []);
+
 	const navigate = useNavigate();
 	// const baseUrl = 'http://localhost:8080/api/historicalSites/upload-historicalSite';
 
@@ -213,16 +229,26 @@ function AddCharacter() {
 				alert('An error occurred while uploading the post. Please try again later.')
 			});
 	}
+
 	return (
 		<div className='item'>
-			<form className="add-container" onSubmit={handleSubmit}>
+			<form className="add-container-character" onSubmit={handleSubmit}>
 				<div className="add-form">
 					<div className="form-title">
 						<h2>Tạo mới Nhân Vật</h2>
 					</div>
 					<div className="form-body">
-						<label htmlFor="photo">Hình Ảnh:</label>
-						<input type="file" id="photo" onChange={handleImageChange} />
+						<label htmlFor="file">Hình ảnh:</label>
+						<br />
+						<div style={{ display: 'flex', width: '100%' }}>
+							<label class="custom-file-upload" htmlFor="file">
+								Chọn ảnh
+							</label>
+							<input type="file" id="file" onChange={handleImageChange} />
+							<p style={{ width: '300px', marginLeft: '10px', marginBottom: '0px', marginTop: '7px' }}>
+								{image ? image.name : 'Không có ảnh nào được chọn'}
+							</p>
+						</div>
 						<br />
 						<div className="form-group">
 							<TextField
@@ -273,15 +299,19 @@ function AddCharacter() {
 							/>
 						</div>
 						<div className="form-group">
-							<TextField
-								fullWidth
-								id="filled-basic"
-								label="Thời Kì"
-								variant="outlined"
+							<select
+								id="period-select"
 								value={periodName}
 								onChange={handlePeriodNameChange}
 								required
-							/>
+							>
+								<option value="">Chọn thời kì</option>
+								{listPeriods.map(period => (
+									<option key={period.periodValue} value={period.periodValue}>
+										{period.periodName}
+									</option>
+								))}
+							</select>
 						</div>
 						<div className="form-group">
 							<div className="save-btn">

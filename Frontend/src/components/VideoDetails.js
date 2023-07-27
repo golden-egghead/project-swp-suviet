@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import { useParams } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 import { IoReturnUpBackSharp } from "react-icons/io5";
@@ -41,9 +41,9 @@ const VideoDetails = () => {
     fetchVideo();
   }, [videoID]);
 
-  const handleBack = () => {
-    window.history.back();
-  };
+  // const handleBack = () => {
+  //   window.history.back();
+  // };
 
   return (
     <>
@@ -52,7 +52,7 @@ const VideoDetails = () => {
           Bạn đang ở: Trang Chủ/ Video / <b>Chi Tiết Video</b>
         </Col>
         <Col xs="auto" className="ml-auto">
-          <Button style={{fontSize:'20px'}} onClick={handleBack}>
+          <Button style={{fontSize:'20px'}}>
           <IoReturnUpBackSharp />
           </Button>
         </Col>

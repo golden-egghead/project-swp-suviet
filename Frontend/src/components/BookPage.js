@@ -161,7 +161,7 @@ function BookPage(props) {
                                             <div className='menu-year-book'>
                                                 <div style={{ marginBottom: '10px' }} className='year-book-divide d-flex justify-content-between'>
                                                     <h3 style={{ fontSize: '20px', fontWeight: '400', color: '#4db6ac' }}>{books.yearOfPublication}</h3>
-                                                    <Link to={`/book-details/${books.bookID}`} style={{ textDecoration: 'none' }}>
+                                                    <Link to={`/book-details/${books.bookID}?page=${currentPage}`} style={{ textDecoration: 'none' }}>
                                                         <button style={{ backgroundColor: '#4db6ac', border: 'none', marginRight:'30px'}} className='btn btn-primary'>Xem Thêm</button>
                                                     </Link>
                                                 </div>

@@ -5,10 +5,13 @@ import 'react-vertical-timeline-component/style.min.css';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import { useRef } from 'react';
 
 export default function FilterVideoPage({setSelectedPeriod}) {
 
   const [listPeriods, setListPeriods] =useState([]);
+  const timelineRef = useRef(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,10 +27,12 @@ export default function FilterVideoPage({setSelectedPeriod}) {
 
   const handlePeriodClick = (periodName) => {
     setSelectedPeriod(periodName);
+    timelineRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (<>
-    <VerticalTimeline>
+    <VerticalTimeline >
+      <div ref={timelineRef}>
       {listPeriods.map(period => (
         <VerticalTimelineElement key={period.periodID}
           className="vertical-timeline-element--work"
@@ -48,6 +53,7 @@ export default function FilterVideoPage({setSelectedPeriod}) {
         iconStyle={{ background: 'rgb(16, 204, 82)', color: 'yellow' }}
         icon={<FaStar />}
       />
+      </div>
     </VerticalTimeline>
   </>)
 }

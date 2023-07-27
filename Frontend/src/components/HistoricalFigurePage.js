@@ -260,7 +260,8 @@ const HistoricalFigurePage = (props) => {
                   </Paper>
                 ))}
               </Grid>
-              <ReactPaginate
+            </Item>
+            <ReactPaginate
               breakLabel="..."
               nextLabel="next >"
               onPageChange={handlePageClick}
@@ -279,7 +280,6 @@ const HistoricalFigurePage = (props) => {
               containerClassName="pagination d-flex justify-content-center"
               activeClassName='active'
             />
-            </Item>
           </Grid>
           <Grid item xs={4} container justifyContent="center" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
             <FilterCharacterPage setSelectedPeriod={setSelectedPeriod} />

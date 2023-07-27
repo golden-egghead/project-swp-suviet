@@ -157,6 +157,7 @@ import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import './EditCharacter.css';
 
 function EditSite({ data }) {
@@ -181,159 +182,180 @@ function EditSite({ data }) {
 		// setID(props.historicalSiteID);
 		setOldPhoto(props.image);
 		setCharacterName(props.characterName);
-        setEstate(props.estate)
+		setEstate(props.estate)
 		setDescription(props.description);
 		setStory(props.story);
 		setPeriodName(props.periodName)
-	},[]
+	}, []
 	)
 
-	
+	const [listPeriods, setListPeriods] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(`http://localhost:8080/api/period/videos?periodName`);
+				setListPeriods(response.data.data)
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchData();
+	}, []);
+
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		  const accessToken = localStorage.getItem('accessToken');
-		  const formData = new FormData();
-		  formData.append('characterName', characterName);
-		  formData.append('estate', estate);
-		  formData.append('description', description);
-		  formData.append('story', story);
-		  formData.append('periodName', periodName);
-		  if (image) { // If a file has been selected, add it to the form data
+		const accessToken = localStorage.getItem('accessToken');
+		const formData = new FormData();
+		formData.append('characterName', characterName);
+		formData.append('estate', estate);
+		formData.append('description', description);
+		formData.append('story', story);
+		formData.append('periodName', periodName);
+		if (image) { // If a file has been selected, add it to the form data
 			formData.append("image", image);
-		  }
-		  fetch(baseUrl + pr, {
+		}
+		fetch(baseUrl + pr, {
 			method: 'PUT',
 			'Content-Type': 'multipart/form-data',
 			headers: { 'Authorization': 'Bearer ' + accessToken },
 			body: formData
-		  })
+		})
 			.then(response => {
-			  if (response.ok) {
-				toast.success('Cập Nhật Thành Công');
-				navigate('/moderator/character');
-			  } else {
-				// alert('Error uploading post, please try again.');
-				console.error(response)
-				
-			  }
+				if (response.ok) {
+					toast.success('Cập Nhật Thành Công');
+					navigate('/moderator/character');
+				} else {
+					// alert('Error uploading post, please try again.');
+					console.error(response)
+
+				}
 			})
 			.catch(error => {
-			  console.error(error);
-			  alert('An error occurred while uploading the post. Please try again later.')
+				console.error(error);
+				alert('An error occurred while uploading the post. Please try again later.')
 			});
-		}
+	}
+
+	const [selectedFile, setSelectedFile] = useState(null);
 
 	return (
 		<div className='item'>
-		<form className="edit-container" onSubmit={handleSubmit}>
-			<div className="edit-form">
-				<div className="form-title">
-					<h2>Cập Nhật Nhân Vật</h2>
-				</div>
-				<div className="form-body">
-					{/* <div className="form-group">
+			<form className="edit-container" onSubmit={handleSubmit}>
+				<div className="edit-form">
+					<div className="form-title">
+						<h2>Cập Nhật Nhân Vật</h2>
+					</div>
+					<div className="form-body">
+						{/* <div className="form-group">
 						<TextField
 							fullWidth id="filled-basic" label="ID" variant="filled" value={ID} disabled />
 					</div> */}
-					{/* <div className="form-group">
+						{/* <div className="form-group">
 						<label>Choose Video File</label>
 						<input type="file" onChange={handleVideoChange} accept="video/*" />
 					</div> */}
-					<div >
-					<label htmlFor="photo">Ảnh của Nhân Vật:</label>
-					<img src={oldPhoto} alt="Old photo" style={{height:"100px", width: "100px", overflow:"auto" }} />
-					<br />
-					</div>
-					<div className="form-group">
-					<input type="file" id="photo" onChange={(e) => setImage(e.target.files[0])} />
-					<br />
-
-						{/* <TextField
-							fullWidth
-							id="filled-basic"
-							label="Hình Ảnh"
-							variant="outlined"
-							value={photo}
-							onChange={(e) => setPhoto(e.target.value)}
-						/> */}
-					</div>
-					<div className="form-group">
-						<TextField
-							fullWidth
-							id="filled-basic"
-							label="Tên Nhân Vật"
-							variant="outlined"
-							value={characterName}
-							onChange={(e) => setCharacterName(e.target.value)}
-							required
-						/>
-					</div>
-                    <div className="form-group">
-						<TextField
-							fullWidth
-							id="filled-basic"
-							label="Địa Vị"
-							variant="outlined"
-							value={estate}
-							onChange={(e) => setEstate(e.target.value)}
-							required
-						/>
-					</div>
-					<div className="form-group">
-						<TextField
-							fullWidth
-							id="filled-basic"
-							label="Mô Tả"
-							variant="outlined"
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-							required
-							multiline
-							rows={10}
-						/>
-					</div>
-                    <div className="form-group">
-						<TextField
-							fullWidth
-							id="filled-basic"
-							label="Chi Tiết"
-							variant="outlined"
-							value={story}
-							onChange={(e) => setStory(e.target.value)}
-							required
-							multiline
-							rows={10}
-						/>
-					</div>
-					<div className="form-group">
-						<TextField
-							fullWidth
-							id="filled-basic"
-							label="Thời Kì"
-							variant="outlined"
-							value={periodName}
-							onChange={(e) => setPeriodName(e.target.value)}
-							required
-						/>
-					</div>
-					<div className="form-group">
-						<div className="update-btn">
-							<Button variant="contained" color="success" type="submit">
-								Cập Nhật
-							</Button>
+						<div >
+							<label htmlFor="photo">Ảnh của Nhân Vật:</label>
+							<img src={oldPhoto} style={{ height: "100px", width: "100px", overflow: "auto" }} alt='' />
+							<br />
 						</div>
-						<div className="cancel-btn">
-							<Link to="/moderator/character">
-								<Button variant="contained" color="error">
-									Hủy Bỏ
+						<br />
+						<div className="form-group">
+							<br />
+							<div style={{ display: 'flex', width: '100%' }}>
+								<label class="custom-file-upload" htmlFor="file">
+									Chọn ảnh
+								</label>
+								<input type="file" id="file" onChange={setImage} />
+								<p style={{ width: '300px', marginLeft: '10px', marginBottom: '0px', marginTop: '7px' }}>
+									{selectedFile ? selectedFile.name : 'Không có ảnh nào được chọn'}
+								</p>
+							</div>
+						</div>
+						<br />
+						<div className="form-group">
+							<TextField
+								fullWidth
+								id="filled-basic"
+								label="Tên Nhân Vật"
+								variant="outlined"
+								value={characterName}
+								onChange={(e) => setCharacterName(e.target.value)}
+								required
+							/>
+						</div>
+						<div className="form-group">
+							<TextField
+								fullWidth
+								id="filled-basic"
+								label="Địa Vị"
+								variant="outlined"
+								value={estate}
+								onChange={(e) => setEstate(e.target.value)}
+								required
+							/>
+						</div>
+						<div className="form-group">
+							<TextField
+								fullWidth
+								id="filled-basic"
+								label="Mô Tả"
+								variant="outlined"
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+								required
+								multiline
+								rows={10}
+							/>
+						</div>
+						<div className="form-group">
+							<TextField
+								fullWidth
+								id="filled-basic"
+								label="Chi Tiết"
+								variant="outlined"
+								value={story}
+								onChange={(e) => setStory(e.target.value)}
+								required
+								multiline
+								rows={10}
+							/>
+						</div>
+						<div className="form-group">
+							<select
+								id="period-select"
+								value={periodName}
+								oonChange={(e) => setPeriodName(e.target.value)}
+								required
+							>
+								<option value="">Chọn thời kì</option>
+								{listPeriods.map(period => (
+									<option key={period.periodValue} value={period.periodValue}>
+										{period.periodName}
+									</option>
+								))}
+							</select>
+						</div>
+						<div className="form-group">
+							<div className="update-btn">
+								<Button variant="contained" color="success" type="submit">
+									Cập Nhật
 								</Button>
-							</Link>
+							</div>
+							<div className="cancel-btn">
+								<Link to="/moderator/character">
+									<Button variant="contained" color="error">
+										Hủy Bỏ
+									</Button>
+								</Link>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</form>
-        </div>
+			</form>
+		</div>
 	)
 }
 

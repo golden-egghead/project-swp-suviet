@@ -11,17 +11,17 @@ import DashboardLayout from '../../examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from '../../examples/Navbars/DashboardNavbar';
 import DataTable from '../../examples/Tables/DataTable';
 // Data
-import itemData from './data/itemData'
-import { Link } from 'react-router-dom';
+import ArticleData from './data/ArticleData'
 import Button from '@mui/material/Button'
+import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 
-function Items() {
-	const { columns, rows } = itemData();
+function Articles() {
+	const { columns, rows } = ArticleData();
 	return (
 		<DashboardLayout>
 			<DashboardNavbar />
-            <Link to='/moderator/item/add'><Button style={{color: 'white'}} variant="contained" >
+			<Link to='/moderator/site/add'><Button style={{color: 'white'}} variant="contained" >
 				Tạo Mới <AddIcon/>
 			</Button></Link>
 			<MDBox pt={6} pb={3}>
@@ -39,7 +39,7 @@ function Items() {
 								coloredShadow="info"
 							>
 								<MDTypography variant="h4" color="white" textAlign='center' fontSize='25px'>
-									Cổ Vật
+									Bài Viết
 								</MDTypography>
 							</MDBox>
 							<MDBox pt={3}>
@@ -59,4 +59,4 @@ function Items() {
 	);
 }
 
-export default Items;
+export default Articles;

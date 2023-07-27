@@ -4,14 +4,14 @@
     background-repeat: no-repeat;
     background-position: center;
   }  
-    .add-container {
+    .edit-container-video {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     
-    .add-form {
+    .edit-form {
       width: 1800px;
       background-color: #fff;
       border-radius: 10px;
@@ -44,25 +44,3 @@
       margin-top: 8px;
     }
     
-/* Hide the default file input */
-input[type="file"] {
-  display: none;
-}
-
-/* Style the custom label to look like a button or link */
-label.custom-file-upload {
-  cursor: pointer;
-  padding: 8px 12px;
-  background-color: #3498db;
-  color: #fff;
-  border-radius: 4px;
-}
-
-/* Optional: Add some hover and active styles for the custom label */
-label.custom-file-upload:hover {
-  background-color: #2980b9;
-}
-
-label.custom-file-upload:active {
-  background-color: #216db1;
-}

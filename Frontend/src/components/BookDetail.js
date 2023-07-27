@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoReturnUpBackSharp } from "react-icons/io5";
 import * as React from 'react';
@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 const BookDetail = () => {
     const { bookID } = useParams();
     const [book, setBook] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchVideo = async () => {
@@ -46,7 +47,8 @@ const BookDetail = () => {
     }, [bookID]);
 
     const handleBack = () => {
-        window.history.back();
+        navigate(-1);
+        console.log(navigate);
     };
     const Img = styled('img')({
         margin: 'auto',

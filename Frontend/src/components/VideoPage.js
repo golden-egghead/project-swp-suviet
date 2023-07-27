@@ -57,6 +57,7 @@ const VideoPage = (props) => {
     useEffect(() => {
         fetchVideoDatafromPeriodName();
     }, [selectedPeriod]);
+
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const searchTerm = searchParams.get('title') || '';
@@ -138,6 +139,7 @@ const VideoPage = (props) => {
         color: theme.palette.text.secondary,
     }));
 
+
     return (<>
         <Container className='container-video' fluid={true} id="container" >
             <Row>
@@ -190,7 +192,7 @@ const VideoPage = (props) => {
                             <Grid container spacing={2}>
                                 {listVideos.map(video => (
                                     <Grid item xs={6} key={video.videoID} style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
-                                        <Card sx={{ maxWidth: 500, backgroundColor:'rgba(0,0,0,0.1)'}}>
+                                        <Card sx={{ maxWidth: 500, backgroundColor: 'rgba(0,0,0,0.1)' }}>
                                             <CardActionArea>
                                                 <ReactPlayer style={{ border: '10px solid #FFC701', }}
                                                     component="video"
@@ -213,29 +215,29 @@ const VideoPage = (props) => {
                                     </Grid>
                                 ))}
                             </Grid>
-                            <ReactPaginate
-            breakLabel="..."
-            nextLabel="next >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={totalPages}
-            previousLabel="< previous"
 
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            containerClassName="pagination d-flex justify-content-center"
-            activeClassName='active'
-        />
                         </Item>
-                        
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel="next >"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={totalPages}
+                            previousLabel="< previous"
+
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
+                            containerClassName="pagination d-flex justify-content-center"
+                            activeClassName='active'
+                        />
                     </Grid>
-                    <Grid item xs={4} container justifyContent="center" style={{backgroundColor:'rgba(0,0,0,0.1)'}}>
+                    <Grid item xs={4} container justifyContent="center" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
                         <FilterVideoPage setSelectedPeriod={setSelectedPeriod} />
                     </Grid>
                 </Grid>

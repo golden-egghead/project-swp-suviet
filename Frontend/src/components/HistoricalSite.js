@@ -150,7 +150,7 @@ const HistoricalSite = (props) => {
                     ))}
                 </Row> */}
 
-            <Grid container spacing={2} style={{ marginBottom: '40px' }}>
+            <Grid container spacing={2} style={{ marginBottom: '40px'}}>
                 {listSites.map((site) => (
                     <Grid item key={site.historicalsiteID} xs={12}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
