@@ -132,12 +132,12 @@ public class UserController {
 
 
     @GetMapping("/verify")
-    public String verifyAccount(@Param("code") String code) {
+    public ResponseEntity<String> verifyAccount(@Param("code") String code) {
         boolean verified = userService.verify(code);
         if (verified) {
-            return "Verify successfully";
+            return ResponseEntity.ok("Verify successfully!");
         } else {
-            return "Verify failed";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Verify failed!");
         }
     }
 
