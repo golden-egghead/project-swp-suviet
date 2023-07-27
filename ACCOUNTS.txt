@@ -11,7 +11,7 @@ password : 1
 
 MEMBER:
 email:     boiboii162122@gmail.com
-password : 1
+password : 2
 
 email:     nhannq200@gmail.com
 password : 1
