@@ -58,10 +58,10 @@ const Header = (props) => {
           <Link style={{ color: 'white', textDecoration: 'none' }} to="/video"><Nav.Link href="#video">Video</Nav.Link></Link>
           <Link style={{ color: 'white', textDecoration: 'none' }} to="/book"><Nav.Link href="#book">Sách</Nav.Link></Link>
           <Link style={{ color: 'white', textDecoration: 'none' }} to="/baiviet"><Nav.Link href="#baiviet">Bài Viết</Nav.Link></Link>
-          <Link to="/postarticle"><Nav.Link href="#postarticle"><i class="fa-solid fa-pen-to-square fa-1.5x"></i> Viết bài</Nav.Link></Link>
+          <Link to="/postarticle" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#postarticle"><i class="fa-solid fa-pen-to-square fa-1.5x"></i> Viết bài</Nav.Link></Link>
           {userRole === 'MODERATOR' && (
             
-            <Link to="/articlecontrol"><Nav.Link href="#articlecontrol"><i class="fa-solid fa-file-pen"></i></Nav.Link></Link>
+            <Link to="/articlecontrol" ><Nav.Link href="#articlecontrol"><i class="fa-solid fa-file-pen"></i></Nav.Link></Link>
             
           )}
         </Nav>
