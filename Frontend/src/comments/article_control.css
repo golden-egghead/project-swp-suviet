@@ -27,11 +27,11 @@
 }
 
 .button-approve {
-    background-color: rgb(66, 72, 243);
+    background-color: #0B80B3;
 }
 
 .button-approve:hover {
-    background-color: rgb(49, 56, 240);
+    background-color: #1988b8;
 }
 
 .button-reject {
@@ -39,7 +39,7 @@
 }
 
 .button-reject:hover {
-    background-color: #e8e6e6;
+    background-color: #b8b2b2;
 }
 
 .button-container {

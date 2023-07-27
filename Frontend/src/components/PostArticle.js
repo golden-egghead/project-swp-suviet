@@ -17,8 +17,11 @@ function PostArticle() {
     setContext(event.target.value);
   };
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setSelectedFile(file);
   };
 
   const handleTagChange = (e) => {
@@ -62,24 +65,33 @@ function PostArticle() {
 
   return (
     <form className='postarticle' onSubmit={handleSubmit}>
-      <h2 className='articles-title'>Đăng bài viết</h2>
       <div className='articles-content'>
-      <div>
-        <label htmlFor="title">Tiêu đề:</label>
-        <br />
-        <input type="text" id="title" value={title} onChange={handleTitleChange}  style={{width: "1000px" }} />
-      </div>
-      <div>
-        <label htmlFor="context"  >Nội dung bài viết:</label>
-        <br />
-        <textarea id="context" value={context} onChange={handleContextChange} style={{ height: "400px", width: "1000px" }} />
-      </div>
-      <div>
-        <label htmlFor="file">Hình ảnh minh họa:</label>
-        <br />
-        <input type="file" id="file" onChange={handleFileChange} />
-      </div>
-      <div>
+        <h2 className='articles-title'>Đăng bài viết</h2>
+        <div>
+          <label htmlFor="title">Tiêu đề:</label>
+          <br />
+          <input type="text" id="title" value={title} onChange={handleTitleChange} style={{ width: "1000px" }} />
+        </div>
+        <div>
+          <label htmlFor="context"  >Nội dung bài viết:</label>
+          <br />
+          <textarea id="context" value={context} onChange={handleContextChange} style={{ height: "400px", width: "1000px" }} />
+        </div>
+        <div>
+          <label htmlFor="file">Hình ảnh minh họa:</label>
+          <br />
+          <div style={{display: 'flex', width: '100%'}}>
+            <label class="custom-file-upload" htmlFor="file">
+              Chọn ảnh
+            </label>
+            <input type="file" id="file" onChange={handleFileChange} />
+            <p style={{ width: '300px', marginLeft:'10px', marginBottom: '0px', marginTop: '7px'}}>
+            {selectedFile ? selectedFile.name : 'Không có ảnh nào được chọn'}
+            </p>
+          </div>
+
+        </div>
+        <div>
           <button type="button" onClick={toggleTags} className='btnTag'>
             Thể loại
           </button>
@@ -96,7 +108,7 @@ function PostArticle() {
             </select>
           )}
         </div>
-      <button className='buttonpost' type="submit" >Đăng</button>
+        <button className='buttonpost' type="submit" >Đăng</button>
       </div>
     </form>
   );

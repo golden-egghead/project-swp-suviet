@@ -1,68 +1,103 @@
-
 .postarticle {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 25px;
-  }
-  .articles-title{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .buttonpost{
-    display: block;
-    margin: 0 auto;
-    background-color: black;
-    color: #ffffff;
-    border-radius: 4px;
-    flex-direction: column;
-  }
-  .avatar {
-    width: 200px;
-    height: 100px;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  .articles-content {
-    background-color: #e9e9e9;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 4rem;
-    border-radius: 5px;
-  }
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url('https://img6.thuthuatphanmem.vn/uploads/2022/11/25/anh-nen-slide-powerpoint-dep_085430590.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
-  .buttonpost {
-    width: 80px;
-    height: 40px;
-    align-items: center;
-    line-height: 35px;
-    background-color: rgb(255, 199, 1);
-    color: #000;
-    border: 0px;
-  }
+#title:focus-visible {
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
 
-  .buttonpost:hover {
-    background-color: rgb(236, 221, 49);
-    color: #000;
-  }
+.articles-title {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-  .btnTag {
-    border-radius: 5px;
-    background-color: #000;
-    color: #fff;
-  }
+.buttonpost {
+  display: block;
+  margin: 0 auto;
+  background-color: black;
+  color: #ffffff;
+  border-radius: 4px;
+  flex-direction: column;
+}
 
-  .btnTag:hover {
-    background-color: #474545;
-  }
-  
+.avatar {
+  width: 200px;
+  height: 100px;
+  display: block;
+  margin: 0 auto;
+}
+
+.articles-content {
+  margin-top: 30px;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 4rem;
+  border-radius: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.buttonpost {
+  width: 115px;
+  height: 50px;
+  align-items: center;
+  line-height: 45px;
+  background-color: rgb(255, 199, 1);
+  color: #000;
+  border: 0px;
+  border-radius: 30px;
+}
+
+.buttonpost:hover {
+  background-color: rgb(236, 221, 49);
+  color: #000;
+}
+
+.btnTag {
+  border-radius: 5px;
+  background-color: #000;
+  color: #fff;
+}
+
+.btnTag:hover {
+  background-color: #474545;
+}
+
+/* Hide the default file input */
+input[type="file"] {
+  display: none;
+}
+
+/* Style the custom label to look like a button or link */
+label.custom-file-upload {
+  cursor: pointer;
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 4px;
+}
+
+/* Optional: Add some hover and active styles for the custom label */
+label.custom-file-upload:hover {
+  background-color: #2980b9;
+}
+
+label.custom-file-upload:active {
+  background-color: #216db1;
+}
