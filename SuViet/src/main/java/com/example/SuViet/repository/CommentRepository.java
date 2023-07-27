@@ -11,7 +11,8 @@ import com.example.SuViet.model.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-    List<Comment> findByArticleAndEnabledIsTrueAndStatusIsTrueOrderByCreatedDateDesc(Article article);
+    // List<Comment> findByArticleAndEnabledIsTrueAndStatusIsTrueOrderByCreatedDateDesc(Article article);
+    List<Comment> findByArticleAndEnabledIsTrueAndStatusIsTrueAndUserEnabledIsTrueOrderByCreatedDateDesc(Article article);
 
     Page<Comment> findByEnabledIsTrueAndStatusIsFalse(Pageable Pageable);
 }
