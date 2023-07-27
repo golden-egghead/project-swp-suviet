@@ -516,7 +516,7 @@ public class ArticleController {
             Comment comment = commentService.getCommentById(commentId);
 
             RepliesComment replyComment = new RepliesComment();
-            replyComment.setCommentText((repliesCommentDTO.getCommentText()));
+            replyComment.setCommentText((repliesCommentDTO.getReplyText()));
             replyComment.setCreatedDate(LocalDateTime.now());
             replyComment.setUser(user);
             replyComment.setArticle(article);
@@ -993,7 +993,7 @@ public class ArticleController {
                         new ResponseObject("ERROR", "User is not authorized to update the comment", null));
             }
 
-            existingReplyComment.setCommentText(repliesCommentDTO.getCommentText());
+            existingReplyComment.setCommentText(repliesCommentDTO.getReplyText());
 
             List<String> roles = getRoleName(currentUser.getRoles());
 

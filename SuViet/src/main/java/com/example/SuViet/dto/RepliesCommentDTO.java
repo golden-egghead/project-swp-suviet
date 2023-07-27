@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 public class RepliesCommentDTO {
     private int replyID;
-    private String commentText;
+    private String replyText;
     private String createdDate;
     private boolean status;
     private boolean enabled;
@@ -25,7 +25,7 @@ public class RepliesCommentDTO {
     public static RepliesCommentDTO convertToDTO(RepliesComment repliesComment) {
         RepliesCommentDTO dto = new RepliesCommentDTO();
         dto.setReplyID(repliesComment.getReplyID());
-        dto.setCommentText(repliesComment.getCommentText());
+        dto.setReplyText(repliesComment.getCommentText());
         // dto.setCreatedDate(repliesComment.getCreatedDate());
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dto.setCreatedDate(repliesComment.getCreatedDate().format(dateFormatter));
@@ -40,7 +40,7 @@ public class RepliesCommentDTO {
     public RepliesComment convertToEntity() {
         RepliesComment repliesComment = new RepliesComment();
         repliesComment.setReplyID(this.replyID);
-        repliesComment.setCommentText(this.commentText);
+        repliesComment.setCommentText(this.replyText);
         // repliesComment.setCreatedDate(this.createdDate);
         try {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
