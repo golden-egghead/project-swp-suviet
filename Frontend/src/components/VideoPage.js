@@ -45,7 +45,7 @@ const VideoPage = (props) => {
 
     const fetchVideoDatafromPeriodName = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/period/videos?periodName=${selectedPeriod}`);
+            const response = await axios.get(`http://localhost:8080/api/period/videos?periodName=${selectedPeriod ? selectedPeriod : '1'}`);
             setListVideos(response.data.data)
             // setTotalPages(response.data.total_pages)
             console.log("log111:", response)
@@ -138,7 +138,6 @@ const VideoPage = (props) => {
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
-
 
     return (<>
         <Container className='container-video' fluid={true} id="container" >

@@ -429,6 +429,7 @@ const getHeatMapData = () => {
 const customTexts = {
   "Hà Nam": {
     text: "Nằm về phía Tây Nam châu thổ sông Hồng, cách trung tâm Hà Nội chừng 65km, tỉnh Hà Nam là cửa ngõ phía Nam của thủ đô – Đông giáp các tỉnh Hưng Yên và Thái Bình, Nam giáp các tỉnh Nam Định và Ninh Bình, Tây giáp tỉnh Hòa Bình và Bắc giáp Hà Nội. Hà Nam có diện tích 823,1km² với dân số 785.057 người theo thống kê 1-4-2009.",
+    links: ["/historicalfigure-details/43"],
     images: ["https://www.aseantraveller.net/source/img_news/815.jpg"],
     videos: [
       "https://www.youtube.com/embed/VL8rleuaUlU",
@@ -436,6 +437,7 @@ const customTexts = {
   },
   "Thái Bình": {
     text: "<p> Thái Bình là một tỉnh thuộc vùng đồng bằng sông Hồng, nằm ở phía đông bắc của miền Bắc Việt Nam. Tỉnh Thái Bình giáp biển Đông về phía đông, giáp tỉnh Nam Định về phía nam, tỉnh Hưng Yên và tỉnh Hải Dương về phía đông nam, tỉnh Hải Phòng về phía đông bắc và Thành phố Hải Phòng cách tỉnh Thái Bình khoảng 50 km.<br>Tọa độ địa lý của tỉnh Thái Bình:<br><br>- Vĩ độ: từ khoảng 20 độ 23 phút đến 20 độ 39 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 08 phút đến 106 độ 35 phút kinh độ Đông.</p>",
+    links: ["/postdetails/58"],
     images: ["https://www.kynghidongduong.vn/userfiles/images/tour-nuoc-ngoai/nam-ninh-que-lam/thai-binh-co-tran-sung-ta-du-lich-nam-ninh-kynghidongduong-022.jpg"],
     videos: [
       "https://www.youtube.com/embed/k_CfVynoCX0",
@@ -443,13 +445,15 @@ const customTexts = {
   },
   "Nam Định": {
     text: "<p> Nam Định là một tỉnh nằm ở phía bắc Việt Nam, thuộc vùng đồng bằng sông Hồng. Tỉnh này giáp biển Đông về phía đông, giáp tỉnh Thái Bình về phía bắc, giáp tỉnh Ninh Bình về phía nam, tỉnh Hà Nam về phía tây nam và Thành phố Hải Phòng cách Nam Định khoảng 60 km về phía đông bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Nam Định:<br><br>- Vĩ độ: từ khoảng 20 độ 08 phút đến 20 độ 32 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 55 phút đến 106 độ 22 phút kinh độ Đông.</p>",
+    links: ["/video-details/78"],
     images: ["https://upload.wikimedia.org/wikipedia/commons/f/f4/Statue_of_Tran_Hung_Dao%2C_Nam_Dinh_City%2C_Vietnam_%2803%29.jpg"],
     videos: [
-      "https://www.youtube.com/embed/-I9uEr5k_FQ",
+      "https://www.youtube.com/embed/-I9uEr5k_FQ",   
     ],
   },
   "Ninh Bình": {
     text: "<p> Ninh Bình là một tỉnh nằm ở phía bắc Việt Nam, thuộc vùng đồng bằng sông Hồng. Tỉnh này nằm ở phía nam của Thủ đô Hà Nội và cách Hà Nội khoảng 91 km về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Ninh Bình:<br><br>- Vĩ độ: từ khoảng 20 độ 08 phút đến 20 độ 32 phút vĩ độ Bắc.<br>- Vĩ độ: từ khoảng 19 độ 09 phút đến 20 độ 17 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 40 phút đến 106 độ 25 phút kinh độ Đông.</p>",
+    links: ["/postdetails/60"],
     images: ["https://top10ninhbinh.com/wp-content/uploads/2021/06/chua-ninh-binh-2.jpg"],
     videos: [
       "https://www.youtube.com/embed/8RnUI3YMxzk",
@@ -457,6 +461,7 @@ const customTexts = {
   },
   "Thanh Hóa": {
     text: "<p> Thanh Hóa là một tỉnh nằm ở phía bắc của miền Trung Việt Nam. Tỉnh này có vị trí địa lý chiến lược, giáp biển Đông về phía đông, giáp các tỉnh Nghệ An và Hà Tĩnh về phía nam, giáp tỉnh Ninh Bình về phía tây và giáp tỉnh Hà Nam về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Thanh Hóa:<br><br>- Vĩ độ: từ khoảng 19 độ 49 phút đến 21 độ 40 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 27 phút đến 106 độ 11 phút kinh độ Đông.</p>",
+    links: ["/postdetails/59"],
     images: ["http://www.nhatuvanmocque.com/kcfinder/upload/images/57Ditichhamrong05.jpg"],
     videos: [
       "https://www.youtube.com/embed/A7ll8zlU9VU",
@@ -472,6 +477,7 @@ const customTexts = {
   },
   "Hà Tĩnh": {
     text: "<p> Hà Tĩnh là một tỉnh nằm ở phía bắc miền Trung Việt Nam. Tỉnh này có vị trí địa lý chiến lược, giáp biển Đông về phía đông, giáp tỉnh Quảng Bình về phía nam, giáp tỉnh Nghệ An về phía bắc, và giáp Lào về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Hà Tĩnh:<br><br>- Vĩ độ: từ khoảng 17 độ 49 phút đến 18 độ 55 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 40 phút đến 106 độ 00 phút kinh độ Đông.</p>",
+    links: ["/postdetails/62"],
     images: ["https://baoxaydung.com.vn/stores/news_dataimages/hiep/122021/12/09/5555_image003.jpg"],
     videos: [
       "https://www.youtube.com/embed/OhiQoBPoMrU",
@@ -479,6 +485,7 @@ const customTexts = {
   },
   "Quảng Bình": {
     text: "<p> Quảng Bình là một tỉnh nằm ở phía bắc miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biển Đông về phía đông, giáp tỉnh Hà Tĩnh về phía nam, giáp tỉnh Quảng Trị về phía bắc, và giáp Lào về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Quảng Bình:<br><br>- Vĩ độ: từ khoảng 17 độ 20 phút đến 18 độ 30 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 30 phút đến 106 độ 11 phút kinh độ Đông.</p>",
+    links: ["/postdetails/61"],
     images: ["https://image.vtc.vn/resize/th/upload/2022/08/17/qb-quan-khanh-tuan-14375226.jpg"],
     videos: [
       "https://www.youtube.com/embed/raJigU6v02k",
@@ -486,6 +493,7 @@ const customTexts = {
   },
   "Quảng Trị": {
     text: "<p> Quảng Trị là một tỉnh nằm ở phía bắc miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biển Đông về phía đông, giáp tỉnh Thừa Thiên Huế về phía nam, giáp tỉnh Quảng Bình về phía tây, và giáp Lào về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Quảng Trị:<br><br>- Vĩ độ: từ khoảng 16 độ 35 phút đến 17 độ 23 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 31 phút đến 107 độ 22 phút kinh độ Đông.</p>",
+    links: ["/historicalfigure-details/44"],
     images: ["https://upload.wikimedia.org/wikipedia/commons/0/09/Th%C3%A0nh_c%E1%BB%95_Qu%E1%BA%A3ng_Tr%E1%BB%8B_4.jpg"],
     videos: [
       "https://www.youtube.com/embed/G7bmgK_Q0bs",
@@ -493,6 +501,7 @@ const customTexts = {
   },
   "Thừa Thiên Huế": {
     text: '<p> Huế là một thành phố nằm ở miền Trung Việt Nam và là thủ phủ của tỉnh Thừa Thiên-Huế. Thành phố này có vị trí địa lý đắc địa, giáp biển Đông về phía đông, giáp tỉnh Quảng Trị về phía bắc, giáp tỉnh Quảng Nam về phía nam, và giáp đồng bằng phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Huế:<br><br>- Vĩ độ: từ khoảng 16 độ 21 phút đến 16 độ 34 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 39 phút đến 107 độ 54 phút kinh độ Đông.</p>',
+    links: ["/postdetails/63","/video-details/79"],
     images: ["https://media.techcity.cloud/vietnam.vn/2023/04/Kinh-thanh-Hue-2-1.jpg"],
     videos: [
       "https://www.youtube.com/embed/VPaQ4-5n0_Y",
@@ -500,6 +509,7 @@ const customTexts = {
   },
   "Đà Nẵng": {
     text: "<p> Đà Nẵng là một thành phố nằm ở miền Trung Việt Nam, và là thành phố trực thuộc Trung ương. Thành phố này có vị trí địa lý đắc địa, nằm trên bờ biển biển Đông, giữa hai tỉnh Quảng Nam về phía nam và Quảng Ngãi về phía bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Đà Nẵng:<br><br>- Vĩ độ: từ khoảng 15 độ 55 phút đến 16 độ 10 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 05 phút đến 108 độ 23 phút kinh độ Đông.</p>",
+    links: ["/postdetails/64"],
     images: ["https://hodadi.s3.amazonaws.com/production/blogs/pictures/000/000/028/original/du-lich-da-nang.jpg?1501897690"],
     videos: [
       "https://www.youtube.com/embed/rcrcPDwngeA",
@@ -507,6 +517,7 @@ const customTexts = {
   },
   "Quảng Nam": {
     text: "<p> Quảng Nam là một tỉnh nằm ở miền Trung Việt Nam. Tỉnh này có vị trí địa lý chiến lược, giáp biển Đông về phía đông, giáp thành phố Đà Nẵng về phía tây bắc, giáp tỉnh Quảng Ngãi về phía nam, giáp tỉnh Thừa Thiên-Huế về phía bắc, và giáp tỉnh Kon Tum về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Quảng Nam:<br><br>- Vĩ độ: từ khoảng 14 độ 40 phút đến 15 độ 43 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 48 phút đến 109 độ 27 phút kinh độ Đông.</p>",
+    links: ["/video-details/80"],
     images: ["https://images2.thanhnien.vn/Uploaded/minhnguyet/2022_07_06/thap-cham-3539.jpg"],
     videos: [
       "https://www.youtube.com/embed/JmqtbFAtSHY",
@@ -514,6 +525,7 @@ const customTexts = {
   },
   "Quảng Ngãi": {
     text: "<p> Quảng Ngãi là một tỉnh nằm ở miền Trung Việt Nam. Tỉnh này có vị trí địa lý chiến lược, giáp biển Đông về phía đông, giáp tỉnh Bình Định về phía nam, giáp tỉnh Quảng Nam về phía tây, giáp tỉnh Kon Tum về phía tây bắc, và giáp tỉnh Gia Lai về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Quảng Ngãi:<br><br>- Vĩ độ: từ khoảng 14 độ 41 phút đến 15 độ 26 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 29 phút đến 109 độ 14 phút kinh độ Đông.</p>",
+    links: ["/postdetails/65"],
     images: ["https://baoquangngai.vn/file/8a10a0d36ccebc89016ce0c6fa3e1b83/dataimages/202005/original/images2285863_THANHCOQN.jpg"],
     videos: [
       "https://www.youtube.com/embed/6rv0kfjihZ0",
@@ -521,6 +533,7 @@ const customTexts = {
   },
   "Kon Tum": {
     text: "<p> Kon Tum là một tỉnh nằm ở Tây Nguyên, khu vực đồng bằng cao nguyên của miền Trung Việt Nam. Tỉnh này có vị trí địa lý độc đáo, giáp biên giới với Lào về phía tây, giáp tỉnh Gia Lai về phía đông, giáp tỉnh Quảng Nam về phía nam, giáp tỉnh Quảng Ngãi và tỉnh Bình Định về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Kon Tum:<br><br>- Vĩ độ: từ khoảng 13 độ 15 phút đến 15 độ 09 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 47 phút đến 108 độ 55 phút kinh độ Đông.</p>",
+    links: ["/postdetails/66"],
     images: ["https://cdnimg.vietnamplus.vn/uploaded/qfsqy/2016_12_09/vnp_0912nha_san.jpg"],
     videos: [
       "https://www.youtube.com/embed/pTQL6U_jxgA",
@@ -528,6 +541,7 @@ const customTexts = {
   },
   "Bình Định": {
     text: "<p> Bình Định là một tỉnh nằm ở miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biển Đông về phía đông, giáp tỉnh Phú Yên về phía nam, giáp tỉnh Gia Lai về phía tây nam, giáp tỉnh Kon Tum về phía tây bắc, giáp tỉnh Quảng Ngãi về phía bắc và giáp tỉnh Quang Nam về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Bình Định:<br><br>- Vĩ độ: từ khoảng 13 độ 11 phút đến 14 độ 40 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 33 phút đến 109 độ 32 phút kinh độ Đông.</p>",
+    links: ["/postdetails/67","/historicalfigure-details/45"],
     images: ["https://quynhontourist.com/wp-content/uploads/2020/04/du-lich-binh-dinh-cai-noi-cua-vo-thuat.jpg"],
     videos: [
       "https://www.youtube.com/embed/waUuhrH9bSM",
@@ -535,6 +549,7 @@ const customTexts = {
   },
   "Gia Lai": {
     text: "<p> Gia Lai là một tỉnh nằm ở Tây Nguyên, khu vực cao nguyên của miền Trung Việt Nam. Tỉnh này có vị trí địa lý độc đáo, giáp biên giới với Campuchia về phía tây nam, giáp tỉnh Kon Tum về phía tây, giáp tỉnh Đắk Lắk về phía đông, giáp tỉnh Phú Yên và tỉnh Bình Định về phía nam, giáp tỉnh Kon Tum về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Gia Lai:<br><br>- Vĩ độ: từ khoảng 13 độ 14 phút đến 15 độ 25 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 33 phút đến 109 độ 23 phút kinh độ Đông.</p>",
+    links: ["/historicalfigure-details/46"],
     images: ["https://image.vtc.vn/resize/th/upload/2021/09/02/nha-tho2-22274571.png"],
     videos: [
       "https://www.youtube.com/embed/lqu-8N2BFeU",
@@ -542,6 +557,7 @@ const customTexts = {
   },
   "Phú Yên": {
     text: "<p> Phú Yên là một tỉnh nằm ở miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biển Đông về phía đông, giáp tỉnh Khánh Hòa về phía nam, giáp tỉnh Gia Lai và tỉnh Đắk Lắk về phía tây, giáp tỉnh Bình Định và tỉnh Quảng Ngãi về phía bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Phú Yên:<br><br>- Vĩ độ: từ khoảng 12 độ 37 phút đến 14 độ 00 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 57 phút đến 109 độ 55 phút kinh độ Đông.</p>",
+    links: ["/video-details/81"],
     images: ["https://phuyentourist.com/wp-content/uploads/2020/10/chua-bao-lam.png"],
     videos: [
       "https://www.youtube.com/embed/Vha89lT56iU",
@@ -549,6 +565,7 @@ const customTexts = {
   },
   "Đắk Lắk": {
     text: "<p> Đắk Lắk là một tỉnh nằm ở Tây Nguyên, khu vực cao nguyên của miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biên giới với Campuchia về phía tây nam, giáp tỉnh Gia Lai về phía đông, giáp tỉnh Đắk Nông về phía nam, giáp tỉnh Lâm Đồng về phía tây bắc, giáp tỉnh Phú Yên và tỉnh Khánh Hòa về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Đắk Lắk:<br><br>- Vĩ độ: từ khoảng 11 độ 42 phút đến 13 độ 11 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 57 phút đến 109 độ 57 phút kinh độ Đông.</p>",
+    links: ["/video-details/82"],
     images: ["https://phuyentourist.com/wp-content/uploads/2020/10/chua-bao-lam.png"],
     videos: [
       "https://www.youtube.com/embed/La9ZbmbWr7U",
@@ -556,6 +573,7 @@ const customTexts = {
   },
   "Khánh Hòa": {
     text: "<p> Khánh Hòa là một tỉnh nằm ở miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biển Đông về phía đông, giáp tỉnh Phú Yên về phía bắc, giáp tỉnh Đắk Lắk về phía tây bắc, giáp tỉnh Lâm Đồng về phía tây, và giáp tỉnh Ninh Thuận về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Khánh Hòa:<br><br>- Vĩ độ: từ khoảng 11 độ 35 phút đến 12 độ 48 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 48 phút đến 109 độ 46 phút kinh độ Đông.</p>",
+    links: ["/postdetails/68"],
     images: ["https://dulichvn.org.vn/nhaptin/uploads/images/thanhcodienkhanh1.jpg"],
     videos: [
       "https://www.youtube.com/embed/HW1c9Ri0HtE",
@@ -564,12 +582,14 @@ const customTexts = {
   "Đắk Nông": {
     text: "<p> Đắk Nông là một tỉnh nằm ở Tây Nguyên, khu vực cao nguyên của miền Trung Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Đắk Lắk về phía đông và phía bắc, giáp tỉnh Lam Đồng về phía nam, giáp tỉnh Bình Phước và tỉnh Lâm Đồng về phía tây, giáp tỉnh Gia Lai và tỉnh Lâm Đồng về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Đắk Nông:<br><br>- Vĩ độ: từ khoảng 11 độ 28 phút đến 13 độ 03 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 21 phút đến 108 độ 19 phút kinh độ Đông.</p>",
     images: ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Draysap02.JPG/420px-Draysap02.JPG"],
+    links: ["/postdetails/69"],
     videos: [
       "https://www.youtube.com/embed/GPiGma4nd_U",
     ],
   },
   "Bình Phước": {
     text: "<p> Bình Phước là một tỉnh nằm ở miền Đông Nam Bộ của Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Bình Dương về phía đông bắc, giáp tỉnh Đồng Nai về phía đông, giáp tỉnh Lâm Đồng về phía tây, giáp tỉnh Tây Ninh và tỉnh Bình Dương về phía bắc, giáp tỉnh Đồng Nai và tỉnh Lâm Đồng về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Bình Phước:<br><br>- Vĩ độ: từ khoảng 11 độ 38 phút đến 13 độ 08 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 37 phút đến 107 độ 46 phút kinh độ Đông.</p>",
+    links: ["/video-details/83"],
     images: ["https://media.baobinhphuoc.com.vn/upload/news/4_2023/d1_17364715042023.jpg"],
     videos: [
       "https://www.youtube.com/embed/vLTV5gvY70c",
@@ -577,6 +597,7 @@ const customTexts = {
   },
   "Hà Giang": {
     text: '<p><p> Hà Giang là một tỉnh nằm ở vùng đất cao nguyên Bắc Bộ của miền Bắc Việt Nam. Tỉnh Hà Giang có vị trí địa lý đắc địa, giáp biên giới với Trung Quốc về phía bắc và phía đông, giáp tỉnh Cao Bằng về phía đông nam, giáp tỉnh Tuyên Quang về phía nam, giáp tỉnh Lào Cai về phía tây và giáp tỉnh Lai Châu về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Hà Giang:<br><br>- Vĩ độ: từ khoảng 22 độ 19 phút đến 23 độ 21 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 49 phút đến 105 độ 24 phút kinh độ Đông.</p>',
+    links: ["/postdetails/71"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/hagiang/hagiang.jpg",
       "https://images.baodantoc.vn/uploads/lethihongphuc/2023/3/23/h%C3%A0%20giang.jpg",
       "https://static-images.vnncdn.net/files/publish/2022/10/12/ruong-lua-chin-35.jpg"],
@@ -586,6 +607,7 @@ const customTexts = {
   },
   "Cao Bằng": {
     text: '<p> Cao Bằng là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biên giới với Trung Quốc về phía bắc và phía đông, giáp tỉnh Lạng Sơn về phía tây, giáp tỉnh Bắc Kạn về phía nam, và giáp tỉnh Hà Giang về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Cao Bằng:<br><br>- Vĩ độ: từ khoảng 22 độ 28 phút đến 23 độ 45 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 50 phút đến 107 độ 44 phút kinh độ Đông.</p>',
+    links: ["/video-details/84"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/caobang/caobang.jpg", "https://media.vov.vn/sites/default/files/styles/large_watermark/public/2020-11/dl_cb_6.jpg",
       "https://icdn.dantri.com.vn/2022/05/31/z34379455406568880ef752f54163601920ad22926f9ae-1653970212675.jpg"],
     videos: [
@@ -594,6 +616,7 @@ const customTexts = {
   },
   "Lào Cai": {
     text: '<p><p> Lào Cai là một tỉnh nằm ở vùng Tây Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biên giới với Trung Quốc về phía bắc, giáp tỉnh Yên Bái về phía tây nam, giáp tỉnh Hà Giang về phía đông nam, giáp tỉnh Lai Châu về phía tây, và giáp tỉnh Điện Biên về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Lào Cai:<br><br>- Vĩ độ: từ khoảng 21 độ 01 phút đến 22 độ 23 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 103 độ 42 phút đến 104 độ 46 phút kinh độ Đông.</p>',
+    links: ["/video-details/85"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/laocai/laocai.jpg",
       "https://media.baodautu.vn/Images/phuongthanh02/2022/08/25/14-Du%20l%E1%BB%8Bch%20l%C3%A0o%20Cai%204.jpg",
       "https://tuyengiao.vn/Uploads/2021/12/23/29/nam-2022-lao-cai-phan-dau-thu-ngan-sach-nha-nuoc-dat-9-500-ty-dong.jpg"],
@@ -603,6 +626,7 @@ const customTexts = {
   },
   "Lai Châu": {
     text: '<p> Lai Châu là một tỉnh nằm ở vùng Tây Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biên giới với Trung Quốc về phía bắc, giáp tỉnh Lào Cai về phía đông, giáp tỉnh Điện Biên về phía tây, giáp tỉnh Sơn La về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Lai Châu:<br><br>- Vĩ độ: từ khoảng 21 độ 01 phút đến 22 độ 38 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 102 độ 09 phút đến 104 độ 18 phút kinh độ Đông.</p>',
+    links: ["/postdetails/72"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/laichau/laichau.jpg",
       "https://image.giacngo.vn/w770/Uploaded/2023/qdhwqmrnd/2022_07_27/67fa5e54-huy-4353-6228.jpg",
       "https://images.baodantoc.vn/uploads/2022/Th%C3%A1ng%202/Ng%C3%A0y_21/TRung/D%C6%B0%E1%BB%9Dng%20h%E1%BA%A7m/1n%20-%20OK.jpg"],
@@ -612,6 +636,7 @@ const customTexts = {
   },
   "Bắc Kạn": {
     text: '<p> Bắc Kạn là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Cao Bằng về phía đông, giáp tỉnh Lạng Sơn về phía đông nam, giáp tỉnh Thái Nguyên về phía nam, giáp tỉnh Tuyên Quang về phía tây, giáp tỉnh Phú Thọ về phía tây nam, và giáp tỉnh Hà Giang về phía bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Bắc Kạn:<br><br>- Vĩ độ: từ khoảng 22 độ 10 phút đến 22 độ 58 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 49 phút đến 107 độ 16 phút kinh độ Đông.</p>',
+    links: ["/video-details/86"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/backan/backan.jpg",
       "https://ik.imagekit.io/tvlk/blog/2021/09/kinh-nghiem-du-lich-bac-kan.jpg?tr=dpr-2,w-675",
       "https://ik.imagekit.io/tvlk/blog/2021/09/kinh-nghiem-du-lich-bac-kan-2-1024x683.jpg?tr=dpr-2,w-675"],
@@ -621,6 +646,7 @@ const customTexts = {
   },
   "Tuyên Quang": {
     text: '<p> Tuyên Quang là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Hà Giang về phía bắc, giáp tỉnh Cao Bằng về phía đông bắc, giáp tỉnh Bắc Kạn về phía đông, giáp tỉnh Thái Nguyên về phía đông nam, giáp tỉnh Vĩnh Phúc về phía nam, giáp tỉnh Phú Thọ về phía tây nam, và giáp tỉnh Yên Bái về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Tuyên Quang:<br><br>- Vĩ độ: từ khoảng 21 độ 44 phút đến 22 độ 25 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 46 phút đến 105 độ 37 phút kinh độ Đông.</p>',
+    links: ["/postdetails/73"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/tuyenquang/tuyenquang.jpg",
       "https://ik.imagekit.io/tvlk/blog/2021/09/kinh-nghiem-du-lich-tuyen-quang-2-1024x904.jpg?tr=dpr-2,w-675",
       "https://daihoi13.dangcongsan.vn/Uploads/Images/2021/5/25/46/anh_TQ_28_9-1601240966289.jpg"],
@@ -630,6 +656,7 @@ const customTexts = {
   },
   "Lạng Sơn": {
     text: '<p> Lạng Sơn là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biên giới với Trung Quốc về phía bắc, giáp tỉnh Cao Bằng về phía đông, giáp tỉnh Bắc Giang và tỉnh Quảng Ninh về phía nam, giáp tỉnh Thái Nguyên về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Lạng Sơn:<br><br>- Vĩ độ: từ khoảng 21 độ 17 phút đến 22 độ 31 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 33 phút đến 107 độ 40 phút kinh độ Đông.</p>',
+    links: ["/video-details/87"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/langson/langson.jpg",
       "https://scontent.iocvnpt.com/resources/portal/Images/LSN/linhnk.lsn/langson_694464698.jpg",
       "https://media1.nguoiduatin.vn/thumb_x640x384/media/luong-quoc-tiep/2021/06/30/nguon-goc-ten-tinh-lang-son-va-nhung-dieu-thu-vi-co-the-ban-chua-biet.jpg"],
@@ -639,6 +666,7 @@ const customTexts = {
   },
   "Yên Bái": {
     text: '<p> Yên Bái là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Lào Cai về phía tây bắc, giáp tỉnh Lai Châu về phía tây, giáp tỉnh Sơn La về phía nam, giáp tỉnh Phú Thọ về phía đông nam, giáp tỉnh Tuyên Quang về phía đông và giáp tỉnh Hòa Bình về phía đông bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Yên Bái:<br><br>- Vĩ độ: từ khoảng 21 độ 05 phút đến 22 độ 25 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 21 phút đến 105 độ 37 phút kinh độ Đông.</p>',
+    links: ["/historicalfigure-details/47"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/yenbai/yenbai.jpg",
       "https://cdn.tgdd.vn/Files/2021/07/09/1366829/diem-danh-13-dia-diem-du-lich-tai-yen-bai-ban-nhat-dinh-phai-tham-quan-202202141345041502.jpg",
       "https://cungphuot.info/wp-content/uploads/2014/05/cac-dia-diem-du-lich-o-yen-bai.jpg"],
@@ -648,6 +676,7 @@ const customTexts = {
   },
   "Điện Biên": {
     text: '<p> Điện Biên là một tỉnh nằm ở vùng Tây Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp biên giới với Lào về phía tây và phía nam, giáp tỉnh Sơn La về phía đông, giáp tỉnh Lai Châu về phía bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Điện Biên:<br><br>- Vĩ độ: từ khoảng 20 độ 46 phút đến 22 độ 17 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 102 độ 19 phút đến 103 độ 06 phút kinh độ Đông.</p>',
+    links: ["/video-details/2"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/dienbien/dienbien.jpg",
       "https://www.vietnamairlinesgiare.vn/wp-content/uploads/2021/02/du-lich-dien-bien-22-2-2021-1.jpg",
       "https://nld.mediacdn.vn/291774122806476800/2022/5/7/2798442675192139397371526575932225621609096n-1651911906626131234922.jpg"],
@@ -657,6 +686,7 @@ const customTexts = {
   },
   "Thái Nguyên": {
     text: '<p> Thái Nguyên là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Bắc Giang về phía tây nam, giáp tỉnh Vĩnh Phúc về phía nam, giáp tỉnh Tuyên Quang về phía đông bắc, giáp tỉnh Lạng Sơn về phía đông, giáp tỉnh Bắc Kạn về phía bắc và giáp tỉnh Hà Giang về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Thái Nguyên:<br><br>- Vĩ độ: từ khoảng 21 độ 12 phút đến 22 độ 28 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 39 phút đến 107 độ 10 phút kinh độ Đông.</p>',
+    links: ["/postdetails/75"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/thainguyen/thainguyen.jpg",
       "https://cdn.tgdd.vn/Files/2023/04/26/1527479/du-lich-dong-hy-thai-nguyen-5-dia-diem-du-lich-nen-kham-pha-202304260848095809.jpg",
       "https://daithainguyen.vn/UserFiles/image/2(6950).jpg"],
@@ -666,6 +696,7 @@ const customTexts = {
   },
   "Bắc Giang": {
     text: '<p> Bắc Giang là một tỉnh nằm ở vùng Bắc Trung Bộ của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Thái Nguyên về phía tây, Quảng Ninh về phía đông, Bắc Ninh về phía nam, Lạng Sơn và Thái Nguyên về phía bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Bắc Giang:<br><br>- Vĩ độ: từ khoảng 21 độ 17 phút đến 21 độ 44 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 55 phút đến 106 độ 30 phút kinh độ Đông.</p>',
+    links: ["/postdetails/76"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/bacgiang/bacgiang.jpg",
       "https://ik.imagekit.io/tvlk/blog/2022/09/dia-diem-check-in-o-bac-giang-1.jpg?tr=dpr-2,w-675",
       "https://ik.imagekit.io/tvlk/blog/2022/09/dia-diem-check-in-o-bac-giang-3.jpg?tr=dpr-2,w-675"],
@@ -675,6 +706,7 @@ const customTexts = {
   },
   "Vĩnh Phúc": {
     text: '<p> Vĩnh Phúc là một tỉnh nằm ở vùng Bắc Trung Bộ của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Hà Nội về phía tây nam, Bắc Ninh và Bắc Giang về phía đông nam, Phú Thọ về phía tây, Thái Nguyên về phía đông bắc, và Hòa Bình về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Vĩnh Phúc:<br><br>- Vĩ độ: từ khoảng 21 độ 07 phút đến 21 độ 28 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 34 phút đến 105 độ 56 phút kinh độ Đông.</p>',
+    links: ["/postdetails/77"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/vinhphuc/vinhphuc.jpg",
       "https://thongkevinhphuc.gov.vn/files/assets/01ec7e179ace42901bdf.jpg",
       "https://vinhphuc.gov.vn/ct/DuyetTinBai_IMG/PublishingImages/2019/hiennm2019/1dn11.jpg"],
@@ -684,6 +716,7 @@ const customTexts = {
   },
   "Phú Thọ": {
     text: '<p> Phú Thọ là một tỉnh nằm ở vùng Bắc Trung Bộ của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Hà Nội về phía đông nam, Yên Bái về phía tây bắc, Vĩnh Phúc về phía đông, Tuyên Quang về phía bắc, Hòa Bình về phía tây nam, và Sơn La về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Phú Thọ:<br><br>- Vĩ độ: từ khoảng 21 độ 01 phút đến 21 độ 34 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 51 phút đến 105 độ 37 phút kinh độ Đông.</p>',
+    links: ["/postdetails/74"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/phutho/phutho.jpg",
       "https://top10phutho.vn/wp-content/uploads/2022/10/hinh-anh-phu-tho-1.jpg",
       "https://dubaothoitiet.info/Uploads/images/anh-den-hung%20(1).jpg"],
@@ -693,6 +726,7 @@ const customTexts = {
   },
   "Quảng Ninh": {
     text: '<p> Quảng Ninh là một tỉnh nằm ở vùng Đông Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Lạng Sơn về phía tây bắc, Hà Giang và Cao Bằng về phía tây, Bắc Giang và Hải Dương về phía nam, Thái Bình về phía nam, và vịnh Hạ Long thuộc Biển Đông về phía đông. Dưới đây là thông tin chi tiết về vị trí địa lý của Quảng Ninh:<br><br>- Vĩ độ: từ khoảng 20 độ 46 phút đến 21 độ 44 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 27 phút đến 107 độ 36 phút kinh độ Đông.</p>',
+    links: ["/video-details/34"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/quangninh/quangninh.jpg",
       "https://ik.imagekit.io/tvlk/blog/2022/02/dia-diem-du-lich-quang-ninh-2.jpg?tr=dpr-2,w-675",
       "https://bvhttdl.mediacdn.vn/291773308735864832/2021/4/27/quang-ninh-16194956971871120645003-1619508590779-1619508596374707232506.jpg"],
@@ -702,6 +736,7 @@ const customTexts = {
   },
   "Sơn La": {
     text: '<p> Sơn La là một tỉnh nằm ở vùng Tây Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Lai Châu về phía tây bắc, Điện Biên về phía tây, Lào Cai về phía bắc, Yên Bái và Hòa Bình về phía đông, và là biên giới với Lào về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Sơn La:<br><br>- Vĩ độ: từ khoảng 20 độ 19 phút đến 22 độ 32 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 103 độ 16 phút đến 104 độ 53 phút kinh độ Đông.</p>',
+    links: ["/postdetails/78"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/sonla/sonla.jpg",
       "https://mocchautourism.com/uploads/news/2021_10/di-lich-cao-nguyen-moc-chau-1.jpg",
       "https://media.vov.vn/sites/default/files/styles/large/public/2021-10/image_6483441_26-10-2021-12-45-17.jpg"],
@@ -711,6 +746,7 @@ const customTexts = {
   },
   "Bắc Ninh": {
     text: '<p> Bắc Ninh là một tỉnh nằm ở vùng Bắc Trung Bộ của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Hà Nội về phía tây và nam, Bắc Giang về phía bắc, Hải Dương về phía đông, và Hưng Yên về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Bắc Ninh:<br><br>- Vĩ độ: từ khoảng 20 độ 50 phút đến 21 độ 12 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 13 phút đến 106 độ 28 phút kinh độ Đông.</p>',
+    links: ["/postdetails/79"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/bacninh/bacninh.jpg",
       "https://hungngangroup.vn/wp-content/uploads/2022/05/b1.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/8/87/Trung_t%C3%A2m_v%C4%83n_h%C3%B3a_Kinh_B%E1%BA%AFc.jpg"],
@@ -720,7 +756,7 @@ const customTexts = {
   },
   "Hà Nội": {
     text: '<p> Hà Nội là thủ đô và là trung tâm chính trị, văn hóa, kinh tế của Việt Nam. Thành phố này nằm ở vùng Đồng Bằng Sông Hồng, tại phía bắc của miền Bắc Việt Nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Hà Nội:<br><br>- Vĩ độ: từ khoảng 20 độ 54 phút đến 21 độ 23 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 44 phút đến 106 độ 02 phút kinh độ Đông.</p>',
-    links: ["/video-details/76"],
+    links: ["/video-details/76","/historicalfigure-details/48"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/hanoi/hanoi.jpg",
       "https://vcdn1-dulich.vnecdn.net/2022/05/11/hoan-kiem-lake-7673-1613972680-1508-1652253984.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=2wB1cBTUcNKuk68nrG6LMQ",
       "https://cdnimg.vietnamplus.vn/uploaded/hotnnz/2022_08_30/ha_noi.jpg"],
@@ -730,6 +766,7 @@ const customTexts = {
   },
   "Hải Dương": {
     text: '<p> Hải Dương là một tỉnh nằm ở vùng Đồng Bằng Sông Hồng của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Hưng Yên về phía tây nam, Hà Nội về phía tây, Bắc Ninh và Hải Phòng về phía nam, Quảng Ninh về phía đông bắc, và Thái Bình về phía đông nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Hải Dương:<br><br>- Vĩ độ: từ khoảng 20 độ 55 phút đến 21 độ 21 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 15 phút đến 107 độ 08 phút kinh độ Đông.</p>',
+    links: ["/postdetails/81"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/haiduong/haiduong.jpg",
       "https://media.vneconomy.vn/images/upload/2023/04/07/hai-duong-sua3-15-47-46-961.jpg",
       "https://baoxaydung.com.vn/stores/news_dataimages/nga/022020/20/14/in_article/3354_image001.jpg"],
@@ -739,6 +776,7 @@ const customTexts = {
   },
   "Hưng Yên": {
     text: '<p> Hưng Yên là một tỉnh nằm ở vùng Đồng Bằng Sông Hồng của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Hà Nội về phía tây, Hải Dương về phía đông, Hải Phòng về phía đông bắc, Thái Bình về phía nam, và Bắc Ninh về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Hưng Yên:<br><br>- Vĩ độ: từ khoảng 20 độ 48 phút đến 21 độ 18 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 49 phút đến 106 độ 32 phút kinh độ Đông.</p>',
+    links: ["/postdetails/80"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/hungyen/hungyen.jpg",
       "https://mediabhy.mediatech.vn/upload/image/202206/medium/46808_thanhpho1_result_20220624155103.jpg",
       "https://media.baodautu.vn/Images/chicuong/2022/02/17/1.jpg"],
@@ -748,6 +786,7 @@ const customTexts = {
   },
   "Hải Phòng": {
     text: '<p> Hải Phòng là một thành phố trực thuộc trung ương và là một trong những trung tâm kinh tế, chính trị và văn hóa quan trọng của miền Bắc Việt Nam. Thành phố này nằm ở vùng Đồng Bằng Sông Hồng, tại cửa sông Cấm và cửa biển Hạ Long thuộc vịnh Bắc Bộ. Dưới đây là thông tin chi tiết về vị trí địa lý của Hải Phòng:<br><br>- Vĩ độ: từ khoảng 20 độ 43 phút đến 21 độ 07 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 36 phút đến 106 độ 48 phút kinh độ Đông.</p>',
+    links: ["/historicalfigure-details/21"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/haiphong/haiphong.jpg",
       "https://xdcs.cdnchinhphu.vn/446259493575335936/2023/3/31/hai-phong-6-1680234763392125722891.jpg",
       "https://bcp.cdnchinhphu.vn/Uploaded/tranducmanh/2021_09_14/Haiphong1.jpg"],
@@ -757,6 +796,7 @@ const customTexts = {
   },
   "Hoà Bình": {
     text: '<p> Hòa Bình là một tỉnh nằm ở vùng Tây Bắc của miền Bắc Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Phú Thọ và Sơn La về phía bắc, Hà Nam và Ninh Bình về phía đông, Thanh Hóa về phía nam, và Lào Cai và Yên Bái về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Hòa Bình:<br><br>- Vĩ độ: từ khoảng 20 độ 15 phút đến 21 độ 23 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 36 phút đến 105 độ 42 phút kinh độ Đông.</p>',
+    links: ["/video-details/88"],
     images: ["https://vukehoach.mard.gov.vn/atlas/prov/hoabinh/hoabinh.jpg",
       "https://ik.imagekit.io/tvlk/blog/2022/03/dia-diem-du-lich-hoa-binh-1.jpg",
       "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2018/08/Thung-Nai-Hoa-Binh-vntrip1.jpg"],
@@ -766,6 +806,7 @@ const customTexts = {
   },
   "Lâm Đồng": {
     text: "<p> Lâm Đồng là một tỉnh nằm ở miền Trung Việt Nam, thuộc khu vực Tây Nguyên. Tỉnh này có vị trí địa lý đắc địa, giáp tỉnh Đồng Nai về phía đông, giáp tỉnh Bình Thuận về phía nam, giáp tỉnh Ninh Thuận về phía tây, giáp tỉnh Khánh Hòa về phía đông nam, giáp tỉnh Đắk Lắk về phía bắc, và giáp tỉnh Bình Phước về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Lâm Đồng:<br><br>- Vĩ độ: từ khoảng 11 độ 42 phút đến 12 độ 25 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 46 phút đến 108 độ 42 phút kinh độ Đông.</p>",
+    links: ["/postdetails/82"],
     images: ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Da_Lat%2C_view_to_Xuan_Huong_lake_2.jpg/420px-Da_Lat%2C_view_to_Xuan_Huong_lake_2.jpg"],
     videos: [
       "https://www.youtube.com/embed/FKtOO41ll_s",
@@ -773,6 +814,7 @@ const customTexts = {
   },
   "Ninh Thuận": {
     text: '<p> Ninh Thuận là một tỉnh nằm ở vùng Nam Trung Bộ của miền Trung Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Khánh Hòa về phía đông, Bình Thuận về phía tây, Đắk Lắk và Lâm Đồng về phía bắc, và Biển Đông về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Ninh Thuận:<br><br>- Vĩ độ: từ khoảng 11 độ 30 phút đến 12 độ 15 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 108 độ 24 phút đến 109 độ 06 phút kinh độ Đông.</p>',
+    links: ["/video-details/90"],
     images: ["https://th.bing.com/th/id/OIP.sKZVQeyCqrtrECcd2HYM8gHaEJ?w=255&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
       "https://th.bing.com/th/id/R.f162b0326d0225a6201c91b6ae8ba6d9?rik=iINJTqPM5fnZAQ&pid=ImgRaw&r=0",
       "https://welcometovietnam.com.vn/wp-content/uploads/2015/03/Ninh-Thuan.jpg"],
@@ -782,6 +824,7 @@ const customTexts = {
   },
   "Tây Ninh": {
     text: '<p> Tây Ninh là một tỉnh nằm ở vùng Đông Nam Bộ của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Bình Dương và Bình Phước về phía đông bắc, Long An về phía nam, Hồ Chí Minh (Thành phố Hồ Chí Minh) về phía nam và tây nam, và Lâm Đồng về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Tây Ninh:<br><br>- Vĩ độ: từ khoảng 10 độ 58 phút đến 11 độ 21 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 06 phút đến 106 độ 57 phút kinh độ Đông.</p>',
+    links: ["/postdetails/83"],
     images: ["https://nguoikesu.com/images/wiki/tinh-tay-ninh/5bb69d415b19db01e566f515995d510f.jpg",
       "https://nguoikesu.com/images/wiki/tinh-tay-ninh/7d141d0984c05d084cf86dd4dfde32e1.jpg",
       "https://nguoikesu.com/images/wiki/tinh-tay-ninh/f96e457af600f4ebeb1ac44e53e9ed03.jpg"],
@@ -791,6 +834,7 @@ const customTexts = {
   },
   "Bình Dương": {
     text: '<p> Bình Dương là một tỉnh nằm ở vùng Đông Nam Bộ của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Đồng Nai và Bà Rịa-Vũng Tàu về phía đông, Hồ Chí Minh (Thành phố Hồ Chí Minh) về phía nam, Tây Ninh về phía tây, Bình Phước về phía bắc, và Đồng Nai về phía đông bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Bình Dương:<br><br>- Vĩ độ: từ khoảng 10 độ 51 phút đến 11 độ 18 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 25 phút đến 107 độ 04 phút kinh độ Đông.</p>',
+    links: ["/video-details/91"],
     images: ["https://nguoikesu.com/images/wiki/tinh-binh-duong/ffdf3098ecd4082271e62b7e19bee353.jpg",
       "https://nguoikesu.com/images/wiki/tinh-binh-duong/4cd4d97c6d41846419c6a4156cd68324.jpg",
       "https://nguoikesu.com/images/wiki/tinh-binh-duong/f30b8d24bc7690560d8ad1940c52e36d.jpg"],
@@ -800,6 +844,7 @@ const customTexts = {
   },
   "Bình Thuận": {
     text: '<p> Bình Thuận là một tỉnh nằm ở vùng Nam Trung Bộ của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Ninh Thuận về phía đông, Lâm Đồng về phía bắc, Đồng Nai về phía tây bắc, và biển Đông về phía nam và phía đông nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Bình Thuận:<br><br>- Vĩ độ: từ khoảng 10 độ 36 phút đến 11 độ 42 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 107 độ 34 phút đến 108 độ 44 phút kinh độ Đông.</p>',
+    links: ["/video-details/92"],
     images: ["https://nguoikesu.com/images/wiki/tinh-binh-thuan/343ac40a6e4970c678bc313c6004393b.jpg",
       "https://nguoikesu.com/images/wiki/tinh-binh-thuan/d5ea1162a12924048f6dc8d2f6fa607a.jpg",
       "https://nguoikesu.com/images/wiki/tinh-binh-thuan/70fbd5cd444d41d10ae4803f672ef62c.jpg",
@@ -810,6 +855,7 @@ const customTexts = {
   },
   "Đồng Nai": {
     text: '<p> Đồng Nai là một tỉnh nằm ở vùng Đông Nam Bộ của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Bình Dương và Bình Phước về phía tây, Lâm Đồng về phía tây bắc, Bà Rịa-Vũng Tàu về phía đông nam, và biển Đông về phía nam và phía đông. Dưới đây là thông tin chi tiết về vị trí địa lý của Đồng Nai:<br><br>- Vĩ độ: từ khoảng 10 độ 34 phút đến 11 độ 29 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 38 phút đến 107 độ 32 phút kinh độ Đông.</p>',
+    links: ["/video-details/93"],
     images: ["https://nguoikesu.com/images/wiki/tinh-dong-nai/0988b9669a2c49c4ddde844d0b2fd956.jpg",
       "https://nguoikesu.com/images/wiki/tinh-dong-nai/2b9c715edd79800a5be5cdc955d2e289.jpg",
       "https://nguoikesu.com/images/wiki/tinh-dong-nai/cfafbb5e97fa56220227da862a80dc8f.jpg"],
@@ -819,7 +865,7 @@ const customTexts = {
   },
   "Hồ Chí Minh": {
     text: '<p> Thành phố Hồ Chí Minh (tên gọi chính thức từ năm 1976, trước đây là thành phố Sài Gòn) là thành phố lớn nhất và là trung tâm kinh tế, chính trị, văn hóa của miền Nam Việt Nam. Thành phố này nằm ở vùng Đông Nam Bộ của miền Nam Việt Nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Hồ Chí Minh:<br><br>- Vĩ độ: từ khoảng 10 độ 33 phút đến 10 độ 52 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 29 phút đến 106 độ 42 phút kinh độ Đông.</p>',
-    links: ["/video-details/77"],
+    links: ["/video-details/77","/postdetails/90"],
     images: ["https://nguoikesu.com/images/wiki/thanh-pho-ho-chi-minh/339662013eee699cf1ba92873d4094d2.jpg",
       "https://nguoikesu.com/images/wiki/thanh-pho-ho-chi-minh/8a4944feeb3e0ff93362a67b9ff73e69.jpg",
       "https://nguoikesu.com/images/wiki/thanh-pho-ho-chi-minh/5b0e4f7d1b1bd9499223dc3126248ac7.jpg",
@@ -831,6 +877,7 @@ const customTexts = {
   },
   "Long An": {
     text: '<p> Long An là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Tiền Giang và Đồng Tháp về phía đông, Tây Ninh và Long An (Campuchia) về phía tây, Hồ Chí Minh (Thành phố Hồ Chí Minh) về phía nam, và biển Đông về phía nam và phía đông nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Long An:<br><br>- Vĩ độ: từ khoảng 10 độ 11 phút đến 11 độ 00 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 08 phút đến 106 độ 43 phút kinh độ Đông.</p>',
+    links: ["/historicalfigure-details/38"],
     images: ["https://toplist.vn/images/800px/di-tich-lich-su-nga-tu-duc-hoa-long-an-133006.jpg",
       "https://th.bing.com/th/id/R.e36f7060269b0b872a2830096b086829?rik=xcUC36cS8MBguQ&riu=http%3a%2f%2fmedia.dulich24.com.vn%2fdiemden%2fdi-tich-lich-su-binh-thanh-7267%2fdi-tich-lich-su-binh-thanh.jpg&ehk=WaQ0YunYJ1F%2b%2fEZIVRoyOLZQqe%2fbMLQ3ExvDnmRHdUc%3d&risl=&pid=ImgRaw&r=0",
       "https://th.bing.com/th/id/R.713f1d0bcb964db286d4ac8f4d237854?rik=xwvTiJI18ykn8g&pid=ImgRaw&r=0"],
@@ -840,6 +887,7 @@ const customTexts = {
   },
   "Bà Rịa - Vũng Tàu": {
     text: '<p> Bà Rịa-Vũng Tàu là một tỉnh nằm ở vùng Đông Nam Bộ của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Đồng Nai về phía bắc, biển Đông về phía đông, Hồ Chí Minh (Thành phố Hồ Chí Minh) về phía tây bắc, và Đồng bằng sông Cửu Long về phía tây. Dưới đây là thông tin chi tiết về vị trí địa lý của Bà Rịa-Vũng Tàu:<br><br>- Vĩ độ: từ khoảng 10 độ 10 phút đến 11 độ 15 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 31 phút đến 107 độ 20 phút kinh độ Đông.</p>',
+    links: ["/postdetails/84"],
     images: ["https://th.bing.com/th/id/OIP.uIpZ7RfDmlmuDD6yMXrS_AHaEm?w=269&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
       "https://th.bing.com/th/id/OIP.zYKMJpG-2SQquQ4nU5qM8QHaEK?w=302&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
       "https://th.bing.com/th/id/OIP.icNnSSKcdPPh2lEFgqpBSAHaEX?w=289&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"],
@@ -849,6 +897,7 @@ const customTexts = {
   },
   "Đồng Tháp": {
     text: '<p> Đồng Tháp là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh An Giang và Vĩnh Long về phía đông, Long An về phía tây, biển Đông về phía nam, và Hậu Giang về phía nam tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Đồng Tháp:<br><br>- Vĩ độ: từ khoảng 9 độ 38 phút đến 10 độ 34 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 30 phút đến 106 độ 35 phút kinh độ Đông.</p>',
+    links: ["/video-details/94"],
     images: ["https://th.bing.com/th/id/R.8ff738e03649cdc9eb988df2300e7767?rik=5A7R4EC7pf%2fgYA&pid=ImgRaw&r=0",
       "https://scontent.iocvnpt.com/resources/portal/Images/DTP/superadminportal.dtp/trangchu/portal/tintuc/lichsu/l1_637147706761089576.png",
       "https://scontent.iocvnpt.com/resources/portal/Images/DTP/superadminportal.dtp/trangchu/portal/tintuc/lichsu/l6_637147706873309852.png"],
@@ -858,6 +907,7 @@ const customTexts = {
   },
   "An Giang": {
     text: '<p> An Giang là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Kiên Giang và Hậu Giang về phía tây, Đồng Tháp về phía đông và phía bắc, và biên giới với Campuchia về phía nam và phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của An Giang:<br><br>- Vĩ độ: từ khoảng 9 độ 47 phút đến 10 độ 28 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 08 phút đến 106 độ 05 phút kinh độ Đông.</p>',
+    links: ["/video-details/95"],
     images: ["https://th.bing.com/th/id/OIP.125EdG8skYzKM2TQbZHsIAHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
       "https://www.angiang.dcs.vn/SiteAssets/AG-190-longxuyen-ho-NgDu.jpg",
       "https://baoangiang.com.vn/image/fckeditor/upload/2022/20221115/images/T1-(2).jpg"],
@@ -867,6 +917,7 @@ const customTexts = {
   },
   "Tiền Giang": {
     text: '<p> Tiền Giang là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Long An và Bến Tre về phía tây, Đồng Tháp về phía đông và phía bắc, và biển Đông về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Tiền Giang:<br><br>- Vĩ độ: từ khoảng 10 độ 15 phút đến 10 độ 57 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 42 phút đến 106 độ 24 phút kinh độ Đông.</p>',
+    links: ["/video-details/96"],
     images: ["https://nguoikesu.com/images/wiki/tinh-tien-giang/2653ba760fd94500ca46a2d5ed26f72c.jpg",
       "https://nguoikesu.com/images/wiki/tinh-tien-giang/2293c559302879580789c927b482b78d.jpg",
       "https://nguoikesu.com/images/wiki/tinh-tien-giang/d6ab41841815ebf9806bd368310d383b.jpg"],
@@ -876,6 +927,7 @@ const customTexts = {
   },
   "Bến Tre": {
     text: '<p> Bến Tre là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Tiền Giang và Trà Vinh về phía tây, Đồng Tháp về phía đông và phía bắc, và biển Đông về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Bến Tre:<br><br>- Vĩ độ: từ khoảng 10 độ 02 phút đến 10 độ 24 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 106 độ 26 phút đến 106 độ 48 phút kinh độ Đông.</p>',
+    links: ["/video-details/97"],
     images: ["https://nguoikesu.com/images/wiki/tinh-ben-tre/fa921b13d89ee21fbddeb113c9e2ad99.jpg",
       "https://nguoikesu.com/images/wiki/tinh-ben-tre/87775850bcbecf68f48d283ed313569f.jpg",
       "https://nguoikesu.com/images/wiki/tinh-ben-tre/09801e0521ad9a8f2b038926cdd5e748.jpg"],
@@ -885,6 +937,7 @@ const customTexts = {
   },
   "Cần Thơ": {
     text: '<p> Cần Thơ là một thành phố trực thuộc trung ương nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Thành phố này có vị trí địa lý nằm giữa các tỉnh Hậu Giang và Vĩnh Long về phía đông bắc, biển Đông về phía nam và phía đông nam, Sóc Trăng về phía tây, Kiên Giang về phía tây nam và Cà Mau về phía tây nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Cần Thơ:<br><br>- Vĩ độ: từ khoảng 9 độ 56 phút đến 10 độ 23 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 41 phút đến 106 độ 05 phút kinh độ Đông.</p>',
+    links: ["/postdetails/85"],
     images: ["https://th.bing.com/th/id/OIP.WhUzDbX27eDuSsvOtRZR8QHaF6?w=194&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
       "https://ik.imagekit.io/tvlk/blog/2023/05/ben-ninh-kieu-3.jpg?tr=dpr-2,w-675",
       "https://statics.vinpearl.com/dinh-binh-thuy-01_1634109817.jpg"],
@@ -894,6 +947,7 @@ const customTexts = {
   },
   "Vĩnh Long": {
     text: '<p> Vĩnh Long là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Đồng Tháp và Cần Thơ về phía đông, Long An về phía tây bắc, và biển Đông về phía nam và phía đông nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Vĩnh Long:<br><br>- Vĩ độ: từ khoảng 10 độ 01 phút đến 10 độ 30 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 50 phút đến 106 độ 12 phút kinh độ Đông.</p>',
+    links: ["/video-details/98"],
     images: ["https://nguoikesu.com/images/wiki/tinh-vinh-long/68a47d8181f63dd122f08fc5296529be.jpg",
       "https://nguoikesu.com/images/wiki/tinh-vinh-long/33f91c6fff74de29fbcfdf34bb6ae829.jpg",
       "https://dulichmedia.dalat.vn/Images/VLG/nguyentrongyem/2022/T2/tuyetlam/3_637806143762513983.jpg"],
@@ -903,6 +957,7 @@ const customTexts = {
   },
   "Kiên Giang": {
     text: '<p> Kiên Giang là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm ở cực nam của Việt Nam, giáp biên giới với Campuchia về phía tây nam, biển Đông về phía đông nam, An Giang về phía đông, Hậu Giang về phía đông bắc và Cần Thơ về phía bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Kiên Giang:<br><br>- Vĩ độ: từ khoảng 9 độ 48 phút đến 10 độ 30 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 58 phút đến 105 độ 26 phút kinh độ Đông.</p>',
+    links: ["/video-details/99"],
     images: ["https://nguoikesu.com/images/wiki/tinh-kien-giang/b635fe5b375c2b04865527140a7b331b.jpg",
       "https://nguoikesu.com/images/wiki/tinh-kien-giang/aea2480368346bafb4e20fd3442c9a72.jpg",
       "https://nguoikesu.com/images/wiki/tinh-kien-giang/9822889b7e284df3d83d597be09c7407.jpg"],
@@ -912,6 +967,7 @@ const customTexts = {
   },
   "Trà Vinh": {
     text: '<p> Trà Vinh là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Vĩnh Long và Sóc Trăng về phía đông, Hậu Giang và Tiền Giang về phía bắc, và biển Đông về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Trà Vinh:<br><br>- Vĩ độ: từ khoảng 9 độ 25 phút đến 9 độ 59 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 59 phút đến 106 độ 27 phút kinh độ Đông.</p>',
+    links: ["/postdetails/86"],
     images: ["https://nguoikesu.com/images/wiki/tinh-tra-vinh/58fa6fadb6490b43d0f03d1b69cecd7b.jpg",
       "https://nguoikesu.com/images/wiki/tinh-tra-vinh/6b33dcd1b47a9f779256b381cbe6e62c.jpg",
       "https://nguoikesu.com/images/wiki/tinh-tra-vinh/4e4b7da8cefc8d0bc57c0176069abee4.jpg"],
@@ -921,6 +977,7 @@ const customTexts = {
   },
   "Hậu Giang": {
     text: '<p> Hậu Giang là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Cần Thơ và Sóc Trăng về phía đông, Kiên Giang về phía tây, Tiền Giang và Vĩnh Long về phía bắc, và biển Đông về phía nam và phía đông nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Hậu Giang:<br><br>- Vĩ độ: từ khoảng 9 độ 41 phút đến 10 độ 07 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 53 phút đến 106 độ 24 phút kinh độ Đông.</p>',
+    links: ["/postdetails/87"],
     images: ["https://vcdn-dulich.vnecdn.net/2019/11/07/HauGiang-7248-1573095828.jpg",
       "https://www.baohaugiang.com.vn/uploads/image/2021/05/07/SB3260-9-1.jpg",
       "https://dulichdiaphuong.com/imgs/tinh-hau-giang/di-tich-chien-thang-chuong-thien.jpg"],
@@ -930,6 +987,7 @@ const customTexts = {
   },
   "Sóc Trăng": {
     text: '<p> Sóc Trăng là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Bạc Liêu và Trà Vinh về phía đông, Hậu Giang về phía đông bắc, Kiên Giang về phía tây bắc, và biển Đông về phía nam. Dưới đây là thông tin chi tiết về vị trí địa lý của Sóc Trăng:<br><br>- Vĩ độ: từ khoảng 9 độ 40 phút đến 10 độ 07 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 105 độ 55 phút đến 106 độ 36 phút kinh độ Đông.</p>',
+    links: ["/postdetails/88"],
     images: ["https://media.mia.vn/uploads/blog-du-lich/khu-can-cu-tinh-uy-soc-trang-chung-nhan-cho-lich-su-cach-mang-hao-hung-2-1665440622.jpg",
       "https://tinhaiphong.vn/wp-content/uploads/2022/04/chua-4-mat-soc-trang.jpg",
       "https://cdn3.ivivu.com/2022/06/st.png"],
@@ -939,6 +997,7 @@ const customTexts = {
   },
   "Bạc Liêu": {
     text: '<p> Bạc Liêu là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm giữa các tỉnh Cà Mau và Sóc Trăng về phía đông, biển Đông về phía nam và phía đông nam, Hậu Giang về phía bắc, và Kiên Giang về phía tây bắc. Dưới đây là thông tin chi tiết về vị trí địa lý của Bạc Liêu:<br><br>- Vĩ độ: từ khoảng 9 độ 02 phút đến 9 độ 44 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 49 phút đến 105 độ 32 phút kinh độ Đông.</p>',
+    links: ["/historicalfigure-details/49","/historicalfigure-details/50"],
     images: ["https://thamhiemmekong.com/wp-content/uploads/2020/07/denthobachobaclieu.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT18wBdXK7OOt-FPrOtVgNkJPdwvWb8YdvnYg&usqp=CAU",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz5N_xS359jWE35EqiK7va5q6ejWihid5mXw&usqp=CAU"],
@@ -948,6 +1007,7 @@ const customTexts = {
   },
   "Cà Mau": {
     text: '<p> Cà Mau là một tỉnh nằm ở vùng Đồng Bằng Sông Cửu Long của miền Nam Việt Nam. Tỉnh này có vị trí địa lý nằm ở cực nam của Việt Nam, giáp biên giới với Campuchia về phía nam, biển Đông về phía đông, Bạc Liêu về phía bắc, biển Đông và biển Nam cũng về phía đông. Dưới đây là thông tin chi tiết về vị trí địa lý của Cà Mau:<br><br>- Vĩ độ: từ khoảng 8 độ 35 phút đến 9 độ 25 phút vĩ độ Bắc.<br>- Kinh độ: từ khoảng 104 độ 30 phút đến 105 độ 42 phút kinh độ Đông.</p>',
+    links: ["/postdetails/89"],
     images: ["https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/6-2.jpg",
       "https://thamhiemmekong.com/wp-content/uploads/2020/05/hondabac-1.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEmAfqpDGlzVhl8IR4YWWWDwpkWx7FFXhExQ&usqp=CAU"],
@@ -966,11 +1026,74 @@ const MapCustom = memo(() => {
   const [customImages, setCustomImages] = useState("");
   const [customVideos, setCustomVideos] = useState("");
   const linkLabels = {
+    "/postdetails/58": "Lịch sử hình thành Thái Bình",
     "/video-details/76": "Lăng Chủ tịch Hồ Chí Minh",
+    "/historicalfigure-details/48": 'Minh Mạng',
     "/video-details/77": "Dinh Độc Lập",
     "/historicalfigure-details/40": "Hồ Chí Minh",
-    "/another-link": "Custom Label 2",
-    "/cao-bang": "Custom Label 3",
+    "/historicalfigure-details/43": "Nam Cao",
+    "/video-details/78": "Lịch sử Vương Triều nhà Trần",
+    "/postdetails/59": "Thành nhà Hồ",
+    "/postdetails/60": "Đền Vua Lê Đại Hành",
+    "/postdetails/61": "Lễ Hội cầu mùa",
+    "/postdetails/62": "Dân ca ví, giặm Nghệ Tĩnh",
+    "/postdetails/63": "Nhã Nhạc cung đình Huế",
+    "/video-details/79": "Tố Hữu",
+    "/postdetails/64": "Khu di tích lăng mộ Ông Ích Khiêm",
+    "/historicalfigure-details/44": "Lê Duẩn",
+    "/video-details/80": "Phố Cổ Hội An",
+    "/postdetails/65": "Nghệ thuật cồng chiêng dân tộc Cor",
+    "/postdetails/66": "Cột mốc ngã ba biên giới Đông Dương",
+    "/postdetails/67": "Lễ hội Đống Đa",
+    "/historicalfigure-details/45": "Nguyễn Huệ",
+    "/historicalfigure-details/46": "Ninh Đúp",
+    "/video-details/81": "Tháp Nhạn",
+    "/video-details/82": "Biệt điện Bảo Đại ở TP Buôn Ma Thuột",
+    "/postdetails/68": "Tháp Bà Ponagar Nha Trang",
+    "/postdetails/69": "Nau M’pring - Di sản văn hóa phi vật thể",
+    "/video-details/83": "KHÁNG CHIẾN ANH HÙNG",
+    "/postdetails/71": "chợ phiên Phó Bảng",
+    "/video-details/84": "Di tích lịch sử Pác Bó",
+    "/video-details/85": "Chợ tình Sapa",
+    "/postdetails/72": "Nghệ thuật múa xòe truyền thống",
+    "/video-details/86": "Hồ Ba Bể",
+    "/postdetails/73": "Đình Tân Trào", 
+    "/video-details/87": "Ải Chi Lăng - Quỷ Môn Quan",
+    "/historicalfigure-details/47":"Nguyễn Thái Học",
+    "/video-details/2": "Chiến dịch Điên Biên Phủ",
+    "/postdetails/74": "Đền Hùng",
+    "/postdetails/75": "Lễ hội Lồng tồng",
+    "/postdetails/76": "Thành cổ Xương Giang",
+    "/video-details/34": "Trận Chiến Bạch Đằng",
+    "/postdetails/77": "Tháp Bình Sơn",
+    "/postdetails/78": "Di tích nhà tù Sơn La",
+    "/postdetails/79": "Làng tranh Đông Hồ",
+    "/postdetails/80": "Làng Nôm",
+    "/postdetails/81": "Lễ hội đền Tranh",
+    "/historicalfigure-details/21": "Ngô Quyền",
+    "/postdetails/82": "Văn hóa cồng chiêng Tây Nguyên",
+    "/video-details/88": "Bản sắc văn hóa dân tộc Mường",
+    "/video-details/90": "Tháp Chàm Pôklong Garai Phan Rang",
+    "/postdetails/83": "Danh thắng và du lịch Núi Bà Đen",
+    "/video-details/91": "Địa đạo Tam giác sắt Tây Nam Bến Cát",
+    "/video-details/92": "Trương Vĩnh Ký",
+    "/postdetails/84": "Nhà Tù Côn Đảo",
+    "/video-details/93": "ĐỊA ĐẠO NHƠN TRẠCH - ĐỒNG NAI",
+    "/historicalfigure-details/38": "Trần Hưng Đạo",
+    "/video-details/94": "KHU DI TÍCH CỤ PHÓ BẢNG",
+    "/video-details/95": "Tôn Đức Thắng",
+    "/video-details/96": "Chiến thắng Ấp Bắc",
+    "/postdetails/85": "Long tuyền cổ miếu",
+    "/video-details/97": "Phong trào Đồng Khởi 1959-1960",
+    "/video-details/98": "Chùa Phật Ngọc Xá Lợi Vĩnh Long",
+    "/postdetails/86": "Ao Bà Om",
+    "/video-details/99": "Nhà tù Phú Quốc",
+    "/postdetails/87": "Di tích khu trù mật Vị Thanh - Hỏa Lựu",
+    "/postdetails/88": "Chùa Mahatup (chùa Dơi)",
+    "/historicalfigure-details/49": "Công Tử Bạc Liêu",
+    "/historicalfigure-details/50": "Cao Văn Lầu",
+    "/postdetails/89": "Di tích lịch sử Bến Vàm Lũng",
+    "/postdetails/90": "Địa đạo Củ Chi",
     // Add custom labels for other links...
   };
 
@@ -1241,7 +1364,7 @@ const MapCustom = memo(() => {
                 ))
               )} */}
 
-                  <div style={{ marginTop: '50px' }}>
+                  <div style={{ marginTop: '30px' }}>
                     <p
                       dangerouslySetInnerHTML={{
                         __html: customText

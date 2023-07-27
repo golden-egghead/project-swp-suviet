@@ -136,8 +136,8 @@ export default function PostPageDetails() {
               <Card.Body>
                 <div
                   style={{
-                    width:'1200px',
-                    margin:'auto',
+                    width: '1200px',
+                    margin: 'auto',
                     marginTop: '30px',
                     backgroundColor: 'transparent',
                     border: '2px solid rgba(255, 255, 255, 0.5)',
@@ -158,7 +158,7 @@ export default function PostPageDetails() {
                     <DateRangeIcon />: {article.createdDate}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Card.Img variant="top" src={article.photo} style={{ width: '800px', height: '500px', marginTop: '20px', border: '10px' }} />
+                    <Card.Img variant="top" src={article.photo} style={{ width: '700px', height: '500px', marginTop: '20px', border: '10px' }} />
                   </div>
                   <Container>
                     <Card.Body>

@@ -50,12 +50,13 @@ export default function ArticleData() {
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
-				const { res } = await axios.get(`http://localhost:8080/api/articles/${page}`);
-				return res.data.data;
+				const { data } = await axios.get(`http://localhost:8080/api/articles/${page}`);
+				return data.data;
 			} catch (error) {
 				console.error(error);
 				return [];
 			}
+            
 		};
 
 		const fetchAllData = async () => {
@@ -65,6 +66,7 @@ export default function ArticleData() {
 			}
 			const responses = await Promise.all(requests);
 			const mergedData = responses.flat();
+            console.log(mergedData);
 			setAccountData(mergedData);
 		};
 
@@ -81,7 +83,7 @@ export default function ArticleData() {
 	  const RemoveSite = async (articleID) => {
 		if (window.confirm('Do you want to remove?')) {
 		  try {
-			const baseUrl = `http://localhost:8080/api/historicalSites/delete-historicalSite/`;
+			const baseUrl = `http://localhost:8080/api/articles/`;
 			const response = await fetch(baseUrl + articleID, {
 			  method: 'DELETE',
 			  headers: {
