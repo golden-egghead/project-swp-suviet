@@ -60,9 +60,17 @@ const Header = (props) => {
           <Link style={{ color: 'white', textDecoration: 'none' }} to="/baiviet"><Nav.Link href="#baiviet">Bài Viết</Nav.Link></Link>
           <Link to="/postarticle" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#postarticle"><i class="fa-solid fa-pen-to-square fa-1.5x"></i> Viết bài</Nav.Link></Link>
           {userRole === 'MODERATOR' && (
-            
-            <Link to="/articlecontrol" ><Nav.Link href="#articlecontrol"><i class="fa-solid fa-file-pen"></i></Nav.Link></Link>
-            
+            <NavDropdown
+            id="collasible-nav-dropdown"
+              title={
+              <div >
+                <span ><i class="fa-solid fa-file-pen"></i> Quản lí duyệt </span>
+              </div>
+            } >
+            <Link to="/articlecontrol" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#articlecontrol"> Duyệt bài viết</Nav.Link></Link>
+            <NavDropdown.Divider />
+            <Link to="/browsercomment" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#browsercomment"> Duyệt bình luận</Nav.Link></Link>
+            </NavDropdown>
           )}
         </Nav>
        

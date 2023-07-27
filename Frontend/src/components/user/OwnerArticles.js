@@ -49,9 +49,9 @@ const OwnerArticles = () => {
   const filteredArticles = articles.filter((article) => article.status);
   return (
     <div>
-      <h1>Bài viết đang chờ xét duyệt</h1>
+      <h1>Bài viết bạn đã đăng</h1>
       {filteredArticles.length === 0 ? (
-        <p>No article is pending</p>
+        <p>Tạm thời chưa có</p>
       ) : (
         <>
       {filteredArticles.map((article) => (
