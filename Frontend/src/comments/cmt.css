@@ -2,3 +2,12 @@
     background-color: rgb(117, 138, 157);
     color: rgb(255, 255, 255);
 }
+.comments-all{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 25px;
+}

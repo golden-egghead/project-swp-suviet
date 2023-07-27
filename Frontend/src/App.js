@@ -59,11 +59,12 @@ import ResetPassword from './components/user/ResetPassword';
 import OwnerArticles from './components/user/OwnerArticles';
 import UserArticlePending from './components/user/UserArticlePending';
 import BrowsedComment from './comments/BrowsedComment';
+import { Container } from "semantic-ui-react";
 
 
+function App({}) {
+ 
 
-function App() {
-  
   const location = useLocation();
 	const isAdmin = location.pathname.startsWith('/admin');
   const isModerator = location.pathname.startsWith('/moderator')

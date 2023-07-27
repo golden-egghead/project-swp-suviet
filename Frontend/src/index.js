@@ -12,6 +12,10 @@ import { MaterialUIControllerProvider as ModeratorProvider } from './moderator/c
 // import { StyledEngineProvider } from '@mui/material/styles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);
 root.render(
 
   <GoogleOAuthProvider

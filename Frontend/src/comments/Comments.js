@@ -6,8 +6,11 @@ import TextArea from "react-textarea-autosize";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Card } from "react-bootstrap";
+import { Button, Comment, Form, Header } from 'semantic-ui-react';
+import './cmt.css';
 
-const CommentForm = ({ accessToken, articleId, updateComments,updateReplies, commentId, showReplyForm, setShowReplyForm }) => {
+
+const CommentForm = ({ accessToken, articleId, updateComments, updateReplies, commentId, showReplyForm, setShowReplyForm }) => {
   const [commentText, setCommentText] = useState('');
   const [replyText, setReplyText] = useState('');
 
@@ -42,7 +45,7 @@ const CommentForm = ({ accessToken, articleId, updateComments,updateReplies, com
   };
   // const handleReplySubmit = async (e) => {
   //   e.preventDefault();
-  
+
   //   try {
   //     const response = await fetch(`http://localhost:8080/api/articles/${articleId}/comments/${commentId}/reply`, {
   //       method: 'POST',
@@ -71,7 +74,7 @@ const CommentForm = ({ accessToken, articleId, updateComments,updateReplies, com
   //   }
   // };
 
-  
+
   if (!showReplyForm) {
     return (
       <form onSubmit={handleCommentSubmit}>
@@ -84,10 +87,10 @@ const CommentForm = ({ accessToken, articleId, updateComments,updateReplies, com
         <button type="submit">Post Comment</button>
       </form>
     );
-  } 
+  }
 };
 
-const Reply = ({ commentId, articleId, comment,  updateReplies }) => {
+const Reply = ({ commentId, articleId, comment, updateReplies }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
@@ -105,7 +108,7 @@ const Reply = ({ commentId, articleId, comment,  updateReplies }) => {
 
   const handleReplySubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`http://localhost:8080/api/articles/${articleId}/comments/${commentId}/reply`, {
         method: 'POST',
@@ -136,34 +139,60 @@ const Reply = ({ commentId, articleId, comment,  updateReplies }) => {
 
   return (
     <div>
-      {/* <p>{comment.user.fullname}</p> */}
-      <p> {comment.user.fullName}</p>
-      <p>Comment: {comment.commentText}</p>
-      <p>Created Date: {comment.createdDate}</p>
-      {comment.repliesComments && Array.isArray(comment.repliesComments) && (
-        <div>
-          {comment.repliesComments.map((reply) => (
-            <div key={reply.id}>
-              <p>Reply: {reply.replyText}</p>
-              <p>Created Date: {reply.createdDate}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <Comment.Group>
+        <Comment>
+
+          <Comment.Content>
+            <Comment.Author ><p> {comment.user.fullName}</p></Comment.Author>
+            <Comment.Metadata>
+              <div>{comment.createdDate}</div>
+            </Comment.Metadata>
+            <Comment.Text>
+              <p>{comment.commentText}</p>
+            </Comment.Text>
+          </Comment.Content>
+
+          <Comment.Group>
+            <Comment>
+              <Comment.Content>
+                {comment.repliesComments && Array.isArray(comment.repliesComments) && (
+                  <div>
+                    {comment.repliesComments.map((reply) => (
+                      <div key={reply.id}>
+                        <Comment.Author ><p> {reply.user.fullName}</p></Comment.Author>
+                        <Comment.Metadata>
+                          <div>{reply.createdDate}</div>
+                        </Comment.Metadata>
+                        <Comment.Text><p> {reply.replyText}</p></Comment.Text>
+
+
+                      </div>
+                    ))}
+                  </div>
+
+                )}
+              </Comment.Content>
+            </Comment>
+          </Comment.Group>
+        </Comment>
+      </Comment.Group>
       {!showReplyForm && (
-        <button onClick={handleReplyClick}>Trả lời</button>
+
+        <Comment.Actions>
+          <Comment.Action><button onClick={handleReplyClick}>Trả lời</button></Comment.Action>
+        </Comment.Actions>
       )}
       {showReplyForm && (
         <>
           <form onSubmit={handleReplySubmit}>
-        <textarea
-          value={replyText}
-          onChange={(e) => setReplyText(e.target.value)}
-          placeholder="Write your reply..."
-          required
-        />
-        <button type="submit">Reply</button>
-      </form>
+            <textarea
+              value={replyText}
+              onChange={(e) => setReplyText(e.target.value)}
+              placeholder="Write your reply..."
+              required
+            />
+            <button type="submit">Reply</button>
+          </form>
           <button onClick={handleCancelReply}>Cancel Reply</button>
         </>
       )}
@@ -206,25 +235,31 @@ const Comments = ({ articleId }) => {
   }, [articleId, accessToken]);
   return (
     <div>
-      <Card>
-      <h1>Bình luận</h1>
-      <CommentForm
-        accessToken={accessToken}
-        articleId={articleId}
-        updateComments={fetchComments}
-        setShowReplyForm={setShowReplyForm} // Pass setShowReplyForm function to CommentForm
-      />
-      {comments.map((comment) => (
-        <Reply
-          key={comment.id}
+      <Card className="comments-all">
+        <Comment.Group>
+          <Header as='h3' dividing>
+            Bình luận
+          </Header>
+        </Comment.Group>
+        <div>
+        <CommentForm
           accessToken={accessToken}
           articleId={articleId}
-          commentId={comment.id} // Pass comment.id to the Reply component
-          comment={comment}
-          updateReplies={fetchComments}
-        />
-      ))}
+          updateComments={fetchComments}
+          setShowReplyForm={setShowReplyForm} // Pass setShowReplyForm function to CommentForm
+        /></div>
+        {comments.map((comment) => (
+          <Reply
+            key={comment.id}
+            accessToken={accessToken}
+            articleId={articleId}
+            commentId={comment.id} // Pass comment.id to the Reply component
+            comment={comment}
+            updateReplies={fetchComments}
+          />
+        ))}
       </Card>
+      
     </div>
   );
 };
