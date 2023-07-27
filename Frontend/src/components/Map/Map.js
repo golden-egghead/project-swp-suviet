@@ -24,7 +24,7 @@
 // export default Map;
 
 
-import React, { useRef,useState, memo } from "react";
+import React, { useRef, useState, memo } from "react";
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import { scaleQuantile } from "d3-scale";
 import { Tooltip } from "react-tooltip";
@@ -44,97 +44,130 @@ const COLOR_RANGE = [
   "#FFF6B1",
   "#B7D99C",
   "#A397C7",
+  "#8A7837",
+  "#F08B00",
+  "#3CDCF2",
+  "#13BDA2"
 
 
 ];
 
 const DEFAULT_COLOR = "#EEE";
 
-const getRandomInt = () => {
-  return Math.floor(Math.random() * 100);
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * max);
+};
+const graphColoring = (adjacencyMatrix, colorRange) => {
+  const numCountries = adjacencyMatrix.length;
+  const countryColors = new Array(numCountries).fill(DEFAULT_COLOR);
+
+  const isSafeColor = (countryIndex, color) => {
+    for (let i = 0; i < numCountries; i++) {
+      if (adjacencyMatrix[countryIndex][i] && countryColors[i] === color) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const colorCountry = (countryIndex) => {
+    for (let color of colorRange) {
+      if (isSafeColor(countryIndex, color)) {
+        return color;
+      }
+    }
+    return DEFAULT_COLOR;
+  };
+
+  for (let i = 0; i < numCountries; i++) {
+    countryColors[i] = colorCountry(i);
+  }
+
+  return countryColors;
 };
 
 const getHeatMapData = () => {
-  return [
+
+  const data = [
     {
       id: 1,
       state: "Hà Giang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 2,
       state: "Cao Bằng",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 3,
       state: "Lào Cai",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 4,
       state: "Lai Châu",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 5,
       state: "Bắc Kạn",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 6,
       state: "Tuyên Quang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 7,
       state: "Lạng Sơn",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 8,
       state: "Yên Bái",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 9,
       state: "Điện Biên",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 10,
       state: "Thái Nguyên",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 11,
       state: "Bắc Giang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 12,
       state: "Vĩnh Phúc",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 13,
       state: "Phú Thọ",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 14,
       state: "Quảng Ninh",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 15,
       state: "Sơn La",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 16,
       state: "Bắc Ninh",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 17,
@@ -144,222 +177,222 @@ const getHeatMapData = () => {
     {
       id: 18,
       state: "Hải Dương",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 19,
       state: "Hưng Yên",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 20,
       state: "Hải Phòng",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 21,
       state: "Hoà Bình",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 22,
       state: "Hà Nam",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 23,
       state: "Thái Bình",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 24,
       state: "Nam Định",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 25,
       state: "Ninh Bình",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 26,
       state: "Thanh Hóa",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 28,
       state: "Nghệ An",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 29,
       state: "Hà Tĩnh",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 30,
       state: "Quảng Bình",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 31,
       state: "Quảng Trị",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 32,
       state: "Thừa Thiên Huế",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 33,
       state: "Đà Nẵng",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 34,
       state: "Quảng Nam",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 35,
       state: "Quảng Ngãi",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 36,
       state: "Kon Tum",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 37,
       state: "Bình Định",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 38,
       state: "Gia Lai",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 39,
       state: "Phú Yên",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 40,
       state: "Đắk Lắk",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 41,
       state: "Khánh Hòa",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 42,
       state: "Đắk Nông",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 43,
       state: "Bình Phước",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 44,
       state: "Lâm Đồng",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 45,
       state: "Ninh Thuận",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 46,
       state: "Tây Ninh",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 47,
       state: "Bình Dương",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 48,
       state: "Bình Thuận",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 49,
       state: "Đồng Nai",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 50,
       state: "Hồ Chí Minh",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 51,
       state: "Long An",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 52,
       state: "Bà Rịa - Vũng Tàu",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 53,
       state: "Đồng Tháp",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 54,
       state: "An Giang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 55,
       state: "Tiền Giang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 56,
       state: "Bến Tre",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 57,
       state: "Cần Thơ",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 58,
       state: "Vĩnh Long",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 59,
       state: "Kiên Giang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 60,
       state: "Trà Vinh",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 61,
       state: "Hậu Giang",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 62,
       state: "Sóc Trăng",
-      value: getRandomInt()
+      value: getRandomInt(100)
     },
     {
       id: 63,
@@ -369,10 +402,30 @@ const getHeatMapData = () => {
     {
       id: 64,
       state: "Cà Mau",
-      value: getRandomInt()
+      value: getRandomInt(100)
     }
   ];
-};
+  const adjacencyMatrix = [
+    [0, 1, 1, 0, 0, 0], // Country 1 is adjacent to Country 2 and Country 3
+    [1, 0, 0, 1, 0, 0], // Country 2 is adjacent to Country 1 and Country 4
+    [1, 0, 0, 0, 1, 0], // Country 3 is adjacent to Country 1 and Country 5
+    [0, 1, 0, 0, 0, 1], // Country 4 is adjacent to Country 2 and Country 6
+    [0, 0, 1, 0, 0, 0], // Country 5 is adjacent to Country 3
+    [0, 1, 0, 1, 0, 0],  // Country 6 is adjacent to Country 4
+  ];
+
+  const colorRange = COLOR_RANGE.slice(); // Create a copy of the color range to avoid modifying the original array
+
+  const countryColors = graphColoring(adjacencyMatrix, colorRange);
+
+  // Assign colors to the countries
+  data.forEach((country, index) => {
+    country.color = countryColors[index];
+  });
+
+  return data;
+}
+
 const customTexts = {
   "Hà Nam": {
     text: "Nằm về phía Tây Nam châu thổ sông Hồng, cách trung tâm Hà Nội chừng 65km, tỉnh Hà Nam là cửa ngõ phía Nam của thủ đô – Đông giáp các tỉnh Hưng Yên và Thái Bình, Nam giáp các tỉnh Nam Định và Ninh Bình, Tây giáp tỉnh Hòa Bình và Bắc giáp Hà Nội. Hà Nam có diện tích 823,1km² với dân số 785.057 người theo thống kê 1-4-2009.</br>Ngược dòng lịch sử, nguyên đất Hà Nam thời các vua Hùng nằm trong quận Vũ Bình thuộc bộ Giao Chỉ, sau được đổi thành châu Lý Nhân thuộc lộ Đông Đô thời nhà Trần. Ngày 20-10-1890 theo quyết định của Toàn quyền Đông Dương, tỉnh Hà Nam đã được thành lập trên cơ sở 2 huyện Duy Tiên và Kim Bảng của phủ Lý Nhân, phủ Liêm Bình cùng 17 xã của hai huyện Vụ Bản và Thượng Nguyên (tỉnh Nam Định), 2 tống Mộc Hoàn và Chuyên Nghiệp thuộc huyện Phú Xuyên (tỉnh Hà Nội).</br>Năm 1956, hai tỉnh Hà Nam và Nam Định được sáp nhập thành tỉnh Nam Hà. Đầu năm 1976, tỉnh Nam Hà cùng với tỉnh Ninh Bình được sáp nhập thành tỉnh Hà Nam Ninh, đến năm 1992 lại tách thành hai tỉnh Nam Hà và Ninh Bình như cũ. Ngày 1-1-1997, tỉnh Hà Nam được tái lập gồm các huyện Duy Tiên, Kim Bảng, Lý Nhân, Thanh Liêm, Bình Lục và thị xã tỉnh lỵ Phủ Lý (nay là thành phố Phủ Lý).</br>Địa hình Hà Nam khá đa dạng với 4 mặt đều có sông bao quanh và dòng sông Đáy chảy qua chia Hà Nam thành hai vùng khá rõ nét: vùng đồi núi bán sơn địa với dải đá trầm tích ở phía Tây thích hợp cho các loại cây công nghiệp, cây lâm nghiệp và cây ăn quả; vùng đồng chiêm trũng ở phía Đông được phù sa của các sông lớn như sông Đáy, sông Châu, sông Hồng tài bồi thuận tiện cho canh tác lúa nước, các loại hoa màu hay các loại cây công nghiệp ngắn ngày như mía, lạc, đỗ tương… nơi đây còn phù hợp nuôi trồng hay đánh bắt thủy sản và phát triển chăn nuôi các loài thủy gia cầm.</br>Hà Nam sở hữu nguồn tài nguyên khoáng sản với chủ yếu đá vôi có trữ lượng hơn 7 tỷ mét khối, được phân bố gần trục đường giao thông, rất thuận tiện trong khai thác, vận chuyển và chế biến. Đây là nguồn nguyên liệu quan trọng cho phát triển các ngành công nghiệp sản xuất như xi-măng, vôi, bột nhẹ hay vật liệu xây dựng… Sản phẩm của xi-măng Bút Sơn (Hà Nam) đã có mặt trong nhiều công trình xây dựng của đất nước.",
@@ -819,14 +872,14 @@ const MapCustom = memo(() => {
   };
   return (
     <div>
-      
-        <div style={{ flex: mapClicked ? 2 : 0 }}>
 
-          {!mapClicked ? (<>
-            <div style={{ display: "flex" , position: 'relative' }}>
-            <div ref={mapContainerRef} className='map' style={{  flex: 1, display: "flex", width: '4000px', height: '1000px', overflow: 'auto', zIndex: 1 }}  onScroll={handleMapScroll}>
+      <div style={{ flex: mapClicked ? 2 : 0 }}>
+
+        {!mapClicked ? (<>
+          <div style={{ display: "flex", position: 'relative' }}>
+            <div ref={mapContainerRef} className='map' style={{ flex: 1, display: "flex", width: '4000px', height: '1000px', overflow: 'auto', zIndex: 1 }} onScroll={handleMapScroll}>
               <ComposableMap
-               style={{  width: '3000px', height: '2500px' }}
+                style={{ width: '3000px', height: '2500px' }}
                 projectionConfig={{
                   scale: mapScale,
                   center: [108, 15.3],
@@ -892,86 +945,87 @@ const MapCustom = memo(() => {
                   <circle r={5} />
                 </Marker>
               </ComposableMap>
-              <div className="map-home"  style={{ flex: 1, position: 'absolute', zIndex: 0, transition: 'transform 0.5s',
-          transform: `translateX(${scrollPercentage >= 50 ? '-125%' : '0'})`,
-        }}
-      >
-              <p className="map-home-content">Đây là web về lịch sử Việt Nam, cung cấp thông tin và cho phép người dùng tương tác....</p>
-              <iframe
-              className="map-home-content"
-                width="560"
-                height="315"
-                style={{ justifyContent: 'center' }}
-                src="https://www.youtube.com/embed/QicLsVNMGSE"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-              </iframe>
+              <div className="map-home" style={{
+                flex: 1, position: 'absolute', zIndex: 0, transition: 'transform 0.5s',
+                transform: `translateX(${scrollPercentage >= 50 ? '-125%' : '0'})`,
+              }}
+              >
+                <p className="map-home-content">Đây là web về lịch sử Việt Nam, cung cấp thông tin và cho phép người dùng tương tác....</p>
+                <iframe
+                  className="map-home-content"
+                  width="560"
+                  height="315"
+                  style={{ justifyContent: 'center' }}
+                  src="https://www.youtube.com/embed/QicLsVNMGSE"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+                </iframe>
+              </div>
             </div>
-            </div>
-            
-            </div>
-          </>
-          ) : (
-            <><div style={{ display: "flex" }}>
-              <div className='map-animation' style={{ width: '1000px' }}>
 
-                <ComposableMap
-                  height={1000}
-                  width={1300}
-                  projectionConfig={{
-                    scale: 4200,
-                    center: [109.5, 16.3],
-                  }}
-                  projection="geoMercator"
-                  data-tip=""
-                >
-                  <div>
-                    <button onClick={handleZoomIn}>+</button>
-                    <button onClick={handleZoomOut}>-</button>
-                  </div>
-                  <Geographies geography={geoUrl}  >
-                    {({ geographies }) =>
-                      geographies.map((geo) => {
-                        const current = data.find(
-                          (s) => s.state === geo.properties.NAME_1
-                        );
-                        return (
+          </div>
+        </>
+        ) : (
+          <><div style={{ display: "flex" }}>
+            <div className='map-animation' style={{ width: '1000px' }}>
 
-                          <Geography
-                            data-tooltip-id="my-tooltip"
-                            key={geo.rsmKey}
-                            geography={geo}
-                            fill={
-                              selectedState && selectedState.state === current?.state
-                                ? "#FFC701"
-                                : current
-                                  ? colorScale(current.value)
-                                  : DEFAULT_COLOR
-                            }
-                            onMouseEnter={() => onMouseEnter(geo, current)}
-                            onMouseLeave={onMouseLeave}
-                            onClick={() => handleClick(geo, current)}
-                            style={geographyStyle}
+              <ComposableMap
+                height={1000}
+                width={1300}
+                projectionConfig={{
+                  scale: 4200,
+                  center: [109.5, 16.3],
+                }}
+                projection="geoMercator"
+                data-tip=""
+              >
+                <div>
+                  <button onClick={handleZoomIn}>+</button>
+                  <button onClick={handleZoomOut}>-</button>
+                </div>
+                <Geographies geography={geoUrl}  >
+                  {({ geographies }) =>
+                    geographies.map((geo) => {
+                      const current = data.find(
+                        (s) => s.state === geo.properties.NAME_1
+                      );
+                      return (
 
-                          />
-                        );
-                      })
-                    }
-                  </Geographies>
-                  {/* Add Marker for Hanoi */}
-                  <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
-                    {/* <circle r={4} /> */}
-                    <text
-                      textAnchor="middle"
-                      y={-10}
-                      style={{ fontFamily: "system-ui", fontSize: "15px" }}
-                    >
-                      ★
-                    </text>
-                  </Marker>
-                  <Marker coordinates={[110, 16]} fill="#00FF00">
+                        <Geography
+                          data-tooltip-id="my-tooltip"
+                          key={geo.rsmKey}
+                          geography={geo}
+                          fill={
+                            selectedState && selectedState.state === current?.state
+                              ? "#FFC701"
+                              : current
+                                ? colorScale(current.value)
+                                : DEFAULT_COLOR
+                          }
+                          onMouseEnter={() => onMouseEnter(geo, current)}
+                          onMouseLeave={onMouseLeave}
+                          onClick={() => handleClick(geo, current)}
+                          style={geographyStyle}
+
+                        />
+                      );
+                    })
+                  }
+                </Geographies>
+                {/* Add Marker for Hanoi */}
+                <Marker coordinates={[105.784817, 20.8011]} fill="#FF0000">
+                  {/* <circle r={4} /> */}
+                  <text
+                    textAnchor="middle"
+                    y={-10}
+                    style={{ fontFamily: "system-ui", fontSize: "15px" }}
+                  >
+                    ★
+                  </text>
+                </Marker>
+                <Marker coordinates={[110, 16]} fill="#00FF00">
                   <circle r={5} />
                 </Marker>
                 <Marker coordinates={[110.5, 15.8]} fill="#00FF00">
@@ -989,34 +1043,34 @@ const MapCustom = memo(() => {
                 <Marker coordinates={[114, 10.6]} fill="#00FF00">
                   <circle r={5} />
                 </Marker>
-                </ComposableMap>
+              </ComposableMap>
 
-              </div>
-              {selectedState && (
-                <div className="mapcontent"  style={{ flex: 1 }}>
+            </div>
+            {selectedState && (
+              <div className="mapcontent" style={{ flex: 1 }}>
 
-                  <h2 className="title_map">{selectedState.state}</h2>
-                  <br />
-                  <p>
-                    <div className="video-center">
-                      {Array.isArray(customVideos) &&
-                        customVideos.map((video, index) => (
-                          <iframe
-                            key={index}
-                            width="660"
-                            height="415"
-                            style={{ justifyContent: 'center' }}
-                            src={video}
-                            title={`Country Video ${index + 1}`}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          ></iframe>
-                        ))}
-                      <br />
-                    </div>
+                <h2 className="title_map">{selectedState.state}</h2>
+                <br />
+                <p>
+                  <div className="video-center">
+                    {Array.isArray(customVideos) &&
+                      customVideos.map((video, index) => (
+                        <iframe
+                          key={index}
+                          width="660"
+                          height="415"
+                          style={{ justifyContent: 'center' }}
+                          src={video}
+                          title={`Country Video ${index + 1}`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      ))}
+                    <br />
+                  </div>
 
-                    {/* {Array.isArray(customImages) && (
+                  {/* {Array.isArray(customImages) && (
                 customImages.map((image, index) => (
                   <img key={index}
                     src={image}
@@ -1025,40 +1079,40 @@ const MapCustom = memo(() => {
                 ))
               )} */}
 
-                    <div style={{ marginTop: '50px' }}>
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: customText
-                        }}
-                      ></p>
-                    </div>
+                  <div style={{ marginTop: '50px' }}>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: customText
+                      }}
+                    ></p>
+                  </div>
 
-                    {Array.isArray(customLinks) &&
-                      customLinks.map((link, index) => (
-                        <p key={index}>
-                          <Link to={link} className="custom-link">
-                            {linkLabels[link] || `Link ${index + 1}`}
-                          </Link>
-                        </p>
-                      ))}
-
-
-                  </p>
+                  {Array.isArray(customLinks) &&
+                    customLinks.map((link, index) => (
+                      <p key={index}>
+                        <Link to={link} className="custom-link">
+                          {linkLabels[link] || `Link ${index + 1}`}
+                        </Link>
+                      </p>
+                    ))}
 
 
-                </div>
-                
+                </p>
 
-              )}
-              </div></>
-          )}
 
-          {/* <p>Content: {selectedState.content}</p> */}
-        </div>
+              </div>
 
-   
+
+            )}
+          </div></>
+        )}
+
+        {/* <p>Content: {selectedState.content}</p> */}
+      </div>
+
+
       <Tooltip id="my-tooltip">
-        <div>
+        <div style={{position: 'relative'}}>
           {tooltipContent}
         </div>
       </Tooltip>
