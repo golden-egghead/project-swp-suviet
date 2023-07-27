@@ -120,7 +120,7 @@ export default function PostPageDetails() {
           <p>Loading...</p>
         ) : (
           <Card style={{
-            backgroundImage: `url(https://img4.thuthuatphanmem.vn/uploads/2020/12/26/hinh-nen-powerpoint-trong-dong-viet-nam_091307521.png)`,
+            backgroundImage: `url('https://vhx.imgix.net/sbtnott/assets/44ad8c03-33f4-44ce-8cec-3e263f0ba586-63b0cf8f.jpeg?auto=format%2Ccompress&fit=crop&h=720&q=75&w=1280')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -131,7 +131,9 @@ export default function PostPageDetails() {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+              boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)',
+              fontWeight: '600',
+              fontSize: '19px' 
             }}>
               <Card.Body>
                 <div
@@ -147,10 +149,11 @@ export default function PostPageDetails() {
                     flexDirection: 'column',
                     marginBottom: '4rem',
                     borderRadius: '20px',
-                    backdropFilter: 'blur(15px)',
+                    backdropFilter: 'blur(250px)',
+                    fontSize: '19px'
                   }}
                 >
-                  <Card.Title style={{ fontSize: '30px', textAlign: 'center' }}>{article.title}</Card.Title>
+                  <Card.Title style={{ fontSize: '30px', textAlign: 'center'}}>{article.title}</Card.Title>
                   <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                     <div style={{ marginRight: '30px' }}>
                       <VisibilityIcon /> {article.articleView}
@@ -162,7 +165,7 @@ export default function PostPageDetails() {
                   </div>
                   <Container>
                     <Card.Body>
-                      <Card.Text>{article.context}</Card.Text>
+                      <Card.Text style={{fontSize: '19px'}}>{article.context}</Card.Text>
                     </Card.Body>
                   </Container>
                   <Container>

@@ -274,6 +274,7 @@ const Login = () => {
     const fullname = localStorage.getItem('fullname');
     // const avatar = localStorage.getItem('avatar');
     const avatar = localStorage.getItem('avatar');
+    
     return (
         <div>
             {isAuthenticated ? (

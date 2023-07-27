@@ -141,8 +141,7 @@ const HistoricalItems = (props) => {
                             <img
                             style={{ width: 500, height: 400, borderRadius: '20px'}}
                             alt={item.name}
-                            src={item.photo}
-                        />
+                            src={item.photo}/>
                         </Link>
                         ) : (
                             <Skeleton variant="rectangular" width={500} height={400} />
