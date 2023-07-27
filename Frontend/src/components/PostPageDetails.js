@@ -9,6 +9,9 @@ import Button from 'react-bootstrap/Button';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import Comments from '../comments/Comments';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Container } from '@mui/material';
 
 export default function PostPageDetails() {
   const { articleID } = useParams();
@@ -86,7 +89,7 @@ export default function PostPageDetails() {
     setSelectedRating(0);
     setHasVoted(false);
   };
-  
+
   useEffect(() => {
     // Function to handle view count when component mounts
     const handleViewCount = async () => {
@@ -116,39 +119,81 @@ export default function PostPageDetails() {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <Card>
-            <Card.Img variant="top" src={article.photo} />
-            <Card.Body>
-              <Card.Title>{article.title}</Card.Title>
-              <Card.Text>Created Date: {article.createdDate}</Card.Text>
-              <Card.Text>Views: {article.articleView}</Card.Text>
-              {hasVoted ? (
-      <>
-        <Box component="fieldset" borderColor="transparent">
-          <Rating name="article-rating" value={selectedRating} readOnly />
-        </Box>
-        {!changeVoteClicked && <Button onClick={handleChangeVoteClick}>Change Your Vote</Button>}
-      </>
-    ) : (
-      <Box component="fieldset" borderColor="transparent">
-        <Rating
-          name="article-rating"
-          value={selectedRating}
-          onChange={(event, newValue) => {
-            handleVoteArticle(newValue);
-          }}
-        />
-      </Box> 
-    )}<Card.Text>Đánh giá: {article.voteLevel}/5 </Card.Text>
-    <Card.Text> ({article.totalVote})</Card.Text>
-                  
+          <Card style={{
+            backgroundImage: `url(https://img4.thuthuatphanmem.vn/uploads/2020/12/26/hinh-nen-powerpoint-trong-dong-viet-nam_091307521.png)`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)',
+            color: 'white'
+          }}>
+            <Card style={{
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              boxShadow: '10px 10px 10px rgba(0, 0, 0, 0)'
+            }}>
               <Card.Body>
-                <Card.Text style={{ fontSize: '18px' }}>{article.context}</Card.Text>
+                <div
+                  style={{
+                    width:'1200px',
+                    margin:'auto',
+                    marginTop: '30px',
+                    backgroundColor: 'transparent',
+                    border: '2px solid rgba(255, 255, 255, 0.5)',
+                    padding: '20px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    marginBottom: '4rem',
+                    borderRadius: '20px',
+                    backdropFilter: 'blur(15px)',
+                  }}
+                >
+                  <Card.Title style={{ fontSize: '30px', textAlign: 'center' }}>{article.title}</Card.Title>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                    <div style={{ marginRight: '30px' }}>
+                      <VisibilityIcon /> {article.articleView}
+                    </div>
+                    <DateRangeIcon />: {article.createdDate}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Card.Img variant="top" src={article.photo} style={{ width: '800px', height: '500px', marginTop: '20px', border: '10px' }} />
+                  </div>
+                  <Container>
+                    <Card.Body>
+                      <Card.Text>{article.context}</Card.Text>
+                    </Card.Body>
+                  </Container>
+                  <Container>
+                    {hasVoted ? (
+                      <>
+                        <Box component="fieldset" borderColor="transparent">
+                          <Rating name="article-rating" value={selectedRating} readOnly />
+                        </Box>
+                        {!changeVoteClicked && <Button onClick={handleChangeVoteClick}>Change Your Vote</Button>}
+                      </>
+                    ) : (
+                      <Box component="fieldset" borderColor="transparent">
+                        <Rating
+                          name="article-rating"
+                          value={selectedRating}
+                          onChange={(event, newValue) => {
+                            handleVoteArticle(newValue);
+                          }}
+                        />
+                      </Box>
+                    )}
+                    <Card.Text>Đánh giá: {article.voteLevel}/5 </Card.Text>
+                    <Card.Text> ({article.totalVote})</Card.Text>
+                  </Container>
+                </div>
               </Card.Body>
-            </Card.Body>
-          </Card>
-        )}
-      </Col>
+            </Card>
+          </Card >
+        )
+        }
+      </Col >
       <div>
         {article && <Comments articleId={articleID} />}
       </div>

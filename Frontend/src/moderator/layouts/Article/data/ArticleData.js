@@ -50,8 +50,8 @@ export default function ArticleData() {
 	useEffect(() => {
 		const getData = async (page) => {
 			try {
-				const { data } = await axios.get(`http://localhost:8080/api/articles/${page}`);
-				return data.data.content;
+				const { res } = await axios.get(`http://localhost:8080/api/articles/${page}`);
+				return res.data.data;
 			} catch (error) {
 				console.error(error);
 				return [];
@@ -75,7 +75,7 @@ export default function ArticleData() {
 	const navigate = useNavigate();
 
 	const EditFunction = (item) => {
-		navigate("/moderator/article/edit/" + + item.articleID, { state: item });
+		navigate("/moderator/article/edit/" + item.articleID, { state: item });
 	  }
 
 	  const RemoveSite = async (articleID) => {
@@ -101,7 +101,7 @@ export default function ArticleData() {
 		}
 	  };
 
-	const rows = accountData ? accountData.map((item) => ({
+	const rows = accountData.map((item) => ({
 		ID: <Id id={item.articleID} />,
 		Article: <Article src={item.photo} />,
 		Title: <Function title={item.title} />,
@@ -117,7 +117,7 @@ export default function ArticleData() {
 				<DeleteIcon />
 			</Button>
 		</>),
-	})): [];
+	}));
 
 	return {
 		columns: [

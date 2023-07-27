@@ -144,28 +144,19 @@ const VideoPage = (props) => {
         <Container className='container-video' fluid={true} id="container" >
             <Row>
                 <Col>
-                    <div className="breadcrumb">
-                        Bạn đang ở: Trang Chủ / <b>Video</b>
-                    </div>
+                    <div style={{ paddingLeft: '75px' }}>Bạn đang ở: Trang Chủ / <b> Video </b></div>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <Form
-                        className="search-form"
-                        onSubmit={handleSearchSubmit}
-                    >
-                        <Dropdown style={{ marginRight: '20px' }}>
-                            <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    <Form style={{ maxWidth: '600px', margin: '20px', padding: '30px 1px', marginLeft: '60px' }} className="d-flex" onSubmit={handleSearchSubmit}>
+                        <Dropdown>
+                            <Dropdown.Toggle style={{ marginRight: '10px' }} id="dropdown-button-dark-example1" variant="secondary">
                                 <i className="fa-solid fa-arrow-down-wide-short fa-1x"></i>
                             </Dropdown.Toggle>
                             <Dropdown.Menu variant="dark">
-                                <Dropdown.Item onClick={handleSortTitleAscClick} href="#s=1">
-                                    Title <i className="fa-solid fa-arrow-down-a-z"></i>
-                                </Dropdown.Item>
-                                <Dropdown.Item onClick={handleSortTitleDescClick} href="#s=2">
-                                    Title <i className="fa-solid fa-arrow-up-a-z"></i>
-                                </Dropdown.Item>
+                                <Dropdown.Item onClick={handleSortTitleAscClick} href="#s=1">Title <i className='fa-solid fa-arrow-down-a-z'></i></Dropdown.Item>
+                                <Dropdown.Item onClick={handleSortTitleDescClick} href="#s=2">Title <i className='fa-solid fa-arrow-up-a-z'></i></Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         <Form.Control
@@ -177,9 +168,10 @@ const VideoPage = (props) => {
                             value={searchTerm}
                             onChange={handleSearchSubmit}
                         />
-                        <Button variant="btn btn-success"><i className="fa-solid fa-magnifying-glass"></i></Button>
-                    </Form>
-                </Col>
+                        <Button variant="contained" color="success">
+                            <i className="fa-solid fa-magnifying-glass"></i>
+                        </Button>
+                    </Form></Col>
                 <Col>
                     <div className="text-header">VIDEO</div>
                 </Col>

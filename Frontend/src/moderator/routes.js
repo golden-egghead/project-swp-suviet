@@ -62,7 +62,7 @@ const routes = [
 		name: 'Bài Viết',
 		key: 'article',
 		icon: <PostAddIcon fontSize="small" />,
-		route: 'logout',
+		route: 'article',
 		component: <Articles />
 	},
 	{

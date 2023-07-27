@@ -12,6 +12,7 @@ import com.example.SuViet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -286,5 +287,16 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                 new ResponseObject("FAILED", "Deleted fail!", null)
         );
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<byte[]> readDetailFile(@PathVariable String filename) {
+        try {
+            byte[] bytes = fileImageService.readFileContent(filename);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
+                    .body(bytes);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
     }
 }
