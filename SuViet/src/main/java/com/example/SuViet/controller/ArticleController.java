@@ -49,6 +49,7 @@ import com.example.SuViet.model.RepliesComment;
 import com.example.SuViet.model.Role;
 import com.example.SuViet.model.Tag;
 import com.example.SuViet.response.ResponseObject;
+import com.example.SuViet.response.ResponseObjectComment;
 import com.example.SuViet.response.ResponsePaginationObject;
 import com.example.SuViet.model.User;
 import com.example.SuViet.model.Vote;
@@ -174,17 +175,17 @@ public class ArticleController {
     }
     
     @GetMapping("{articleId}/comments")
-    public ResponseEntity<ResponseObject> getComments(
+    public ResponseEntity<ResponseObjectComment> getComments(
             @PathVariable int articleId) {
 
                 try {
             Article article = articleService.getArticleById(articleId);
             List<CommentDTO> comments = commentService.getAllEnabledComments(article);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("OK", "Get article's comment successfully", comments));
+                    new ResponseObjectComment("OK", "Get article's comment successfully", comments, comments.size()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ResponseObject("ERROR", "Un Error occurred", null));
+                    new ResponseObjectComment("ERROR", "Un Error occurred", null, 0));
         }
     }
 
