@@ -65,7 +65,9 @@ const HistoricalItemDetails = () => {
                         height: `45rem`
                     }}>
                     {historicalItem.length > 0 && (
-                    <Card style={{ width: '75rem', margin: `auto`, height: `35rem` }}>
+                    <Card style={{ width: '75rem', margin: `auto`, height: `35rem`, border: '1px solid rgba(137, 133, 133, 0.5)',
+                    backdropFilter: 'blur(250px)',
+                    borderRadius: '25px', background: 'transparent', color: '#fff', fontWeight: '500', fontSize: '19px' }}>
                         <Card.Body style={{ display: 'flex' }}>
                             <img
                                 style={{ width: 500, height: 400, borderRadius: '20px', marginTop: '60px', boxShadow: '5px 5px 8px black' }}
