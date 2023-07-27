@@ -70,10 +70,6 @@ function BookPage(props) {
         fetchData(1, searchTerm);
     };
 
-    // const handleChangeSearchTerm = (event) => {
-    //     const searchTerm = event.target.value;
-    //     setSearchTerm(searchTerm);
-    //   };
     // SORT
     const handleSortTitleAscClick = () => {
         let data = [...listBooks];
