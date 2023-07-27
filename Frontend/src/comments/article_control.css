@@ -1,7 +1,8 @@
 .pending_h1 {
     border-bottom: #ccc dotted 2px;
-    width: 400px;
+    width: 350px;
     padding-left: 30px;
+    padding-bottom: 5px;
 }
 
 .article {
@@ -10,16 +11,17 @@
     margin: auto;
     border: 0.5px #ccc solid;
     border-radius: 20px;
-    background-color: #799c8f;
+    background-color: #6abdaf;
     padding: 10px 20px;
     margin-bottom: 20px;
     margin-top: 30px;
+    color: #000;
 }
 
 .article button {
     border-radius: 20px;
     border: none;
-    
+
     font-weight: bold;
     width: 110px;
     height: 40px;
@@ -27,11 +29,11 @@
 }
 
 .button-approve {
-    background-color: #0B80B3;
+    background-color: #3CDCF2;
 }
 
 .button-approve:hover {
-    background-color: #1988b8;
+    background-color: #20d3eb;
 }
 
 .button-reject {
@@ -39,7 +41,7 @@
 }
 
 .button-reject:hover {
-    background-color: #b8b2b2;
+    background-color: #ccc4c4;
 }
 
 .button-container {

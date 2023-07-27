@@ -22,6 +22,7 @@ function PostArticle() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
+    setFile(event.target.files[0]);
   };
 
   const handleTagChange = (e) => {
@@ -80,34 +81,37 @@ function PostArticle() {
         <div>
           <label htmlFor="file">Hình ảnh minh họa:</label>
           <br />
-          <div style={{display: 'flex', width: '100%'}}>
-            <label class="custom-file-upload" htmlFor="file">
-              Chọn ảnh
-            </label>
-            <input type="file" id="file" onChange={handleFileChange} />
-            <p style={{ width: '300px', marginLeft:'10px', marginBottom: '0px', marginTop: '7px'}}>
-            {selectedFile ? selectedFile.name : 'Không có ảnh nào được chọn'}
-            </p>
+          <div className='image-btnTag'>
+            <div style={{ display: 'flex', width: '100%' }}>
+              <label class="custom-file-upload" htmlFor="file">
+                Chọn ảnh
+              </label>
+              <input type="file" id="file" onChange={handleFileChange} />
+              <p style={{ width: '300px', marginLeft: '10px', marginBottom: '0px', marginTop: '7px' }}>
+                {selectedFile ? selectedFile.name : 'Không có ảnh nào được chọn'}
+              </p>
+            </div>
+            <div className='btnTag-containter'>
+              <button type="button" onClick={toggleTags} className='btnTag'>
+                Thể loại
+              </button>
+              {showTags && (
+                <select multiple id="tags" value={tags} onChange={handleTagChange}>
+                  <option value="tag1">Kinh Tế</option>
+                  <option value="tag2">Xã Hội</option>
+                  <option value="tag3">Lịch Sử</option>
+                  <option value="tag4">Đời Sống</option>
+                  <option value="tag5">Văn Hóa</option>
+                  <option value="tag6">Nghệ Thuật</option>
+                  <option value="tag7">Chính Trị</option>
+                  <option value="tag8">Khác</option>
+                </select>
+              )}
+            </div>
           </div>
 
         </div>
-        <div>
-          <button type="button" onClick={toggleTags} className='btnTag'>
-            Thể loại
-          </button>
-          {showTags && (
-            <select multiple id="tags" value={tags} onChange={handleTagChange}>
-              <option value="tag1">Kinh Tế</option>
-              <option value="tag2">Xã Hội</option>
-              <option value="tag3">Lịch Sử</option>
-              <option value="tag4">Đời Sống</option>
-              <option value="tag5">Văn Hóa</option>
-              <option value="tag6">Nghệ Thuật</option>
-              <option value="tag7">Chính Trị</option>
-              <option value="tag8">Khác</option>
-            </select>
-          )}
-        </div>
+
         <button className='buttonpost' type="submit" >Đăng</button>
       </div>
     </form>

@@ -199,7 +199,7 @@ function PostPage(props) {
                             </div> */}
                              <Link to={`/postdetails/${post.articleID}`} style={{ textDecoration: 'none' }}>
                             <img className="card-image" src={post.photo} alt="Logo" />
-                            </Link>
+                            
                             <div style={{ fontSize: '20px', textAlign:'center'}} className="card-text">{post.title}</div>
                             <div className="card-header">
                                 <div className="card-title-group">
@@ -209,6 +209,7 @@ function PostPage(props) {
                             </div>
                             <Button>View: {post.articleView}</Button>
                             <div>Vote: {post.voteLevel}</div>
+                            </Link>
                         </div>
                     ))}
                 </div>

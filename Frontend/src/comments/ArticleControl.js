@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './article_control.css'
+import Card from 'react-bootstrap/Card';
 
 const ReviewArticle = ({ accessToken }) => {
   const [articles, setArticles] = useState([]);
@@ -55,18 +56,19 @@ const ReviewArticle = ({ accessToken }) => {
   }, []);
 
   return (
-    <div>
-      <h1 className='pending_h1'>Pending Articles</h1>
+    <div className='pending-article'>
+      <h1 className='pending_h1'>Duyệt Bài Viết</h1>
       {articles.map((article) => (
         <div className='article' key={article.articleID}>
-          <h2>Title: {article.title}</h2>
-          <p><b>Content:</b> {article.context}</p>
-          <p><b>Created Date:</b> {article.createdDate}</p>
-          <p><b>Status:</b> {article.status ? 'Approved' : 'Pending'}</p>
-          <p><b>Enabled:</b> {article.enabled ? 'Yes' : 'No'}</p>
+          <h2>{article.title}</h2>
+          <p><b>Nội dung:</b> {article.context}</p>
+          <p><b>Hình ảnh:</b></p>
+          <Card.Img variant="top" src={article.photo} style={{width: '500px', height: '300px', flex: '1'}}/>
+          <p><b>Ngày đăng:</b> {article.createdDate}</p>
+          <p><b>Trạng thái:</b> {article.status ? 'Đã được duyệt' : 'Đang chờ duyệt'}</p>
           <div className='button-container'>
-            <button className='button-approve' onClick={() => handleArticleAction(article.articleID, true)}>Approve</button>
-            <button className='button-reject' onClick={() => handleArticleAction(article.articleID, false)}>Reject</button>
+            <button className='button-approve' onClick={() => handleArticleAction(article.articleID, true)}>Chấp thuận</button>
+            <button className='button-reject' onClick={() => handleArticleAction(article.articleID, false)}>Từ chối</button>
           </div>
         </div>
       ))}

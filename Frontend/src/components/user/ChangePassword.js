@@ -214,7 +214,7 @@ const ChangePassword = () => {
           />
           <br />
           <input
-            type="text"
+            type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             maxLength={50}

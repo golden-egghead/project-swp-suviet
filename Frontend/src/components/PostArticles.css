@@ -29,6 +29,7 @@
   margin: 0 auto;
   background-color: black;
   color: #ffffff;
+  font-weight: bold;
   border-radius: 4px;
   flex-direction: column;
 }
@@ -71,12 +72,15 @@
 
 .btnTag {
   border-radius: 5px;
-  background-color: #000;
+  background-color: #13BDA2;
   color: #fff;
+  width: 100px;
+  height: 40px;
+  border: none;
 }
 
 .btnTag:hover {
-  background-color: #474545;
+  background-color: #30b69f;
 }
 
 /* Hide the default file input */
@@ -88,9 +92,10 @@ input[type="file"] {
 label.custom-file-upload {
   cursor: pointer;
   padding: 8px 12px;
-  background-color: #3498db;
+  background-color: #13BDA2;
   color: #fff;
   border-radius: 4px;
+  height: 40px;
 }
 
 /* Optional: Add some hover and active styles for the custom label */
@@ -100,4 +105,17 @@ label.custom-file-upload:hover {
 
 label.custom-file-upload:active {
   background-color: #216db1;
+}
+
+.btnTag-containter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.image-btnTag {
+  display: flex;
+}
+
+.image-btnTag input {
+  height: 40px;
 }
