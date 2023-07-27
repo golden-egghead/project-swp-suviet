@@ -63,6 +63,7 @@
     "reactjs-popup": "^2.0.5",
     "redux-persist": "^6.0.0",
     "sass": "1.62.1",
+    "semantic-ui-react": "^2.1.4",
     "styled-components": "^6.0.3",
     "stylis-plugin-rtl": "^2.1.1",
     "uuid": "^9.0.0",

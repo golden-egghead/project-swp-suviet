@@ -91,7 +91,9 @@ const Reply = ({ commentId, articleId, comment,  updateReplies }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
-
+  const fullname = localStorage.getItem('fullname');
+  // const avatar = localStorage.getItem('avatar');
+  const avatar = localStorage.getItem('avatar');
   const handleReplyClick = () => {
     setShowReplyForm({ commentId: comment.id, showReplyForm: true });
     setAccessToken(accessToken);
@@ -135,6 +137,7 @@ const Reply = ({ commentId, articleId, comment,  updateReplies }) => {
   return (
     <div>
       {/* <p>{comment.user.fullname}</p> */}
+      <p> {comment.user.fullName}</p>
       <p>Comment: {comment.commentText}</p>
       <p>Created Date: {comment.createdDate}</p>
       {comment.repliesComments && Array.isArray(comment.repliesComments) && (
