@@ -23,13 +23,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleDTO> getAllEnabledArticles(Pageable pageable) {
-        Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndStatusIsTrue(pageable);
+        // Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndStatusIsTrue(pageable);
+        Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndStatusIsTrueAndUserEnabledIsTrue(pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 
     @Override
     public Page<ArticleDTO> getAllPendingArticles(Pageable pageable) {
-        Page<Article> articlPage = articleRepository.findByEnabledIsTrueAndStatusIsFalse(pageable);
+        Page<Article> articlPage = articleRepository.findByEnabledIsTrueAndStatusIsFalseAndUserEnabledIsTrue(pageable);
         return articlPage.map(ArticleDTO::convertToDTO);
     }
 
@@ -42,14 +43,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<ArticleDTO> searchArticlesByTitle(String title, Pageable pageable) {
         Page<Article> articlesPage = articleRepository
-                .findByTitleIgnoreCaseContainingAndEnabledIsTrueAndStatusIsTrue(title, pageable);
+                .findByTitleIgnoreCaseContainingAndEnabledIsTrueAndStatusIsTrueAndUserEnabledIsTrue(title, pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 
     @Override
     public Page<ArticleDTO> filterArticlesByTagNames(List<String> tagNames,
             Pageable pageable) {
-        Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndTagsTagNameIn(tagNames, pageable);
+        Page<Article> articlesPage = articleRepository.findByEnabledIsTrueAndTagsTagNameInAndUserEnabledIsTrue(tagNames, pageable);
         return articlesPage.map(ArticleDTO::convertToDTO);
     }
 

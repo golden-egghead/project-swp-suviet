@@ -35,13 +35,14 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDTO> getAllEnabledComments(Article article) {
         List<Comment> comments = commentRepository
-                .findByArticleAndEnabledIsTrueAndStatusIsTrueOrderByCreatedDateDesc(article);
+                .findByArticleAndEnabledIsTrueAndStatusIsTrueAndUserEnabledIsTrueOrderByCreatedDateDesc(article);
 
         List<CommentDTO> commentDTOs = CommentDTO.convertToDTOList(comments);
         commentDTOs.forEach(commentDTO -> {
             List<RepliesCommentDTO> enabledReplies = commentDTO.getRepliesComments().stream()
                     .filter(RepliesCommentDTO::isEnabled)
                     .filter(RepliesCommentDTO::isStatus)
+                    .filter(reply -> reply.getUser().isEnabled())
                     .collect(Collectors.toList());
             commentDTO.setRepliesComments(enabledReplies);
         });
