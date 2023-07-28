@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../PostPage.css'
 import Card from 'react-bootstrap/Card';
+import { Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
 const OwnerArticles = () => {
   const [articles, setArticles] = useState([]);
@@ -41,6 +44,13 @@ const OwnerArticles = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const EditFunction = (article) => {
+		navigate("/moderator/article/edit/" + article.articleID, { state: article });
+	  }
+
+
   useEffect(() => {
     fetchOwnerArticles(currentPage);
   }, [currentPage]);
@@ -51,40 +61,46 @@ const OwnerArticles = () => {
   const filteredArticles = articles.filter((article) => article.status);
   return (
     <div className='owner-article-page'>
-      <h1 style={{backgroundColor: '#fff', paddingBottom: '30px'}}>Bài viết bạn đã đăng</h1>
+      <h1 style={{ backgroundColor: '#fff', paddingBottom: '30px' }}>Bài viết bạn đã đăng</h1>
       {filteredArticles.length === 0 ? (
         <p>Tạm thời chưa có</p>
       ) : (
         <>
-      {filteredArticles.map((article) => (
-        <div className='owner-article-page-card' key={article.articleID}
-        style={{
-          margin: 'auto',
-          color: '#fff',
-          fontWeight: '',
-          fontSize: '18px',
-          borderRadius: '25px',
-          marginTop: '30px',
-          padding: '15px 15px',
-          width: '1200px'
-        }}>
-          <h2>{article.title}</h2>
-          <p><b>Nội dung: </b>{article.context}</p>
-          <Card.Img variant="top" src={article.photo} style={{width: '500px', height: '300px', flex: '1'}}/>
-          <p><b>Ngày đăng: </b>{article.createdDate}</p>
-          <p><b>Lượt xem: </b>{article.articleView}</p>
-          <p><b>Đánh giá: </b>{article.voteLevel}</p>
-        </div>
-      ))}
-      <div>
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-          Trang trước
-        </button>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-          Trang sau
-        </button>
-      </div>
-      </>
+          {filteredArticles.map((article) => (
+            <div className='owner-article-page-card' key={article.articleID}
+              style={{
+                margin: 'auto',
+                color: '#fff',
+                fontWeight: '',
+                fontSize: '18px',
+                borderRadius: '25px',
+                marginTop: '30px',
+                padding: '15px 15px',
+                width: '1200px'
+              }}>
+              <h2>{article.title}</h2>
+              <p><b>Nội dung: </b>{article.context}</p>
+              <Card.Img variant="top" src={article.photo} style={{ width: '500px', height: '300px', flex: '1' }} />
+              <p><b>Ngày đăng: </b>{article.createdDate}</p>
+              <p><b>Lượt xem: </b>{article.articleView}</p>
+              <p><b>Đánh giá: </b>{article.voteLevel}</p>
+              <Button variant="outlined" color='success' style={{ margin: '5px', backgroundColor:'white' }}
+                className='edit-btn'
+                onClick={() => { EditFunction(article) }}
+                >
+                <EditIcon />
+              </Button>
+            </div>
+          ))}
+          <div>
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Trang trước
+            </button>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              Trang sau
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

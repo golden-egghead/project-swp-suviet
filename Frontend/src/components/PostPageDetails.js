@@ -12,6 +12,7 @@ import Comments from '../comments/Comments';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Container } from '@mui/material';
+import { toast } from 'react-toastify';
 
 export default function PostPageDetails() {
   const { articleID } = useParams();
@@ -28,6 +29,7 @@ export default function PostPageDetails() {
         setArticle(response.data.data);
         setLoading(false);
       } catch (error) {
+        
         console.error('Error fetching article:', error);
         setLoading(false);
       }
@@ -63,10 +65,12 @@ export default function PostPageDetails() {
         // Save the user's vote and voteId to local storage
         localStorage.setItem(`userVote-${articleID}`, JSON.stringify({ voteLevel, voteID: newVoteId }));
       } else {
+       
         // If the user has already voted, update their vote level
         await handleUpdateVote(userVote.voteID, voteLevel);
       }
     } catch (error) {
+      toast.error('login to vote');
       console.error('Error voting article:', error);
     }
   };
@@ -120,7 +124,7 @@ export default function PostPageDetails() {
           <p>Loading...</p>
         ) : (
           <Card style={{
-            backgroundImage: `url('https://vhx.imgix.net/sbtnott/assets/44ad8c03-33f4-44ce-8cec-3e263f0ba586-63b0cf8f.jpeg?auto=format%2Ccompress&fit=crop&h=720&q=75&w=1280')`,
+            backgroundImage: `url('http://localhost:8080/article-photo/trongdong.jpg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.7)',

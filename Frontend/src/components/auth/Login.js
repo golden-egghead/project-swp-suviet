@@ -189,7 +189,9 @@ const LoginT = ({ setIsAuthenticated }) => {
                             <br />
                             <input className='input' type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <br />
-                            <div> Quên mật khẩu? </div>
+                            
+                            {/* <Link style={{ color: 'black', textDecoration: 'none' }} to="/forgot-password"><Nav.Link href="#forgot-password"> Quên mật khẩu? </Nav.Link></Link> */}
+                            
                             <br />
                             <button className='login-title2' style={{ backgroundColor: '#FFC701', color: 'black', padding: '10px 30px', borderRadius: '25px', fontWeight: 'bold' }} type="submit">Đăng nhập</button>
                         </form>
@@ -211,7 +213,7 @@ const LoginT = ({ setIsAuthenticated }) => {
                                 <button onClick={logOut}>Log out</button>
                             </div>
                         ) : ( */}
-                        <button className='button' onClick={() => login()}>Đăng nhập bằng Google 🚀 </button>
+                        {/* <button className='button' onClick={() => login()}>Đăng nhập bằng Google 🚀 </button> */}
                         {/* )} */}
                         <br />
                         {/*sign up */}
@@ -309,7 +311,7 @@ const Login = () => {
                                 to="/profile"
                             >
                                 <NavDropdown.Item href="#historicalfigure">
-                                    Profile
+                                    Hồ Sơ
                                 </NavDropdown.Item>
                             </Link>
                             <Link
@@ -326,7 +328,7 @@ const Login = () => {
                                     to="/moderator"
                                 >
                                     <NavDropdown.Item href="#moderator">
-                                        Dashboard
+                                        Bảng Điều Khiển
                                     </NavDropdown.Item>
                                 </Link>
                             )}

@@ -263,11 +263,11 @@ const HistoricalFigurePage = (props) => {
             </Item>
             <ReactPaginate
               breakLabel="..."
-              nextLabel="next >"
+              nextLabel="trang sau >"
               onPageChange={handlePageClick}
               pageRangeDisplayed={5}
               pageCount={totalPages}
-              previousLabel="< previous"
+              previousLabel="< trang trước"
 
               pageClassName="page-item"
               pageLinkClassName="page-link"
@@ -287,28 +287,6 @@ const HistoricalFigurePage = (props) => {
         </Grid>
       </Box>
     </Container >
-    {/* <Grid item xs={4} container justifyContent="center" style={{ backgroundColor: 'rgba(0,0,0,0.1)' }}>
-      <FilterCharacterPage setSelectedPeriod={setSelectedPeriod} />
-    </Grid>
-    <ReactPaginate
-      breakLabel="..."
-      nextLabel="next >"
-      onPageChange={handlePageClick}
-      pageRangeDisplayed={5}
-      pageCount={totalPages}
-      previousLabel="< previous"
-
-      pageClassName="page-item"
-      pageLinkClassName="page-link"
-      previousClassName="page-item"
-      previousLinkClassName="page-link"
-      nextClassName="page-item"
-      nextLinkClassName="page-link"
-      breakClassName="page-item"
-      breakLinkClassName="page-link"
-      containerClassName="pagination"
-      activeClassName='active'
-    /> */}
   </>)
 
 }

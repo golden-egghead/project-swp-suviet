@@ -60,6 +60,7 @@ import OwnerArticles from './components/user/OwnerArticles';
 import UserArticlePending from './components/user/UserArticlePending';
 import BrowsedComment from './comments/BrowsedComment';
 import { Container } from "semantic-ui-react";
+import EditArticle from './components/user/EditArticle';
 
 
 function App({}) {
@@ -98,6 +99,7 @@ function App({}) {
           <Route path="/moderator/character/edit/:characterID" element={<EditCharacter />} />
           <Route path="/moderator/book/edit/:bookID" element={<EditBook />} />
           <Route path="/moderator/item/edit/:historicalItemID" element={<EditItem />} />
+          <Route path="/moderator/article/edit/:articleID" element={<EditArticle />} />
           <Route path="/moderator/video/add" element={<AddVideo />} />
           <Route path="/moderator/character/add" element={<AddCharacter />} />
           <Route path="/moderator/book/add" element={<AddBook />} />

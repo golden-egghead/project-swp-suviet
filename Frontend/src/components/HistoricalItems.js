@@ -174,11 +174,11 @@ const HistoricalItems = (props) => {
         </Container>
         <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel="trang sau >"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={totalPages}
-            previousLabel="< previous"
+            previousLabel="< trang trước"
 
             pageClassName="page-item"
             pageLinkClassName="page-link"

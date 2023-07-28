@@ -127,7 +127,7 @@ function AddCharacter() {
 							</Button>
 						</div>
 						<div className="cancel-btn">
-							<Link to="/dashboard">
+							<Link to="/moderator/item">
 								<Button variant="contained" color="error">
 									Cancel
 								</Button>

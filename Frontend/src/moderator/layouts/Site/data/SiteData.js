@@ -75,7 +75,7 @@ export default function VideoData() {
 	const navigate = useNavigate();
 
 	const EditFunction = (item) => {
-		navigate("/moderator/site/edit/" + + item.historicalSiteID, { state: item });
+		navigate("/moderator/site/edit/" + item.historicalSiteID, { state: item });
 	  }
 
 	  const RemoveSite = async (historicalSiteID) => {
