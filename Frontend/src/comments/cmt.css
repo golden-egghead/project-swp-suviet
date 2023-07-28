@@ -3,11 +3,18 @@
     color: rgb(255, 255, 255);
 }
 .comments-all{
-    width: 100%;
+    width: 60%;
     height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     border-radius: 25px;
+    padding-left: 20px;
+    padding-top: 30px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.comment {
+    width: 1100px;
+    font-size: 18px;
 }

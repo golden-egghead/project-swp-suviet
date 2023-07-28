@@ -125,53 +125,55 @@ const UserProfile = () => {
             <div>
               {image && <img src={image} alt="Avatar" style={{ flex: 1, width: '300px', height: '200px', overflow: 'hidden' }} />}
               <h3 style={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'center' }}>{fullName}</h3>
-              <p style={{fontSize: '20px', textAlign: 'center' }}>{email}</p>
-              <p style={{fontSize: '20px', textAlign: 'center' }}>{role}</p>
+              <p style={{ fontSize: '20px', textAlign: 'center' }}>{email}</p>
+              <p style={{ fontSize: '20px', textAlign: 'center' }}>{role}</p>
             </div>
             <div>
-                {/* <p>Họ và tên: {isEditing ? <input type="text" value={updatedFullName} onChange={(e) => setUpdatedFullName(e.target.value)} maxLength={50} /> : fullName}</p> */}
-                <br />
-                {isEditing ? (
-                  <div>
+              {/* <p>Họ và tên: {isEditing ? <input type="text" value={updatedFullName} onChange={(e) => setUpdatedFullName(e.target.value)} maxLength={50} /> : fullName}</p> */}
+              <br />
+              {isEditing ? (
+                <div>
 
-                    <div >
-                      <label class="custom-file-upload" htmlFor="file">
-                        Thay đổi ảnh đại diện
-                      </label>
-                      <input type="file" id="file" accept="image/*" onChange={handleImageChange} />
-                      <p style={{ width: '300px', marginLeft: '10px', marginBottom: '0px', marginTop: '7px' }}>
-                        {selectedFile ? selectedFile.name : 'Không có ảnh nào được chọn'}
-                      </p>
+                  <div >
+                    <label class="custom-file-upload" htmlFor="file" style={{backgroundColor: '#13BDA2'}}>
+                      Thay đổi ảnh đại diện
+                    </label>
+                    <input type="file" id="file" accept="image/*" onChange={handleImageChange} />
+                    <p style={{ width: '300px', marginLeft: '10px', marginBottom: '0px', marginTop: '7px' }}>
+                      {selectedFile ? selectedFile.name : 'Không có ảnh nào được chọn'}
+                    </p>
 
-                    </div>
-                    <input type="file" accept="image/*" onChange={handleImageChange} />
-                    <br />
-                    <button className='button' type="submit" onClick={handleSubmit}>Lưu thay đổi</button>
-                    <button className='button' type="button" onClick={handleCancel}>Hủy</button>
                   </div>
-                ) : (
-                  <button className='profile-button' type="button" onClick={handleEdit}> <i class="edit-profile-icon fa-solid fa-gear"></i> Chỉnh sửa thông tin cá nhân </button>
-                )}
-
-                <div className="profile-nav">
-                  <Navbar expand="lg">
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                      <Nav className="ms-auto">
-                        <Link style={{ color: 'black', textDecoration: 'none' }} to="/ownerarticles">
-                          <Nav.Link href="#ownerarticles">Bài viết của bạn</Nav.Link></Link>
-                        {userRole === 'MEMBER' && (
-
-                          <Link style={{ color: 'black', textDecoration: 'none' }} to="/userarticlepending">
-                            <Nav.Link href="#userarticlepending">Bài viết đang đợi quản trị viên xem xét</Nav.Link></Link>
-
-                        )}
-
-                      </Nav>
-                    </Navbar.Collapse>
-                  </Navbar>
+                  <input type="file" accept="image/*" onChange={handleImageChange} />
+                  <br />
+                  <div className="button-profile">
+                    <button className='button profile-btnSave' type="submit" onClick={handleSubmit}>Lưu thay đổi</button>
+                    <button className='button profile-btnCancel' type="button" onClick={handleCancel}>Hủy</button>
+                  </div>
                 </div>
+              ) : (
+                <button className='profile-button' type="button" onClick={handleEdit}> <i class="edit-profile-icon fa-solid fa-gear"></i> Chỉnh sửa thông tin cá nhân </button>
+              )}
+
+              <div className="profile-nav">
+                <Navbar expand="lg" style={{ background: 'transparent' }}>
+                  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                  <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="ms-auto">
+                      <Link style={{ color: 'black', textDecoration: 'none', fontSize: '18px', marginTop: '20px' }} to="/ownerarticles">
+                        <Nav.Link href="#ownerarticles">Bài viết của bạn</Nav.Link></Link>
+                      {userRole === 'MEMBER' && (
+
+                        <Link style={{ color: 'black', textDecoration: 'none', fontSize: '18px', marginTop: '20px' }} to="/userarticlepending">
+                          <Nav.Link href="#userarticlepending">Bài viết đang đợi quản trị viên xem xét</Nav.Link></Link>
+
+                      )}
+
+                    </Nav>
+                  </Navbar.Collapse>
+                </Navbar>
               </div>
+            </div>
           </Card>
         </Col>
       </Row>

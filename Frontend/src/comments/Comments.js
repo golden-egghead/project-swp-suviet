@@ -81,10 +81,19 @@ const CommentForm = ({ accessToken, articleId, updateComments, updateReplies, co
         <textarea
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
-          placeholder="Write your comment..."
+          placeholder="Viết bình luận..."
           required
+          style={{width: '1100px',
+                  height: '80px',
+                  fontSize: '18px'}}    
         />
-        <button type="submit">Đăng bình luận</button>
+        <br/>
+        <button type="submit" style={{borderRadius: '5px',
+                                      border: 'none',
+                                      backgroundColor: '#13BDA2',
+                                      width: '80px',
+                                      height: '40px',
+                                      marginLeft: '1020px'}}>Đăng</button>
       </form>
     );
   }
@@ -177,12 +186,12 @@ const Reply = ({ commentId, articleId, comment, updateReplies }) => {
           </Comment.Group>
         </Comment>
       </Comment.Group>
-      {!showReplyForm && (
+      {/* {!showReplyForm && (
 
         <Comment.Actions>
           <Comment.Action><button onClick={handleReplyClick}>Trả lời</button></Comment.Action>
         </Comment.Actions>
-      )}
+      )} */}
       {showReplyForm && (
         <>
           <form onSubmit={handleReplySubmit}>
@@ -237,11 +246,10 @@ const Comments = ({ articleId, }) => {
   }, [articleId,commentId, accessToken]);
   return (
     <div>
-      <Card className="comments-all">
+      <Card className="comments-all" style={{marginTop: '30px',
+                                            }}>
         <Comment.Group>
-          <Header as='h3' dividing>
-            Bình luận
-          </Header>
+          <h3>Bình luận</h3>
         </Comment.Group>
         <div>
         <CommentForm

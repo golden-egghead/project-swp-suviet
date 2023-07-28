@@ -7,6 +7,11 @@
   align-items: center;
   flex-direction: column;
   border-radius: 25px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(50px);
+  margin-top: 50px !important;
+  margin-bottom: 40px !important;
 }
 
 .profile-title {
@@ -32,6 +37,7 @@
   background-color: #000;
   color: #fff;
   padding: 20px 0px;
+
 }
 
 .avatar {
@@ -42,8 +48,7 @@
 }
 
 .profile-content {
-  background-color: #ffffff;
-
+  background: url('https://img6.thuthuatphanmem.vn/uploads/2022/11/25/anh-nen-slide-powerpoint-dep_085430590.jpg') no-repeat;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -124,3 +129,13 @@ h2 {
   border: none;
 }
 
+.profile-btnSave,
+.profile-btnCancel {
+  width: 130px;
+  height: 40px;
+}
+
+.button-profile {
+  display: flex;
+  justify-content: space-between;
+}
