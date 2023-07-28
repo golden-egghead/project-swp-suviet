@@ -332,6 +332,16 @@ const Login = () => {
                                     </NavDropdown.Item>
                                 </Link>
                             )}
+                             {localStorage.getItem("role") === "ADMIN" && (
+                                <Link
+                                    style={{ color: "white", textDecoration: "none" }}
+                                    to="/admin"
+                                >
+                                    <NavDropdown.Item href="#admin">
+                                        Dashboard
+                                    </NavDropdown.Item>
+                                </Link>
+                            )}
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={handleLogout}>
                                 Đăng xuất{" "}

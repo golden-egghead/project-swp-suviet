@@ -72,6 +72,19 @@ const Header = (props) => {
             <Link to="/browsercomment" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#browsercomment"> Duyệt bình luận</Nav.Link></Link>
             </NavDropdown>
           )}
+          {userRole === 'ADMIN' && (
+            <NavDropdown
+            id="collasible-nav-dropdown"
+              title={
+              <div >
+                <span ><i class="fa-solid fa-file-pen"></i> Quản lí duyệt </span>
+              </div>
+            } >
+            <Link to="/articlecontrol" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#articlecontrol"> Duyệt bài viết</Nav.Link></Link>
+            <NavDropdown.Divider />
+            <Link to="/browsercomment" style={{ color: 'white', textDecoration: 'none' }}><Nav.Link href="#browsercomment"> Duyệt bình luận</Nav.Link></Link>
+            </NavDropdown>
+          )}
         </Nav>
        
 
