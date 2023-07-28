@@ -1,6 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './PostArticles.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function PostArticle() {
   const [title, setTitle] = useState('');
@@ -34,7 +36,14 @@ function PostArticle() {
   const toggleTags = () => {
     setShowTags(!showTags);
   };
+  const [userRole, setUserRole] = useState('');
 
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    setUserRole(role);
+    console.log(localStorage.getItem('role'))
+    
+  }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -56,7 +65,12 @@ function PostArticle() {
       .then((data) => {
         // Handle the response data
         console.log(data);
-        alert('Bài viết đã được gửi cho quản trị viên! Vui lòng đợi xét duyệt!')
+        {userRole === 'MEMBER' && (
+        toast.success('Bài viết đã được gửi cho quản trị viên! Vui lòng đợi xét duyệt!')
+        )}
+        {userRole === 'MODERATOR' && (
+          toast.success('Bài viết đã được đăng!')
+        )}
       })
       .catch((error) => {
         // Handle the error
