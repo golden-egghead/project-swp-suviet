@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../PostPage.css'
+import Card from 'react-bootstrap/Card';
 
 const UserArticlePending = () => {
   const [articles, setArticles] = useState([]);
@@ -65,6 +66,7 @@ const UserArticlePending = () => {
         }}>
           <h2>{article.title}</h2>
           <p><b>Nội dung:</b> {article.context}</p>
+          <Card.Img variant="top" src={article.photo} style={{width: '500px', height: '300px', flex: '1'}}/>
           <p><b>Ngày đăng:</b> {article.createdDate}</p>
           <p><b>Lượt xem: </b> {article.articleView}</p>
           <p><b>Đánh giá: </b> {article.voteLevel}</p>

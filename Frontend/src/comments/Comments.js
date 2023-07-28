@@ -84,7 +84,7 @@ const CommentForm = ({ accessToken, articleId, updateComments, updateReplies, co
           placeholder="Write your comment..."
           required
         />
-        <button type="submit">Post Comment</button>
+        <button type="submit">Đăng bình luận</button>
       </form>
     );
   }
@@ -98,7 +98,7 @@ const Reply = ({ commentId, articleId, comment, updateReplies }) => {
   // const avatar = localStorage.getItem('avatar');
   const avatar = localStorage.getItem('avatar');
   const handleReplyClick = () => {
-    setShowReplyForm({ commentId: comment.id, showReplyForm: true });
+    setShowReplyForm({ commentId: commentId, showReplyForm: true });
     setAccessToken(accessToken);
   };
 
@@ -156,9 +156,10 @@ const Reply = ({ commentId, articleId, comment, updateReplies }) => {
             <Comment>
               <Comment.Content>
                 {comment.repliesComments && Array.isArray(comment.repliesComments) && (
-                  <div>
+                  <div style={{marginTop:'80px', marginLeft:'0px', backgroundColor:'#ffc701'}}>
                     {comment.repliesComments.map((reply) => (
                       <div key={reply.id}>
+                        <div><p>Trả lời bình luận của {comment.user.fullName} </p></div>
                         <Comment.Author ><p> {reply.user.fullName}</p></Comment.Author>
                         <Comment.Metadata>
                           <div>{reply.createdDate}</div>
@@ -191,21 +192,21 @@ const Reply = ({ commentId, articleId, comment, updateReplies }) => {
               placeholder="Write your reply..."
               required
             />
-            <button type="submit">Reply</button>
+            <button type="submit">Trả lời</button>
           </form>
-          <button onClick={handleCancelReply}>Cancel Reply</button>
+          <button onClick={handleCancelReply}>Hủy</button>
         </>
       )}
     </div>
   );
 };
 
-const Comments = ({ articleId }) => {
+const Comments = ({ articleId, }) => {
   const [comments, setComments] = useState([]);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
-
+  const [commentId, setCommentId] = useState('');
 
 
   const fetchComments = async () => {
@@ -221,6 +222,7 @@ const Comments = ({ articleId }) => {
         const data = await response.json();
         console.log('Fetched comments:', data.data);
         setComments(data.data);
+        setCommentId(data.data.commentID)
       } else {
         // Handle error when fetching comments
         console.error('Failed to fetch comments');
@@ -232,7 +234,7 @@ const Comments = ({ articleId }) => {
 
   useEffect(() => {
     fetchComments();
-  }, [articleId, accessToken]);
+  }, [articleId,commentId, accessToken]);
   return (
     <div>
       <Card className="comments-all">
@@ -250,13 +252,13 @@ const Comments = ({ articleId }) => {
         /></div>
         {comments.map((comment) => (
           <Reply
-            key={comment.id}
-            accessToken={accessToken}
-            articleId={articleId}
-            commentId={comment.id} // Pass comment.id to the Reply component
-            comment={comment}
-            updateReplies={fetchComments}
-          />
+          key={comment.id}
+          accessToken={accessToken}
+          articleId={articleId}
+          commentId={commentId} // Pass comment.id, not commentId
+          comment={comment} // Pass the comment object to the Reply component
+          updateReplies={fetchComments}
+        />
         ))}
       </Card>
       
