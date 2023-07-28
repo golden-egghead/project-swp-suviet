@@ -173,12 +173,12 @@ public class ArticleController {
                     new ResponseObject("ERROR", "An error occur", null));
         }
     }
-    
+
     @GetMapping("{articleId}/comments")
     public ResponseEntity<ResponseObjectComment> getComments(
             @PathVariable int articleId) {
 
-                try {
+        try {
             Article article = articleService.getArticleById(articleId);
             List<CommentDTO> comments = commentService.getAllEnabledComments(article);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -204,7 +204,6 @@ public class ArticleController {
                     new ResponseObject("ERROR", "Un Error occurred", null));
         }
     }
-
 
     @GetMapping("/pending/{offset}")
     public ResponseEntity<ResponsePaginationObject> getAllPendingArticles(@PathVariable int offset,
