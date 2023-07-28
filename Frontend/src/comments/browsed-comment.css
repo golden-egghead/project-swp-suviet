@@ -1,0 +1,58 @@
+.pending_h1 {
+    border-bottom: #ccc dotted 2px;
+    width: 350px;
+    padding-left: 30px;
+    padding-bottom: 5px;
+}
+.comments {
+    width: 70%;
+    height: 30%;
+    margin: auto;
+    border: 0.5px #ccc solid;
+    border-radius: 20px;
+    background-color: #6abdaf;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    color: #000;
+}
+
+.comments button{
+    border-radius: 20px;
+    border: none;
+
+    font-weight: bold;
+    width: 110px;
+    height: 40px;
+
+}
+
+.button-approve {
+    background-color: #3CDCF2;
+}
+
+.button-approve:hover {
+    background-color: #20d3eb;
+}
+
+.button-reject {
+    background-color: #fff;
+}
+
+.button-reject:hover {
+    background-color: #ccc4c4;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-container button {
+    margin-left: 10px;
+    /* Add some space between the buttons */
+}
+
+h2 {
+    margin-top: 0px;
+}

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import './browsed-comment.css'
 
 const BrowsedComment = ({ accessToken }) => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [title, setTitle] = useState([]);
 
   const fetchPendingComments = async (page) => {
     try {
@@ -17,6 +19,7 @@ const BrowsedComment = ({ accessToken }) => {
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched pending comments:', data.data);
+        setTitle(data.data)
         setComments(data.data);
         setTotalPages(data.total_pages);
       } else {
@@ -63,15 +66,23 @@ const BrowsedComment = ({ accessToken }) => {
 
   return (
     <div>
-      <h1>Pending Comments</h1>
+      <div className='pending-comments'>
+      <h1 className='pending_h1'>Duyệt Bình Luận</h1>
+      {/* {title.map((article) => (
+        <div className='comments' key={article.articleID}>
+      <p>Bình luận từ bài viết: {article.title}</p>
+      </div>
+      ))} */}
       {comments.map((comment) => (
-        <div key={comment.commentID}>
-          <p>Comment Text: {comment.commentText}</p>
-          <p>Created Date: {comment.createdDate}</p>
-          <p>Status: {comment.status ? 'Approved' : 'Pending'}</p>
-          <p>Enabled: {comment.enabled ? 'Yes' : 'No'}</p>
-          <button onClick={() => handleCommentAction(comment.commentID, true)}>Approve</button>
-          <button onClick={() => handleCommentAction(comment.commentID, false)}>Reject</button>
+        <div className='comments' key={comment.commentID}>
+        
+          <p>Nội dung bình luận: {comment.commentText}</p>
+          <p>Ngày bình luận: {comment.createdDate}</p>
+          <p>Trạng thái: {comment.status ? 'Approved' : 'Đang chờ xem xét'}</p>
+          <div className='button-container'>
+            <button className='button-approve'  onClick={() => handleCommentAction(comment.commentID, true)}>Chấp thuận</button>
+            <button className='button-reject' onClick={() => handleCommentAction(comment.commentID, false)}>Từ chối</button>
+          </div>
           <hr />
         </div>
       ))}
@@ -81,6 +92,7 @@ const BrowsedComment = ({ accessToken }) => {
             {pageNumber}
           </button>
         ))}
+      </div>
       </div>
     </div>
   );
