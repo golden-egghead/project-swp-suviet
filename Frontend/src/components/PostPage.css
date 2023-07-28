@@ -20,7 +20,9 @@
 	background-size: cover;
 }
 
-.book-detail-page {
+.book-detail-page,
+.owner-article-page,
+.user-article-pending-page {
 	background: url('https://vhx.imgix.net/sbtnott/assets/44ad8c03-33f4-44ce-8cec-3e263f0ba586-63b0cf8f.jpeg?auto=format%2Ccompress&fit=crop&h=720&q=75&w=1280') no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -28,7 +30,9 @@
 	padding-bottom: 30px;
 }
 
-.book-detail-page-card {
+.book-detail-page-card,
+.owner-article-page-card,
+.user-article-pending-page-card {
 	backdrop-filter: blur(250px) !important;
 	width: 1200px;
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../PostPage.css'
 
 const OwnerArticles = () => {
   const [articles, setArticles] = useState([]);
@@ -48,28 +49,37 @@ const OwnerArticles = () => {
   }
   const filteredArticles = articles.filter((article) => article.status);
   return (
-    <div>
-      <h1>Bài viết bạn đã đăng</h1>
+    <div className='owner-article-page'>
+      <h1 style={{backgroundColor: '#fff', paddingBottom: '30px'}}>Bài viết bạn đã đăng</h1>
       {filteredArticles.length === 0 ? (
         <p>Tạm thời chưa có</p>
       ) : (
         <>
       {filteredArticles.map((article) => (
-        <div key={article.articleID}>
-          <h2>Title: {article.title}</h2>
-          <p>Content: {article.context}</p>
-          <p>Created Date: {article.createdDate}</p>
-          <p>View: {article.articleView}</p>
-          <p>Vote: {article.voteLevel}</p>
-          <hr />
+        <div className='owner-article-page-card' key={article.articleID}
+        style={{
+          margin: 'auto',
+          color: '#fff',
+          fontWeight: '',
+          fontSize: '18px',
+          borderRadius: '25px',
+          marginTop: '30px',
+          padding: '15px 15px',
+          width: '1200px'
+        }}>
+          <h2>{article.title}</h2>
+          <p><b>Nội dung: </b>{article.context}</p>
+          <p><b>Ngày đăng: </b>{article.createdDate}</p>
+          <p><b>Lượt xem: </b>{article.articleView}</p>
+          <p><b>Đánh giá: </b>{article.voteLevel}</p>
         </div>
       ))}
       <div>
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-          Previous Page
+          Trang trước
         </button>
         <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-          Next Page
+          Trang sau
         </button>
       </div>
       </>

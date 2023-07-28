@@ -21,19 +21,19 @@ import axios from 'axios';
     fetchData();
   }, []);
 
-  const colorArray = ['#FFC701', '#FF5733', '#10CC52', '#416AD1', '#BB41D1'];
+  const colorArray = ['#13BDA2', '#3CDCF2', '#F08B00', '#8A7837', '#FFC701'];
   
-  const periodNameColorArray = ['red', '#FFC701', '#C70039', '#f5e102', '#fff'];
+  const periodNameColorArray = ['#FFC701', '#8A7837', '#3CDCF2', '#fff', '#3CDCF2'];
 
   return (<>
-    <div className='text-home'>DÒNG LỊCH SỬ</div>
+    <div className='text-home' style={{color: 'BA7837'}}><b>DÒNG LỊCH SỬ</b></div>
     <VerticalTimeline>
       {listPeriods.map((period, index) => (
         <VerticalTimelineElement key={period.periodID}
           className="vertical-timeline-element--work"
           contentStyle={{ background: colorArray[index % colorArray.length], color: 'black' }}
           contentArrowStyle={{ borderRight: `7px solid ${colorArray[index % colorArray.length]}` }}
-          date={<span style={{ color: 'white', fontWeight:'bold', fontSize:'25px'}}>{period.year}</span>}
+          date={<span style={{ color: '#13BDA2', fontWeight:'bold', fontSize:'25px'}}>{period.year}</span>}
           iconStyle={{ background: 'black', color: '#FFC701' }}
           icon={<BsBookmarkStarFill />}
         >
@@ -52,7 +52,7 @@ import axios from 'axios';
 }
 const TimeLine= () => {
  return (
-  <div style={{ backgroundColor: 'black' }}>
+  <div style={{ background: "url('https://img6.thuthuatphanmem.vn/uploads/2022/11/25/anh-nen-slide-powerpoint-dep_085430590.jpg') no-repeat "}}>
   <TimeLineN />
   </div>
  )

@@ -124,14 +124,12 @@ const UserProfile = () => {
           <Card className='profile' color="dark" inverse>
             <div>
               {image && <img src={image} alt="Avatar" style={{ flex: 1, width: '300px', height: '200px', overflow: 'hidden' }} />}
-              <p style={{ fontSize: '20px', fontWeight: 'bold' }}>{fullName}</p>
+              <h3 style={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'center' }}>{fullName}</h3>
+              <p style={{fontSize: '20px', textAlign: 'center' }}>{email}</p>
+              <p style={{fontSize: '20px', textAlign: 'center' }}>{role}</p>
             </div>
             <div>
-                <h3> Thông tin tài khoản </h3>
-                <p>Họ và tên: {isEditing ? <input type="text" value={updatedFullName} onChange={(e) => setUpdatedFullName(e.target.value)} maxLength={50} /> : fullName}</p>
-                <p>Email: {email}</p>
-                <p>Vai trò: {role}</p>
-
+                {/* <p>Họ và tên: {isEditing ? <input type="text" value={updatedFullName} onChange={(e) => setUpdatedFullName(e.target.value)} maxLength={50} /> : fullName}</p> */}
                 <br />
                 {isEditing ? (
                   <div>
@@ -152,7 +150,7 @@ const UserProfile = () => {
                     <button className='button' type="button" onClick={handleCancel}>Hủy</button>
                   </div>
                 ) : (
-                  <button className='button' type="button" onClick={handleEdit}> <i class="fa-solid fa-gear"></i> Chỉnh sửa thông tin cá nhân </button>
+                  <button className='profile-button' type="button" onClick={handleEdit}> <i class="edit-profile-icon fa-solid fa-gear"></i> Chỉnh sửa thông tin cá nhân </button>
                 )}
 
                 <div className="profile-nav">

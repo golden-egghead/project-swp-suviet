@@ -1,6 +1,7 @@
 .profile {
-  width: 100%;
-  height: 100%;
+  margin: auto;
+  width: 30%;
+  height: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,10 +18,20 @@
   flex-direction: column;
 }
 
-.button {
+.profile-button {
+  width: 330px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  position: relative;
+  font-size: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  padding: 20px 0px;
 }
 
 .avatar {
@@ -44,6 +55,12 @@
 h2 {
   text-align: center;
   margin-top: 20px;
+}
+
+.edit-profile-icon {
+  position: absolute;
+  left: 5px;
+  font-size: 20px;
 }
 
 .wrapper_change-password {
